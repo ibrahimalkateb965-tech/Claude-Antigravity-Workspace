@@ -11,6 +11,7 @@ import java.io.File
 import java.io.FileOutputStream
 import androidx.compose.animation.*
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -106,10 +107,26 @@ fun StudentsListScreen(viewModel: QuranViewModel) {
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 actions = {
+                    val isDarkModeOption by viewModel.isDarkMode.collectAsStateWithLifecycle()
+                    val systemDark = isSystemInDarkTheme()
+                    val isDark = isDarkModeOption ?: systemDark
+                    
+                    IconButton(
+                        onClick = { viewModel.toggleTheme(!isDark) },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .background(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.25f), CircleShape)
+                    ) {
+                        Text(
+                            text = if (isDark) "☀️" else "🌙",
+                            fontSize = 18.sp
+                        )
+                    }
+
                     IconButton(
                         onClick = { showAddDialog = true },
                         modifier = Modifier
-                            .padding(horizontal = 8.dp)
+                            .padding(horizontal = 4.dp)
                             .background(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.25f), CircleShape)
                     ) {
                         Icon(
@@ -173,7 +190,7 @@ fun StudentsListScreen(viewModel: QuranViewModel) {
                         modifier = Modifier.padding(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("إجمالي الطلاب", fontSize = 13.sp, color = Slate800.copy(alpha = 0.8f), fontWeight = FontWeight.Bold)
+                        Text("إجمالي الطلاب", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f), fontWeight = FontWeight.Bold)
                         Text(
                             text = "${students.size}",
                             fontSize = 25.sp,
@@ -192,7 +209,7 @@ fun StudentsListScreen(viewModel: QuranViewModel) {
                         modifier = Modifier.padding(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text("حلقات النشاط", fontSize = 13.sp, color = Slate800.copy(alpha = 0.8f), fontWeight = FontWeight.Bold)
+                        Text("حلقات النشاط", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f), fontWeight = FontWeight.Bold)
                         val groupsCount = students.map { it.groupName }.distinct().filter { it.isNotBlank() }.size
                         Text(
                             text = "$groupsCount",
@@ -245,12 +262,12 @@ fun StudentsListScreen(viewModel: QuranViewModel) {
                         Text(
                             text = if (searchQuery.isEmpty()) "لا يوجد طلاب مسجلين بعد" else "لم يتم العثور على نتائج للمطابقة",
                             fontWeight = FontWeight.ExtraBold,
-                            color = Slate800.copy(alpha = 0.8f),
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
                             fontSize = 16.sp
                         )
                         Text(
                             text = if (searchQuery.isEmpty()) "اضغط على زر الإضافة (+) بالأعلى للبدء" else "تأكد من كتابة الاسم بشكل صحيح",
-                            color = Slate800.copy(alpha = 0.6f),
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             fontSize = 13.5.sp,
                             textAlign = TextAlign.Center
                         )
@@ -329,7 +346,7 @@ fun StudentCard(
                         text = student.name,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 18.sp,
-                        color = Slate800
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Row(
@@ -348,7 +365,7 @@ fun StudentCard(
                             Text(
                                 text = "المعلم: ${student.teacherName}",
                                 fontSize = 13.sp,
-                                color = Slate800.copy(alpha = 0.8f),
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -487,6 +504,10 @@ fun AddStudentDialog(
 fun StudentProfileScreen(viewModel: QuranViewModel, student: Student) {
     val reports by viewModel.weeklyReports.collectAsStateWithLifecycle()
     var showAddWeekDialog by remember { mutableStateOf(false) }
+    var showEditDialog by remember { mutableStateOf(false) }
+    
+    val activeStudentState by viewModel.selectedStudent.collectAsStateWithLifecycle()
+    val activeStudent = activeStudentState ?: student
 
     Scaffold(
         topBar = {
@@ -529,47 +550,64 @@ fun StudentProfileScreen(viewModel: QuranViewModel, student: Student) {
                 border = BorderStroke(1.8.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
             ) {
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(60.dp)
-                            .background(MaterialTheme.colorScheme.primary, CircleShape),
-                        contentAlignment = Alignment.Center
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.weight(1f)
                     ) {
-                        Text(
-                            text = student.name.take(1),
-                            color = Color.White,
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.Black
-                        )
-                    }
-                    
-                    Column {
-                        Text(
-                            text = student.name,
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Slate800
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "🏫 الحلقة: ${student.groupName.ifBlank { "غير محددة" }}  |  👤 المعلم: ${student.teacherName.ifBlank { "غير محدد" }}",
-                            fontSize = 13.5.sp,
-                            color = Slate800.copy(alpha = 0.85f),
-                            fontWeight = FontWeight.Bold
-                        )
-                        if (student.notes.isNotBlank()) {
-                            Spacer(modifier = Modifier.height(4.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(60.dp)
+                                .background(MaterialTheme.colorScheme.primary, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Text(
-                                text = "📝 أهداف التحفيظ: ${student.notes}",
-                                fontSize = 13.sp,
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.Bold
+                                text = activeStudent.name.take(1),
+                                color = Color.White,
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.Black
                             )
                         }
+                        
+                        Column {
+                            Text(
+                                text = activeStudent.name,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "🏫 الحلقة: ${activeStudent.groupName.ifBlank { "غير محددة" }}  |  👤 المعلم: ${activeStudent.teacherName.ifBlank { "غير محدد" }}",
+                                fontSize = 13.5.sp,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.85f),
+                                fontWeight = FontWeight.Bold
+                            )
+                            if (activeStudent.notes.isNotBlank()) {
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "📝 أهداف التحفيظ: ${activeStudent.notes}",
+                                    fontSize = 13.sp,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+                    
+                    IconButton(
+                        onClick = { showEditDialog = true },
+                        modifier = Modifier.testTag("edit_student_button")
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "تعديل البيانات",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
                     }
                 }
             }
@@ -578,7 +616,7 @@ fun StudentProfileScreen(viewModel: QuranViewModel, student: Student) {
                 text = "جداول ورصد المتابعة الأسبوعية 📅",
                 fontWeight = FontWeight.Black,
                 fontSize = 18.sp,
-                color = Slate800
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             if (reports.isEmpty()) {
@@ -615,8 +653,9 @@ fun StudentProfileScreen(viewModel: QuranViewModel, student: Student) {
                     items(reports, key = { it.id }) { report ->
                         WeeklyReportItemCard(
                             report = report,
-                            onClick = { viewModel.navigateTo(Screen.ReportTracking(student, report)) },
-                            onDelete = { viewModel.deleteWeeklyReport(report) }
+                            onClick = { viewModel.navigateTo(Screen.ReportTracking(activeStudent, report)) },
+                            onDelete = { viewModel.deleteWeeklyReport(report) },
+                            onUpdate = { updatedReport -> viewModel.updateWeeklyReport(updatedReport) }
                         )
                     }
                 }
@@ -651,7 +690,7 @@ fun StudentProfileScreen(viewModel: QuranViewModel, student: Student) {
                 Button(
                     onClick = {
                         if (weekName.isNotBlank()) {
-                            viewModel.addWeeklyReport(student.id, weekName)
+                            viewModel.addWeeklyReport(activeStudent.id, weekName)
                             showAddWeekDialog = false
                         }
                     },
@@ -667,15 +706,34 @@ fun StudentProfileScreen(viewModel: QuranViewModel, student: Student) {
             }
         )
     }
+
+    if (showEditDialog) {
+        EditStudentDialog(
+            student = activeStudent,
+            onDismiss = { showEditDialog = false },
+            onConfirm = { name, group, teacher, notes ->
+                val updatedStudent = activeStudent.copy(
+                    name = name,
+                    groupName = group,
+                    teacherName = teacher,
+                    notes = notes
+                )
+                viewModel.updateStudent(updatedStudent)
+                showEditDialog = false
+            }
+        )
+    }
 }
 
 @Composable
 fun WeeklyReportItemCard(
     report: WeeklyReport,
     onClick: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onUpdate: (WeeklyReport) -> Unit
 ) {
     var showConfirmDelete by remember { mutableStateOf(false) }
+    var showRenameDialog by remember { mutableStateOf(false) }
     
     Card(
         modifier = Modifier
@@ -693,7 +751,8 @@ fun WeeklyReportItemCard(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.weight(1f)
             ) {
                 Box(
                     modifier = Modifier
@@ -709,7 +768,7 @@ fun WeeklyReportItemCard(
                         text = report.weekName,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 17.sp,
-                        color = Slate800
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     if (report.teacherFeedback.isNotBlank()) {
                         Text(
@@ -719,12 +778,17 @@ fun WeeklyReportItemCard(
                             fontWeight = FontWeight.ExtraBold
                         )
                     } else {
-                        Text("اضغط للبدء في تدوين وحفظ رصد الأيام", fontSize = 13.sp, color = Slate800.copy(alpha = 0.75f), fontWeight = FontWeight.Medium)
+                        Text("اضغط للبدء في تدوين وحفظ رصد الأيام", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f), fontWeight = FontWeight.Medium)
                     }
                 }
             }
             
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = { showRenameDialog = true }) {
+                    Icon(Icons.Default.Edit, contentDescription = "تعديل اسم الأسبوع", tint = Color.LightGray)
+                }
                 IconButton(onClick = { showConfirmDelete = true }) {
                     Icon(Icons.Default.Delete, contentDescription = "حذف الأسبوع", tint = Color.LightGray)
                 }
@@ -756,6 +820,48 @@ fun WeeklyReportItemCard(
             },
             dismissButton = {
                 TextButton(onClick = { showConfirmDelete = false }) {
+                    Text("إلغاء")
+                }
+            }
+        )
+    }
+
+    if (showRenameDialog) {
+        var newWeekName by remember { mutableStateOf(report.weekName) }
+        AlertDialog(
+            onDismissRequest = { showRenameDialog = false },
+            title = {
+                Text(
+                    "تعديل اسم الأسبوع 📝",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Right
+                )
+            },
+            text = {
+                OutlinedTextField(
+                    value = newWeekName,
+                    onValueChange = { newWeekName = it },
+                    label = { Text("اسم أسبوع الرصد") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (newWeekName.isNotBlank()) {
+                            onUpdate(report.copy(weekName = newWeekName))
+                            showRenameDialog = false
+                        }
+                    }
+                ) {
+                    Text("حفظ")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showRenameDialog = false }) {
                     Text("إلغاء")
                 }
             }
@@ -837,7 +943,7 @@ fun ReportTrackingScreen(
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)),
                     border = BorderStroke(1.6.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
@@ -851,7 +957,7 @@ fun ReportTrackingScreen(
                         Text(
                             text = "قم بإدخال السورة والآيات لكل يوم. اضغط على شارة التقييم (مثيل: الممتاز) لتبديل التقييم بالنجوم بكل سلاسة (⭐⭐⭐ -> ⭐⭐ -> ⭐ -> ❌ -> لم يرصد).",
                             fontSize = 13.sp,
-                            color = Slate800,
+                            color = MaterialTheme.colorScheme.onSurface,
                             lineHeight = 18.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -886,21 +992,21 @@ fun ReportTrackingScreen(
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Emerald80.copy(alpha = 0.15f)),
-                    border = BorderStroke(1.8.dp, Emerald40.copy(alpha = 0.45f))
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f)),
+                    border = BorderStroke(1.8.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.45f))
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
                             text = "🌟 ملاحظة غراس المربي وتشجيعه للأسبوع:",
                             fontWeight = FontWeight.Black,
                             fontSize = 15.sp,
-                            color = Emerald40
+                            color = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = "تظهر هذه الرسالة في التقرير المشترك مع الوالدين لتحفيز البطل بكلمات طيبة.",
                             fontSize = 13.sp,
-                            color = Slate800.copy(alpha = 0.7f),
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                             fontWeight = FontWeight.Medium
                         )
                         Spacer(modifier = Modifier.height(8.dp))
@@ -918,7 +1024,9 @@ fun ReportTrackingScreen(
                                 .testTag("teacher_feedback_field"),
                             maxLines = 4,
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Emerald40,
+                                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                                focusedBorderColor = MaterialTheme.colorScheme.primary,
                                 unfocusedBorderColor = Color.LightGray
                             ),
                             textStyle = TextStyle(fontSize = 13.5.sp, fontWeight = FontWeight.SemiBold)
@@ -1060,15 +1168,11 @@ fun DayRecordBox(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        OutlinedTextField(
+                        SurahAutoCompleteTextField(
                             value = log.newMemoSurahFrom,
                             onValueChange = { onLogChange(log.copy(newMemoSurahFrom = it)) },
-                            label = { Text("من سورة", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                            textStyle = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                            shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                            label = "من سورة",
+                            modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = log.newMemoVerseFrom,
@@ -1080,15 +1184,11 @@ fun DayRecordBox(
                             shape = RoundedCornerShape(8.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next)
                         )
-                        OutlinedTextField(
+                        SurahAutoCompleteTextField(
                             value = log.newMemoSurahTo,
                             onValueChange = { onLogChange(log.copy(newMemoSurahTo = it)) },
-                            label = { Text("إلى سورة", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                            textStyle = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                            shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                            label = "إلى سورة",
+                            modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = log.newMemoVerseTo,
@@ -1129,15 +1229,11 @@ fun DayRecordBox(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        OutlinedTextField(
+                        SurahAutoCompleteTextField(
                             value = log.recentRevSurahFrom,
                             onValueChange = { onLogChange(log.copy(recentRevSurahFrom = it)) },
-                            label = { Text("من سورة", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                            textStyle = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                            shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                            label = "من سورة",
+                            modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = log.recentRevVerseFrom,
@@ -1149,15 +1245,11 @@ fun DayRecordBox(
                             shape = RoundedCornerShape(8.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next)
                         )
-                        OutlinedTextField(
+                        SurahAutoCompleteTextField(
                             value = log.recentRevSurahTo,
                             onValueChange = { onLogChange(log.copy(recentRevSurahTo = it)) },
-                            label = { Text("إلى سورة", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                            textStyle = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                            shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                            label = "إلى سورة",
+                            modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = log.recentRevVerseTo,
@@ -1198,15 +1290,11 @@ fun DayRecordBox(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        OutlinedTextField(
+                        SurahAutoCompleteTextField(
                             value = log.distantRevSurahFrom,
                             onValueChange = { onLogChange(log.copy(distantRevSurahFrom = it)) },
-                            label = { Text("من سورة", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                            textStyle = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                            shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                            label = "من سورة",
+                            modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = log.distantRevVerseFrom,
@@ -1218,15 +1306,11 @@ fun DayRecordBox(
                             shape = RoundedCornerShape(8.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next)
                         )
-                        OutlinedTextField(
+                        SurahAutoCompleteTextField(
                             value = log.distantRevSurahTo,
                             onValueChange = { onLogChange(log.copy(distantRevSurahTo = it)) },
-                            label = { Text("إلى سورة", fontSize = 12.sp, fontWeight = FontWeight.Bold) },
-                            singleLine = true,
-                            modifier = Modifier.weight(1f),
-                            textStyle = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
-                            shape = RoundedCornerShape(8.dp),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                            label = "إلى سورة",
+                            modifier = Modifier.weight(1f)
                         )
                         OutlinedTextField(
                             value = log.distantRevVerseTo,
@@ -1906,3 +1990,180 @@ fun SplashScreen(viewModel: QuranViewModel) {
         }
     }
 }
+
+// 114 Quran Surahs list in Arabic
+val quranSurahs = listOf(
+    "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
+    "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه",
+    "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم",
+    "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر",
+    "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق",
+    "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة",
+    "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج",
+    "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس",
+    "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد",
+    "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات",
+    "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر",
+    "المسد", "الإخلاص", "الفلق", "الناس"
+)
+
+// Auto-complete field for Surah names
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SurahAutoCompleteTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val filteredSurahs = remember(value) {
+        if (value.isBlank()) {
+            quranSurahs
+        } else {
+            val normalizedValue = value.replace("أ", "ا")
+                                      .replace("إ", "ا")
+                                      .replace("آ", "ا")
+                                      .replace("ة", "ه")
+            quranSurahs.filter { surah ->
+                val normalizedSurah = surah.replace("أ", "ا")
+                                           .replace("إ", "ا")
+                                           .replace("آ", "ا")
+                                           .replace("ة", "ه")
+                normalizedSurah.contains(normalizedValue, ignoreCase = true)
+            }
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded && filteredSurahs.isNotEmpty(),
+        onExpandedChange = { expanded = it },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = {
+                onValueChange(it)
+                expanded = true
+            },
+            label = { Text(label, fontSize = 12.sp, fontWeight = FontWeight.Bold) },
+            singleLine = true,
+            modifier = Modifier.menuAnchor(),
+            textStyle = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold),
+            shape = RoundedCornerShape(8.dp),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface
+            )
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded && filteredSurahs.isNotEmpty(),
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.heightIn(max = 250.dp)
+        ) {
+            filteredSurahs.forEach { surah ->
+                DropdownMenuItem(
+                    text = { Text(surah, fontWeight = FontWeight.Bold) },
+                    onClick = {
+                        onValueChange(surah)
+                        expanded = false
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                )
+            }
+        }
+    }
+}
+
+// Dialog to edit existing student data
+@Composable
+fun EditStudentDialog(
+    student: Student,
+    onDismiss: () -> Unit,
+    onConfirm: (String, String, String, String) -> Unit
+) {
+    var name by remember { mutableStateOf(student.name) }
+    var group by remember { mutableStateOf(student.groupName) }
+    var teacher by remember { mutableStateOf(student.teacherName) }
+    var notes by remember { mutableStateOf(student.notes) }
+    
+    var errorMsg by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                "تعديل بيانات الطالب 📝",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Right
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { 
+                        name = it
+                        if (it.isNotBlank()) errorMsg = ""
+                    },
+                    label = { Text("اسم الطالب الكامل *") },
+                    isError = errorMsg.isNotEmpty(),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                if (errorMsg.isNotEmpty()) {
+                    Text(errorMsg, color = MaterialTheme.colorScheme.error, fontSize = 10.sp)
+                }
+                
+                OutlinedTextField(
+                    value = group,
+                    onValueChange = { group = it },
+                    label = { Text("الصف / حلقة التحفيظ") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                
+                OutlinedTextField(
+                    value = teacher,
+                    onValueChange = { teacher = it },
+                    label = { Text("اسم المعلم المربي") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                
+                OutlinedTextField(
+                    value = notes,
+                    onValueChange = { notes = it },
+                    label = { Text("ملاحظات إضافية (أهداف الحفظ، إلخ)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    if (name.isBlank()) {
+                        errorMsg = "اسم الطالب مطلوب للرصد"
+                    } else {
+                        onConfirm(name, group, teacher, notes)
+                    }
+                }
+            ) {
+                Text("حفظ التعديلات")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("إلغاء")
+            }
+        }
+    )
+}
+

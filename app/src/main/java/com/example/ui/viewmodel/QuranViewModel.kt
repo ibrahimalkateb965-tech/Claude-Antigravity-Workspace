@@ -32,6 +32,14 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
+    // --- Theme State (null = follow system, true = dark, false = light) ---
+    private val _isDarkMode = MutableStateFlow<Boolean?>(null)
+    val isDarkMode: StateFlow<Boolean?> = _isDarkMode.asStateFlow()
+
+    fun toggleTheme(isDark: Boolean) {
+        _isDarkMode.value = isDark
+    }
+
     init {
         val database = QuranDatabase.getDatabase(application)
         repository = QuranRepository(database.quranDao())
