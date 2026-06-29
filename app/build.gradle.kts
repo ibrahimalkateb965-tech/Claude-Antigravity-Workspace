@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.compose)
@@ -22,11 +24,29 @@ android {
 
   signingConfigs {
     create("release") {
-      val keystorePath = System.getenv("KEYSTORE_PATH") ?: "${rootDir}/my-upload-key.jks"
+      val localProperties = Properties()
+      val localPropertiesFile = rootProject.file("local.properties")
+      if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { localProperties.load(it) }
+      }
+
+      val keystorePath = localProperties.getProperty("keystore.path")
+        ?: System.getenv("KEYSTORE_PATH")
+        ?: "${rootDir}/my-upload-key.jks"
+      val storePasswordVal = localProperties.getProperty("keystore.password")
+        ?: System.getenv("STORE_PASSWORD")
+        ?: ""
+      val keyAliasVal = localProperties.getProperty("key.alias")
+        ?: System.getenv("KEY_ALIAS")
+        ?: "upload"
+      val keyPasswordVal = localProperties.getProperty("key.password")
+        ?: System.getenv("KEY_PASSWORD")
+        ?: ""
+
       storeFile = file(keystorePath)
-      storePassword = System.getenv("STORE_PASSWORD")
-      keyAlias = "upload"
-      keyPassword = System.getenv("KEY_PASSWORD")
+      storePassword = storePasswordVal
+      keyAlias = keyAliasVal
+      keyPassword = keyPasswordVal
     }
     create("debugConfig") {
       storeFile = file("${rootDir}/debug.keystore")
@@ -90,6 +110,7 @@ dependencies {
   // implementation(libs.androidx.navigation.compose)
   implementation(libs.androidx.room.ktx)
   implementation(libs.androidx.room.runtime)
+  implementation(libs.androidx.work.runtime.ktx)
   // implementation(libs.coil.compose)
   implementation(libs.converter.moshi)
   // implementation(libs.firebase.ai)
@@ -118,4 +139,8 @@ dependencies {
   debugImplementation(libs.androidx.compose.ui.tooling)
   "ksp"(libs.androidx.room.compiler)
   "ksp"(libs.moshi.kotlin.codegen)
+}
+
+kotlin {
+  jvmToolchain(17)
 }

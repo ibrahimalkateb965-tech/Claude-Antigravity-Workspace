@@ -14,14 +14,14 @@ import org.robolectric.annotation.GraphicsMode
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(qualifiers = RobolectricDeviceQualifiers.Pixel8, sdk = [36])
+@Config(qualifiers = RobolectricDeviceQualifiers.Pixel8, sdk = [34])
 class GreetingScreenshotTest {
 
   @get:Rule val composeTestRule = createComposeRule()
 
   @Test
   fun greeting_screenshot() {
-    composeTestRule.setContent { MyApplicationTheme { androidx.compose.material3.Text("تاج الوقار") } }
+    composeTestRule.setContent { MyApplicationTheme { androidx.compose.material3.Text("تيجان النور") } }
 
     composeTestRule.onRoot().captureRoboImage(filePath = "src/test/screenshots/greeting.png")
   }

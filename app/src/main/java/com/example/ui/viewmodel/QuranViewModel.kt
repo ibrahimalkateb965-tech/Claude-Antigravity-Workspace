@@ -8,6 +8,9 @@ import com.example.data.model.DailyLog
 import com.example.data.model.Student
 import com.example.data.model.WeeklyReport
 import com.example.data.repository.QuranRepository
+import com.example.data.backup.AppPreferences
+import com.example.data.notification.AlarmScheduler
+import com.example.data.notification.NotificationHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,6 +20,9 @@ sealed class Screen {
     object StudentsList : Screen()
     data class StudentProfile(val student: Student) : Screen()
     data class ReportTracking(val student: Student, val report: WeeklyReport) : Screen()
+    data class PeriodReport(val student: Student) : Screen()
+    object Backups : Screen()
+    object Settings : Screen()
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -32,17 +38,58 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
+    val appPrefs = AppPreferences(application)
+
     // --- Theme State (null = follow system, true = dark, false = light) ---
-    private val _isDarkMode = MutableStateFlow<Boolean?>(null)
+    private val _isDarkMode = MutableStateFlow<Boolean?>(appPrefs.isDarkMode)
     val isDarkMode: StateFlow<Boolean?> = _isDarkMode.asStateFlow()
 
     fun toggleTheme(isDark: Boolean) {
         _isDarkMode.value = isDark
+        appPrefs.isDarkMode = isDark
+    }
+
+    // --- Language State ("ar" = Arabic, "en" = English) ---
+    private val _appLanguage = MutableStateFlow(appPrefs.appLanguage)
+    val appLanguage: StateFlow<String> = _appLanguage.asStateFlow()
+
+    fun setLanguage(lang: String) {
+        appPrefs.appLanguage = lang
+        _appLanguage.value = lang
+        // Update global singleton for use in non-composable lambdas
+        com.example.ui.screen.AppLang.current = lang
+    }
+
+    fun rescheduleAlarms() {
+        viewModelScope.launch {
+            try {
+                val list = repository.allStudents.first()
+                AlarmScheduler.scheduleAllAlarms(getApplication(), list)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     init {
+        // Initialize AppLang singleton from preferences
+        com.example.ui.screen.AppLang.current = appPrefs.appLanguage
+
+        // Initialize Notification Channels
+        NotificationHelper.createNotificationChannels(application)
+
         val database = QuranDatabase.getDatabase(application)
         repository = QuranRepository(database.quranDao())
+
+        // Reschedule alarms in background to ensure sync on startup
+        viewModelScope.launch {
+            try {
+                val list = repository.allStudents.first()
+                AlarmScheduler.scheduleAllAlarms(application, list)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
         
         // Auto-navigate from Splash screen to StudentsList after a beautiful transition delay
         viewModelScope.launch {
@@ -132,6 +179,18 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                 _selectedStudentId.value = screen.student.id
                 _selectedReportId.value = screen.report.id
             }
+            is Screen.PeriodReport -> {
+                _selectedStudentId.value = screen.student.id
+                _selectedReportId.value = null
+            }
+            is Screen.Backups -> {
+                _selectedStudentId.value = null
+                _selectedReportId.value = null
+            }
+            is Screen.Settings -> {
+                _selectedStudentId.value = null
+                _selectedReportId.value = null
+            }
         }
     }
 
@@ -141,21 +200,104 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // --- Student Actions ---
-    fun addStudent(name: String, groupName: String, teacherName: String, notes: String) {
+    fun addStudent(
+        name: String,
+        groupName: String,
+        teacherName: String,
+        notes: String,
+        whatsappNumber: String?,
+        circleSessionDaysTimes: String = "",
+        onResult: (String?) -> Unit = {}
+    ) {
         viewModelScope.launch {
-            val student = Student(
-                name = name,
-                groupName = groupName,
-                teacherName = teacherName,
-                notes = notes
-            )
-            repository.insertStudent(student)
+            try {
+                val cleanWhatsapp = whatsappNumber?.trim()?.takeIf { it.isNotBlank() }
+                if (cleanWhatsapp != null) {
+                    // Check format: must start with + followed by digits (length between 11 and 16 to support country codes)
+                    if (!cleanWhatsapp.startsWith("+") || cleanWhatsapp.substring(1).any { !it.isDigit() } || cleanWhatsapp.length < 11 || cleanWhatsapp.length > 16) {
+                        onResult("صيغة رقم الواتساب غير صحيحة! يجب أن يبدأ بـ + يليه رمز الدولة والأرقام (مثال: +966501234567)")
+                        return@launch
+                    }
+                    
+                    // Duplicate check inside same group
+                    val duplicates = repository.countStudentsWithWhatsappInGroup(groupName, cleanWhatsapp, 0)
+                    if (duplicates > 0) {
+                        onResult("رقم الواتساب هذا مسجل بالفعل لطالب آخر في نفس الحلقة!")
+                        return@launch
+                    }
+                }
+
+                val student = Student(
+                    name = name,
+                    groupName = groupName,
+                    teacherName = teacherName,
+                    notes = notes,
+                    whatsappNumber = cleanWhatsapp,
+                    circleSessionDaysTimes = circleSessionDaysTimes.trim()
+                )
+                val insertedId = repository.insertStudent(student)
+                
+                // Re-sync all alarms
+                val allList = repository.allStudents.first()
+                AlarmScheduler.scheduleAllAlarms(getApplication(), allList)
+
+                // Trigger report update notification if enabled for this circle
+                if (appPrefs.isReportEnabledForGroup(groupName)) {
+                    NotificationHelper.sendNotification(
+                        context = getApplication(),
+                        id = insertedId.toInt(),
+                        title = "👤 إضافة طالب جديد للحلقة ✨",
+                        text = "تم تسجيل الطالب البطل $name بنجاح في حلقة $groupName"
+                    )
+                }
+
+                onResult(null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onResult("خطأ أثناء إضافة الطالب: ${e.localizedMessage}")
+            }
         }
     }
 
-    fun updateStudent(student: Student) {
+    fun updateStudent(student: Student, onResult: (String?) -> Unit = {}) {
         viewModelScope.launch {
-            repository.updateStudent(student)
+            try {
+                val cleanWhatsapp = student.whatsappNumber?.trim()?.takeIf { it.isNotBlank() }
+                if (cleanWhatsapp != null) {
+                    if (!cleanWhatsapp.startsWith("+") || cleanWhatsapp.substring(1).any { !it.isDigit() } || cleanWhatsapp.length < 11 || cleanWhatsapp.length > 16) {
+                        onResult("صيغة رقم الواتساب غير صحيحة! يجب أن يبدأ بـ + يليه رمز الدولة والأرقام (مثال: +966501234567)")
+                        return@launch
+                    }
+                    
+                    val duplicates = repository.countStudentsWithWhatsappInGroup(student.groupName, cleanWhatsapp, student.id)
+                    if (duplicates > 0) {
+                        onResult("رقم الواتساب هذا مسجل بالفعل لطالب آخر في نفس الحلقة!")
+                        return@launch
+                    }
+                }
+
+                val updatedStudent = student.copy(whatsappNumber = cleanWhatsapp)
+                repository.updateStudent(updatedStudent)
+
+                // Re-sync all alarms
+                val allList = repository.allStudents.first()
+                AlarmScheduler.scheduleAllAlarms(getApplication(), allList)
+
+                // Trigger report update notification if enabled for this circle
+                if (appPrefs.isReportEnabledForGroup(student.groupName)) {
+                    NotificationHelper.sendNotification(
+                        context = getApplication(),
+                        id = student.id,
+                        title = "✏️ تعديل بيانات طالب 📝",
+                        text = "تم تحديث بيانات الطالب البطل ${student.name} بنجاح."
+                    )
+                }
+
+                onResult(null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                onResult("خطأ أثناء تحديث بيانات الطالب: ${e.localizedMessage}")
+            }
         }
     }
 
@@ -201,5 +343,43 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             repository.updateDailyLog(log)
         }
+    }
+
+    fun addDayToWeek(weeklyReportId: Int, studentId: Int, dayDate: Long, notes: String = "", onResult: (String?) -> Unit = {}) {
+        viewModelScope.launch {
+            val result = repository.addDayToWeek(weeklyReportId, studentId, dayDate, notes)
+            onResult(result)
+        }
+    }
+
+    fun deleteDailyLog(log: DailyLog) {
+        viewModelScope.launch {
+            repository.deleteDailyLog(log)
+        }
+    }
+
+    suspend fun checkDateAvailability(
+        weeklyReportId: Int,
+        studentId: Int,
+        date: Long,
+        excludeLogId: Int = 0
+    ): String? {
+        return repository.checkDateAvailability(weeklyReportId, studentId, date, excludeLogId)
+    }
+
+    suspend fun getDailyLogsForStudentInPeriod(studentId: Int, startDate: Long, endDate: Long): List<DailyLog> {
+        return repository.getDailyLogsForStudentInPeriod(studentId, startDate, endDate)
+    }
+
+    suspend fun getDailyLogsForGroupInPeriod(groupName: String, startDate: Long, endDate: Long): List<DailyLog> {
+        return repository.getDailyLogsForGroupInPeriod(groupName, startDate, endDate)
+    }
+
+    suspend fun getAllStudentsList(): List<Student> {
+        return repository.allStudents.first()
+    }
+
+    suspend fun getAllWeeklyReports(): List<WeeklyReport> {
+        return repository.getAllWeeklyReports()
     }
 }

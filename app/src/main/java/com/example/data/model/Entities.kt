@@ -12,7 +12,11 @@ data class Student(
     val groupName: String = "",
     val teacherName: String = "",
     val notes: String = "",
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
+    val whatsappNumber: String? = null,
+    val studentSequentialNumber: Int = 0,
+    val lastUpdated: Long = System.currentTimeMillis(),
+    val circleSessionDaysTimes: String = ""
 )
 
 @Entity(
@@ -50,7 +54,8 @@ data class DailyLog(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val weeklyReportId: Int,
     val dayName: String, // السبت، الأحد، الإثنين، الثلاثاء، الأربعاء، الخميس
-    val dayDate: String = "", // التاريخ الخاص باليوم مثلاً "2026-06-12" أو "12 يونيو"
+    val dayDate: Long = 0L, // Timestamp in millis, 0L = not set
+    val isHidden: Boolean = false,
     
     // الحفظ الجديد
     val newMemoSurahFrom: String = "",
@@ -71,5 +76,8 @@ data class DailyLog(
     val distantRevVerseFrom: String = "",
     val distantRevSurahTo: String = "",
     val distantRevVerseTo: String = "",
-    val distantRevStars: Int = 3
+    val distantRevStars: Int = 3,
+    
+    // ملاحظات اليوم
+    val notes: String = ""
 )
