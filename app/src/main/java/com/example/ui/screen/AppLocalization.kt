@@ -246,6 +246,7 @@ val translations: Map<String, String> = mapOf(
 
     // ── Additional UI, Backup & PDF Translations ───────────────
     "💾 النسخ الاحتياطية" to "Backups 💾",
+    "النسخ الاحتياطية" to "Backups",
     "⚡ إجراءات سريعة:" to "⚡ Quick Actions:",
     "جاري التصدير..." to "Exporting...",
     "📤 تصدير نسخة" to "📤 Export Backup",
@@ -367,6 +368,93 @@ val translations: Map<String, String> = mapOf(
     "تنبيهات إضافية أخرى 🔔" to "Other Alerts 🔔",
     "حلقة: " to "Circle: ",
     "تنبيهات وإشعارات المتابعة:" to "Tracking Notifications & Alerts:",
+    
+    // ── Additional Translations ──────────────────────────────
+    "طالب واحد" to "Single Student",
+    "الحلقة كاملة" to "Entire Circle",
+    "البداية:" to "Start:",
+    "النهاية:" to "End:",
+    "شهر" to "1 Month",
+    "3 أشهر" to "3 Months",
+    "6 أشهر" to "6 Months",
+    "سنة" to "1 Year",
+    "⚙️ إعدادات التقرير:" to "⚙️ Report Settings:",
+    "📊 معاينة الإحصائيات للفترة:" to "📊 Period Stats Preview:",
+    "لا توجد بيانات مسجلة لهذه الفترة الزمنية 📅" to "No data recorded for this period 📅",
+    "الأيام المرصودة" to "Observed Days",
+    "جلسات الحفظ" to "Memorization Sessions",
+    "تقييم الحفظ" to "Memorization Rating",
+    "نسبة الانتظام" to "Attendance Rate",
+    " جلسة" to " session(s)",
+    " يوم" to " day(s)",
+    "* إحصائيات المعاينة أعلاه تشمل كامل الحلقة المكونة من " to "* Preview statistics above cover the entire circle of ",
+    " تقرير أسبوعي." to " weekly report(s).",
+    "تصدير ومشاركة التقرير كملف PDF 📄" to "Export & Share Report as PDF 📄",
+    "تيجان النور: تقرير متابعة الطالب للفترة الزمنية 📊" to "Nour Crowns: Student Periodical Tracking Report 📊",
+    "👤 الطَّالِبُ الْبَطَلُ:" to "👤 Champion Student:",
+    "🏫 الْحَلَقَةُ:" to "🏫 Circle:",
+    "👤 الْمُعَلِّمُ:" to "👤 Teacher:",
+    "📅 الْفَتْرَةُ الزَّمَنِيَّةُ:" to "📅 Time Period:",
+    "نسبة الانتظام بالفترة" to "Period Attendance Rate",
+    "جلسات التسميع" to "Recitation Sessions",
+    "متوسط تقييم الحفظ" to "Average Memo Rating",
+    "الممتاز ⭐⭐⭐" to "Excellent ⭐⭐⭐",
+    "الجيد جداً ⭐⭐" to "Very Good ⭐⭐",
+    "المقبول ⭐" to "Acceptable ⭐",
+    "لم يحفظ ❌" to "Not Memorized ❌",
+    "غائب" to "Absent",
+    "تم التصدير عبر تطبيق تيجان النور | صفحة " to "Exported via Nour Crowns App | Page ",
+    "صفحة " to "Page ",
+    "تيجان النور: تقرير متابعة الحلقة للفترة الزمنية 📊" to "Nour Crowns: Circle Periodical Tracking Report 📊",
+    "🏫 الحلقة:" to "🏫 Circle:",
+    "👤 معلم الحلقة:" to "👤 Circle Teacher:",
+    "📅 الفترة الزمنية:" to "📅 Time Period:",
+    "📈 ملخص إنجاز طلاب الحلقة في هذه الفترة:" to "📈 Circle Students Achievement Summary:",
+    "اسم الطالب" to "Student Name",
+
+    // ── Daily Schedule Screen ───────────────────────────────────
+    "📅 جدول اليوم" to "📅 Today's Schedule",
+    "لا توجد جلسات مجدولة اليوم" to "No sessions scheduled today",
+    "إجمالي الطلاب اليوم" to "Total Students Today",
+    "عدد الحلقات" to "Number of Circles",
+    " حلقة" to " circle(s)",
+    " طالب" to " student(s)",
+
+    // ── Absence Tracking ────────────────────────────────────────
+    "🔴 الطالب غائب - لا يحسب في الإحصائيات" to "🔴 Student absent - not counted in statistics",
+    "تسجيل غياب" to "Record Absence",
+    "📍 تم تسجيل غياب الطالب - لا يُحتسب في الأيام المرصودة والتقييم ونسبة الانتظام" to
+        "📍 Student marked absent - not counted in observed days, rating, or attendance",
+    "غائب 🔴" to "Absent 🔴",
+
+    // ── PDF Labels ──────────────────────────────────────────────
+    "من " to "From ",
+    "إلى " to "To ",
+    "تيجان النور: " to "Nour Crowns: ",
+    "تيجان النور" to "Nour Crowns",
+
+    // ── Splash / Welcome Screen ─────────────────────────────────
+    "متابعة تلاوة وحفظ القرآن الكريم للطلاب والناشئة\n«مَن تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ»" to
+        "Quran Memorization Tracking for Students\n«The best among you are those who learn the Quran and teach it»",
+    "الدخول للتطبيق" to "Enter App",
+
+    // ── Week content descriptions ───────────────────────────────
+    "حذف الأسبوع" to "Delete Week",
+    "عرض السجل" to "View Record",
+
+    // ── Notification Texts ──────────────────────────────────────
+    "📖 حلقة تحفيظ قرآن اليوم" to "📖 Today's Quran Circle",
+    "⏰ اقترب موعد الحلقة للبطَل " to "⏰ Circle time is approaching for ",
+
+    // ── Repository Error Messages ───────────────────────────────
+    "لا يمكن إضافة أكثر من 7 أيام في الأسبوع الواحد" to "Cannot add more than 7 days in a single week",
+    "اليوم" to "Today",
+    "هذا التاريخ مسجل بالفعل في هذا الأسبوع" to "This date is already recorded in this week",
+    "هذا التاريخ مسجل بالفعل في أسبوع آخر لنفس الطالب" to "This date is already recorded in another week for the same student",
+
+    // ── ViewModel Messages ──────────────────────────────────────
+    "👤 إضافة طالب جديد للحلقة ✨" to "👤 New Student Added to Circle ✨",
+    "✏️ تعديل بيانات طالب 📝" to "✏️ Student Data Updated 📝",
 )
 
 /**
@@ -407,6 +495,16 @@ fun String.loc(): String {
     if (orphanLogsMatch != null) {
         val count = orphanLogsMatch.groupValues[1]
         return "$count daily record(s) associated with a non-existent report"
+    }
+
+    if (this.startsWith("الملف ليس بصيغة JSON صحيحة: ")) {
+        return "The file is not in valid JSON format: " + this.substringAfter("الملف ليس بصيغة JSON صحيحة: ")
+    }
+    if (this.startsWith("الملف غير صالح:\n")) {
+        return "Invalid file:\n" + this.substringAfter("الملف غير صالح:\n")
+    }
+    if (this == "لا يمكن قراءة الملف المحدد") {
+        return "Cannot read the selected file"
     }
 
     return this

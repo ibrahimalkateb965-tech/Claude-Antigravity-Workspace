@@ -124,4 +124,28 @@ interface QuranDao {
 
     @Query("SELECT * FROM students WHERE id = :id LIMIT 1")
     suspend fun getStudentByIdDirect(id: Int): Student?
+
+    // --- Day Sequential Numbering ---
+    @Query("""
+        SELECT dl.id FROM daily_logs dl
+        INNER JOIN weekly_reports wr ON dl.weeklyReportId = wr.id
+        WHERE wr.studentId = :studentId AND dl.isHidden = 0 AND dl.dayDate != 0 AND dl.isAbsent = 0
+        ORDER BY dl.dayDate ASC
+    """)
+    suspend fun getVisiblePresentLogIdsSortedByDate(studentId: Int): List<Int>
+
+    @Query("UPDATE daily_logs SET daySequentialNumber = :number WHERE id = :logId")
+    suspend fun updateDaySequentialNumber(logId: Int, number: Int)
+
+    @Query("UPDATE daily_logs SET daySequentialNumber = 0 WHERE weeklyReportId IN (SELECT id FROM weekly_reports WHERE studentId = :studentId) AND isAbsent = 1")
+    suspend fun clearAbsentDaySequentialNumbers(studentId: Int)
+
+    // Fetch all logs for a student (for recalculation purposes)
+    @Query("""
+        SELECT dl.* FROM daily_logs dl
+        INNER JOIN weekly_reports wr ON dl.weeklyReportId = wr.id
+        WHERE wr.studentId = :studentId AND dl.isHidden = 0
+        ORDER BY dl.dayDate ASC
+    """)
+    suspend fun getAllLogsForStudent(studentId: Int): List<DailyLog>
 }

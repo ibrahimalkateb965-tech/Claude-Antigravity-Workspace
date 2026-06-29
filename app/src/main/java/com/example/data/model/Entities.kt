@@ -79,5 +79,11 @@ data class DailyLog(
     val distantRevStars: Int = 3,
     
     // ملاحظات اليوم
-    val notes: String = ""
+    val notes: String = "",
+
+    // غياب الطالب (عند التفعيل لا يحسب في الإحصائيات)
+    val isAbsent: Boolean = false,
+
+    // الترقيم التسلسلي لأيام التسميع عبر كل أسابيع الطالب
+    val daySequentialNumber: Int = 0
 )

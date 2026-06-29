@@ -14,7 +14,7 @@ import java.util.Locale
 
 @Database(
     entities = [Student::class, WeeklyReport::class, DailyLog::class],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 abstract class QuranDatabase : RoomDatabase() {
@@ -228,6 +228,54 @@ abstract class QuranDatabase : RoomDatabase() {
             }
         }
 
+        /**
+         * Migration from v7 to v8:
+         * - Add isAbsent column to daily_logs (default 0 = not absent)
+         * - Add daySequentialNumber column to daily_logs (default 0)
+         * - Retroactively calculate sequential day numbers for all existing students
+         */
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // 1. Add isAbsent column
+                db.execSQL("ALTER TABLE daily_logs ADD COLUMN isAbsent INTEGER NOT NULL DEFAULT 0")
+
+                // 2. Add daySequentialNumber column
+                db.execSQL("ALTER TABLE daily_logs ADD COLUMN daySequentialNumber INTEGER NOT NULL DEFAULT 0")
+
+                // 3. Retroactively calculate sequential numbers per student, ordered by dayDate
+                val cursor = db.query("""
+                    SELECT dl.id, wr.studentId
+                    FROM daily_logs dl
+                    INNER JOIN weekly_reports wr ON dl.weeklyReportId = wr.id
+                    WHERE dl.isHidden = 0 AND dl.dayDate != 0
+                    ORDER BY wr.studentId ASC, dl.dayDate ASC
+                """.trimIndent())
+
+                var currentStudentId = -1
+                var seqNumber = 0
+
+                try {
+                    while (cursor.moveToNext()) {
+                        val logId = cursor.getInt(0)
+                        val studentId = cursor.getInt(1)
+
+                        if (studentId != currentStudentId) {
+                            currentStudentId = studentId
+                            seqNumber = 0
+                        }
+                        seqNumber++
+
+                        db.execSQL(
+                            "UPDATE daily_logs SET daySequentialNumber = ? WHERE id = ?",
+                            arrayOf(seqNumber, logId)
+                        )
+                    }
+                } finally {
+                    cursor.close()
+                }
+            }
+        }
+
         fun getDatabase(context: Context): QuranDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -235,7 +283,7 @@ abstract class QuranDatabase : RoomDatabase() {
                     QuranDatabase::class.java,
                     "quran_tracker_database"
                 )
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8)
                 .build()
                 INSTANCE = instance
                 instance

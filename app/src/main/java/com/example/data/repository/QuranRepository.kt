@@ -4,6 +4,7 @@ import com.example.data.local.QuranDao
 import com.example.data.model.DailyLog
 import com.example.data.model.Student
 import com.example.data.model.WeeklyReport
+import com.example.ui.screen.loc
 import kotlinx.coroutines.flow.Flow
 
 class QuranRepository(private val quranDao: QuranDao) {
@@ -90,6 +91,30 @@ class QuranRepository(private val quranDao: QuranDao) {
 
     suspend fun deleteDailyLog(log: DailyLog) {
         quranDao.deleteDailyLog(log)
+        // Recalculate sequential numbers after deletion
+        val studentId = getStudentIdForLog(log)
+        if (studentId != null) recalculateDayNumbers(studentId)
+    }
+
+    /**
+     * Recalculates sequential day numbers for all non-absent present days of a student,
+     * ordered by dayDate. Absent days always get 0.
+     */
+    suspend fun recalculateDayNumbers(studentId: Int) {
+        // Clear absent days sequential numbers
+        quranDao.clearAbsentDaySequentialNumbers(studentId)
+        // Get all present, visible logs sorted by date
+        val logIds = quranDao.getVisiblePresentLogIdsSortedByDate(studentId)
+        logIds.forEachIndexed { index, logId ->
+            quranDao.updateDaySequentialNumber(logId, index + 1)
+        }
+    }
+
+    /**
+     * Looks up the studentId that owns a DailyLog (via weekly_reports join).
+     */
+    private suspend fun getStudentIdForLog(log: DailyLog): Int? {
+        return quranDao.getAllWeeklyReports().firstOrNull { it.id == log.weeklyReportId }?.studentId
     }
 
     /**
@@ -100,7 +125,7 @@ class QuranRepository(private val quranDao: QuranDao) {
     suspend fun addDayToWeek(weeklyReportId: Int, studentId: Int, dayDate: Long, notes: String = ""): String? {
         val count = quranDao.getVisibleDayCount(weeklyReportId)
         if (count >= 7) {
-            return "لا يمكن إضافة أكثر من 7 أيام في الأسبوع الواحد"
+            return "لا يمكن إضافة أكثر من 7 أيام في الأسبوع الواحد".loc()
         }
 
         val duplicateCheck = checkDateAvailability(weeklyReportId, studentId, dayDate)
@@ -112,7 +137,7 @@ class QuranRepository(private val quranDao: QuranDao) {
         val dayName = try {
             sdf.format(java.util.Date(dayDate))
         } catch (e: Exception) {
-            "اليوم"
+            "اليوم".loc()
         }
 
         val log = DailyLog(
@@ -125,6 +150,8 @@ class QuranRepository(private val quranDao: QuranDao) {
             notes = notes
         )
         quranDao.insertDailyLog(log)
+        // Recalculate sequential numbers for this student
+        recalculateDayNumbers(studentId)
         return null
     }
 
@@ -141,10 +168,10 @@ class QuranRepository(private val quranDao: QuranDao) {
         if (date == 0L) return null // No date set, skip check
 
         val weekDuplicates = quranDao.countLogsWithDateInWeek(weeklyReportId, date, excludeLogId)
-        if (weekDuplicates > 0) return "هذا التاريخ مسجل بالفعل في هذا الأسبوع"
+        if (weekDuplicates > 0) return "هذا التاريخ مسجل بالفعل في هذا الأسبوع".loc()
 
         val studentDuplicates = quranDao.countLogsWithDateForStudent(studentId, date, excludeLogId)
-        if (studentDuplicates > 0) return "هذا التاريخ مسجل بالفعل في أسبوع آخر لنفس الطالب"
+        if (studentDuplicates > 0) return "هذا التاريخ مسجل بالفعل في أسبوع آخر لنفس الطالب".loc()
 
         return null
     }

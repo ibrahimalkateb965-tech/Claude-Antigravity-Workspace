@@ -8,6 +8,8 @@ import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.R
+import com.example.ui.screen.AppLang
+import com.example.ui.screen.loc
 
 class BackupWorker(
     context: Context,
@@ -66,10 +68,10 @@ class BackupWorker(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "النسخ الاحتياطية",
+                "النسخ الاحتياطية".loc(),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "إشعارات النسخ الاحتياطية التلقائية"
+                description = "إشعارات النسخ الاحتياطية التلقائية".loc()
             }
             notificationManager.createNotificationChannel(channel)
         }
@@ -79,11 +81,11 @@ class BackupWorker(
             .setAutoCancel(true)
 
         if (result.success) {
-            builder.setContentTitle("✅ تم إنشاء نسخة احتياطية")
+            builder.setContentTitle("✅ تم إنشاء نسخة احتياطية".loc())
             builder.setContentText("${result.fileName} (${formatFileSize(result.fileSize)})")
         } else {
-            builder.setContentTitle("❌ فشل إنشاء النسخة الاحتياطية")
-            builder.setContentText(result.error ?: "خطأ غير معروف")
+            builder.setContentTitle("❌ فشل إنشاء النسخة الاحتياطية".loc())
+            builder.setContentText((result.error ?: "خطأ غير معروف").loc())
             builder.priority = NotificationCompat.PRIORITY_HIGH
         }
 

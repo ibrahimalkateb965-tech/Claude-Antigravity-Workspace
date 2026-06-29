@@ -41,6 +41,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -90,6 +93,7 @@ fun QuranAppScreen(viewModel: QuranViewModel) {
                 is Screen.PeriodReport -> PeriodReportScreen(viewModel, screen.student)
                 is Screen.Backups -> BackupScreen(viewModel)
                 is Screen.Settings -> SettingsScreen(viewModel)
+                is Screen.TodaySchedule -> TodayScheduleScreen(viewModel)
             }
         }
     }
@@ -145,6 +149,18 @@ fun StudentsListScreen(viewModel: QuranViewModel) {
                     ) {
                         Text(
                             text = if (isDark) "☀️" else "🌙",
+                            fontSize = 18.sp
+                        )
+                    }
+
+                    IconButton(
+                        onClick = { viewModel.navigateTo(Screen.TodaySchedule) },
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .background(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.25f), CircleShape)
+                    ) {
+                        Text(
+                            text = "📅",
                             fontSize = 18.sp
                         )
                     }
@@ -572,11 +588,11 @@ fun AddStudentDialog(
     onConfirm: (String, String, String, String, String?, String, (String?) -> Unit) -> Unit
 ) {
     val context = LocalContext.current
-    var name by remember { mutableStateOf("") }
-    var group by remember { mutableStateOf("") }
-    var teacher by remember { mutableStateOf("") }
-    var notes by remember { mutableStateOf("") }
-    var whatsappNumber by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(TextFieldValue("")) }
+    var group by remember { mutableStateOf(TextFieldValue("")) }
+    var teacher by remember { mutableStateOf(TextFieldValue("")) }
+    var notes by remember { mutableStateOf(TextFieldValue("")) }
+    var whatsappNumber by remember { mutableStateOf(TextFieldValue("")) }
     val weekDays = listOf("السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة")
     var selectedDays by remember { mutableStateOf(emptySet<String>()) }
     var dayTimeMap by remember { mutableStateOf(emptyMap<String, String>()) }
@@ -605,7 +621,7 @@ fun AddStudentDialog(
                     value = name,
                     onValueChange = { 
                         name = it
-                        if (it.isNotBlank()) errorMsg = ""
+                        if (it.text.isNotBlank()) errorMsg = ""
                     },
                     label = { Text("اسم الطالب الكامل *".loc()) },
                     isError = errorMsg.isNotEmpty(),
@@ -753,14 +769,14 @@ fun AddStudentDialog(
                     onValueChange = { notes = it },
                     label = { Text("ملحوظة".loc()) },
                     modifier = Modifier.fillMaxWidth(),
-                    textStyle = TextStyle(textDirection = TextDirection.Rtl, textAlign = TextAlign.Right)
+                    textStyle = TextStyle(textDirection = TextDirection.Content, textAlign = TextAlign.Start)
                 )
             }
         },
         confirmButton = {
             Button(
                 onClick = {
-                    if (name.isBlank()) {
+                    if (name.text.isBlank()) {
                         errorMsg = "اسم الطالب مطلوب للرصد".loc()
                     } else {
                         // Serialize selected days and their custom times to "day=time;day=time" sorted chronologically
@@ -769,7 +785,7 @@ fun AddStudentDialog(
                                 val time = dayTimeMap[day] ?: "18:30"
                                 "$day=$time"
                             }
-                        onConfirm(name, group, teacher, notes, whatsappNumber, daysTimesString) { result ->
+                        onConfirm(name.text, group.text, teacher.text, notes.text, whatsappNumber.text, daysTimesString) { result ->
                             if (result != null) {
                                 errorMsg = result
                             } else {
@@ -789,6 +805,266 @@ fun AddStudentDialog(
             }
         }
     )
+}
+
+// ==========================================
+// TODAY SCHEDULE SCREEN - مواعيد اليوم الحالي
+// ==========================================
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TodayScheduleScreen(viewModel: QuranViewModel) {
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    // Get today's Arabic day name
+    val todayName = remember {
+        val sdf = java.text.SimpleDateFormat("EEEE", java.util.Locale("ar"))
+        sdf.format(java.util.Date())
+    }
+
+    var todayStudents by remember { mutableStateOf<List<com.example.data.model.Student>>(emptyList()) }
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        isLoading = true
+        todayStudents = viewModel.getStudentsScheduledOnDay(todayName)
+        isLoading = false
+    }
+
+    // Group students by their session time for today
+    val studentsByTime = remember(todayStudents) {
+        todayStudents.groupBy { student ->
+            student.circleSessionDaysTimes.split(";")
+                .firstOrNull { it.split("=").getOrNull(0)?.trim() == todayName }
+                ?.split("=")?.getOrNull(1) ?: "غير محدد".loc()
+        }.toSortedMap()
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Column {
+                        Text(
+                            "📅 جدول اليوم".loc(),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp
+                        )
+                        Text(
+                            "يوم $todayName - ${formatLongDate(System.currentTimeMillis())}",
+                            fontSize = 11.5.sp,
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.85f)
+                        )
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = { viewModel.navigateTo(Screen.StudentsList) }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع".loc())
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            )
+        }
+    ) { innerPadding ->
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else if (todayStudents.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Text("🌙", fontSize = 52.sp)
+                    Text(
+                        text = "لا توجد جلسات مجدولة اليوم".loc(),
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 17.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                    Text(
+                        text = if (AppLang.current == "en") "$todayName has no scheduled circles" else "يوم $todayName لا يحتوي على مواعيد حلقات",
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // Summary card
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.25f)
+                        ),
+                        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(14.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                Text(
+                                    "إجمالي الطلاب اليوم".loc(),
+                                    fontSize = 12.sp,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    "${todayStudents.size}" + " طالب".loc(),
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                            Column(horizontalAlignment = Alignment.End) {
+                                Text(
+                                    "عدد الحلقات".loc(),
+                                    fontSize = 12.sp,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    "${todayStudents.map { it.groupName }.distinct().filter { it.isNotBlank() }.size}" + " حلقة".loc(),
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // Students grouped by time
+                studentsByTime.forEach { (time, students) ->
+                    item {
+                        // Time header
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 12.dp, vertical = 4.dp)
+                            ) {
+                                Text(
+                                    text = "⏰ ${formatTime12h(time)}",
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                            HorizontalDivider(modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
+                            Text(
+                                "${students.size}" + " طالب".loc(),
+                                fontSize = 12.sp,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+
+                    items(students, key = { it.id }) { student ->
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .clickable { viewModel.navigateTo(Screen.StudentProfile(student)) },
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                            border = BorderStroke(1.2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f)),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(12.dp).fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .background(Emerald80.copy(alpha = 0.3f), CircleShape),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text("👤", fontSize = 18.sp)
+                                }
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    ) {
+                                        if (student.studentSequentialNumber > 0) {
+                                            Text(
+                                                "#${student.studentSequentialNumber}",
+                                                fontSize = 11.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colorScheme.primary
+                                            )
+                                        }
+                                        Text(
+                                            student.name,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            fontSize = 15.sp,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                    }
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        modifier = Modifier.padding(top = 3.dp)
+                                    ) {
+                                        if (student.groupName.isNotBlank()) {
+                                            Text(
+                                                "🏫 ${student.groupName}",
+                                                fontSize = 11.sp,
+                                                color = MaterialTheme.colorScheme.primary,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        }
+                                        if (student.teacherName.isNotBlank()) {
+                                            Text(
+                                                "👨‍🏫 ${student.teacherName}",
+                                                fontSize = 11.sp,
+                                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                                            )
+                                        }
+                                    }
+                                }
+                                Icon(
+                                    Icons.Default.ArrowBack,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                item { Spacer(modifier = Modifier.height(16.dp)) }
+            }
+        }
+    }
 }
 
 // ==========================================
@@ -1103,14 +1379,14 @@ fun WeeklyReportItemCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { showRenameDialog = true }) {
-                    Icon(Icons.Default.Edit, contentDescription = "تعديل اسم الأسبوع", tint = Color.LightGray)
+                    Icon(Icons.Default.Edit, contentDescription = "تعديل اسم الأسبوع".loc(), tint = Color.LightGray)
                 }
                 IconButton(onClick = { showConfirmDelete = true }) {
-                    Icon(Icons.Default.Delete, contentDescription = "حذف الأسبوع", tint = Color.LightGray)
+                    Icon(Icons.Default.Delete, contentDescription = "حذف الأسبوع".loc(), tint = Color.LightGray)
                 }
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = "عرض السجل",
+                    contentDescription = "عرض السجل".loc(),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
@@ -1322,6 +1598,10 @@ fun ReportTrackingScreen(
                                 date = date,
                                 excludeLogId = log.id
                             )
+                        },
+                        studentId = student.id,
+                        onAbsenceToggled = { studentId ->
+                            viewModel.recalculateDayNumbers(studentId)
                         }
                     )
                 }
@@ -1421,7 +1701,7 @@ fun ReportTrackingScreen(
                                         modifier = Modifier.fillMaxWidth(),
                                         maxLines = 3,
                                         shape = RoundedCornerShape(10.dp),
-                                        textStyle = TextStyle(textDirection = TextDirection.Rtl, textAlign = TextAlign.Right)
+                                        textStyle = TextStyle(textDirection = TextDirection.Content, textAlign = TextAlign.Start)
                                     )
                                 }
                             },
@@ -1492,8 +1772,8 @@ fun ReportTrackingScreen(
                             textStyle = TextStyle(
                                 fontSize = 13.5.sp,
                                 fontWeight = FontWeight.SemiBold,
-                                textDirection = TextDirection.Rtl,
-                                textAlign = TextAlign.Right
+                                textDirection = TextDirection.Content,
+                                textAlign = TextAlign.Start
                             )
                         )
                     }
@@ -1528,11 +1808,20 @@ fun DayRecordBox(
     log: DailyLog,
     onLogChange: (DailyLog) -> Unit,
     onDeleteClick: () -> Unit,
-    checkDateAvailability: suspend (Long) -> String?
+    checkDateAvailability: suspend (Long) -> String?,
+    studentId: Int = 0,
+    onAbsenceToggled: ((Int) -> Unit)? = null
 ) {
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var showDatePicker by remember { mutableStateOf(false) }
+
+    var localNotes by remember { mutableStateOf(TextFieldValue(log.notes)) }
+    LaunchedEffect(log.notes) {
+        if (log.notes != localNotes.text) {
+            localNotes = TextFieldValue(log.notes)
+        }
+    }
 
     LaunchedEffect(log.dayDate) {
         if (log.dayDate != 0L) {
@@ -1542,53 +1831,91 @@ fun DayRecordBox(
         }
     }
 
-    // Elegant container representing a single student record-day
+    // Card border color changes if absent
+    val cardBorderColor = if (log.isAbsent)
+        Color(0xFFEF4444).copy(alpha = 0.6f)
+    else
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.45f)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .testTag("day_record_${log.dayName}"),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        border = BorderStroke(1.8.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.45f)),
+        colors = CardDefaults.cardColors(
+            containerColor = if (log.isAbsent)
+                Color(0xFFEF4444).copy(alpha = 0.04f)
+            else
+                MaterialTheme.colorScheme.surface
+        ),
+        border = BorderStroke(1.8.dp, cardBorderColor),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
-            // Day Name Blue Headline Ribbon with adjustable date field
+            // --- Header Row: Day name + date picker + day number badge + delete ---
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 12.dp),
+                    .padding(bottom = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.weight(1f)
                 ) {
-                    Surface(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Text(
-                            text = "يوم ".loc() + log.dayName.loc(),
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 16.sp,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
-                        )
+                    // Day name + optional sequential number badge
+                    Column {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            Surface(
+                                color = if (log.isAbsent)
+                                    Color(0xFFEF4444).copy(alpha = 0.15f)
+                                else
+                                    MaterialTheme.colorScheme.primaryContainer,
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    text = "يوم ".loc() + log.dayName.loc(),
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 15.sp,
+                                    color = if (log.isAbsent) Color(0xFFDC2626)
+                                            else MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                                )
+                            }
+                            // Sequential day number badge (only for present days)
+                            if (!log.isAbsent && log.daySequentialNumber > 0) {
+                                Surface(
+                                    color = MaterialTheme.colorScheme.secondaryContainer,
+                                    shape = RoundedCornerShape(6.dp)
+                                ) {
+                                    Text(
+                                        text = "📌 #${log.daySequentialNumber}",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.secondary,
+                                        modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp)
+                                    )
+                                }
+                            }
+                        }
                     }
 
-                    Box(modifier = Modifier.width(180.dp)) {
+                    Box(modifier = Modifier.width(160.dp)) {
                         OutlinedTextField(
                             value = if (log.dayDate == 0L) "" else formatLongDate(log.dayDate),
                             onValueChange = { },
                             readOnly = true,
                             isError = errorMessage != null,
                             supportingText = errorMessage?.let { { Text(it, color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold) } },
-                            placeholder = { Text("اختر التاريخ 📅".loc(), fontSize = 13.sp, fontWeight = FontWeight.Bold) },
+                            placeholder = { Text("اختر التاريخ 📅".loc(), fontSize = 12.sp, fontWeight = FontWeight.Bold) },
                             singleLine = true,
                             textStyle = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold,
                                 textDirection = TextDirection.Rtl,
                                 textAlign = TextAlign.Right
@@ -1619,9 +1946,7 @@ fun DayRecordBox(
 
                 // Delete Day Option
                 var showDeleteConfirm by remember { mutableStateOf(false) }
-                IconButton(
-                    onClick = { showDeleteConfirm = true }
-                ) {
+                IconButton(onClick = { showDeleteConfirm = true }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "حذف اليوم".loc(),
@@ -1672,203 +1997,188 @@ fun DayRecordBox(
                 )
             }
 
-            // Columns layout for New Memorization, Recent, and Distant revision
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // SECTION 1: الحفظ الجديد
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Emerald80.copy(alpha = 0.15f), RoundedCornerShape(12.dp))
-                        .border(BorderStroke(1.2.dp, Emerald40.copy(alpha = 0.5f)), RoundedCornerShape(12.dp))
-                        .padding(10.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("🌱 الْحِفْظُ الْجَدِيدُ".loc(), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Emerald40)
-                        StarRatingCycleButton(
-                            stars = log.newMemoStars,
-                            onCycle = { nextStars ->
-                                onLogChange(log.copy(newMemoStars = nextStars))
-                            }
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        SurahAutoCompleteTextField(
-                            value = log.newMemoSurahFrom,
-                            onValueChange = { onLogChange(log.copy(newMemoSurahFrom = it)) },
-                            label = "من سورة".loc(),
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerseDropdownTextField(
-                            value = log.newMemoVerseFrom,
-                            onValueChange = { onLogChange(log.copy(newMemoVerseFrom = it)) },
-                            surahName = log.newMemoSurahFrom,
-                            label = "الآية".loc(),
-                            modifier = Modifier.width(62.dp),
-                            imeAction = ImeAction.Next
-                        )
-                        SurahAutoCompleteTextField(
-                            value = log.newMemoSurahTo,
-                            onValueChange = { onLogChange(log.copy(newMemoSurahTo = it)) },
-                            label = "إلى سورة".loc(),
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerseDropdownTextField(
-                            value = log.newMemoVerseTo,
-                            onValueChange = { onLogChange(log.copy(newMemoVerseTo = it)) },
-                            surahName = log.newMemoSurahTo,
-                            label = "الآية".loc(),
-                            modifier = Modifier.width(62.dp),
-                            imeAction = ImeAction.Next
-                        )
-                    }
-                }
-
-                // SECTION 2: الماضي القريب
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Sky80.copy(alpha = 0.15f), RoundedCornerShape(12.dp))
-                        .border(BorderStroke(1.2.dp, Sky40.copy(alpha = 0.5f)), RoundedCornerShape(12.dp))
-                        .padding(10.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("💧 الْمَاضِي الْقَرِيبُ".loc(), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Sky40)
-                        StarRatingCycleButton(
-                            stars = log.recentRevStars,
-                            onCycle = { nextStars ->
-                                onLogChange(log.copy(recentRevStars = nextStars))
-                            }
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        SurahAutoCompleteTextField(
-                            value = log.recentRevSurahFrom,
-                            onValueChange = { onLogChange(log.copy(recentRevSurahFrom = it)) },
-                            label = "من سورة".loc(),
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerseDropdownTextField(
-                            value = log.recentRevVerseFrom,
-                            onValueChange = { onLogChange(log.copy(recentRevVerseFrom = it)) },
-                            surahName = log.recentRevSurahFrom,
-                            label = "الآية".loc(),
-                            modifier = Modifier.width(62.dp),
-                            imeAction = ImeAction.Next
-                        )
-                        SurahAutoCompleteTextField(
-                            value = log.recentRevSurahTo,
-                            onValueChange = { onLogChange(log.copy(recentRevSurahTo = it)) },
-                            label = "إلى سورة".loc(),
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerseDropdownTextField(
-                            value = log.recentRevVerseTo,
-                            onValueChange = { onLogChange(log.copy(recentRevVerseTo = it)) },
-                            surahName = log.recentRevSurahTo,
-                            label = "الآية".loc(),
-                            modifier = Modifier.width(62.dp),
-                            imeAction = ImeAction.Next
-                        )
-                    }
-                }
-
-                // SECTION 3: الماضي البعيد
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Amber80.copy(alpha = 0.15f), RoundedCornerShape(12.dp))
-                        .border(BorderStroke(1.2.dp, Amber40.copy(alpha = 0.5f)), RoundedCornerShape(12.dp))
-                        .padding(10.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text("🔥 الْمَاضِي الْبَعِيدُ".loc(), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Amber40)
-                        StarRatingCycleButton(
-                            stars = log.distantRevStars,
-                            onCycle = { nextStars ->
-                                onLogChange(log.copy(distantRevStars = nextStars))
-                            }
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        SurahAutoCompleteTextField(
-                            value = log.distantRevSurahFrom,
-                            onValueChange = { onLogChange(log.copy(distantRevSurahFrom = it)) },
-                            label = "من سورة".loc(),
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerseDropdownTextField(
-                            value = log.distantRevVerseFrom,
-                            onValueChange = { onLogChange(log.copy(distantRevVerseFrom = it)) },
-                            surahName = log.distantRevSurahFrom,
-                            label = "الآية".loc(),
-                            modifier = Modifier.width(62.dp),
-                            imeAction = ImeAction.Next
-                        )
-                        SurahAutoCompleteTextField(
-                            value = log.distantRevSurahTo,
-                            onValueChange = { onLogChange(log.copy(distantRevSurahTo = it)) },
-                            label = "إلى سورة".loc(),
-                            modifier = Modifier.weight(1f)
-                        )
-                        VerseDropdownTextField(
-                            value = log.distantRevVerseTo,
-                            onValueChange = { onLogChange(log.copy(distantRevVerseTo = it)) },
-                            surahName = log.distantRevSurahTo,
-                            label = "الآية".loc(),
-                            modifier = Modifier.width(62.dp),
-                            imeAction = ImeAction.Done
-                        )
-                    }
-                }
-            }
-
-            // SECTION 4: ملاحظات اليوم
-            OutlinedTextField(
-                value = log.notes,
-                onValueChange = { onLogChange(log.copy(notes = it)) },
-                placeholder = { Text("📝 أضف ملاحظة لليوم (اختياري)...".loc(), fontSize = 12.sp, fontWeight = FontWeight.Medium) },
+            // --- Absence Checkbox Row ---
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .testTag("day_notes_field_${log.dayName}"),
-                maxLines = 3,
-                textStyle = TextStyle(
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(
+                        if (log.isAbsent) Color(0xFFEF4444).copy(alpha = 0.08f)
+                        else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                    )
+                    .border(
+                        width = 1.2.dp,
+                        color = if (log.isAbsent) Color(0xFFEF4444).copy(alpha = 0.5f)
+                                else MaterialTheme.colorScheme.outline.copy(alpha = 0.15f),
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .clickable {
+                        val newLog = log.copy(isAbsent = !log.isAbsent)
+                        onLogChange(newLog)
+                        if (studentId != 0) onAbsenceToggled?.invoke(studentId)
+                    }
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Checkbox(
+                    checked = log.isAbsent,
+                    onCheckedChange = { checked ->
+                        val newLog = log.copy(isAbsent = checked)
+                        onLogChange(newLog)
+                        if (studentId != 0) onAbsenceToggled?.invoke(studentId)
+                    },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Color(0xFFEF4444),
+                        uncheckedColor = MaterialTheme.colorScheme.outline
+                    )
+                )
+                Text(
+                    text = if (log.isAbsent) "🔴 الطالب غائب - لا يحسب في الإحصائيات".loc() else "تسجيل غياب".loc(),
                     fontSize = 13.sp,
-                    fontWeight = FontWeight.Medium,
-                    textDirection = TextDirection.Rtl,
-                    textAlign = TextAlign.Right
-                ),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                ),
-                shape = RoundedCornerShape(10.dp)
-            )
+                    fontWeight = if (log.isAbsent) FontWeight.Bold else FontWeight.Normal,
+                    color = if (log.isAbsent) Color(0xFFDC2626) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                )
+            }
+
+            // --- Content: hidden if absent ---
+            if (!log.isAbsent) {
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // Columns layout for New Memorization, Recent, and Distant revision
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    // SECTION 1: الحفظ الجديد
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Emerald80.copy(alpha = 0.15f), RoundedCornerShape(12.dp))
+                            .border(BorderStroke(1.2.dp, Emerald40.copy(alpha = 0.5f)), RoundedCornerShape(12.dp))
+                            .padding(10.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("🌱 الْحِفْظُ الْجَدِيدُ".loc(), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Emerald40)
+                            StarRatingCycleButton(
+                                stars = log.newMemoStars,
+                                onCycle = { nextStars -> onLogChange(log.copy(newMemoStars = nextStars)) }
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            SurahAutoCompleteTextField(value = log.newMemoSurahFrom, onValueChange = { onLogChange(log.copy(newMemoSurahFrom = it)) }, label = "من سورة".loc(), modifier = Modifier.weight(1f))
+                            VerseDropdownTextField(value = log.newMemoVerseFrom, onValueChange = { onLogChange(log.copy(newMemoVerseFrom = it)) }, surahName = log.newMemoSurahFrom, label = "الآية".loc(), modifier = Modifier.width(62.dp), imeAction = ImeAction.Next)
+                            SurahAutoCompleteTextField(value = log.newMemoSurahTo, onValueChange = { onLogChange(log.copy(newMemoSurahTo = it)) }, label = "إلى سورة".loc(), modifier = Modifier.weight(1f))
+                            VerseDropdownTextField(value = log.newMemoVerseTo, onValueChange = { onLogChange(log.copy(newMemoVerseTo = it)) }, surahName = log.newMemoSurahTo, label = "الآية".loc(), modifier = Modifier.width(62.dp), imeAction = ImeAction.Next)
+                        }
+                    }
+
+                    // SECTION 2: الماضي القريب
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Sky80.copy(alpha = 0.15f), RoundedCornerShape(12.dp))
+                            .border(BorderStroke(1.2.dp, Sky40.copy(alpha = 0.5f)), RoundedCornerShape(12.dp))
+                            .padding(10.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("💧 الْمَاضِي الْقَرِيبُ".loc(), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Sky40)
+                            StarRatingCycleButton(
+                                stars = log.recentRevStars,
+                                onCycle = { nextStars -> onLogChange(log.copy(recentRevStars = nextStars)) }
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            SurahAutoCompleteTextField(value = log.recentRevSurahFrom, onValueChange = { onLogChange(log.copy(recentRevSurahFrom = it)) }, label = "من سورة".loc(), modifier = Modifier.weight(1f))
+                            VerseDropdownTextField(value = log.recentRevVerseFrom, onValueChange = { onLogChange(log.copy(recentRevVerseFrom = it)) }, surahName = log.recentRevSurahFrom, label = "الآية".loc(), modifier = Modifier.width(62.dp), imeAction = ImeAction.Next)
+                            SurahAutoCompleteTextField(value = log.recentRevSurahTo, onValueChange = { onLogChange(log.copy(recentRevSurahTo = it)) }, label = "إلى سورة".loc(), modifier = Modifier.weight(1f))
+                            VerseDropdownTextField(value = log.recentRevVerseTo, onValueChange = { onLogChange(log.copy(recentRevVerseTo = it)) }, surahName = log.recentRevSurahTo, label = "الآية".loc(), modifier = Modifier.width(62.dp), imeAction = ImeAction.Next)
+                        }
+                    }
+
+                    // SECTION 3: الماضي البعيد
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Amber80.copy(alpha = 0.15f), RoundedCornerShape(12.dp))
+                            .border(BorderStroke(1.2.dp, Amber40.copy(alpha = 0.5f)), RoundedCornerShape(12.dp))
+                            .padding(10.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("🔥 الْمَاضِي الْبَعِيدُ".loc(), fontWeight = FontWeight.ExtraBold, fontSize = 14.sp, color = Amber40)
+                            StarRatingCycleButton(
+                                stars = log.distantRevStars,
+                                onCycle = { nextStars -> onLogChange(log.copy(distantRevStars = nextStars)) }
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            SurahAutoCompleteTextField(value = log.distantRevSurahFrom, onValueChange = { onLogChange(log.copy(distantRevSurahFrom = it)) }, label = "من سورة".loc(), modifier = Modifier.weight(1f))
+                            VerseDropdownTextField(value = log.distantRevVerseFrom, onValueChange = { onLogChange(log.copy(distantRevVerseFrom = it)) }, surahName = log.distantRevSurahFrom, label = "الآية".loc(), modifier = Modifier.width(62.dp), imeAction = ImeAction.Next)
+                            SurahAutoCompleteTextField(value = log.distantRevSurahTo, onValueChange = { onLogChange(log.copy(distantRevSurahTo = it)) }, label = "إلى سورة".loc(), modifier = Modifier.weight(1f))
+                            VerseDropdownTextField(value = log.distantRevVerseTo, onValueChange = { onLogChange(log.copy(distantRevVerseTo = it)) }, surahName = log.distantRevSurahTo, label = "الآية".loc(), modifier = Modifier.width(62.dp), imeAction = ImeAction.Done)
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                // SECTION 4: ملاحظات اليوم - fixed cursor direction (RTL Start)
+                OutlinedTextField(
+                    value = localNotes,
+                    onValueChange = { newValue ->
+                        localNotes = newValue
+                        onLogChange(log.copy(notes = newValue.text))
+                    },
+                    placeholder = { Text("📝 أضف ملاحظة لليوم (اختياري)...".loc(), fontSize = 12.sp, fontWeight = FontWeight.Medium) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .testTag("day_notes_field_${log.dayName}"),
+                    maxLines = 3,
+                    textStyle = TextStyle(
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        textDirection = TextDirection.Content,
+                        textAlign = TextAlign.Start
+                    ),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                    ),
+                    shape = RoundedCornerShape(10.dp)
+                )
+            } else {
+                // Absent day visual indicator
+                Spacer(modifier = Modifier.height(8.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFEF4444).copy(alpha = 0.06f), RoundedCornerShape(10.dp))
+                        .border(1.dp, Color(0xFFEF4444).copy(alpha = 0.3f), RoundedCornerShape(10.dp))
+                        .padding(12.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "📍 تم تسجيل غياب الطالب - لا يُحتسب في الأيام المرصودة والتقييم ونسبة الانتظام".loc(),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFDC2626),
+                        textAlign = TextAlign.Center,
+                        lineHeight = 18.sp
+                    )
+                }
+            }
         }
     }
 }
@@ -2030,17 +2340,19 @@ private fun shareWeeklyReportDetails(
 
     val headerTextPaint = Paint().apply {
         color = android.graphics.Color.WHITE
-        textSize = 13f
+        textSize = 12f
         isAntiAlias = true
         typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         textAlign = Paint.Align.RIGHT
     }
 
     // Column positions (RTL representation)
-    canvas.drawText("اليوم والتاريخ".loc(), 810f, 204f, headerTextPaint)
-    canvas.drawText("🌱 الْحِفْظُ الْجَدِيدُ".loc(), 630f, 204f, headerTextPaint)
-    canvas.drawText("💧 الْمَاضِي الْقَرِيبُ".loc(), 420f, 204f, headerTextPaint)
-    canvas.drawText("🔥 الْمَاضِي الْبَعِيدُ".loc(), 210f, 204f, headerTextPaint)
+    canvas.drawText("رقم اليوم".loc(), 812f, 204f, headerTextPaint)
+    canvas.drawText("اليوم والتاريخ".loc(), 770f, 204f, headerTextPaint)
+    canvas.drawText("🌱 الْحِفْظُ الْجَدِيدُ".loc(), 650f, 204f, headerTextPaint)
+    canvas.drawText("💧 الْمَاضِي الْقَرِيبُ".loc(), 475f, 204f, headerTextPaint)
+    canvas.drawText("🔥 الْمَاضِي الْبَعِيدُ".loc(), 300f, 204f, headerTextPaint)
+    canvas.drawText("الملاحظات".loc(), 125f, 204f, headerTextPaint)
 
     val borderPaint = Paint().apply {
         color = colorBorder
@@ -2053,10 +2365,18 @@ private fun shareWeeklyReportDetails(
     val rowHeight = 52f
 
     logs.forEach { log ->
-        val actualRowHeight = if (log.notes.isNotBlank()) 68f else 52f
+        val actualRowHeight = 52f
         val isEven = logs.indexOf(log) % 2 == 0
+        
+        // Reddish background for absent days, grey/white alternating for present days
         val rowBgPaint = Paint().apply {
-            color = if (isEven) android.graphics.Color.parseColor("#F1F5F9") else android.graphics.Color.WHITE
+            color = if (log.isAbsent) {
+                android.graphics.Color.parseColor("#FEF2F2") // Light red
+            } else if (isEven) {
+                android.graphics.Color.parseColor("#F1F5F9")
+            } else {
+                android.graphics.Color.WHITE
+            }
             style = Paint.Style.FILL
         }
         canvas.drawRect(25f, currentY, 817f, currentY + actualRowHeight, rowBgPaint)
@@ -2064,38 +2384,57 @@ private fun shareWeeklyReportDetails(
         // Draw horizontal row bottom line
         canvas.drawLine(25f, currentY + actualRowHeight, 817f, currentY + actualRowHeight, borderPaint)
 
-        // Draw Column 1: Day Name & Date
-        val boldDayPaint = Paint().apply {
+        // Draw Column 1: Sequential Day Number
+        val seqPaint = Paint().apply {
             color = colorSlateDark
-            textSize = 13.5f
+            textSize = 12f
+            isAntiAlias = true
+            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+            textAlign = Paint.Align.RIGHT
+        }
+        if (!log.isAbsent && log.daySequentialNumber > 0) {
+            canvas.drawText("#${log.daySequentialNumber}", 810f, currentY + 31f, seqPaint)
+        } else {
+            canvas.drawText("—", 810f, currentY + 31f, seqPaint)
+        }
+
+        // Draw Column 2: Day Name & Date
+        val boldDayPaint = Paint().apply {
+            color = if (log.isAbsent) android.graphics.Color.parseColor("#DC2626") else colorSlateDark
+            textSize = 12.5f
             isAntiAlias = true
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             textAlign = Paint.Align.RIGHT
         }
         val normalDatePaint = Paint().apply {
             color = colorSlateLabel
-            textSize = 11f
+            textSize = 10.5f
             isAntiAlias = true
             textAlign = Paint.Align.RIGHT
         }
-        canvas.drawText(log.dayName.loc(), 810f, currentY + 22f, boldDayPaint)
+        canvas.drawText(log.dayName.loc(), 770f, currentY + 22f, boldDayPaint)
         if (log.dayDate != 0L) {
-            canvas.drawText(formatLongDate(log.dayDate), 810f, currentY + 41f, normalDatePaint)
+            canvas.drawText(formatLongDate(log.dayDate), 770f, currentY + 41f, normalDatePaint)
         } else {
-            canvas.drawText("—", 810f, currentY + 41f, normalDatePaint)
+            canvas.drawText("—", 770f, currentY + 41f, normalDatePaint)
         }
 
-        if (log.notes.isNotBlank()) {
-            val notePaint = Paint().apply {
-                color = android.graphics.Color.parseColor("#B45309") // Amber color for notes
-                textSize = 9.5f
-                isAntiAlias = true
-                typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.ITALIC)
-                textAlign = Paint.Align.RIGHT
-            }
-            val displayNote = if (log.notes.length > 25) log.notes.take(22) + "..." else log.notes
-            canvas.drawText("📝 $displayNote", 810f, currentY + 58f, notePaint)
+        // Draw Column 6: Notes
+        val notePaint = Paint().apply {
+            color = if (log.isAbsent) android.graphics.Color.parseColor("#DC2626") else android.graphics.Color.parseColor("#B45309")
+            textSize = 10f
+            isAntiAlias = true
+            typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.ITALIC)
+            textAlign = Paint.Align.RIGHT
         }
+        val displayNote = if (log.notes.isNotBlank()) {
+            if (log.notes.length > 20) log.notes.take(17) + "..." else log.notes
+        } else if (log.isAbsent) {
+            "غائب"
+        } else {
+            "—"
+        }
+        canvas.drawText(displayNote, 125f, currentY + 31f, notePaint)
 
         // Draw Cell Function
         fun drawCell(
@@ -2105,6 +2444,18 @@ private fun shareWeeklyReportDetails(
             rightX: Float,
             colorHex: String
         ) {
+            if (log.isAbsent) {
+                val absentTextPaint = Paint().apply {
+                    color = android.graphics.Color.parseColor("#EF4444")
+                    textSize = 11.5f
+                    isAntiAlias = true
+                    typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+                    textAlign = Paint.Align.RIGHT
+                }
+                canvas.drawText("غائب 🔴", rightX, currentY + 31f, absentTextPaint)
+                return
+            }
+
             val hasContent = surahFrom.isNotBlank() || surahTo.isNotBlank()
             if (hasContent) {
                 val fromText = if (surahFrom.isNotBlank()) "من $surahFrom" + (if (verseFrom.isNotBlank()) " ($verseFrom)" else "") else ""
@@ -2113,7 +2464,7 @@ private fun shareWeeklyReportDetails(
 
                 val contentPaint = Paint().apply {
                     color = colorSlateDark
-                    textSize = 11.5f
+                    textSize = 11f
                     isAntiAlias = true
                     textAlign = Paint.Align.RIGHT
                 }
@@ -2128,7 +2479,7 @@ private fun shareWeeklyReportDetails(
                 }
                 val ratingPaint = Paint().apply {
                     color = android.graphics.Color.parseColor(colorHex)
-                    textSize = 11f
+                    textSize = 10.5f
                     isAntiAlias = true
                     typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
                     textAlign = Paint.Align.RIGHT
@@ -2145,30 +2496,30 @@ private fun shareWeeklyReportDetails(
             }
         }
 
-        // C2: New Memory (Green)
+        // C3: New Memory (Green)
         drawCell(
             log.newMemoSurahFrom, log.newMemoVerseFrom,
             log.newMemoSurahTo, log.newMemoVerseTo,
             log.newMemoStars,
-            630f,
+            650f,
             "#059669"
         )
 
-        // C3: Recent Rev (Blue)
+        // C4: Recent Rev (Blue)
         drawCell(
             log.recentRevSurahFrom, log.recentRevVerseFrom,
             log.recentRevSurahTo, log.recentRevVerseTo,
             log.recentRevStars,
-            420f,
+            475f,
             "#0EA5E9"
         )
 
-        // C4: Distant Rev (Amber)
+        // C5: Distant Rev (Amber)
         drawCell(
             log.distantRevSurahFrom, log.distantRevVerseFrom,
             log.distantRevSurahTo, log.distantRevVerseTo,
             log.distantRevStars,
-            210f,
+            300f,
             "#D97706"
         )
 
@@ -2177,9 +2528,11 @@ private fun shareWeeklyReportDetails(
 
     // Draw Vertical columns borders
     canvas.drawLine(25f, 180f, 25f, currentY, borderPaint)
-    canvas.drawLine(220f, 180f, 220f, currentY, borderPaint)
-    canvas.drawLine(430f, 180f, 430f, currentY, borderPaint)
-    canvas.drawLine(640f, 180f, 640f, currentY, borderPaint)
+    canvas.drawLine(135f, 180f, 135f, currentY, borderPaint)
+    canvas.drawLine(310f, 180f, 310f, currentY, borderPaint)
+    canvas.drawLine(485f, 180f, 485f, currentY, borderPaint)
+    canvas.drawLine(660f, 180f, 660f, currentY, borderPaint)
+    canvas.drawLine(780f, 180f, 780f, currentY, borderPaint)
     canvas.drawLine(817f, 180f, 817f, currentY, borderPaint)
 
     // 4. Draw Educator Comments at the bottom
@@ -2370,7 +2723,7 @@ fun SplashScreen(viewModel: QuranViewModel) {
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.app_logo),
-                        contentDescription = "تيجان النور",
+                        contentDescription = "تيجان النور".loc(),
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -2400,7 +2753,7 @@ fun SplashScreen(viewModel: QuranViewModel) {
 
             // Description with soft emerald typography
             Text(
-                text = "متابعة تلاوة وحفظ القرآن الكريم للطلاب والناشئة\n«مَن تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ»",
+                text = "متابعة تلاوة وحفظ القرآن الكريم للطلاب والناشئة\n«مَن تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ»".loc(),
                 fontSize = 13.sp,
                 color = Color(0xFFA7F3D0),
                 fontWeight = FontWeight.Medium,
@@ -2441,7 +2794,7 @@ fun SplashScreen(viewModel: QuranViewModel) {
             Icon(Icons.Default.ArrowBack, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "الدخول للتطبيق",
+                text = "الدخول للتطبيق".loc(),
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
@@ -2521,39 +2874,51 @@ fun VerseDropdownTextField(
     modifier: Modifier = Modifier,
     imeAction: ImeAction = ImeAction.Next
 ) {
+    val focusRequester = remember { FocusRequester() }
     var expanded by remember { mutableStateOf(false) }
+    var localValue by remember { mutableStateOf(TextFieldValue(value)) }
+
+    LaunchedEffect(value) {
+        if (value != localValue.text) {
+            localValue = TextFieldValue(value)
+        }
+    }
     
     val maxVerse = remember(surahName) { getSurahVerseCount(surahName) ?: 0 }
     
-    val filteredVerses = remember(maxVerse, value) {
+    val filteredVerses = remember(maxVerse, localValue) {
         if (maxVerse <= 0) {
             emptyList()
         } else {
             val all = (1..maxVerse).map { it.toString() }
-            if (value.isBlank()) {
+            if (localValue.text.isBlank()) {
                 all
             } else {
-                all.filter { it.startsWith(value) || it.contains(value) }
+                all.filter { it.startsWith(localValue.text) || it.contains(localValue.text) }
             }
         }
     }
     
     ExposedDropdownMenuBox(
         expanded = expanded && filteredVerses.isNotEmpty(),
-        onExpandedChange = { expanded = it },
+        onExpandedChange = { 
+            expanded = it 
+            focusRequester.requestFocus()
+        },
         modifier = modifier
     ) {
         OutlinedTextField(
-            value = value,
+            value = localValue,
             onValueChange = { newValue ->
-                if (newValue.isEmpty()) {
-                    onValueChange(newValue)
+                localValue = newValue
+                if (newValue.text.isEmpty()) {
+                    onValueChange(newValue.text)
                     expanded = true
-                } else if (newValue.all { it.isDigit() }) {
-                    val num = newValue.toIntOrNull()
+                } else if (newValue.text.all { c -> c.isDigit() }) {
+                    val num = newValue.text.toIntOrNull()
                     if (num != null) {
-                        if (maxVerse <= 0 || num <= maxVerse || newValue.length < value.length) {
-                            onValueChange(newValue)
+                        if (maxVerse <= 0 || num <= maxVerse || newValue.text.length < value.length) {
+                            onValueChange(newValue.text)
                             expanded = true
                         }
                     }
@@ -2561,7 +2926,9 @@ fun VerseDropdownTextField(
             },
             label = { Text(label, fontSize = 12.sp, fontWeight = FontWeight.Bold) },
             singleLine = true,
-            modifier = Modifier.menuAnchor(),
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryEditable)
+                .focusRequester(focusRequester),
             textStyle = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -2586,6 +2953,7 @@ fun VerseDropdownTextField(
                     DropdownMenuItem(
                         text = { Text(verse, fontWeight = FontWeight.Bold) },
                         onClick = {
+                            localValue = TextFieldValue(verse)
                             onValueChange(verse)
                             expanded = false
                         },
@@ -2607,6 +2975,7 @@ fun SurahAutoCompleteTextField(
     label: String,
     modifier: Modifier = Modifier
 ) {
+    val focusRequester = remember { FocusRequester() }
     var expanded by remember { mutableStateOf(false) }
     var localText by remember { mutableStateOf(value) }
     
@@ -2636,7 +3005,10 @@ fun SurahAutoCompleteTextField(
 
     ExposedDropdownMenuBox(
         expanded = expanded && filteredSurahs.isNotEmpty(),
-        onExpandedChange = { expanded = it },
+        onExpandedChange = { 
+            expanded = it 
+            focusRequester.requestFocus()
+        },
         modifier = modifier
     ) {
         OutlinedTextField(
@@ -2648,7 +3020,9 @@ fun SurahAutoCompleteTextField(
             },
             label = { Text(label, fontSize = 12.sp, fontWeight = FontWeight.Bold) },
             singleLine = true,
-            modifier = Modifier.menuAnchor(),
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryEditable)
+                .focusRequester(focusRequester),
             textStyle = TextStyle(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -2691,11 +3065,11 @@ fun EditStudentDialog(
     onConfirm: (String, String, String, String, String?, String, (String?) -> Unit) -> Unit
 ) {
     val context = LocalContext.current
-    var name by remember { mutableStateOf(student.name) }
-    var group by remember { mutableStateOf(student.groupName) }
-    var teacher by remember { mutableStateOf(student.teacherName) }
-    var notes by remember { mutableStateOf(student.notes) }
-    var whatsappNumber by remember { mutableStateOf(student.whatsappNumber ?: "") }
+    var name by remember { mutableStateOf(TextFieldValue(student.name)) }
+    var group by remember { mutableStateOf(TextFieldValue(student.groupName)) }
+    var teacher by remember { mutableStateOf(TextFieldValue(student.teacherName)) }
+    var notes by remember { mutableStateOf(TextFieldValue(student.notes)) }
+    var whatsappNumber by remember { mutableStateOf(TextFieldValue(student.whatsappNumber ?: "")) }
     
     val weekDays = listOf("السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة")
     
@@ -2736,7 +3110,7 @@ fun EditStudentDialog(
                     value = name,
                     onValueChange = { 
                         name = it
-                        if (it.isNotBlank()) errorMsg = ""
+                        if (it.text.isNotBlank()) errorMsg = ""
                     },
                     label = { Text("اسم الطالب الكامل *".loc()) },
                     isError = errorMsg.isNotEmpty(),
@@ -2891,7 +3265,7 @@ fun EditStudentDialog(
         confirmButton = {
             Button(
                 onClick = {
-                    if (name.isBlank()) {
+                    if (name.text.isBlank()) {
                         errorMsg = "اسم الطالب مطلوب للرصد".loc()
                     } else {
                         // Serialize selected days and their custom times to "day=time;day=time" sorted chronologically
@@ -2900,7 +3274,7 @@ fun EditStudentDialog(
                                 val time = dayTimeMap[day] ?: "18:30"
                                 "$day=$time"
                             }
-                        onConfirm(name, group, teacher, notes, whatsappNumber, daysTimesString) { result ->
+                        onConfirm(name.text, group.text, teacher.text, notes.text, whatsappNumber.text, daysTimesString) { result ->
                             if (result != null) {
                                 errorMsg = result
                             } else {
@@ -3146,11 +3520,12 @@ fun PeriodReportScreen(
         isLoading = false
     }
 
-    // 3. Stats Calculation (Preview)
-    val totalLoggedDays = logs.size
-    val memoSessions = logs.count { it.newMemoSurahFrom.isNotBlank() || it.newMemoSurahTo.isNotBlank() }
+    // 3. Stats Calculation (Preview) - Exclude absent days
+    val presentLogs = logs.filter { !it.isAbsent }
+    val totalLoggedDays = presentLogs.size
+    val memoSessions = presentLogs.count { it.newMemoSurahFrom.isNotBlank() || it.newMemoSurahTo.isNotBlank() }
     val avgMemoStars = if (memoSessions > 0) {
-        logs.filter { it.newMemoSurahFrom.isNotBlank() }.map { it.newMemoStars }.average()
+        presentLogs.filter { it.newMemoSurahFrom.isNotBlank() && it.newMemoStars in 1..3 }.map { it.newMemoStars }.average()
     } else 0.0
 
     val daysDiff = ((endDate - startDate) / (1000L * 60 * 60 * 24)) + 1
@@ -3188,7 +3563,7 @@ fun PeriodReportScreen(
                 border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
             ) {
                 Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text("⚙️ إعدادات التقرير:", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                    Text("⚙️ إعدادات التقرير:".loc(), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
 
                     // Radio Button Scope
                     Row(
@@ -3197,11 +3572,11 @@ fun PeriodReportScreen(
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             RadioButton(selected = !isGroupReport, onClick = { isGroupReport = false })
-                            Text("طالب واحد (${student.name})", fontWeight = FontWeight.Medium)
+                            Text("طالب واحد".loc() + " (${student.name})", fontWeight = FontWeight.Medium)
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             RadioButton(selected = isGroupReport, onClick = { isGroupReport = true })
-                            Text("الحلقة كاملة (${student.groupName.ifBlank { "غير محددة" }})", fontWeight = FontWeight.Medium)
+                            Text("الحلقة كاملة".loc() + " (${student.groupName.ifBlank { "غير محددة".loc() }})", fontWeight = FontWeight.Medium)
                         }
                     }
 
@@ -3215,7 +3590,7 @@ fun PeriodReportScreen(
                             onClick = { showStartPicker = true },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("البداية: ${formatLongDate(startDate)}")
+                            Text("البداية:".loc() + " ${formatLongDate(startDate)}")
                         }
 
                         // End Date
@@ -3223,7 +3598,7 @@ fun PeriodReportScreen(
                             onClick = { showEndPicker = true },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("النهاية: ${formatLongDate(endDate)}")
+                            Text("النهاية:".loc() + " ${formatLongDate(endDate)}")
                         }
                     }
 
@@ -3247,7 +3622,7 @@ fun PeriodReportScreen(
                                 modifier = Modifier.weight(1f),
                                 contentPadding = PaddingValues(0.dp)
                             ) {
-                                Text(label, fontSize = 11.sp)
+                                Text(label.loc(), fontSize = 11.sp)
                             }
                         }
                     }
@@ -3268,35 +3643,35 @@ fun PeriodReportScreen(
                         modifier = Modifier.padding(16.dp).fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text("📊 معاينة الإحصائيات للفترة:", fontWeight = FontWeight.Bold)
+                        Text("📊 معاينة الإحصائيات للفترة:".loc(), fontWeight = FontWeight.Bold)
 
                         if (logs.isEmpty()) {
                             Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                                Text("لا توجد بيانات مسجلة لهذه الفترة الزمنية 📅", color = Color.Gray)
+                                Text("لا توجد بيانات مسجلة لهذه الفترة الزمنية 📅".loc(), color = Color.Gray)
                             }
                         } else {
                             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                                 // 4 Cards of Stats
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     StatMiniCard(
-                                        title = "الأيام المرصودة",
-                                        value = "$totalLoggedDays يوم",
+                                        title = "الأيام المرصودة".loc(),
+                                        value = "$totalLoggedDays " + " يوم".loc(),
                                         modifier = Modifier.weight(1f)
                                     )
                                     StatMiniCard(
-                                        title = "جلسات الحفظ",
-                                        value = "$memoSessions جلسة",
+                                        title = "جلسات الحفظ".loc(),
+                                        value = "$memoSessions " + " جلسة".loc(),
                                         modifier = Modifier.weight(1f)
                                     )
                                 }
                                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                     StatMiniCard(
-                                        title = "تقييم الحفظ",
+                                        title = "تقييم الحفظ".loc(),
                                         value = String.format("%.1f ⭐", avgMemoStars),
                                         modifier = Modifier.weight(1f)
                                     )
                                     StatMiniCard(
-                                        title = "نسبة الانتظام",
+                                        title = "نسبة الانتظام".loc(),
                                         value = String.format("%.0f%%", attendanceRate),
                                         modifier = Modifier.weight(1f)
                                     )
@@ -3304,7 +3679,7 @@ fun PeriodReportScreen(
 
                                 if (isGroupReport) {
                                     Text(
-                                        text = "* إحصائيات المعاينة أعلاه تشمل كامل الحلقة المكونة من ${logs.map { it.weeklyReportId }.distinct().size} تقرير أسبوعي.",
+                                        text = "* إحصائيات المعاينة أعلاه تشمل كامل الحلقة المكونة من ".loc() + "${logs.map { it.weeklyReportId }.distinct().size}" + " تقرير أسبوعي.".loc(),
                                         fontSize = 11.sp,
                                         color = Color.Gray
                                     )
@@ -3332,7 +3707,7 @@ fun PeriodReportScreen(
                         ) {
                             Icon(Icons.Default.Share, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("تصدير ومشاركة التقرير كملف PDF 📄", fontWeight = FontWeight.Bold)
+                            Text("تصدير ومشاركة التقرير كملف PDF 📄".loc(), fontWeight = FontWeight.Bold)
                         }
                     }
                 }
@@ -3449,7 +3824,7 @@ private fun generatePeriodReportPdf(
                 typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
                 textAlign = Paint.Align.CENTER
             }
-            c.drawText("تيجان النور: تقرير متابعة الطالب للفترة الزمنية 📊", 421f, 48f, titlePaint)
+            c.drawText("تيجان النور: تقرير متابعة الطالب للفترة الزمنية 📊".loc(), 421f, 48f, titlePaint)
 
             // Footer slogan
             val sloganPaint = Paint().apply {
@@ -3459,7 +3834,7 @@ private fun generatePeriodReportPdf(
                 typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.ITALIC)
                 textAlign = Paint.Align.CENTER
             }
-            c.drawText("📖 «خَيْرُكُمْ مَنْ تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ» - تم التصدير عبر تطبيق تيجان النور | صفحة $pNum 📖", 421f, 575f, sloganPaint)
+            c.drawText("📖 «خَيْرُكُمْ مَنْ تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ»".loc() + " - " + "تم التصدير عبر تطبيق تيجان النور | صفحة ".loc() + "$pNum 📖", 421f, 575f, sloganPaint)
         }
 
         drawHeader(canvas, pageNumber)
@@ -3480,16 +3855,16 @@ private fun generatePeriodReportPdf(
             textAlign = Paint.Align.RIGHT
         }
 
-        canvas.drawText("👤 الطَّالِبُ الْبَطَلُ:", 800f, 105f, infoLabelPaint)
+        canvas.drawText("👤 الطَّالِبُ الْبَطَلُ:".loc(), 800f, 105f, infoLabelPaint)
         canvas.drawText(student.name, 800f, 128f, infoValPaint)
 
-        canvas.drawText("🏫 الْحَلَقَةُ:", 550f, 105f, infoLabelPaint)
-        canvas.drawText(student.groupName.ifBlank { "غير محددة" }, 550f, 128f, infoValPaint)
+        canvas.drawText("🏫 الْحَلَقَةُ:".loc(), 550f, 105f, infoLabelPaint)
+        canvas.drawText(student.groupName.ifBlank { "غير محددة".loc() }, 550f, 128f, infoValPaint)
 
-        canvas.drawText("👤 الْمُعَلِّمُ:", 350f, 105f, infoLabelPaint)
-        canvas.drawText(student.teacherName.ifBlank { "غير حدد" }, 350f, 128f, infoValPaint)
+        canvas.drawText("👤 الْمُعَلِّمُ:".loc(), 350f, 105f, infoLabelPaint)
+        canvas.drawText(student.teacherName.ifBlank { "غير محدد".loc() }, 350f, 128f, infoValPaint)
 
-        canvas.drawText("📅 الْفَتْرَةُ الزَّمَنِيَّةُ:", 180f, 105f, infoLabelPaint)
+        canvas.drawText("📅 الْفَتْرَةُ الزَّمَنِيَّةُ:".loc(), 180f, 105f, infoLabelPaint)
         canvas.drawText(dateRangeStr, 180f, 128f, infoValPaint)
 
         // Draw Stats Section (Summary cards inside PDF)
@@ -3527,21 +3902,22 @@ private fun generatePeriodReportPdf(
             c.drawText(value, left + width/2, top + 48f, vPaint)
         }
 
-        // Stats Values
-        val totalLoggedDays = logs.size
-        val memoSessions = logs.count { it.newMemoSurahFrom.isNotBlank() || it.newMemoSurahTo.isNotBlank() }
+        // Stats Values - Exclude absent days
+        val presentLogs = logs.filter { !it.isAbsent }
+        val totalLoggedDays = presentLogs.size
+        val memoSessions = presentLogs.count { it.newMemoSurahFrom.isNotBlank() || it.newMemoSurahTo.isNotBlank() }
         val avgMemoStars = if (memoSessions > 0) {
-            logs.filter { it.newMemoSurahFrom.isNotBlank() }.map { it.newMemoStars }.average()
+            presentLogs.filter { it.newMemoSurahFrom.isNotBlank() && it.newMemoStars in 1..3 }.map { it.newMemoStars }.average()
         } else 0.0
         val daysDiff = ((endDate - startDate) / (1000L * 60 * 60 * 24)) + 1
         val attendanceRate = if (daysDiff > 0) {
             (totalLoggedDays.toFloat() / daysDiff.toFloat() * 100f).coerceAtMost(100f)
         } else 0f
 
-        drawStatCard(canvas, 640f, 150f, 160f, 60f, "الأيام المرصودة", "$totalLoggedDays يوم")
-        drawStatCard(canvas, 440f, 150f, 160f, 60f, "نسبة الانتظام بالفترة", String.format("%.0f%%", attendanceRate))
-        drawStatCard(canvas, 240f, 150f, 160f, 60f, "جلسات التسميع", "$memoSessions جلسة")
-        drawStatCard(canvas, 40f, 150f, 160f, 60f, "متوسط تقييم الحفظ", String.format("%.1f / 3 ⭐", avgMemoStars))
+        drawStatCard(canvas, 640f, 150f, 160f, 60f, "الأيام المرصودة".loc(), "$totalLoggedDays " + "يوم".loc())
+        drawStatCard(canvas, 440f, 150f, 160f, 60f, "نسبة الانتظام بالفترة".loc(), String.format("%.0f%%", attendanceRate))
+        drawStatCard(canvas, 240f, 150f, 160f, 60f, "جلسات التسميع".loc(), "$memoSessions " + "جلسة".loc())
+        drawStatCard(canvas, 40f, 150f, 160f, 60f, "متوسط تقييم الحفظ".loc(), String.format("%.1f / 3 ⭐", avgMemoStars))
 
         // Table Header
         val tblHeaderPaint = Paint().apply {
@@ -3552,15 +3928,17 @@ private fun generatePeriodReportPdf(
 
         val tblHeaderTextPaint = Paint().apply {
             color = android.graphics.Color.WHITE
-            textSize = 11.5f
+            textSize = 11f
             isAntiAlias = true
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             textAlign = Paint.Align.RIGHT
         }
-        canvas.drawText("اليوم والتاريخ", 810f, 249f, tblHeaderTextPaint)
-        canvas.drawText("🌱 الْحِفْظُ الْجَدِيدُ".loc(), 630f, 249f, tblHeaderTextPaint)
-        canvas.drawText("💧 الْمَاضِي الْقَرِيبُ".loc(), 420f, 249f, tblHeaderTextPaint)
-        canvas.drawText("🔥 الْمَاضِي الْبَعِيدُ".loc(), 210f, 249f, tblHeaderTextPaint)
+        canvas.drawText("رقم اليوم".loc(), 812f, 249f, tblHeaderTextPaint)
+        canvas.drawText("اليوم والتاريخ".loc(), 770f, 249f, tblHeaderTextPaint)
+        canvas.drawText("🌱 الْحِفْظُ الْجَدِيدُ".loc(), 650f, 249f, tblHeaderTextPaint)
+        canvas.drawText("💧 الْمَاضِي الْقَرِيبُ".loc(), 475f, 249f, tblHeaderTextPaint)
+        canvas.drawText("🔥 الْمَاضِي الْبَعِيدُ".loc(), 300f, 249f, tblHeaderTextPaint)
+        canvas.drawText("الملاحظات".loc(), 125f, 249f, tblHeaderTextPaint)
 
         val borderPaint = Paint().apply {
             color = colorBorder
@@ -3574,6 +3952,7 @@ private fun generatePeriodReportPdf(
 
         fun drawCell(
             c: android.graphics.Canvas,
+            logEntry: DailyLog,
             surahFrom: String, verseFrom: String,
             surahTo: String, verseTo: String,
             stars: Int,
@@ -3581,6 +3960,18 @@ private fun generatePeriodReportPdf(
             colorHex: String,
             y: Float
         ) {
+            if (logEntry.isAbsent) {
+                val absentTextPaint = Paint().apply {
+                    color = android.graphics.Color.parseColor("#EF4444")
+                    textSize = 10f
+                    isAntiAlias = true
+                    typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+                    textAlign = Paint.Align.RIGHT
+                }
+                c.drawText("غائب 🔴", rightX - 10f, y + 26f, absentTextPaint)
+                return
+            }
+
             val hasContent = surahFrom.isNotBlank() || surahTo.isNotBlank()
             if (hasContent) {
                 val fromText = if (surahFrom.isNotBlank()) "من $surahFrom" + (if (verseFrom.isNotBlank()) " ($verseFrom)" else "") else ""
@@ -3589,7 +3980,7 @@ private fun generatePeriodReportPdf(
 
                 val contentPaint = Paint().apply {
                     color = colorSlateDark
-                    textSize = 10.5f
+                    textSize = 10f
                     isAntiAlias = true
                     textAlign = Paint.Align.RIGHT
                 }
@@ -3598,7 +3989,7 @@ private fun generatePeriodReportPdf(
                 // Stars
                 val starLabelPaint = Paint().apply {
                     color = android.graphics.Color.parseColor(colorHex)
-                    textSize = 9.5f
+                    textSize = 9f
                     isAntiAlias = true
                     typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
                     textAlign = Paint.Align.RIGHT
@@ -3610,7 +4001,7 @@ private fun generatePeriodReportPdf(
                     4 -> "لم يحفظ ❌"
                     else -> "لم يرصد"
                 }
-                c.drawText(starsStr, rightX - 10f, y + 36f, starLabelPaint)
+                c.drawText(starsStr.loc(), rightX - 10f, y + 36f, starLabelPaint)
             } else {
                 val emptyPaint = Paint().apply {
                     color = android.graphics.Color.argb(120, 128, 128, 128)
@@ -3624,7 +4015,7 @@ private fun generatePeriodReportPdf(
 
         // Draw Logs Rows
         logs.forEach { log ->
-            val actualRowHeight = if (log.notes.isNotBlank()) 60f else 44f
+            val actualRowHeight = 44f
             if (currentY + actualRowHeight > 540f) {
                 // finish page and start new
                 pdfDocument.finishPage(page)
@@ -3637,30 +4028,50 @@ private fun generatePeriodReportPdf(
 
                 // Draw Table Header on new page
                 canvas.drawRect(25f, 100f, 817f, 130f, tblHeaderPaint)
-                canvas.drawText("اليوم والتاريخ", 810f, 119f, tblHeaderTextPaint)
-                canvas.drawText("🌱 الْحِفْظُ الْجَدِيدُ".loc(), 630f, 119f, tblHeaderTextPaint)
-                canvas.drawText("💧 الْمَاضِي الْقَرِيبُ".loc(), 420f, 119f, tblHeaderTextPaint)
-                canvas.drawText("🔥 الْمَاضِي الْبَعِيدُ".loc(), 210f, 119f, tblHeaderTextPaint)
+                canvas.drawText("رقم اليوم".loc(), 812f, 119f, tblHeaderTextPaint)
+                canvas.drawText("اليوم والتاريخ".loc(), 770f, 119f, tblHeaderTextPaint)
+                canvas.drawText("🌱 الْحِفْظُ الْجَدِيدُ".loc(), 650f, 119f, tblHeaderTextPaint)
+                canvas.drawText("💧 الْمَاضِي الْقَرِيبُ".loc(), 475f, 119f, tblHeaderTextPaint)
+                canvas.drawText("🔥 الْمَاضِي الْبَعِيدُ".loc(), 300f, 119f, tblHeaderTextPaint)
+                canvas.drawText("الملاحظات".loc(), 125f, 119f, tblHeaderTextPaint)
 
                 currentY = 130f
             }
 
-            // Alternating backgrounds
+            // Alternating backgrounds (Reddish if absent)
             val isEven = logs.indexOf(log) % 2 == 0
-            if (isEven) {
-                val rowBgPaint = Paint().apply {
-                    color = android.graphics.Color.parseColor("#F8FAFC")
-                    style = Paint.Style.FILL
+            val rowBgPaint = Paint().apply {
+                color = if (log.isAbsent) {
+                    android.graphics.Color.parseColor("#FEF2F2") // Light red
+                } else if (isEven) {
+                    android.graphics.Color.parseColor("#F8FAFC")
+                } else {
+                    android.graphics.Color.WHITE
                 }
-                canvas.drawRect(25f, currentY, 817f, currentY + actualRowHeight, rowBgPaint)
+                style = Paint.Style.FILL
             }
+            canvas.drawRect(25f, currentY, 817f, currentY + actualRowHeight, rowBgPaint)
 
             // Draw horizontal row bottom line
             canvas.drawLine(25f, currentY + actualRowHeight, 817f, currentY + actualRowHeight, borderPaint)
 
-            // C1: Day & Date
-            val boldDayPaint = Paint().apply {
+            // C1: Sequential Number
+            val boldSeqPaint = Paint().apply {
                 color = colorSlateDark
+                textSize = 10.5f
+                isAntiAlias = true
+                typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
+                textAlign = Paint.Align.RIGHT
+            }
+            if (!log.isAbsent && log.daySequentialNumber > 0) {
+                canvas.drawText("#${log.daySequentialNumber}", 812f - 4f, currentY + 26f, boldSeqPaint)
+            } else {
+                canvas.drawText("—", 812f - 4f, currentY + 26f, boldSeqPaint)
+            }
+
+            // C2: Day & Date
+            val boldDayPaint = Paint().apply {
+                color = if (log.isAbsent) android.graphics.Color.parseColor("#DC2626") else colorSlateDark
                 textSize = 10.5f
                 isAntiAlias = true
                 typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
@@ -3668,36 +4079,41 @@ private fun generatePeriodReportPdf(
             }
             val normalDatePaint = Paint().apply {
                 color = colorSlateLabel
-                textSize = 10f
+                textSize = 9.5f
                 isAntiAlias = true
                 textAlign = Paint.Align.RIGHT
             }
 
-            canvas.drawText(log.dayName.loc(), 810f, currentY + 18f, boldDayPaint)
+            canvas.drawText(log.dayName.loc(), 770f - 4f, currentY + 18f, boldDayPaint)
             if (log.dayDate != 0L) {
-                canvas.drawText(formatLongDate(log.dayDate), 810f, currentY + 34f, normalDatePaint)
+                canvas.drawText(formatLongDate(log.dayDate), 770f - 4f, currentY + 34f, normalDatePaint)
             } else {
-                canvas.drawText("—", 810f, currentY + 34f, normalDatePaint)
+                canvas.drawText("—", 770f - 4f, currentY + 34f, normalDatePaint)
             }
 
-            if (log.notes.isNotBlank()) {
-                val notePaint = Paint().apply {
-                    color = android.graphics.Color.parseColor("#B45309") // Amber color for notes
-                    textSize = 9f
-                    isAntiAlias = true
-                    typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.ITALIC)
-                    textAlign = Paint.Align.RIGHT
-                }
-                val displayNote = if (log.notes.length > 25) log.notes.take(22) + "..." else log.notes
-                canvas.drawText("📝 $displayNote", 810f, currentY + 50f, notePaint)
+            // C6: Notes
+            val notePaint = Paint().apply {
+                color = if (log.isAbsent) android.graphics.Color.parseColor("#DC2626") else android.graphics.Color.parseColor("#B45309")
+                textSize = 9.5f
+                isAntiAlias = true
+                typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.ITALIC)
+                textAlign = Paint.Align.RIGHT
             }
+            val displayNote = if (log.notes.isNotBlank()) {
+                if (log.notes.length > 20) log.notes.take(17) + "..." else log.notes
+            } else if (log.isAbsent) {
+                "غائب"
+            } else {
+                "—"
+            }
+            canvas.drawText(displayNote, 125f - 4f, currentY + 26f, notePaint)
 
-            // C2: New Memo
-            drawCell(canvas, log.newMemoSurahFrom, log.newMemoVerseFrom, log.newMemoSurahTo, log.newMemoVerseTo, log.newMemoStars, 630f, "#059669", currentY)
-            // C3: Recent Rev
-            drawCell(canvas, log.recentRevSurahFrom, log.recentRevVerseFrom, log.recentRevSurahTo, log.recentRevVerseTo, log.recentRevStars, 420f, "#0EA5E9", currentY)
-            // C4: Distant Rev
-            drawCell(canvas, log.distantRevSurahFrom, log.distantRevVerseFrom, log.distantRevSurahTo, log.distantRevVerseTo, log.distantRevStars, 210f, "#D97706", currentY)
+            // C3: New Memo
+            drawCell(canvas, log, log.newMemoSurahFrom, log.newMemoVerseFrom, log.newMemoSurahTo, log.newMemoVerseTo, log.newMemoStars, 650f, "#059669", currentY)
+            // C4: Recent Rev
+            drawCell(canvas, log, log.recentRevSurahFrom, log.recentRevVerseFrom, log.recentRevSurahTo, log.recentRevVerseTo, log.recentRevStars, 475f, "#0EA5E9", currentY)
+            // C5: Distant Rev
+            drawCell(canvas, log, log.distantRevSurahFrom, log.distantRevVerseFrom, log.distantRevSurahTo, log.distantRevVerseTo, log.distantRevStars, 300f, "#D97706", currentY)
 
             currentY += actualRowHeight
         }
@@ -3705,9 +4121,11 @@ private fun generatePeriodReportPdf(
         // Draw Table Outer borders
         val tblStartY = if (pageNumber == 1) 230f else 100f
         canvas.drawLine(25f, tblStartY, 25f, currentY, borderPaint)
-        canvas.drawLine(220f, tblStartY, 220f, currentY, borderPaint)
-        canvas.drawLine(430f, tblStartY, 430f, currentY, borderPaint)
-        canvas.drawLine(640f, tblStartY, 640f, currentY, borderPaint)
+        canvas.drawLine(135f, tblStartY, 135f, currentY, borderPaint)
+        canvas.drawLine(310f, tblStartY, 310f, currentY, borderPaint)
+        canvas.drawLine(485f, tblStartY, 485f, currentY, borderPaint)
+        canvas.drawLine(660f, tblStartY, 660f, currentY, borderPaint)
+        canvas.drawLine(780f, tblStartY, 780f, currentY, borderPaint)
         canvas.drawLine(817f, tblStartY, 817f, currentY, borderPaint)
 
         pdfDocument.finishPage(page)
@@ -3793,7 +4211,7 @@ private fun generatePeriodReportPdf(
         canvas.drawText(student.groupName.ifBlank { "غير محددة".loc() }, 560f, 120f, infoValPaint)
 
         canvas.drawText("👤 معلم الحلقة:".loc(), 380f, 100f, infoLabelPaint)
-        canvas.drawText(student.teacherName.ifBlank { "غير حدد".loc() }, 380f, 120f, infoValPaint)
+        canvas.drawText(student.teacherName.ifBlank { "غير محدد".loc() }, 380f, 120f, infoValPaint)
 
         canvas.drawText("📅 الفترة الزمنية:".loc(), 200f, 100f, infoLabelPaint)
         canvas.drawText(dateRangeStr, 200f, 120f, infoValPaint)
@@ -3864,11 +4282,12 @@ private fun generatePeriodReportPdf(
             // Get reports belonging to this student
             val studentReports = reportIdToStudentMap.filterValues { it.id == currentStudent.id }.keys
             val studentLogs = logs.filter { it.weeklyReportId in studentReports }
+            val studentPresentLogs = studentLogs.filter { !it.isAbsent }
 
-            val sLoggedDays = studentLogs.size
-            val sMemoCount = studentLogs.count { it.newMemoSurahFrom.isNotBlank() }
+            val sLoggedDays = studentPresentLogs.size
+            val sMemoCount = studentPresentLogs.count { it.newMemoSurahFrom.isNotBlank() }
             val sAvgStars = if (sMemoCount > 0) {
-                studentLogs.filter { it.newMemoSurahFrom.isNotBlank() }.map { it.newMemoStars }.average()
+                studentPresentLogs.filter { it.newMemoSurahFrom.isNotBlank() && it.newMemoStars in 1..3 }.map { it.newMemoStars }.average()
             } else 0.0
             val sDaysDiff = ((endDate - startDate) / (1000L * 60 * 60 * 24)) + 1
             val sAttendance = if (sDaysDiff > 0) {
@@ -4223,14 +4642,14 @@ fun SettingsScreen(viewModel: QuranViewModel) {
                                                 modifier = Modifier.fillMaxWidth()
                                             ) {
                                                 Column(modifier = Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                                    Text("حلقة: $groupName", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                                                    Text("حلقة: ".loc() + groupName, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                                                     
                                                     Row(
                                                         modifier = Modifier.fillMaxWidth(),
                                                         horizontalArrangement = Arrangement.SpaceBetween,
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
-                                                        Text("تنبيه الحلقات ⏰", fontSize = 12.5.sp)
+                                                        Text("تنبيه الحلقات ⏰".loc(), fontSize = 12.5.sp)
                                                         Checkbox(
                                                             checked = viewModel.appPrefs.isSessionEnabledForGroup(groupName),
                                                             onCheckedChange = { checked ->
@@ -4246,7 +4665,7 @@ fun SettingsScreen(viewModel: QuranViewModel) {
                                                         horizontalArrangement = Arrangement.SpaceBetween,
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
-                                                        Text("إشعارات التقارير 📋", fontSize = 12.5.sp)
+                                                        Text("إشعارات التقارير 📋".loc(), fontSize = 12.5.sp)
                                                         Checkbox(
                                                             checked = viewModel.appPrefs.isReportEnabledForGroup(groupName),
                                                             onCheckedChange = { checked ->
@@ -4262,7 +4681,7 @@ fun SettingsScreen(viewModel: QuranViewModel) {
                                                         horizontalArrangement = Arrangement.SpaceBetween,
                                                         verticalAlignment = Alignment.CenterVertically
                                                     ) {
-                                                        Text("تنبيهات إضافية أخرى 🔔", fontSize = 12.5.sp)
+                                                        Text("تنبيهات إضافية أخرى 🔔".loc(), fontSize = 12.5.sp)
                                                         Checkbox(
                                                             checked = viewModel.appPrefs.isOtherEnabledForGroup(groupName),
                                                             onCheckedChange = { checked ->
@@ -4297,8 +4716,8 @@ fun SettingsScreen(viewModel: QuranViewModel) {
                                 NotificationHelper.sendNotification(
                                     context = context,
                                     id = 9999,
-                                    title = "تنبيه تجريبي 🔔",
-                                    text = "مرحباً بك! هذا تنبيه تجريبي من تطبيق تيجان النور للتأكد من عمل نظام الإشعارات."
+                                    title = "تنبيه تجريبي 🔔".loc(),
+                                    text = "مرحباً بك! هذا تنبيه تجريبي من تطبيق تيجان النور للتأكد من عمل نظام الإشعارات.".loc()
                                 )
                             },
                             modifier = Modifier.fillMaxWidth(),
@@ -4333,7 +4752,7 @@ fun SettingsScreen(viewModel: QuranViewModel) {
                     ) {
                         Text("تيجان النور 📖".loc(), fontWeight = FontWeight.Black, fontSize = 18.sp, color = Emerald950)
                         Text(
-                            text = "نظام ريادي متكامل لمتابعة وتدوين مستوى تلاوة وحفظ القرآن الكريم للطلاب والناشئة، يدعم الرصد الأسبوعي والتقارير الدورية ومشاركة النتائج مع أولياء الأمور.",
+                            text = "نظام ريادي متكامل لمتابعة وتدوين مستوى تلاوة وحفظ القرآن الكريم للطلاب والناشئة، يدعم الرصد الأسبوعي والتقارير الدورية ومشاركة النتائج مع أولياء الأمور.".loc(),
                             fontSize = 13.sp,
                             color = Emerald950.copy(alpha = 0.8f),
                             textAlign = TextAlign.Center,
@@ -4342,7 +4761,7 @@ fun SettingsScreen(viewModel: QuranViewModel) {
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "الإصدار الحالي: v5.0.0\nمطور بكل حب ومودة لخدمة كتاب الله عز وجل 🌱",
+                            text = "الإصدار الحالي: v5.0.0\nمطور بكل حب ومودة لخدمة كتاب الله عز وجل 🌱".loc(),
                             fontSize = 11.5.sp,
                             color = Emerald40,
                             fontWeight = FontWeight.ExtraBold,
@@ -4633,7 +5052,7 @@ private fun generateGroupListPdf(
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             textAlign = Paint.Align.CENTER
         }
-        c.drawText("تيجان النور: تقرير طلاب الحلقة 📊", 421f, 48f, titlePaint)
+        c.drawText("تيجان النور: تقرير طلاب الحلقة 📊".loc(), 421f, 48f, titlePaint)
 
         val sloganPaint = Paint().apply {
             color = colorPrimary
@@ -4642,7 +5061,7 @@ private fun generateGroupListPdf(
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.ITALIC)
             textAlign = Paint.Align.CENTER
         }
-        c.drawText("📖 «خَيْرُكُمْ مَنْ تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ» - صفحة $pNum 📖", 421f, 570f, sloganPaint)
+        c.drawText("📖 «خَيْرُكُمْ مَنْ تَعَلَّمَ القُرْآنَ وَعَلَّمَهُ»".loc() + " - " + "صفحة ".loc() + "$pNum 📖", 421f, 570f, sloganPaint)
     }
 
     drawLandscapeHeader(canvas, pageNumber)
@@ -4662,14 +5081,15 @@ private fun generateGroupListPdf(
         textAlign = Paint.Align.RIGHT
     }
 
-    canvas.drawText("🏫 اسم الحلقة:", 800f, 100f, infoLabelPaint)
+    canvas.drawText("🏫 اسم الحلقة:".loc(), 800f, 100f, infoLabelPaint)
     canvas.drawText(groupName, 800f, 120f, infoValPaint)
 
-    canvas.drawText("👥 عدد الطلاب:", 450f, 100f, infoLabelPaint)
-    canvas.drawText("${students.size} طالب", 450f, 120f, infoValPaint)
+    canvas.drawText("👥 عدد الطلاب:".loc(), 450f, 100f, infoLabelPaint)
+    canvas.drawText("${students.size}" + " طالب".loc(), 450f, 120f, infoValPaint)
 
-    val dateStr = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale("ar")).format(java.util.Date())
-    canvas.drawText("📅 تاريخ التصدير:", 180f, 100f, infoLabelPaint)
+    val dateLocale = if (AppLang.current == "en") java.util.Locale.US else java.util.Locale("ar")
+    val dateStr = java.text.SimpleDateFormat("dd/MM/yyyy", dateLocale).format(java.util.Date())
+    canvas.drawText("📅 تاريخ التصدير:".loc(), 180f, 100f, infoLabelPaint)
     canvas.drawText(dateStr, 180f, 120f, infoValPaint)
 
     val tblHeaderPaint = Paint().apply {
@@ -4689,16 +5109,16 @@ private fun generateGroupListPdf(
     // Column widths: Right-aligned relative layout
     // Index (Right: 800f) | Name (Right: 700f) | WhatsApp (Right: 400f) | Times (Right: 220f)
     if (showGroupNameColumn) {
-        canvas.drawText("الرقم", 805f, 164f, tblHeaderTextPaint)
-        canvas.drawText("اسم الطالب الكامل", 755f, 164f, tblHeaderTextPaint)
-        canvas.drawText("اسم الحلقة", 525f, 164f, tblHeaderTextPaint)
-        canvas.drawText("الواتساب", 375f, 164f, tblHeaderTextPaint)
-        canvas.drawText("مواعيد الحلقة", 225f, 164f, tblHeaderTextPaint)
+        canvas.drawText("الرقم".loc(), 805f, 164f, tblHeaderTextPaint)
+        canvas.drawText("اسم الطالب الكامل".loc(), 755f, 164f, tblHeaderTextPaint)
+        canvas.drawText("اسم الحلقة".loc(), 525f, 164f, tblHeaderTextPaint)
+        canvas.drawText("الواتساب".loc(), 375f, 164f, tblHeaderTextPaint)
+        canvas.drawText("مواعيد الحلقة".loc(), 225f, 164f, tblHeaderTextPaint)
     } else {
-        canvas.drawText("الرقم التسلسلي", 805f, 164f, tblHeaderTextPaint)
-        canvas.drawText("اسم الطالب الكامل", 700f, 164f, tblHeaderTextPaint)
-        canvas.drawText("رقم التواصل (الواتساب)", 400f, 164f, tblHeaderTextPaint)
-        canvas.drawText("مواعيد وأوقات الحلقة", 220f, 164f, tblHeaderTextPaint)
+        canvas.drawText("الرقم التسلسلي".loc(), 805f, 164f, tblHeaderTextPaint)
+        canvas.drawText("اسم الطالب الكامل".loc(), 700f, 164f, tblHeaderTextPaint)
+        canvas.drawText("رقم التواصل (الواتساب)".loc(), 400f, 164f, tblHeaderTextPaint)
+        canvas.drawText("مواعيد وأوقات الحلقة".loc(), 220f, 164f, tblHeaderTextPaint)
     }
 
     val borderPaint = Paint().apply {
@@ -4765,16 +5185,16 @@ private fun generateGroupListPdf(
 
             canvas.drawRect(25f, 100f, 817f, 130f, tblHeaderPaint)
             if (showGroupNameColumn) {
-                canvas.drawText("الرقم", 805f, 119f, tblHeaderTextPaint)
-                canvas.drawText("اسم الطالب الكامل", 755f, 119f, tblHeaderTextPaint)
-                canvas.drawText("اسم الحلقة", 525f, 119f, tblHeaderTextPaint)
-                canvas.drawText("الواتساب", 375f, 119f, tblHeaderTextPaint)
-                canvas.drawText("مواعيد الحلقة", 225f, 119f, tblHeaderTextPaint)
+                canvas.drawText("الرقم".loc(), 805f, 119f, tblHeaderTextPaint)
+                canvas.drawText("اسم الطالب الكامل".loc(), 755f, 119f, tblHeaderTextPaint)
+                canvas.drawText("اسم الحلقة".loc(), 525f, 119f, tblHeaderTextPaint)
+                canvas.drawText("الواتساب".loc(), 375f, 119f, tblHeaderTextPaint)
+                canvas.drawText("مواعيد الحلقة".loc(), 225f, 119f, tblHeaderTextPaint)
             } else {
-                canvas.drawText("الرقم التسلسلي", 805f, 119f, tblHeaderTextPaint)
-                canvas.drawText("اسم الطالب الكامل", 700f, 119f, tblHeaderTextPaint)
-                canvas.drawText("رقم التواصل (الواتساب)", 400f, 119f, tblHeaderTextPaint)
-                canvas.drawText("مواعيد وأوقات الحلقة", 220f, 119f, tblHeaderTextPaint)
+                canvas.drawText("الرقم التسلسلي".loc(), 805f, 119f, tblHeaderTextPaint)
+                canvas.drawText("اسم الطالب الكامل".loc(), 700f, 119f, tblHeaderTextPaint)
+                canvas.drawText("رقم التواصل (الواتساب)".loc(), 400f, 119f, tblHeaderTextPaint)
+                canvas.drawText("مواعيد وأوقات الحلقة".loc(), 220f, 119f, tblHeaderTextPaint)
             }
 
             currentY = 130f
@@ -4849,12 +5269,18 @@ private fun generateGroupListPdf(
             action = Intent.ACTION_SEND
             type = "application/pdf"
             putExtra(Intent.EXTRA_STREAM, shareUri)
-            putExtra(Intent.EXTRA_SUBJECT, "تقرير طلاب حلقة: $groupName")
-            putExtra(Intent.EXTRA_TEXT, "السلام عليكم ورحمة الله وبركاته، نرفق لكم تقرير وجدول طلاب حلقة ($groupName). نسأل الله لكم القبول والتوفيق.")
+            val shareSubject = "تقرير طلاب حلقة: ".loc() + groupName
+            val shareText = if (AppLang.current == "en") {
+                "Assalamu Alaikum, we attach the report and schedule of circle ($groupName) students. We pray to Allah for acceptance and success."
+            } else {
+                "السلام عليكم ورحمة الله وبركاته، نرفق لكم تقرير وجدول طلاب حلقة ($groupName). نسأل الله لكم القبول والتوفيق."
+            }
+            putExtra(Intent.EXTRA_SUBJECT, shareSubject)
+            putExtra(Intent.EXTRA_TEXT, shareText)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
 
-        val shareIntent = Intent.createChooser(intent, "تصدير ومشاركة التقرير:")
+        val shareIntent = Intent.createChooser(intent, "تصدير ومشاركة التقرير:".loc())
         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(shareIntent)
 

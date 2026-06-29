@@ -82,7 +82,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                     pendingImportUri = uri
                     showImportConfirm = true
                 } else {
-                    Toast.makeText(context, "❌ لا يمكن قراءة الملف المحدد", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "❌ لا يمكن قراءة الملف المحدد".loc(), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -92,11 +92,11 @@ fun BackupScreen(viewModel: QuranViewModel) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text("💾 النسخ الاحتياطية", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text("💾 النسخ الاحتياطية".loc(), fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 },
                 navigationIcon = {
                     IconButton(onClick = { viewModel.navigateTo(Screen.StudentsList) }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "رجوع".loc())
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -130,7 +130,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         Text(
-                            "⚡ إجراءات سريعة:",
+                            "⚡ إجراءات سريعة:".loc(),
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             color = MaterialTheme.colorScheme.primary
@@ -169,9 +169,9 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                         strokeWidth = 2.dp
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    Text("جاري التصدير...", fontWeight = FontWeight.Bold)
+                                    Text("جاري التصدير...".loc(), fontWeight = FontWeight.Bold)
                                 } else {
-                                    Text("📤 تصدير نسخة", fontWeight = FontWeight.Bold)
+                                    Text("📤 تصدير نسخة".loc(), fontWeight = FontWeight.Bold)
                                 }
                             }
 
@@ -188,7 +188,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                 border = androidx.compose.foundation.BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
-                                Text("📥 استيراد نسخة", fontWeight = FontWeight.Bold)
+                                Text("📥 استيراد نسخة".loc(), fontWeight = FontWeight.Bold)
                             }
                         }
 
@@ -215,7 +215,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Column {
                                             Text(
-                                                if (result.success) "تم التصدير بنجاح!" else "فشل التصدير",
+                                                (if (result.success) "تم التصدير بنجاح!" else "فشل التصدير").loc(),
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 14.sp,
                                                 color = if (result.success) Color(0xFF059669) else MaterialTheme.colorScheme.error
@@ -227,13 +227,13 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                                                 )
                                                 Text(
-                                                    "📊 ${result.recordCount?.students ?: 0} طالب | ${result.recordCount?.weeklyReports ?: 0} تقرير | ${result.recordCount?.dailyLogs ?: 0} سجل",
+                                                    "📊 ${result.recordCount?.students ?: 0}${" طالب | ".loc()}${result.recordCount?.weeklyReports ?: 0}${" تقرير | ".loc()}${result.recordCount?.dailyLogs ?: 0}${" سجل".loc()}",
                                                     fontSize = 11.sp,
                                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                                                 )
                                             } else {
                                                 Text(
-                                                    result.error ?: "خطأ غير معروف",
+                                                    (result.error ?: "خطأ غير معروف").loc(),
                                                     fontSize = 11.sp,
                                                     color = MaterialTheme.colorScheme.error
                                                 )
@@ -266,25 +266,25 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Column {
                                             Text(
-                                                if (result.success) "تم الاستيراد بنجاح!" else "فشل الاستيراد",
+                                                (if (result.success) "تم الاستيراد بنجاح!" else "فشل الاستيراد").loc(),
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 14.sp,
                                                 color = if (result.success) Color(0xFF059669) else MaterialTheme.colorScheme.error
                                             )
                                             if (result.success) {
                                                 Text(
-                                                    "📊 ${result.recordsRestored?.students ?: 0} طالب | ${result.recordsRestored?.weeklyReports ?: 0} تقرير | ${result.recordsRestored?.dailyLogs ?: 0} سجل",
+                                                    "📊 ${result.recordsRestored?.students ?: 0}${" طالب | ".loc()}${result.recordsRestored?.weeklyReports ?: 0}${" تقرير | ".loc()}${result.recordsRestored?.dailyLogs ?: 0}${" سجل".loc()}",
                                                     fontSize = 11.sp,
                                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                                                 )
                                                 Text(
-                                                    "📅 النسخة بتاريخ: ${result.restoredDate ?: "غير معروف"}",
+                                                    "📅 ${"النسخة بتاريخ: ".loc()}${result.restoredDate ?: "غير معروف".loc()}",
                                                     fontSize = 11.sp,
                                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                                                 )
                                             } else {
                                                 Text(
-                                                    result.error ?: "خطأ غير معروف",
+                                                    (result.error ?: "خطأ غير معروف").loc(),
                                                     fontSize = 11.sp,
                                                     color = MaterialTheme.colorScheme.error
                                                 )
@@ -313,7 +313,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         Text(
-                            "⚙️ إعدادات النسخ التلقائي:",
+                            "⚙️ إعدادات النسخ التلقائي:".loc(),
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             color = MaterialTheme.colorScheme.primary
@@ -327,12 +327,12 @@ fun BackupScreen(viewModel: QuranViewModel) {
                         ) {
                             Column {
                                 Text(
-                                    "النسخ التلقائي اليومي",
+                                    "النسخ التلقائي اليومي".loc(),
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 14.sp
                                 )
                                 Text(
-                                    "إنشاء نسخة احتياطية تلقائياً كل يوم",
+                                    "إنشاء نسخة احتياطية تلقائياً كل يوم".loc(),
                                     fontSize = 12.sp,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                                 )
@@ -370,7 +370,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Text("⏰ وقت النسخ", fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                                    Text("⏰ وقت النسخ".loc(), fontWeight = FontWeight.Medium, fontSize = 14.sp)
                                     Text(
                                         backupTime,
                                         fontWeight = FontWeight.Bold,
@@ -385,7 +385,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Text("📦 الحد الأقصى للنسخ", fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                                    Text("📦 الحد الأقصى للنسخ".loc(), fontWeight = FontWeight.Medium, fontSize = 14.sp)
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -416,17 +416,18 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                             },
                                             modifier = Modifier.size(32.dp)
                                         ) {
-                                            Icon(Icons.Default.Add, contentDescription = "زيادة")
+                                            Icon(Icons.Default.Add, contentDescription = "زيادة".loc())
                                         }
                                     }
                                 }
 
                                 // Last auto backup status
                                 if (backupPrefs.lastAutoBackupTimestamp > 0) {
-                                    val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("ar"))
-                                    val statusText = if (backupPrefs.lastAutoBackupStatus == "success") "✅ نجح" else "❌ فشل"
+                                    val locale = if (AppLang.current == "en") Locale.US else Locale("ar")
+                                    val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", locale)
+                                    val statusText = if (backupPrefs.lastAutoBackupStatus == "success") "✅ ${"نجح".loc()}" else "❌ ${"فشل".loc()}"
                                     Text(
-                                        "آخر نسخة تلقائية: $statusText — ${dateFormat.format(Date(backupPrefs.lastAutoBackupTimestamp))}",
+                                        "${"آخر نسخة تلقائية: ".loc()}$statusText — ${dateFormat.format(Date(backupPrefs.lastAutoBackupTimestamp))}",
                                         fontSize = 11.sp,
                                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                                     )
@@ -442,7 +443,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
             // =============================================
             item {
                 Text(
-                    "📁 النسخ المحفوظة (${backupList.size}):",
+                    "${"📁 النسخ المحفوظة ".loc()}(${backupList.size}):",
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.primary
@@ -467,12 +468,12 @@ fun BackupScreen(viewModel: QuranViewModel) {
                                 Text("📭", fontSize = 36.sp)
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    "لا توجد نسخ احتياطية محفوظة بعد",
+                                    "لا توجد نسخ احتياطية محفوظة بعد".loc(),
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                                 )
                                 Text(
-                                    "اضغط 'تصدير نسخة' لإنشاء أول نسخة احتياطية",
+                                    "اضغط 'تصدير نسخة' لإنشاء أول نسخة احتياطية".loc(),
                                     fontSize = 12.sp,
                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
                                 )
@@ -506,7 +507,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                 item {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "📋 سجل العمليات الأخيرة:",
+                        "📋 سجل العمليات الأخيرة:".loc(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.primary
@@ -537,7 +538,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
             icon = { Text("⚠️", fontSize = 32.sp) },
             title = {
                 Text(
-                    "تأكيد الاستيراد",
+                    "تأكيد الاستيراد".loc(),
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
@@ -548,7 +549,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        "⚠️ تنبيه مهم: عملية الاستيراد ستحذف جميع البيانات الحالية وتستبدلها ببيانات النسخة الاحتياطية!",
+                        "⚠️ تنبيه مهم: عملية الاستيراد ستحذف جميع البيانات الحالية وتستبدلها ببيانات النسخة الاحتياطية!".loc(),
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.error,
                         fontSize = 13.sp
@@ -557,7 +558,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                     validationResult?.let { validation ->
                         HorizontalDivider()
                         Text(
-                            "📊 فحص الملف:",
+                            "📊 فحص الملف:".loc(),
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp
                         )
@@ -579,7 +580,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                         if (validation.recordCount != null) {
                             HorizontalDivider()
                             Text(
-                                "محتوى النسخة: ${validation.recordCount.students} طالب | ${validation.recordCount.weeklyReports} تقرير | ${validation.recordCount.dailyLogs} سجل",
+                                "${"محتوى النسخة: ".loc()}${validation.recordCount.students}${" طالب | ".loc()}${validation.recordCount.weeklyReports}${" تقرير | ".loc()}${validation.recordCount.dailyLogs}${" سجل".loc()}",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Medium
                             )
@@ -587,7 +588,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
 
                         if (validation.warnings.isNotEmpty()) {
                             Text(
-                                "⚠️ تحذيرات: ${validation.warnings.joinToString(", ")}",
+                                "${"⚠️ تحذيرات: ".loc()}${validation.warnings.map { it.loc() }.joinToString(", ")}",
                                 fontSize = 11.sp,
                                 color = Color(0xFFD97706)
                             )
@@ -595,7 +596,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
 
                         if (validation.errors.isNotEmpty()) {
                             Text(
-                                "❌ أخطاء: ${validation.errors.joinToString(", ")}",
+                                "${"❌ أخطاء: ".loc()}${validation.errors.map { it.loc() }.joinToString(", ")}",
                                 fontSize = 11.sp,
                                 color = MaterialTheme.colorScheme.error
                             )
@@ -624,7 +625,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                         containerColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("استيراد واستبدال البيانات", fontWeight = FontWeight.Bold)
+                    Text("استيراد واستبدال البيانات".loc(), fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -633,7 +634,7 @@ fun BackupScreen(viewModel: QuranViewModel) {
                     pendingImportUri = null
                     validationResult = null
                 }) {
-                    Text("إلغاء")
+                    Text("إلغاء".loc())
                 }
             }
         )
@@ -645,9 +646,9 @@ fun BackupScreen(viewModel: QuranViewModel) {
     if (showDeleteConfirm != null) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirm = null },
-            title = { Text("حذف النسخة الاحتياطية؟", fontWeight = FontWeight.Bold) },
+            title = { Text("حذف النسخة الاحتياطية؟".loc(), fontWeight = FontWeight.Bold) },
             text = {
-                Text("هل أنت متأكد من حذف النسخة \"${showDeleteConfirm!!.fileName}\"؟ لا يمكن التراجع عن هذا الإجراء.")
+                Text("${"هل أنت متأكد من حذف النسخة \"".loc()}${showDeleteConfirm!!.fileName}${"\"؟ لا يمكن التراجع عن هذا الإجراء.".loc()}")
             },
             confirmButton = {
                 Button(
@@ -660,12 +661,12 @@ fun BackupScreen(viewModel: QuranViewModel) {
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
-                    Text("حذف", fontWeight = FontWeight.Bold)
+                    Text("حذف".loc(), fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteConfirm = null }) {
-                    Text("إلغاء")
+                    Text("إلغاء".loc())
                 }
             }
         )
@@ -717,7 +718,7 @@ fun BackupFileCard(
                         }
                         if (backup.exportedBy != null) {
                             Text(
-                                if (backup.exportedBy == "auto") "🤖 تلقائي" else "👤 يدوي",
+                                if (backup.exportedBy == "auto") "🤖 تلقائي".loc() else "👤 يدوي".loc(),
                                 fontSize = 11.sp,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                             )
@@ -725,7 +726,7 @@ fun BackupFileCard(
                     }
                     if (backup.recordCount != null) {
                         Text(
-                            "${backup.recordCount.students} طالب | ${backup.recordCount.weeklyReports} تقرير | ${backup.recordCount.dailyLogs} سجل",
+                            "${backup.recordCount.students}${" طالب | ".loc()}${backup.recordCount.weeklyReports}${" تقرير | ".loc()}${backup.recordCount.dailyLogs}${" سجل".loc()}",
                             fontSize = 10.sp,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                         )
@@ -744,7 +745,7 @@ fun BackupFileCard(
                     ) {
                         Icon(
                             Icons.Default.Refresh,
-                            contentDescription = "استعادة",
+                            contentDescription = "استعادة".loc(),
                             tint = Color(0xFF059669),
                             modifier = Modifier.size(18.dp)
                         )
@@ -761,7 +762,7 @@ fun BackupFileCard(
                     ) {
                         Icon(
                             Icons.Default.Delete,
-                            contentDescription = "حذف",
+                            contentDescription = "حذف".loc(),
                             tint = MaterialTheme.colorScheme.error,
                             modifier = Modifier.size(18.dp)
                         )
@@ -811,10 +812,10 @@ fun BackupLogCard(entry: BackupLogEntry) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     when (entry.type) {
-                        "auto" -> "نسخة تلقائية"
-                        "manual" -> "نسخة يدوية"
-                        "import" -> "استيراد نسخة"
-                        else -> entry.type
+                        "auto" -> "نسخة تلقائية".loc()
+                        "manual" -> "نسخة يدوية".loc()
+                        "import" -> "استيراد نسخة".loc()
+                        else -> entry.type.loc()
                     },
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
@@ -849,12 +850,13 @@ private fun formatFileSize(bytes: Long): String {
 }
 
 private fun formatExportDate(dateString: String?): String {
-    if (dateString.isNullOrBlank()) return "غير معروف"
+    if (dateString.isNullOrBlank()) return "غير معروف".loc()
     return try {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
         val date = inputFormat.parse(dateString)
-        val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("ar"))
+        val locale = if (AppLang.current == "en") Locale.US else Locale("ar")
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", locale)
         outputFormat.format(date!!)
     } catch (e: Exception) {
         dateString
@@ -863,13 +865,13 @@ private fun formatExportDate(dateString: String?): String {
 
 private fun getCheckDisplayName(check: String): String {
     return when (check) {
-        "fileReadable" -> "الملف قابل للقراءة"
-        "isValidJSON" -> "صيغة JSON صحيحة"
-        "hasMetadata" -> "بيانات وصفية موجودة"
-        "versionCompatible" -> "إصدار متوافق"
-        "hasAllTables" -> "جميع الجداول موجودة"
-        "dataIntegrity" -> "سلامة البيانات"
-        "relationsValid" -> "العلاقات صحيحة"
-        else -> check
+        "fileReadable" -> "الملف قابل للقراءة".loc()
+        "isValidJSON" -> "صيغة JSON صحيحة".loc()
+        "hasMetadata" -> "بيانات وصفية موجودة".loc()
+        "versionCompatible" -> "إصدار متوافق".loc()
+        "hasAllTables" -> "جميع الجداول موجودة".loc()
+        "dataIntegrity" -> "سلامة البيانات".loc()
+        "relationsValid" -> "العلاقات صحيحة".loc()
+        else -> check.loc()
     }
 }

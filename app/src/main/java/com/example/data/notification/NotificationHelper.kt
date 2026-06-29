@@ -7,6 +7,8 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.R
 
+import com.example.ui.screen.loc
+
 object NotificationHelper {
 
     const val GENERAL_CHANNEL_ID = "general_app_notifications"
@@ -19,10 +21,10 @@ object NotificationHelper {
             // Create General Channel (for student profile updates, daily reminder, session reminder)
             val generalChannel = NotificationChannel(
                 GENERAL_CHANNEL_ID,
-                "إشعارات تيجان النور العامة",
+                "إشعارات تيجان النور العامة".loc(),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "إشعارات الحلقات، تحديث الطلاب، والتنبيهات اليومية"
+                description = "إشعارات الحلقات، تحديث الطلاب، والتنبيهات اليومية".loc()
                 enableVibration(true)
             }
             notificationManager.createNotificationChannel(generalChannel)
@@ -30,10 +32,10 @@ object NotificationHelper {
             // Create Backup Channel (already managed by BackupWorker, but here as fallback)
             val backupChannel = NotificationChannel(
                 BACKUP_CHANNEL_ID,
-                "النسخ الاحتياطية",
+                "النسخ الاحتياطية".loc(),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
-                description = "إشعارات النسخ الاحتياطية التلقائية"
+                description = "إشعارات النسخ الاحتياطية التلقائية".loc()
             }
             notificationManager.createNotificationChannel(backupChannel)
         }

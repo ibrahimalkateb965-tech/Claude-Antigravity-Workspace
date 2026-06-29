@@ -10,6 +10,7 @@ import com.example.data.model.WeeklyReport
 import com.example.data.repository.QuranRepository
 import com.example.data.backup.AppPreferences
 import com.example.data.notification.AlarmScheduler
+import com.example.ui.screen.loc
 import com.example.data.notification.NotificationHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -23,6 +24,7 @@ sealed class Screen {
     data class PeriodReport(val student: Student) : Screen()
     object Backups : Screen()
     object Settings : Screen()
+    object TodaySchedule : Screen()
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -191,6 +193,10 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                 _selectedStudentId.value = null
                 _selectedReportId.value = null
             }
+            is Screen.TodaySchedule -> {
+                _selectedStudentId.value = null
+                _selectedReportId.value = null
+            }
         }
     }
 
@@ -215,14 +221,14 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                 if (cleanWhatsapp != null) {
                     // Check format: must start with + followed by digits (length between 11 and 16 to support country codes)
                     if (!cleanWhatsapp.startsWith("+") || cleanWhatsapp.substring(1).any { !it.isDigit() } || cleanWhatsapp.length < 11 || cleanWhatsapp.length > 16) {
-                        onResult("صيغة رقم الواتساب غير صحيحة! يجب أن يبدأ بـ + يليه رمز الدولة والأرقام (مثال: +966501234567)")
+                        onResult("صيغة رقم الواتساب غير صحيحة! يجب أن يبدأ بـ + يليه رمز الدولة والأرقام (مثال: +966501234567)".loc())
                         return@launch
                     }
                     
                     // Duplicate check inside same group
                     val duplicates = repository.countStudentsWithWhatsappInGroup(groupName, cleanWhatsapp, 0)
                     if (duplicates > 0) {
-                        onResult("رقم الواتساب هذا مسجل بالفعل لطالب آخر في نفس الحلقة!")
+                        onResult("رقم الواتساب هذا مسجل بالفعل لطالب آخر في نفس الحلقة!".loc())
                         return@launch
                     }
                 }
@@ -246,7 +252,7 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                     NotificationHelper.sendNotification(
                         context = getApplication(),
                         id = insertedId.toInt(),
-                        title = "👤 إضافة طالب جديد للحلقة ✨",
+                        title = "👤 إضافة طالب جديد للحلقة ✨".loc(),
                         text = "تم تسجيل الطالب البطل $name بنجاح في حلقة $groupName"
                     )
                 }
@@ -254,7 +260,7 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                 onResult(null)
             } catch (e: Exception) {
                 e.printStackTrace()
-                onResult("خطأ أثناء إضافة الطالب: ${e.localizedMessage}")
+                onResult("خطأ أثناء إضافة الطالب: ".loc() + "${e.localizedMessage}")
             }
         }
     }
@@ -265,13 +271,13 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                 val cleanWhatsapp = student.whatsappNumber?.trim()?.takeIf { it.isNotBlank() }
                 if (cleanWhatsapp != null) {
                     if (!cleanWhatsapp.startsWith("+") || cleanWhatsapp.substring(1).any { !it.isDigit() } || cleanWhatsapp.length < 11 || cleanWhatsapp.length > 16) {
-                        onResult("صيغة رقم الواتساب غير صحيحة! يجب أن يبدأ بـ + يليه رمز الدولة والأرقام (مثال: +966501234567)")
+                        onResult("صيغة رقم الواتساب غير صحيحة! يجب أن يبدأ بـ + يليه رمز الدولة والأرقام (مثال: +966501234567)".loc())
                         return@launch
                     }
                     
                     val duplicates = repository.countStudentsWithWhatsappInGroup(student.groupName, cleanWhatsapp, student.id)
                     if (duplicates > 0) {
-                        onResult("رقم الواتساب هذا مسجل بالفعل لطالب آخر في نفس الحلقة!")
+                        onResult("رقم الواتساب هذا مسجل بالفعل لطالب آخر في نفس الحلقة!".loc())
                         return@launch
                     }
                 }
@@ -288,7 +294,7 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                     NotificationHelper.sendNotification(
                         context = getApplication(),
                         id = student.id,
-                        title = "✏️ تعديل بيانات طالب 📝",
+                        title = "✏️ تعديل بيانات طالب 📝".loc(),
                         text = "تم تحديث بيانات الطالب البطل ${student.name} بنجاح."
                     )
                 }
@@ -296,7 +302,7 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
                 onResult(null)
             } catch (e: Exception) {
                 e.printStackTrace()
-                onResult("خطأ أثناء تحديث بيانات الطالب: ${e.localizedMessage}")
+                onResult("خطأ أثناء تحديث بيانات الطالب: ".loc() + "${e.localizedMessage}")
             }
         }
     }
@@ -381,5 +387,33 @@ class QuranViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun getAllWeeklyReports(): List<WeeklyReport> {
         return repository.getAllWeeklyReports()
+    }
+
+    /**
+     * Returns students that have a session scheduled on the given Arabic day name.
+     * Groups them by session time.
+     */
+    suspend fun getStudentsScheduledOnDay(dayName: String): List<Student> {
+        return repository.allStudents.first().filter { student ->
+            if (student.circleSessionDaysTimes.isBlank()) return@filter false
+            student.circleSessionDaysTimes.split(";").any { entry ->
+                val parts = entry.split("=")
+                parts.getOrNull(0)?.trim() == dayName
+            }
+        }.sortedBy { student ->
+            // Sort by session time on that day
+            student.circleSessionDaysTimes.split(";").firstOrNull { entry ->
+                entry.split("=").getOrNull(0)?.trim() == dayName
+            }?.split("=")?.getOrNull(1) ?: "99:99"
+        }
+    }
+
+    /**
+     * Triggers recalculation of day sequential numbers after toggling absence.
+     */
+    fun recalculateDayNumbers(studentId: Int) {
+        viewModelScope.launch {
+            repository.recalculateDayNumbers(studentId)
+        }
     }
 }
