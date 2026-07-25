@@ -63,6 +63,15 @@
   content: "عند تشغيل بوت تليجرام باستخدام getUpdates، فإن أي نسخة قديمة نشطة في الخلفية ستسبب خطأ Conflict (رمز 409). لحلها يجب تحديد معرّف العملية (PID) لـ pythonw.exe أو python.exe وإنهاؤها قسراً. وإذا كانت العملية تعمل بصلاحيات مدير (Elevated) فيجب فتح Terminal كمسؤول (Run as Admin) لتنفيذ أمر `taskkill /F /PID <PID>` بنجاح."
   tags: [process-management, taskkill, telegram-bot, conflict, windows]
   status: active
+
+- id: MEM-2026-07-25-001
+  type: bug-fix
+  timestamp: "2026-07-25T18:25:00+03:00"
+  agents: [persistent-memory-engine, debugger]
+  context: "تجمد طرفية PowerShell عند نقل الملفات (Move-Item) بسبب الترميز"
+  content: "عند استخدام PowerShell `Move-Item` لنقل كميات كبيرة من الملفات، قد تتجمد العملية بالكامل في الخلفية (Hang) إذا تضمنت أسماء الملفات رموز إيموجي أو أحرف عربية غير متوافقة مع ترميز الطرفية الافتراضي مما يتسبب بانتظار استجابة المستخدم أو فشل صامت. الحل هو استخدام بايثون `shutil.move` مع تمرير `pass` داخل `except Exception` لتخطي أي أخطاء طباعة (Print/Encoding) وإنجاز النقل بنجاح وبسرعة هائلة."
+  tags: [powershell, bug-fix, move-item, encoding, python, shutil]
+  status: active
 ```
 
 ---
@@ -122,6 +131,15 @@
   context: "إدارة التكلفة وتبني معمارية الوكيل المزدوج"
   content: "لترشيد استهلاك رصيد Prepaid للنماذج المتقدمة، تم اعتماد إطار العمل المزدوج (Dual-Agent). يعمل (Claude 5) كمستشار ومهندس يقرأ الملفات ويستكشف الأخطاء ويضع الخطط، بينما يعمل (Gemini Pro/Antigravity) كمنفذ لكتابة الكود والـ Refactoring بناءً على هذه الخطط."
   tags: [dual-agent, architecture, cost-optimization, claude, gemini]
+  status: active
+
+- id: ADR-2026-07-25-002
+  type: decision
+  timestamp: "2026-07-25T18:25:00+03:00"
+  agents: [code-architect, persistent-memory-engine]
+  context: "تفعيل معمارية فرق العمل المتوازية (Agent Teams)"
+  content: "لزيادة سرعة الإنجاز، تم تفعيل ميزة فرق وكلاء كلود التجريبية `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` في إعدادات المحرر. هذا يسمح بتشغيل عدة وكلاء يعملون بالتوازي وفي مساحات منفصلة في سطر الأوامر والتواصل فيما بينهم. يتم اللجوء لهذه الميزة بدلاً من `Subagents` عندما يكون العمل يتطلب استكشاف موازي ومستقل مثل دراسة الكود من عدة زوايا، أو تشغيل فريق بحث استراتيجي."
+  tags: [agent-teams, parallel-execution, architecture, claude-code]
   status: active
 ```
 

@@ -1,7 +1,7 @@
 ---
 name: git-github-manager
-description: "Git and GitHub Operations Agent specializing in version control, repository initialization, branching strategies, merge conflicts, and GitHub integrations."
+description: "Git and GitHub Operations Agent specializing in version control, repository initialization, branching strategies, merge conflicts, GitHub integrations, and documenting project achievements in README files before pushing."
 tools: Bash, Glob, Read, WebSearch, Skill
 model: sonnet
 color: lightgreen
-skills: git-flow, github-actions, conflict-resolution
+skills: git-flow, github-actions, conflict-resolution, readme-documentation
