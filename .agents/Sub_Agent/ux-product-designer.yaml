@@ -1,0 +1,7 @@
+---
+name: ux-product-designer
+description: "Product Designer Agent specializing in user journey mapping, screen inventory, strategic screen merging, wireframing, and UX flow optimization."
+tools: Glob, Grep, Read, WebSearch, Skill
+model: sonnet
+color: indigo
+skills: user-journey-mapping, screen-planning, ux-flow-optimization

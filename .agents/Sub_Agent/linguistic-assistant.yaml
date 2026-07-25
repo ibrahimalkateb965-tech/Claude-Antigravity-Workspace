@@ -1,0 +1,7 @@
+---
+name: linguistic-assistant
+description: "Linguistic Assistant focusing on translations, localized formatting, and linguistic constraints like Arabic language fusha."
+tools: Glob, Grep, Read, Skill
+model: sonnet
+color: pink
+skills: arabic-localization, translation-quality

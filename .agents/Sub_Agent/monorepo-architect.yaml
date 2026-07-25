@@ -1,0 +1,7 @@
+---
+name: monorepo-architect
+description: "Monorepo Architect Agent specialized in managing monorepo structures, build optimization, and module sharing."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: teal
+skills: monorepo-management, gradle-modules

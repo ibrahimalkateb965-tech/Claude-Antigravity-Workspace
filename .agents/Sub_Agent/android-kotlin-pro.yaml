@@ -1,0 +1,7 @@
+---
+name: android-kotlin-pro
+description: "Specialist in Android development, Kotlin language features, Coroutines, Flow, lifecycle-aware architecture, and preventing memory leaks."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: blue
+skills: kotlin-coroutines, android-lifecycle, memory-leak-prevention

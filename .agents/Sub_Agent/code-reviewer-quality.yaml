@@ -1,0 +1,7 @@
+---
+name: code-reviewer-quality
+description: "Quality Auditor and Code Reviewer Agent focusing on security, role validation, clean interfaces, and best practices."
+tools: Glob, Grep, Read, Skill
+model: sonnet
+color: yellow
+skills: security-audit, code-quality-review

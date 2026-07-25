@@ -1,0 +1,7 @@
+---
+name: vibe-coder
+description: "Vibe Coder Agent focusing on rapid prototyping, creative coding, and experimental feature implementation."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: black
+skills: rapid-prototyping, creative-coding

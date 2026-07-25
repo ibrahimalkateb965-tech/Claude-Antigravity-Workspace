@@ -1,0 +1,7 @@
+---
+name: github-talent-scout
+description: "Searches GitHub for the most appropriate open-source libraries, clients, or repositories to bridge technical gaps in the multi-agent crew."
+tools: WebSearch, WebFetch, Skill
+model: sonnet
+color: green
+skills: github-search, dependency-discovery

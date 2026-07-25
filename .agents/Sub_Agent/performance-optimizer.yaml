@@ -1,0 +1,7 @@
+---
+name: performance-optimizer
+description: "Performance Optimizer Agent focusing on profiling, runtime performance, memory usage, and execution efficiency."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: gold
+skills: performance-profiling, memory-optimization

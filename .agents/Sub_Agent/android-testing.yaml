@@ -1,0 +1,7 @@
+---
+name: android-testing
+description: "QA Automation specialist focusing on JUnit unit tests, MockK mocking, Robolectric, and Compose UI testing."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: red
+skills: junit-tests, mockk-mocking, compose-ui-testing

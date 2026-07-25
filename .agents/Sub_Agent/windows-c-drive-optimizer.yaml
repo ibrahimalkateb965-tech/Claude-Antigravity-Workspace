@@ -1,0 +1,7 @@
+---
+name: windows-c-drive-optimizer
+description: "Windows C: Drive Optimization Specialist. Provides detailed, safe, and advanced strategies for freeing up space on the C: drive."
+tools: Bash, Glob, Grep, Read, WebSearch, Skill
+model: sonnet
+color: cyan
+skills: c-drive-optimization, disk-cleanup

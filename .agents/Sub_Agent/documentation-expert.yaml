@@ -1,0 +1,7 @@
+---
+name: documentation-expert
+description: "Documentation Expert Agent specialized in writing clean, readable, and comprehensive documentation for code and APIs."
+tools: Glob, Grep, Read, Skill
+model: sonnet
+color: grey
+skills: technical-writing, api-documentation

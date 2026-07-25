@@ -1,0 +1,7 @@
+---
+name: code-reviewer-feature-dev
+description: "Code Reviewer Agent specialized in reviewing feature developments, ensuring feature completeness, and functional correctness."
+tools: Glob, Grep, Read, Skill
+model: sonnet
+color: green
+skills: feature-review, functional-correctness

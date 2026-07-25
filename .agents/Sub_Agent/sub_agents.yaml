@@ -1,0 +1,433 @@
+# ═══════════════════════════════════════════════════════════════
+# Autovem Sub-Agents Registry (sub_agents.yaml)
+# Total: 60 agents | Model Tiers: flash / pro / thinking
+# ═══════════════════════════════════════════════════════════════
+
+# ─── TIER: THINKING (Architecture, Planning, Optimization, Memory) ───
+
+---
+name: code-architect
+description: "Autovem Code Architect — defines system structure, code patterns, modularity, and overall codebase organization."
+tools: Glob, Grep, Read, Skill
+model: thinking
+color: blue
+skills: system-modularity, clean-architecture
+---
+name: monorepo-architect
+description: "Autovem Monorepo Architect — manages monorepo structures, build optimization, and module sharing."
+tools: Glob, Grep, Read, Skill
+model: thinking
+color: teal
+skills: monorepo-management, gradle-modules
+---
+name: prompt-engineer
+description: "Autovem Prompt Engineer — writes high-performing prompt templates, agent instructions, and system messages."
+tools: Glob, Grep, Read, Skill
+model: thinking
+color: violet
+skills: prompt-templates, system-message-design
+---
+name: agent-optimizer
+description: "Autovem Agent Optimizer — evaluates and optimizes prompts, workflows, and agent instructions for cost-efficiency and quality."
+tools: Glob, Grep, Read, Skill
+model: thinking
+color: purple
+skills: prompt-optimization, cost-efficiency
+---
+name: persistent-memory-engine
+description: "Autovem Memory Core — manages persistent memory, learned lessons, architecture decisions, and context export for all sub-agents."
+tools: Glob, Grep, Read, Skill
+model: thinking
+color: gold
+skills: memory-management, context-export, learning-log
+---
+name: debugger
+description: "Autovem Debugger — diagnoses errors, crash logs, stack traces, and fixes issues systematically."
+tools: Glob, Grep, Read, Skill
+model: thinking
+color: red
+skills: crash-analysis, debugging-stacktrace
+---
+name: ai-engineer
+description: "Autovem AI Engineer — integrates AI models, prompt engineering, and LLM APIs."
+tools: Glob, Grep, Read, WebSearch, Skill
+model: thinking
+color: cyan
+skills: llm-integration, prompt-engineering
+---
+name: github-talent-scout
+description: "Autovem GitHub Scout — searches GitHub for open-source libraries and repositories to bridge technical gaps."
+tools: WebSearch, WebFetch, Skill
+model: thinking
+color: green
+skills: github-search, dependency-discovery
+
+# ─── TIER: PRO (Development, Review, Testing, Design Implementation) ───
+
+---
+name: android-kotlin-pro
+description: "Autovem Kotlin Pro — Android development, Kotlin features, Coroutines, Flow, lifecycle-aware architecture."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: blue
+skills: kotlin-coroutines, android-lifecycle, memory-leak-prevention
+---
+name: jetpack-compose-ui
+description: "Autovem Compose UI — Jetpack Compose performance, Material Design 3, and RTL/Arabic layouts."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: magenta
+skills: recomposition-optimization, material-design-3, rtl-layout-arabic
+---
+name: offline-sync-db
+description: "Autovem Database Architect — offline-first architecture, Room DB, WorkManager, PocketBase sync."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: orange
+skills: room-database, pocketbase-sync, workmanager-offline
+---
+name: backend-architect
+description: "Autovem Backend Architect — server-side architecture, API design, scalability, backend integrations."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: brown
+skills: api-design, backend-scalability, backend-db
+---
+name: code-reviewer-quality
+description: "Autovem Quality Auditor — security, role validation, clean interfaces, and best practices."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: yellow
+skills: security-audit, code-quality-review
+---
+name: code-reviewer-feature-dev
+description: "Autovem Feature Reviewer — reviews feature developments, feature completeness, and functional correctness."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: green
+skills: feature-review, functional-correctness
+---
+name: android-testing
+description: "Autovem QA Automation — JUnit unit tests, MockK mocking, Robolectric, and Compose UI testing."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: red
+skills: junit-tests, mockk-mocking, compose-ui-testing
+---
+name: test-automator
+description: "Autovem Test Automator — test pipeline automation, integration tests, and QA workflows."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: red
+skills: ci-test-automation, integration-testing
+---
+name: security-auditor
+description: "Autovem Security Auditor — input validation, access control, encryption checks, OWASP compliance."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: crimson
+skills: owasp-audit, input-validation, encryption-verification
+---
+name: performance-optimizer
+description: "Autovem Performance Optimizer — profiling, runtime performance, memory usage, execution efficiency."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: gold
+skills: performance-profiling, memory-optimization
+---
+name: devops-deployer
+description: "Autovem DevOps — CI/CD pipelines, APK signing, staging environments, production rollout."
+tools: Glob, Grep, Read, WebSearch, Skill
+model: pro
+color: steelblue
+skills: ci-cd-pipeline, apk-signing, staged-rollout
+---
+name: vibe-coder
+description: "Autovem Vibe Coder — rapid prototyping and experimental UI mockups orchestrator."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: black
+skills: rapid-prototyping, ui-mockup-generation
+---
+name: ux-product-designer
+description: "Autovem UX Designer — user journey mapping, screen inventory, wireframing, UX flow optimization."
+tools: Glob, Grep, Read, WebSearch, Skill
+model: pro
+color: indigo
+skills: user-journey-mapping, screen-planning, ux-flow-optimization
+---
+name: skill-forge-builder
+description: "Autovem Skill Forge — automatically builds new agent skills (SKILL.md + YAML) from user descriptions."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: amber
+skills: skill-creation, agent-registration
+---
+name: docs-fetcher-context
+description: "Autovem Docs Fetcher — retrieves and summarizes official library documentation for local use."
+tools: WebSearch, WebFetch, Read, Skill
+model: pro
+color: teal
+skills: docs-retrieval, reference-creation
+---
+name: mcp-tool-builder
+description: "Autovem MCP Builder — creates and configures new MCP Server tools."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: navy
+skills: mcp-schema-design, tool-integration
+---
+name: webapp-qa-tester
+description: "Autovem Web QA — automated browser-based E2E testing for web applications."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: lime
+skills: e2e-testing, visual-regression, accessibility-testing
+---
+name: ui-ux-design-lead
+description: "Autovem Design Lead — unified design system, color palettes, typography, component libraries."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: pink
+skills: design-system, visual-consistency, material-design
+---
+name: motion-transitions-pro
+description: "Autovem Motion Artist — animations, transitions, and micro-interactions for Compose and Web."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: coral
+skills: css-animation, compose-animation, lottie-integration
+---
+name: frontend-design-builder
+description: "Autovem Frontend Builder — production-quality web front-end with HTML, CSS, JavaScript."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: skyblue
+skills: semantic-html, responsive-css, rtl-web-layout
+---
+name: web-artifacts-prototyper
+description: "Autovem Web Prototyper — live interactive web prototypes for rapid visual validation."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: olive
+skills: html-prototyping, interactive-mockups
+
+# ─── TIER: FLASH (Content, Marketing, Finance, Business, Legal) ───
+
+---
+name: documentation-expert
+description: "Autovem Documentation Expert — technical writing, project context files, API documentation."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: grey
+skills: technical-writing, api-documentation
+---
+name: linguistic-assistant
+description: "Autovem Linguistic Assistant — translations, localized formatting, Arabic language standards."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: pink
+skills: arabic-localization, translation-quality
+---
+name: windows-c-drive-optimizer
+description: "Autovem Windows Optimizer — C: drive optimization and disk cleanup strategies."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: cyan
+skills: c-drive-optimization, disk-cleanup
+---
+name: taste-design-critic
+description: "Autovem Design Critic — evaluates visual quality and provides actionable design feedback."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: rose
+skills: visual-quality-assessment, design-review
+---
+name: brand-kit-keeper
+description: "Autovem Brand Keeper — brand guidelines, visual identity tokens, and brand consistency."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: bronze
+skills: brand-guidelines, visual-identity
+---
+name: copywriting-lead
+description: "Autovem Copywriter — high-converting technical marketing copy for apps and landing pages."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: peach
+skills: marketing-copy, app-store-copy
+---
+name: ai-geo-seo-optimizer
+description: "Autovem GEO & SEO Optimizer — search visibility, Generative Engine Optimization (GEO), AI search ranking optimization."
+tools: Glob, Grep, Read, WebSearch, Skill
+model: flash
+color: chartreuse
+skills: seo-audit, structured-data, geo-optimization
+---
+name: cro-conversion-lead
+description: "Autovem CRO Lead — conversion funnel analysis, A/B testing, and user flow optimization."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: turquoise
+skills: funnel-analysis, ab-testing
+---
+name: ad-creative-maker
+description: "Autovem Ad Maker — advertising copy, headlines, visuals, and campaign strategies."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: salmon
+skills: ad-copy, campaign-creative
+---
+name: customer-research-voice
+description: "Autovem Voice of Customer — user reviews analysis, feedback patterns, and persona building."
+tools: Glob, Grep, Read, WebSearch, Skill
+model: flash
+color: lavender
+skills: review-analysis, persona-building
+---
+name: post-content-writer
+description: "Autovem Content Writer — technical and social media posts for LinkedIn, Twitter, community."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: mint
+skills: social-content, technical-posts
+---
+name: script-hook-generator
+description: "Autovem Script Writer — video scripts, attention hooks, short-form content for Reels/Shorts."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: tangerine
+skills: video-scripts, hook-formulas
+---
+name: profile-optimizer
+description: "Autovem Profile Optimizer — social media profiles, bios, and public pages optimization."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: ivory
+skills: bio-optimization, social-proof
+---
+name: financial-statements-builder
+description: "Autovem Financial Statements — income statements, balance sheets, cash flow statements."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: darkgreen
+skills: financial-reporting, ratio-analysis
+---
+name: journal-entry-keeper
+description: "Autovem Journal Keeper — accounting journal entries, ledger postings, adjusting entries."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: darkblue
+skills: bookkeeping, ledger-management
+---
+name: reconciliation-auditor
+description: "Autovem Reconciler — account reconciliations, discrepancy identification, matching."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: maroon
+skills: bank-reconciliation, account-matching
+---
+name: variance-analyst
+description: "Autovem Variance Analyst — budget-to-actual variance analysis, root cause identification."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: slate
+skills: budget-analysis, variance-reporting
+---
+name: audit-support-prep
+description: "Autovem Audit Prep — audit documentation, evidence packages, compliance preparation."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: charcoal
+skills: audit-documentation, evidence-compilation
+---
+name: close-management-lead
+description: "Autovem Close Manager — month-end and year-end financial closing processes."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: plum
+skills: month-end-close, closing-checklist
+---
+name: cash-flow-watcher
+description: "Autovem Cash Watcher — cash flow monitoring, forecasting, and liquidity analysis."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: emerald
+skills: cash-monitoring, liquidity-forecast
+---
+name: invoice-chaser
+description: "Autovem Invoice Chaser — tracks and follows up on outstanding invoices and receivables."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: rust
+skills: invoice-tracking, collection-followup
+---
+name: payroll-planner
+description: "Autovem Payroll Planner — payroll calculations, deductions, and compensation structures."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: khaki
+skills: salary-calculation, compensation-planning
+---
+name: margin-analyst
+description: "Autovem Margin Analyst — profit margin analysis across products, services, and segments."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: sienna
+skills: margin-analysis, pricing-strategy
+---
+name: tax-prepper
+description: "Autovem Tax Prepper — tax calculations, filing documentation, compliance checklists."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: tan
+skills: tax-calculation, filing-preparation
+---
+name: campaign-runner
+description: "Autovem Campaign Runner — plans, executes, and tracks marketing campaigns."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: aquamarine
+skills: campaign-planning, performance-tracking
+---
+name: contract-reviewer
+description: "Autovem Contract Reviewer — reviews contracts for risks, unfavorable terms, compliance."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: darkred
+skills: contract-analysis, risk-identification
+---
+name: nda-triage
+description: "Autovem NDA Triage — rapid NDA assessment for standard vs. non-standard terms."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: darkviolet
+skills: nda-review, term-analysis
+---
+name: compliance-officer
+description: "Autovem Compliance Officer — regulatory compliance, internal policies, license auditing."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: darkgoldenrod
+skills: regulatory-compliance, license-audit
+---
+name: legal-risk-assessor
+description: "Autovem Legal Risk Assessor — legal risk evaluation, exposure assessment, mitigation planning."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: firebrick
+skills: risk-assessment, mitigation-planning
+---
+name: vendor-vetter
+description: "Autovem Vendor Vetter — vendor evaluation, due diligence, risk scoring."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: cadetblue
+skills: vendor-assessment, due-diligence
+---
+name: signature-wrangler
+description: "Autovem Signature Wrangler — document signing workflows, routing, and tracking."
+tools: Glob, Grep, Read, Skill
+model: flash
+color: mediumpurple
+skills: signing-workflow, approval-routing

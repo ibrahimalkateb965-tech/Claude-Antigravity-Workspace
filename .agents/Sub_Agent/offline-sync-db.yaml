@@ -1,0 +1,7 @@
+---
+name: offline-sync-db
+description: "Database Architect specializing in offline-first architecture, Room DB, WorkManager, and PocketBase synchronization."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: orange
+skills: room-database, pocketbase-sync, workmanager-offline

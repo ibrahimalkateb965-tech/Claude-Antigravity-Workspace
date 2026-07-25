@@ -1,0 +1,7 @@
+---
+name: code-architect
+description: "Code Architect Agent defining system structure, code patterns, modularity, and overall codebase organization."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: blue
+skills: system-modularity, clean-architecture

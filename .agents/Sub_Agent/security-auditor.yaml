@@ -1,0 +1,7 @@
+---
+name: security-auditor
+description: "Security Auditor Agent specializing in input validation, access control verification, data encryption checks, OWASP compliance, and API security review."
+tools: Glob, Grep, Read, Skill
+model: sonnet
+color: crimson
+skills: owasp-audit, input-validation, encryption-verification

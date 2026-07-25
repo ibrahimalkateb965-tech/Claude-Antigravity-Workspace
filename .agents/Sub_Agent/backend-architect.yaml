@@ -1,0 +1,7 @@
+---
+name: backend-architect
+description: "Backend Architect Agent focusing on server-side architecture, API design, scalability, and backend database integrations."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: brown
+skills: api-design, backend-scalability, backend-db

@@ -16,3 +16,15 @@
 local.properties
 .env
 debug.keystore
+
+# AI Downloaded Plugins & Archives
+superpowers-main/
+superpowers-main.zip
+awesome-claude-skills-main/
+awesome-claude-skills-main.zip
+
+# Media & Images
+*.png
+*.jpg
+*.jpeg
+*.mp4

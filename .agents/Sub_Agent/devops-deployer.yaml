@@ -1,0 +1,7 @@
+---
+name: devops-deployer
+description: "DevOps and Deployment Agent specializing in CI/CD pipelines, APK signing, staging environments, API integration wiring, and production rollout management."
+tools: Bash, Glob, Grep, Read, WebSearch, Skill
+model: sonnet
+color: steelblue
+skills: ci-cd-pipeline, apk-signing, staged-rollout

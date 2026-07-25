@@ -1,0 +1,7 @@
+---
+name: prompt-engineer
+description: "Prompt Engineer Agent specializing in writing high-performing prompt templates, instructions, and agent system messages."
+tools: Glob, Grep, Read, Skill
+model: sonnet
+color: violet
+skills: prompt-templates, system-message-design

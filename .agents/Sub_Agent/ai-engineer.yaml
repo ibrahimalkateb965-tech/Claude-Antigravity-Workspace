@@ -1,0 +1,7 @@
+---
+name: ai-engineer
+description: "AI Engineer Agent specialized in integrating and leveraging artificial intelligence models, prompt engineering, and LLM APIs."
+tools: Bash, Glob, Grep, Read, WebSearch, Skill
+model: sonnet
+color: cyan
+skills: llm-integration, prompt-engineering

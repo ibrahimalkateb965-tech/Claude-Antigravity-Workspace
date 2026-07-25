@@ -1,0 +1,7 @@
+---
+name: debugger
+description: "Debugger Agent specializing in diagnosing errors, crash logs, stack traces, and fixing issues systematically."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: red
+skills: crash-analysis, debugging-stacktrace

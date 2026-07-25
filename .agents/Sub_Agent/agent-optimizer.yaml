@@ -1,0 +1,7 @@
+---
+name: agent-optimizer
+description: "Dynamically evaluates and optimizes the prompts, instructions, and workflows of the AI Crew for cost-efficiency, maximum output quality, and security."
+tools: Glob, Grep, Read, Skill
+model: sonnet
+color: purple
+skills: prompt-optimization, cost-efficiency

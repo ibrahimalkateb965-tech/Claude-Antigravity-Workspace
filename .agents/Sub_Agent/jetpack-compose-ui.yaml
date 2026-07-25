@@ -1,0 +1,7 @@
+---
+name: jetpack-compose-ui
+description: "Jetpack Compose UI Specialist focusing on performance (recomposition optimization), Material Design 3, and RTL/Arabic layouts."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: magenta
+skills: recomposition-optimization, material-design-3, rtl-layout-arabic
