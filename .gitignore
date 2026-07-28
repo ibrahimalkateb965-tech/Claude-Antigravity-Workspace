@@ -28,3 +28,10 @@ awesome-claude-skills-main.zip
 *.jpg
 *.jpeg
 *.mp4
+
+# Telegram ACI runtime artifacts
+telegram_request.json
+*.pid
+**/downloads/
+__pycache__/
+*.pyc

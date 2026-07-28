@@ -72,6 +72,61 @@
   content: "عند استخدام PowerShell `Move-Item` لنقل كميات كبيرة من الملفات، قد تتجمد العملية بالكامل في الخلفية (Hang) إذا تضمنت أسماء الملفات رموز إيموجي أو أحرف عربية غير متوافقة مع ترميز الطرفية الافتراضي مما يتسبب بانتظار استجابة المستخدم أو فشل صامت. الحل هو استخدام بايثون `shutil.move` مع تمرير `pass` داخل `except Exception` لتخطي أي أخطاء طباعة (Print/Encoding) وإنجاز النقل بنجاح وبسرعة هائلة."
   tags: [powershell, bug-fix, move-item, encoding, python, shutil]
   status: active
+
+- id: MEM-2026-07-28-001
+  type: lesson
+  timestamp: "2026-07-28T20:00:00+03:00"
+  agents: [github-talent-scout, performance-optimizer]
+  context: "بيئة Google Colab (Python 3.12 / NumPy 2.0)"
+  content: "تجنب ترقية المكتبات الأساسية (Zero-Over-Upgrade) لتفادي التعارض مع torchvision المثبت مسبقاً، استخدام الخيار --no-deps عند تثبيت النماذج. بالنسبة للنماذج المقيدة (Gated Models) يجب تسجيل الدخول عبر huggingface_hub.login قبل الاستدعاء، وتثبيت kornia كشرط مسبق لـ BiRefNet/RMBG-2.0. لتفادي VRAM OOM يجب تفريغ الذاكرة المؤقتة للـ GPU بعد كل صورة معالجة عبر torch.cuda.empty_cache() و gc.collect()."
+  tags: [colab, pytorch, hf-hub, oom, memory-leak]
+  status: active
+
+- id: MEM-2026-07-28-002
+  type: lesson
+  timestamp: "2026-07-28T20:00:00+03:00"
+  agents: [code-architect, persistent-memory-engine]
+  context: "توليد الأكواد وحقن النصوص بـ Python re.sub"
+  content: "عند دمج JSON أو كود يحتوي على مسافات أسطر \\n داخل ملفات HTML/JS باستخدام سكريبتات بايثون و re.sub، يجب تمرير النص كدالة مجهولة lambda _: new_content لمنع التعبير النمطي من ترجمة الـ Escape Sequences إلى أسطر فعلية تتسبب بخطأ صياغي SyntaxError في الجافاسكربت."
+  tags: [python, regex, js-injection, syntax-error, bug-fix]
+  status: active
+
+- id: MEM-2026-07-28-003
+  type: lesson
+  timestamp: "2026-07-28T20:00:00+03:00"
+  agents: [devops-deployer, backend-architect]
+  context: "ربط Supabase و Paddle والتوزيع على سيرفر VPS"
+  content: "في Supabase Auth يجب ضبط Site URL ودومين الـ VPS في Redirect URLs لمنع توجيه التأكيد إلى localhost. لتسهيل التطوير يمكن تعطيل Confirm Email من إعدادات الحسابات. لتفادي أخطاء Hydration في Next.js بسبب إضافات المتصفح يتم إضافة suppressHydrationWarning لوسم html. لنقل التحديثات بسرعة للسيرفر يفضل ضغط الملفات بـ tar -cf ونقلها بـ scp."
+  tags: [supabase, paddle, nextjs, hydration, vps, deployment]
+  status: active
+
+- id: MEM-2026-07-28-004
+  type: lesson
+  timestamp: "2026-07-28T20:00:00+03:00"
+  agents: [windows-c-drive-optimizer, security-auditor]
+  context: "تنظيف وترتيب القرص C وحماية قواعد البيانات"
+  content: "يُمنع تعديل صلاحيات أو مسح مجلدات قواعد البيانات أثناء التنظيف. تم إلزام سكريبتات التنظيف بوضع استثناءات صريحة (Exclusions) لمجلد C:\\Program Files\\Microsoft SQL Server وأي مجلدات قواعد بيانات لمنع فقدان خدمة SQLEXPRESS للصلاحيات (OS error 5 Access is denied)."
+  tags: [windows, c-drive, sql-server, database-protection, exclusions]
+  status: active
+
+- id: MEM-2026-07-28-005
+  type: lesson
+  timestamp: "2026-07-28T20:00:00+03:00"
+  agents: [offline-sync-db, debugger]
+  context: "صيانة وحماية قواعد بيانات Primavera P6"
+  content: "عند اختفاء مشاريع Primavera، السبب ليس حذف قواعد البيانات بل اختيار Database Alias خاطئ في شاشة الدخول أو نقل ملف الـ .db يدوياً. يمكن قراءة prmbootstrapV2.xml للوصول للمسار الأصلي واستخدام PowerShell Get-ChildItem -Filter *.db -Recurse لإيجاده. لحماية البيانات يتم استخدام سكريبت Backup-PrimaveraDB.ps1 لعمل نسخ احتياطية مؤرخة طردياً إلى GoogleDrive_Backups."
+  tags: [primavera-p6, sqlite, backup, database-troubleshooting]
+  status: active
+
+- id: MEM-2026-07-28-006
+  type: bug-fix
+  timestamp: "2026-07-28T22:45:00+03:00"
+  agents: [offline-sync-db, debugger]
+  context: "حل مشكلة تعطل تسجيل الطالب المستقل/غير المتزامن"
+  content: "في PocketBaseAuthClient، الاعتماد المسبق على تسجيل وهمي (Dummy Login) قبل تسجيل الطالب قد يوقف التسجيل كلياً إذا لم يكن الطالب متزامناً من قِبل المعلم مسبقاً. الحل وضع عملية Dummy Login في try-catch لاستكمال التسجيل كطالب جديد في حال الفشل."
+  tags: [pocketbase, authentication, sync, fallback, bug-fix]
+  status: active
+```
 ```
 
 ---
@@ -173,6 +228,24 @@
   context: "تصدير ملف الإكسيل لتطبيق مكتبة الأوامر (Prompt Library)"
   content: "عند بناء ملف الإكسيل الخاص بالخطافات لتطبيق الويب، يجب الالتزام الصارم بتخصيص العمود الثالث ليكون (المحفزات - Triggers فقط) لضمان أن زر النسخ في التطبيق ينسخ المحفز فقط لتشغيل الوكيل، بينما يتم عزل (الوصف والتفاصيل) في عمود مستقل (الأخير) ليتم عرضه للمستخدم كمعلومات دون أن يتداخل مع النص المنسوخ."
   tags: [excel-export, ui-preference, prompt-library, copy-action]
+  status: active
+
+- id: PREF-2026-07-28-001
+  type: preference
+  timestamp: "2026-07-28T22:00:00+03:00"
+  agents: [agent-optimizer, performance-optimizer]
+  context: "ترشيد استهلاك التوكنز في عمليات البناء (Build Process)"
+  content: "يُمنع تنفيذ أوامر بناء أندرويد (مثل ./gradlew assembleDebug) عبر طرفية الوكيل لأن مخرجاتها الكثيفة تستهلك توكنز عالية بلا داعٍ. يجب دائماً تفويض عملية البناء للمستخدم ليقوم بها يدوياً عبر (Android Studio)، ويقتصر دور الوكيل على التوجيه وكتابة الكود."
+  tags: [token-optimization, build, android-studio, cost-saving]
+  status: active
+
+- id: PREF-2026-07-28-002
+  type: preference
+  timestamp: "2026-07-28T22:45:00+03:00"
+  agents: [agent-optimizer]
+  context: "سرعة الإنجاز والعمل بالتوازي واستقلالية التنفيذ"
+  content: "تم تحديث دستور المشروع (AGENTS.md) لتفويض التنفيذ المباشر والعمل المتوازي دون انتظار إذن صريح للمهام العادية. تم تفعيل سياسة 'تقليص الاستهلاك' لجعل الردود مقتضبة جداً مع التركيز على التقارير النهائية والأكواد."
+  tags: [autonomy, parallel-execution, lean-communication, token-optimization]
   status: active
 ```
 

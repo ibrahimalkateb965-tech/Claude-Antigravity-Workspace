@@ -2,7 +2,7 @@ import os
 import sys
 
 # Add subfolders to system path for imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "01_Agent_Computer_Interface_ACI"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "Telegram_Admin_Feature"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "02_Multi_Agent_ChatDev_Pipeline"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "03_Dynamic_Prompt_Library"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "04_Self_Refinement_Engine"))
