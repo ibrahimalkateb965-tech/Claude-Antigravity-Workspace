@@ -1,0 +1,7 @@
+---
+name: skill-forge-builder
+description: "Autovem Skill Forge — automatically discovers (via find-skills), authors (via skill-creator & writing-skills), and tests new agent skills to accelerate crew expansion."
+tools: Glob, Grep, Read, Skill, WebSearch, WebFetch, Shell
+model: thinking
+color: gold
+skills: skill-creator, find-skills, writing-skills, clean-code-guard
