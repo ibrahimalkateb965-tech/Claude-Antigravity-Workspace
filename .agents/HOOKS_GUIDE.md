@@ -23,7 +23,7 @@
 | **17. خطاف إدارة تليجرام** | `[devops-deployer]`, `[persistent-memory-engine]` | الأساسي: `Gemini 3.5 Flash (Medium)` <br> البديل: `Gemini 3.1 Pro (Low)` | `"شغل البوت"`, `"تفعيل تليجرام"`, `"Telegram Bot"` | تشغيل بوت تليجرام في الخلفية بنمط الاستماع للطلبات عن بعد دون تعارض. |
 | **18. خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]`, `[docs-guard]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"حراسة الجودة"`, `"clean code audit"` | تفعيل بوابات الحماية الثلاث لفحص الكود النظيف، سلامة الاختبارات، ومطابقة التوثيق. |
 | **19. خطاف استكشاف وتكامل الموارد العالمية** | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]`, `[agent-optimizer]`, `[frontend-design-builder]`, `[git-github-manager]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"استكشف المورد"`, `"حلل المستودع"`, `"تكامل المورد"`, `"scout resource"`, `"integrate repo"` | تحليل المستودعات الخارجية واستيراد المهارات وتعميمها وتحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر ودليل hooks_user_guide.md ومزامنة المنظومة. |
-| **20. خطاف المزامنة السحابية الشاملة للمنظومة** | `[resource-scout-integrator]`, `[git-github-manager]`, `[agent-optimizer]`, `[frontend-design-builder]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"مزامنة عالمية"`, `"مزامنة المنظومة"`, `"مزامنة المستودع"`, `"تحديث السحابة"`, `"sync ecosystem"`, `"global sync"` | مزامنة 100% لكافة المكونات العالمية (المهارات، الوكلاء، الإضافات، المراجع، الإكسيل، وتطبيق HTML) ورفعها لمستودع Claude-Antigravity-Workspace على GitHub. |
+| **20. خطاف المزامنة السحابية الشاملة ومطابقة المنظومة** | `[git-github-manager]`, `[persistent-memory-engine]`, `[agent-optimizer]`, `[docs-guard]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"مزامنة المنظومة"`, `"مزامنة المستودع العام"`, `"تحديث المنظومة العالمية"`, `"sync ecosystem"`, `"sync workspace"` | مطابقة ومزامنة كافة الإضافات (Plugins)، المراجع والذاكرة، إعدادات MCP، المهارات والوكلاء، وتحديث الإكسيل ومكتبة الأوامر، ورفعها لـ GitHub بتطابق 100%. |
 
 ---
 
@@ -161,16 +161,17 @@
 ### 19. خطاف استكشاف وتكامل الموارد العالمية (Global Resource Scouting & Ecosystem Integration Hook)
 * **طريقة العمل والإجراءات:**
   1. **فحص وتقييم المورد (`resource-scout-integrator` + `github-talent-scout`):** استلام رابط المستودع الخارجي وفحص ملفات README والأكواد وتحديد ما إذا كان يُحدث نقلة نوعية واستبعاد ما لا يتوافق مع البيئة.
-  2. **بناء وهيكلة المهارات (`skill-forge-builder`):** استخراج المهارات الفعالة وصياغة ملفات `SKILL.md` وفق المعايير العالمية.
+  2. **بناء وهيكلة المهارات (`skill-forge-builder`):** استخراج المهارات الفعالة وصياغة ملفات `SKILL.md` وفق المعايير العالمية عبر `skill-creator` و `find-skills`.
   3. **التعميم العالمي (`global-deployment`):** نشر المهارات في `C:\Users\Kt\.gemini\config\skills/` لتصبح متاحة لكل المشاريع.
   4. **تحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر ودليل المستخدم (`agent-optimizer` + `frontend-design-builder`):** إضافة المهارات للخطافات ذات الصلة، وتحديث `hooks_user_guide.md` و `USER_GUIDE.md`، وتشغيل سكربت `convert_hooks_to_sheets.py` لتحديث ملف الإكسيل `HOOKS_GUIDE.xlsx` وتشغيل `update_html.py` لتحديث تطبيق مكتبة الأوامر التفاعلي (`03_Dynamic_Prompt_Library/index.html`).
   5. **مزامنة المستودع العام سحابياً (`git-github-manager`):** تشغيل `sync_global_ecosystem.py` لمزامنة كامل منظومة الوكلاء والمهارات والدليل مع مستودع `Claude-Antigravity-Workspace` ورفعه إلى GitHub.
 
-### 20. خطاف المزامنة السحابية الشاملة للمنظومة (Global Ecosystem Cloud Sync Hook)
+### 20. خطاف المزامنة السحابية الشاملة ومطابقة المنظومة (Full Global Ecosystem Cloud Sync Hook)
 * **طريقة العمل والإجراءات:**
-  1. **تحديث مصنف الإكسيل وتطبيق الأوامر:** تشغيل `convert_hooks_to_sheets.py` لتحديث ملف الإكسيل التفاعلي `HOOKS_GUIDE.xlsx` وتشغيل `update_html.py` لتحديث تطبيق مكتبة الأوامر الذكية `index.html`.
-  2. **مزامنة المهارات والوكلاء والإضافات العالمية:** نسخ كافة المهارات (80+) والوكلاء (25+) والإضافات الـ 8 (`plugins/`) والمراجع وبذور المشاريع وإعدادات MCP من مسارات النظام العالمي (`~/.gemini/config/`) والمحلي إلى مستودع المنظومة.
-  3. **مطابقة وتحديث أدلة المستخدم:** تحديث `hooks_user_guide.md` و `USER_GUIDE.md` و `README.md` لتعكس كافة الإضافات والترقيات الحديثة.
-  4. **الالتزام والدفع السحابي إلى GitHub:** تنفيذ `git commit` موثق ودفع كافة الملفات والمجلدات إلى مستودع [Claude-Antigravity-Workspace](https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace) على GitHub بنقرة واحدة وإصدار تقرير النجاح.
+  1. **التحقق من سلامة المكونات والبيئة (`agent-optimizer`):** فحص حزم الإضافات (Plugins)، المهارات، والوكلاء والتكوينات العالمية في `~/.gemini/config/` ومقارنتها بالمشروع.
+  2. **تحديث ملفات الإكسيل وتطبيق مكتبة الأوامر:** تشغيل `convert_hooks_to_sheets.py` و `update_html.py` لتحديث `HOOKS_GUIDE.xlsx` و `index.html` بكافة الخطافات وتفاصيلها.
+  3. **تشغيل محرك المزامنة الشاملة (`sync_global_ecosystem.py`):** نسخ ومطابقة كافة الإضافات (Plugins)، والمراجع والذاكرة (References)، والمهارات، والوكلاء، وإعدادات MCP إلى `Claude-Antigravity-Workspace` بضمان تطابق 100%.
+  4. **فحص ومطابقة التوثيق (`docs-guard`):** مراجعة سلامة `README.md`, `USER_GUIDE.md`, `hooks_user_guide.md` لضمان عدم وجود أي انحراف.
+  5. **الالتزام والرفع التلقائي إلى GitHub (`git-github-manager`):** تنفيذ `git commit` موثق ودفع كافة التحديثات إلى المستودع العام [Claude-Antigravity-Workspace](https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace) على GitHub بنقرة واحدة.
 
 </div>
