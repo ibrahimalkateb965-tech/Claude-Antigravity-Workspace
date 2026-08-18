@@ -11,18 +11,18 @@
 | **5. خطاف التكامل الفني** | `[devops-deployer]`, `[backend-architect]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"ربط API"`, `"تكامل خارجي"` | ربط وتكامل الخدمات الخارجية بعد مراجعة وثائقها الرسمية وتأمين المتغيرات. |
 | **6. خطاف تدقيق الصيانة** | `[code-reviewer-quality]`, `[clean-code-guard]`, `[performance-optimizer]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"تدقيق صيانة"`, `"مراجعة DRY"`, `"كود نظيف"` | مراجعة الكود البرمجي بانتظام لمنع التكرار وتراكم الديون التقنية وتطبيق معايير الكود النظيف. |
 | **7. خطاف الفحص الأمني** | `[security-auditor]`, `[code-reviewer-quality]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"فحص أمني"`, `"مراجعة أمان"` | مراجعة ثغرات الأمان والتحقق من صحة المدخلات وتشفير البيانات وتأمين الوصول. |
-| **8. خطاف مراجعة وتحديث المكتبات والنماذج** | `[github-talent-scout]`, `[code-architect]`, `[agent-optimizer]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Gemini 3.6 Flash (Medium)` | `"تحديث الاعتماديات"`, `"تحديث المكتبات"`, `"تحديث النماذج"`, `"معايرة النماذج"`, `"update models"` | فحص ملفات Gradle وتحديث المكتبات، والتحقق التلقائي عبر الإنترنت (antigravity.google) لتحديث مصفوفة النماذج دون لقطات شاشة. |
+| **8. خطاف مراجعة وتحديث المكتبات والنماذج** | `[github-talent-scout]`, `[code-architect]`, `[agent-optimizer]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Gemini 3.6 Flash (Medium)` | `"تحديث الاعتماديات"`, `"تحديث المكتبات"`, `"تحديث النماذج"`, `"معايرة النماذج"`, `"update models"` | فحص ملفات Gradle وتحديث المكتبات، والتحقق التلقائي عبر الإنترنت (antigravity.google) لتحديث مصفوفة النماذج ودليل hooks_user_guide.md دون لقطات شاشة. |
 | **9. خطاف الفحص والاختبار التلقائي** | `[android-testing]`, `[test-guard]`, `[code-reviewer-quality]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"قم بالاختبار"`, `"جاهز للتجربة"` | تشغيل اختبارات الوحدة وفحص جودة الكود واختبار السلوك الفعلي بدون Mock مفرط. |
 | **10. خطاف معالجة الأخطاء والأعطال** | `[debugger]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"حدث خطأ"`, `"التطبيق توقف"`, `"Crash"` | تحليل سجلات الأخطاء والـ Stack Trace وعزل الكود المسبب للمشكلة وإصلاحه. |
 | **11. خطاف إدارة النسخ والمستودعات** | `[git-github-manager]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Gemini 3.6 Flash (Medium)` | `"نظم جيت"`, `"ارفع لجيتهاب"`, `"تحديث المستودع"`, `"git commit"` | تهيئة المشاريع الجديدة على Git، إدارة التفرعات، وحل تعارضات الدمج ورفعها لـ GitHub بشكل نظيف. |
-| **12. خطاف تحديث الإنجازات** | `[git-github-manager]`, `[docs-guard]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"حدث الإنجازات"`, `"تحديث README"`, `"وثق الإنجازات"` | صياغة التعديلات كإنجازات ومطابقتها برمجياً عبر docs-guard ثم كتابتها في README.md ورفعها لـ GitHub. |
+| **12. خطاف تحديث الإنجازات** | `[git-github-manager]`, `[docs-guard]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"حدث الإنجازات"`, `"تحديث README"`, `"وثق الإنجازات"` | صياغة التعديلات كإنجازات ومطابقتها برمجياً وتحديث README.md و hooks_user_guide.md ثم الرفع لـ GitHub. |
 | **13. خطاف الذاكرة المستدامة** | `[persistent-memory-engine]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `GPT-OSS 120B (Medium)` | `"حفظ ذاكرة"`, `"تحديث السياق"`, `"سجّل هذا"` | التقاط الدروس والقرارات وتخزينها في MEMORY_STORE.md وتصديرها للوكلاء. |
 | **14. خطاف النجاح والتحليل البعدي** | `[agent-optimizer]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"تم بنجاح"`, `"انتهى المشروع بنجاح"` | إجراء تحليل بعدي للمشروع وتحديث سجل التعلم وسد الثغرات البرمجية. |
 | **15. خطاف تنظيم وترتيب الأجهزة الشامل** | `[windows-c-drive-optimizer]`, `[windows-file-organizer]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Gemini 3.6 Flash (Medium)` | `"رتب جهازى"`, `"فرز الملفات"`, `"ترتيب ملفات"` | ترتيب ملفات جذور الأقراص بالكامل مع تنظيف وتحسين مساحة قرص الـ C بآن واحد. |
 | **16. خطاف ترتيب الملفات لمسار محدد** | `[windows-file-organizer]` | الأساسي: `Gemini 3.6 Flash (Medium)` <br> البديل: `Gemini 3.5 Flash (Medium)` | `"رتب المسار"`, `"نظم المجلد"`, `"ترتيب مسار"` | تنظيم وفرز الملفات داخل مجلد أو مسار مخصص يحدده المستخدم بذكاء ودقة. |
 | **17. خطاف إدارة تليجرام** | `[devops-deployer]`, `[persistent-memory-engine]` | الأساسي: `Gemini 3.5 Flash (Medium)` <br> البديل: `Gemini 3.1 Pro (Low)` | `"شغل البوت"`, `"تفعيل تليجرام"`, `"Telegram Bot"` | تشغيل بوت تليجرام في الخلفية بنمط الاستماع للطلبات عن بعد دون تعارض. |
 | **18. خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]`, `[docs-guard]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"حراسة الجودة"`, `"clean code audit"` | تفعيل بوابات الحماية الثلاث لفحص الكود النظيف، سلامة الاختبارات، ومطابقة التوثيق. |
-| **19. خطاف استكشاف وتكامل الموارد العالمية** | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]`, `[agent-optimizer]`, `[frontend-design-builder]`, `[git-github-manager]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"استكشف المورد"`, `"حلل المستودع"`, `"تكامل المورد"`, `"scout resource"`, `"integrate repo"` | تحليل المستودعات الخارجية واستيراد المهارات وتعميمها وتحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر ومزامنة المنظومة. |
+| **19. خطاف استكشاف وتكامل الموارد العالمية** | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]`, `[agent-optimizer]`, `[frontend-design-builder]`, `[git-github-manager]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"استكشف المورد"`, `"حلل المستودع"`, `"تكامل المورد"`, `"scout resource"`, `"integrate repo"` | تحليل المستودعات الخارجية واستيراد المهارات وتعميمها وتحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر ودليل hooks_user_guide.md ومزامنة المنظومة. |
 
 ---
 
@@ -86,7 +86,7 @@
        - 🌐 دليل وثائق Anthropic: `https://docs.anthropic.com`
      - يتم استخراج قائمة النماذج الفعالة في المحرر (مثل `Gemini 3.7 Flash`, `Claude Sonnet 4.6 (Thinking)`).
   3. **التحديث والمزامنة الشاملة:**
-     - تحديث مصفوفة النماذج في `HOOKS_GUIDE.md`.
+     - تحديث مصفوفة النماذج في `HOOKS_GUIDE.md` ودليل مسار العمل `hooks_user_guide.md`.
      - تشغيل السكربتات لتحديث ملف الإكسيل `HOOKS_GUIDE.xlsx` وتطبيق مكتبة الأوامر HTML.
      - تشغيل `sync_global_ecosystem.py` ورفع التحديثات لـ GitHub تلقائياً.
 
@@ -113,8 +113,8 @@
 * **طريقة العمل والإجراءات:**
   1. **قراءة السجل والذاكرة:** مراجعة التغييرات الأخيرة في الملفات وقراءة `MEMORY_STORE.md` لاستخلاص ما تم إنجازه.
   2. **مطابقة التوثيق (`docs-guard`):** مطابقة كل رمز برمجي أو مسار أو دالة مذكورة في التوثيق مع الكود الحقيقي لمنع أي تباين أو اختلاق (Docs-vs-Code Drift).
-  3. **صياغة الإنجازات وتحديث README:** كتابة الإنجازات بنسق احترافي كنقاط موجزة، وإضافتها إلى ملف `README.md` الخاص بالمشروع.
-  4. **الرفع التلقائي (Commit & Push):** إضافة التعديل على `README.md` وإجراء عملية الحفظ، ثم الرفع التلقائي إلى GitHub مباشرة كخطوة نهائية متصلة.
+  3. **صياغة الإنجازات وتحديث التوثيق:** كتابة الإنجازات بنسق احترافي كنقاط موجزة، وتحديث ملف `README.md` وملف [`hooks_user_guide.md`](file:///f:/AI%20PROJECTS/Blind%20App/hooks_user_guide.md).
+  4. **الرفع التلقائي (Commit & Push):** إضافة التعديلات وإجراء الحفظ، ثم الرفع التلقائي إلى GitHub مباشرة كخطوة نهائية متصلة.
 
 ### 13. خطاف الذاكرة المستدامة (Memory Sync Hook)
 * **طريقة العمل والإجراءات:**
@@ -162,7 +162,7 @@
   1. **فحص وتقييم المورد (`resource-scout-integrator` + `github-talent-scout`):** استلام رابط المستودع الخارجي وفحص ملفات README والأكواد وتحديد ما إذا كان يُحدث نقلة نوعية واستبعاد ما لا يتوافق مع البيئة.
   2. **بناء وهيكلة المهارات (`skill-forge-builder`):** استخراج المهارات الفعالة وصياغة ملفات `SKILL.md` وفق المعايير العالمية.
   3. **التعميم العالمي (`global-deployment`):** نشر المهارات في `C:\Users\Kt\.gemini\config\skills/` لتصبح متاحة لكل المشاريع.
-  4. **تحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر (`agent-optimizer` + `frontend-design-builder`):** إضافة المهارات للخطافات ذات الصلة وتشغيل سكربت `convert_hooks_to_sheets.py` لتحديث ملف الإكسيل `HOOKS_GUIDE.xlsx` وتشغيل `update_html.py` لتحديث تطبيق مكتبة الأوامر التفاعلي (`03_Dynamic_Prompt_Library/index.html`).
+  4. **تحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر ودليل المستخدم (`agent-optimizer` + `frontend-design-builder`):** إضافة المهارات للخطافات ذات الصلة، وتحديث `hooks_user_guide.md` و `USER_GUIDE.md`، وتشغيل سكربت `convert_hooks_to_sheets.py` لتحديث ملف الإكسيل `HOOKS_GUIDE.xlsx` وتشغيل `update_html.py` لتحديث تطبيق مكتبة الأوامر التفاعلي (`03_Dynamic_Prompt_Library/index.html`).
   5. **مزامنة المستودع العام سحابياً (`git-github-manager`):** تشغيل `sync_global_ecosystem.py` لمزامنة كامل منظومة الوكلاء والمهارات والدليل مع مستودع `Claude-Antigravity-Workspace` ورفعه إلى GitHub.
 
 </div>
