@@ -2,6 +2,7 @@ import os
 import shutil
 import subprocess
 
+SOURCE_BLIND_ROOT = r"f:\AI PROJECTS\Blind App"
 SOURCE_BLIND_AGENTS = r"f:\AI PROJECTS\Blind App\.agents"
 SOURCE_GLOBAL_SKILLS = r"C:\Users\Kt\.gemini\config\skills"
 SOURCE_GLOBAL_SUBAGENTS = r"C:\Users\Kt\.gemini\config\Sub_Agent"
@@ -63,6 +64,7 @@ core_files = [
     "HOOKS_GUIDE.xlsx",
     "convert_hooks_to_sheets.py",
     "update_html.py",
+    "update_models_matrix.py",
     "sync_global_ecosystem.py",
     "ACTIVE_CONTEXT_INJECTION.md",
     "MEMORY_EXPORT_PROTOCOL.md"
@@ -74,9 +76,11 @@ for f in core_files:
         dst = os.path.join(TARGET_AGENTS, f)
         shutil.copy2(src, dst)
 
-# Also copy AGENTS.md and HOOKS_GUIDE.xlsx to root of TARGET_WORKSPACE for direct accessibility
-shutil.copy2(os.path.join(SOURCE_BLIND_AGENTS, "AGENTS.md"), os.path.join(TARGET_WORKSPACE, "AGENTS.md"))
-shutil.copy2(os.path.join(SOURCE_BLIND_AGENTS, "HOOKS_GUIDE.xlsx"), os.path.join(TARGET_WORKSPACE, "HOOKS_GUIDE.xlsx"))
-shutil.copy2(os.path.join(SOURCE_BLIND_AGENTS, "sync_global_ecosystem.py"), os.path.join(TARGET_WORKSPACE, "sync_global_ecosystem.py"))
+# Root-level docs
+for root_doc in ["AGENTS.md", "HOOKS_GUIDE.xlsx", "sync_global_ecosystem.py"]:
+    shutil.copy2(os.path.join(SOURCE_BLIND_AGENTS, root_doc), os.path.join(TARGET_WORKSPACE, root_doc))
+
+if os.path.exists(os.path.join(SOURCE_BLIND_ROOT, "hooks_user_guide.md")):
+    shutil.copy2(os.path.join(SOURCE_BLIND_ROOT, "hooks_user_guide.md"), os.path.join(TARGET_WORKSPACE, "hooks_user_guide.md"))
 
 print(">>> 5. Ecosystem Sync Completed Successfully!")
