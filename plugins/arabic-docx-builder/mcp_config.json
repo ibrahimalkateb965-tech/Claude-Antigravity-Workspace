@@ -1,0 +1,10 @@
+{
+    "mcpServers":  {
+                       "arabic-docx-builder":  {
+                                                   "args":  [
+                                                                "C:/Users/Kt/.gemini/config/plugins/arabic-docx-builder/mcp/server.py"
+                                                            ],
+                                                   "command":  "C:/Users/Kt/.gemini/config/plugins/arabic-docx-builder/mcp/venv/Scripts/python.exe"
+                                               }
+                   }
+}

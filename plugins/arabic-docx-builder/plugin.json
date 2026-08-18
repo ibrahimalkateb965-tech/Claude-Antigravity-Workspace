@@ -1,0 +1,5 @@
+{
+    "description":  "Provides the Arabic DOCX Builder MCP server and agent skills to generate perfectly formatted RTL Word documents.",
+    "name":  "arabic-docx-builder",
+    "version":  "1.0.0"
+}

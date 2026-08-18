@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "C:/Users/Kt/AppData/Roaming/npm/node_modules/lean-ctx-bin/bin/lean-ctx.exe hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "C:/Users/Kt/AppData/Roaming/npm/node_modules/lean-ctx-bin/bin/lean-ctx.exe hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "C:/Users/Kt/AppData/Roaming/npm/node_modules/lean-ctx-bin/bin/lean-ctx.exe hook observe",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      }
+    ]
+  }
+}

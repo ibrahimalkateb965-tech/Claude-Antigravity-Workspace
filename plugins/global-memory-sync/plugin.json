@@ -1,0 +1,9 @@
+{
+  "name": "global-memory-sync",
+  "description": "A centralized MCP server to sync memory logs from local workspaces to a global store.",
+  "version": "1.0.0",
+  "author": "Kt",
+  "engines": {
+    "antigravity": "^1.0.0"
+  }
+}

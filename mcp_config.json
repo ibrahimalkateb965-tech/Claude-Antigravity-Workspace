@@ -1,0 +1,10 @@
+{
+    "mcpServers":  {
+                       "GlobalMemorySync":  {
+                                                "command":  "python",
+                                                "args":  [
+                                                             "C:/Users/Kt/.gemini/config/plugins/global-memory-sync/mcp_global_memory_server.py"
+                                                         ]
+                                            }
+                   }
+}

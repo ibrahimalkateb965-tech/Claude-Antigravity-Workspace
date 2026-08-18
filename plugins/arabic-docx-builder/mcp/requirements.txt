@@ -1,0 +1,4 @@
+mcp<2.0.0
+fastmcp
+python-docx>=1.1.2
+mistune>=3.0.0
