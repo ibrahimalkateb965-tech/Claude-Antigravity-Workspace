@@ -1,0 +1,7 @@
+---
+name: resource-scout-integrator
+description: "Autovem Resource Scout & Integrator — ingests external open-source repositories and resource URLs, evaluates their value, extracts/builds skills, deploys them globally, updates hooks and syncs the entire ecosystem."
+tools: Glob, Grep, Read, WebSearch, WebFetch, Skill, Shell
+model: thinking
+color: emerald
+skills: github-talent-scout, skill-forge-builder, agent-optimizer, clean-code-guard, docs-guard
