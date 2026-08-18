@@ -22,7 +22,7 @@
 | **16. خطاف ترتيب الملفات لمسار محدد** | `[windows-file-organizer]` | الأساسي: `Gemini 3.6 Flash (Medium)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"رتب المسار"`, `"نظم المجلد"`, `"ترتيب مسار"` | تنظيم وفرز الملفات داخل مجلد أو مسار مخصص يحدده المستخدم بذكاء ودقة. |
 | **17. خطاف إدارة تليجرام** | `[devops-deployer]`, `[persistent-memory-engine]` | الأساسي: `Gemini 3.6 Flash (Low)` <br> البديل: `Gemini 3.5 Flash (Low)` | `"شغل البوت"`, `"تفعيل تليجرام"`, `"Telegram Bot"` | تشغيل بوت تليجرام في الخلفية بنمط الاستماع للطلبات عن بعد دون تعارض. |
 | **18. خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]`, `[docs-guard]` | الأساسي: `Gemini 3.1 Pro (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"حراسة الجودة"`, `"clean code audit"` | تفعيل بوابات الحماية الثلاث لفحص الكود النظيف، سلامة الاختبارات، ومطابقة التوثيق. |
-| **19. خطاف استكشاف وتكامل الموارد العالمية** | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]`, `[agent-optimizer]`, `[git-github-manager]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.1 Pro (High)` | `"استكشف المورد"`, `"حلل المستودع"`, `"تكامل المورد"`, `"scout resource"`, `"integrate repo"` | تحليل المستودعات الخارجية واستيراد المهارات وتعميمها عالمياً وتحديث الخطافات ومزامنة مستودع Claude-Antigravity-Workspace. |
+| **19. خطاف استكشاف وتكامل الموارد العالمية** | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]`, `[agent-optimizer]`, `[frontend-design-builder]`, `[git-github-manager]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.1 Pro (High)` | `"استكشف المورد"`, `"حلل المستودع"`, `"تكامل المورد"`, `"scout resource"`, `"integrate repo"` | تحليل المستودعات الخارجية واستيراد المهارات وتعميمها وتحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر ومزامنة المنظومة. |
 
 ---
 
@@ -154,7 +154,7 @@
   1. **فحص وتقييم المورد (`resource-scout-integrator` + `github-talent-scout`):** استلام رابط المستودع الخارجي وفحص ملفات README والأكواد وتحديد ما إذا كان يُحدث نقلة نوعية واستبعاد ما لا يتوافق مع البيئة.
   2. **بناء وهيكلة المهارات (`skill-forge-builder`):** استخراج المهارات الفعالة وصياغة ملفات `SKILL.md` وفق المعايير العالمية.
   3. **التعميم العالمي (`global-deployment`):** نشر المهارات في `C:\Users\Kt\.gemini\config\skills/` لتصبح متاحة لكل المشاريع.
-  4. **تحديث الخطافات والإكسيل (`agent-optimizer`):** إضافة المهارات للخطافات ذات الصلة وتشغيل سكربت `convert_hooks_to_sheets.py` لتحديث ملف الإكسيل `HOOKS_GUIDE.xlsx`.
+  4. **تحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر (`agent-optimizer` + `frontend-design-builder`):** إضافة المهارات للخطافات ذات الصلة وتشغيل سكربت `convert_hooks_to_sheets.py` لتحديث ملف الإكسيل `HOOKS_GUIDE.xlsx` وتشغيل `update_html.py` لتحديث تطبيق مكتبة الأوامر التفاعلي (`03_Dynamic_Prompt_Library/index.html`).
   5. **مزامنة المستودع العام سحابياً (`git-github-manager`):** تشغيل `sync_global_ecosystem.py` لمزامنة كامل منظومة الوكلاء والمهارات والدليل مع مستودع `Claude-Antigravity-Workspace` ورفعه إلى GitHub.
 
 </div>
