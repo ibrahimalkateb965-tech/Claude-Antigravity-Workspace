@@ -186,6 +186,15 @@
   anti_pattern_avoided: "المسافات البيضاء المهدرة، الصفحات الفارغة العالقة، تباين الهوية البصرية، وتكدس النصوص غير المريح للعين."
   tags: [pdf-design, prompt-library-palette, minimal-pages, ergonomic-layout, no-blank-pages, universal-rule]
   status: active
+
+- id: ARCH-2026-08-20-003
+  type: architectural_decision
+  timestamp: "2026-08-20T23:54:00+03:00"
+  agents: [code-architect, prompt-engineer, persistent-memory-engine]
+  context: "توحيد مصطلح Hook ومبدأ الأسطول الهندسي القابل للتوسع اللانهائي عبر المنظومة"
+  content: "1) اعتماد مصطلح 'Hook' كمعيار تقني موحد بدلاً من 'خطاف' في كافة الوثائق والواجهات، مع الحفاظ على المحفزات التلقائية باللغة العربية. 2) ترسيخ مبدأ أن أسطول الوكلاء الـ 25+ والـ 80+ مهارة هو نواة مرنة تتوسع وتتمدد ديناميكياً لاستيراد وبناء مهارات جديدة فورياً عبر Hook 20 و Hook 9 ومحرك بناء المهارات حسب متطلبات كل مشروع دون أي جمود."
+  tags: [hook-nomenclature, dynamic-scaling, extensible-fleet, hook-20, standardization]
+  status: active
 ```
 
 ---
