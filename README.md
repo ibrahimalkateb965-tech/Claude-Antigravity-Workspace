@@ -158,7 +158,7 @@ Claude-Antigravity-Workspace/
 يسعدنا ويشرفنا دعمكم بوضع **نجمة (Star ⭐)** على المستودع، والتواصل معنا عبر القنوات الرسمية:
 * 🐙 **GitHub:** [ibrahimalkateb965-tech](https://github.com/ibrahimalkateb965-tech)
 * 💼 **LinkedIn:** [Ibrahim Alkateb (PMP®)](https://www.linkedin.com/in/ibrahim-alkateb-pmp%C2%AE-7b07b1229?utm_source=share_via&utm_content=profile&utm_medium=member_android)
-* 💬 **WhatsApp:** [+966 53 891 5582](https://wa.me/966538915582)
+* 💬 **WhatsApp:** `+966 56 409 2468` ([راسلنا واتساب](https://wa.me/966564092468))
 
 ---
 
