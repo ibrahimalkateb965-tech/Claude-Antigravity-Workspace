@@ -37,7 +37,7 @@
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 14px;
-            --radius-xl: 20px;
+            --radius-xl: 22px;
         }
 
         * {
@@ -96,20 +96,25 @@
             break-inside: avoid;
         }
 
-        /* ================= COVER PAGE STYLES ================= */
+        /* ================= EXECUTIVE COVER PAGE (UPGRADED APPLE/MAGAZINE GRADE) ================= */
         .cover-page {
-            background: radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.18) 0%, transparent 50%),
-                        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                        linear-gradient(145deg, #070612 0%, #110d28 45%, #080c1b 100%);
-            border: 1px solid rgba(168, 85, 247, 0.25);
+            background-color: #070614;
+            background-image: 
+                radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 15% 85%, rgba(6, 182, 212, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+            border: 1.5px solid rgba(168, 85, 247, 0.35);
             border-radius: var(--radius-xl);
-            padding: 24px 28px;
+            padding: 26px 30px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(168, 85, 247, 0.06);
         }
 
         .cover-top-bar {
@@ -122,104 +127,112 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(168, 85, 247, 0.2);
-            border: 1px solid rgba(168, 85, 247, 0.5);
-            padding: 4px 14px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(6, 182, 212, 0.15));
+            border: 1px solid rgba(168, 85, 247, 0.55);
+            padding: 5px 16px;
             border-radius: 30px;
             font-size: 11.5px;
             font-weight: 800;
-            color: #d8b4fe;
+            color: #ffffff;
             letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
         }
 
-        .cover-edition-tag {
+        .cover-seal-badge {
             font-size: 10.5px;
-            color: var(--neon-cyan);
+            color: #facc15;
             font-weight: 800;
-            background: rgba(6, 182, 212, 0.15);
-            border: 1px solid rgba(6, 182, 212, 0.35);
-            padding: 3px 12px;
+            background: rgba(234, 179, 8, 0.12);
+            border: 1px solid rgba(234, 179, 8, 0.4);
+            padding: 4px 14px;
             border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .cover-center-content {
             margin: auto 0;
             text-align: center;
-            padding: 10px 0;
+            padding: 6px 0;
         }
 
         .cover-main-icon {
-            width: 70px;
-            height: 70px;
+            width: 76px;
+            height: 76px;
             margin: 0 auto 16px auto;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(6, 182, 212, 0.3));
-            border: 2px solid rgba(168, 85, 247, 0.5);
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(6, 182, 212, 0.35));
+            border: 2px solid rgba(168, 85, 247, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 36px;
             color: #ffffff;
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 35px rgba(168, 85, 247, 0.5), inset 0 0 20px rgba(6, 182, 212, 0.3);
         }
 
         .cover-title-group h1 {
-            font-size: 30px;
+            font-size: 32px;
             font-weight: 900;
-            line-height: 1.25;
+            line-height: 1.22;
             margin-bottom: 8px;
-            background: linear-gradient(to left, #ffffff 10%, #c084fc 50%, #38bdf8 100%);
+            background: linear-gradient(to left, #ffffff 15%, #d8b4fe 55%, #38bdf8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 25px rgba(168, 85, 247, 0.4);
         }
 
         .cover-title-en {
             font-family: 'Outfit', sans-serif;
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 800;
             color: #94a3b8;
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .cover-subtitle {
-            font-size: 13px;
+            font-size: 12.5px;
             color: #cbd5e1;
-            max-width: 90%;
-            margin: 0 auto 18px auto;
-            line-height: 1.6;
+            max-width: 92%;
+            margin: 0 auto 16px auto;
+            line-height: 1.55;
         }
 
-        /* Pillars 4-Grid on Cover */
+        /* Pillars 4-Grid on Cover (Apple Design Materiality) */
         .cover-pillars-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            max-width: 95%;
-            margin: 0 auto 18px auto;
+            max-width: 98%;
+            margin: 0 auto 16px auto;
             text-align: right;
         }
 
         .cover-pillar-card {
-            background: rgba(18, 16, 36, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(18, 15, 38, 0.85);
+            border: 1px solid rgba(168, 85, 247, 0.22);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-md);
-            padding: 10px 12px;
+            padding: 10px 14px;
             display: flex;
             align-items: flex-start;
             gap: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
         }
 
         .pillar-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            font-size: 14px;
             flex-shrink: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .pillar-text strong {
@@ -241,20 +254,20 @@
             justify-content: center;
             gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .cover-spec-pill {
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 4px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 4px 14px;
             border-radius: 20px;
             font-size: 10px;
             font-weight: 700;
-            color: #e2e8f0;
+            color: #f1f5f9;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
 
         /* Cover Footer */
@@ -271,9 +284,12 @@
         }
 
         .cover-author-name {
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 900;
             color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .cover-author-title {
@@ -292,6 +308,7 @@
         .cover-org-info strong {
             color: #ffffff;
             display: block;
+            font-size: 10.5px;
         }
 
         /* ================= INNER PAGES STYLES ================= */
@@ -721,15 +738,15 @@
 
 <div class="document-wrapper">
 
-    <!-- ==================== PAGE 1: EXECUTIVE FRONT COVER ==================== -->
+    <!-- ==================== PAGE 1: EXECUTIVE FRONT COVER (UPGRADED) ==================== -->
     <div class="page cover-page">
         <!-- Top Bar -->
         <div class="cover-top-bar">
             <div class="cover-brand-badge">
-                <i class="fa-solid fa-cube"></i> AUTOVEM ARCHITECTURE OS
+                <i class="fa-solid fa-cube"></i> AUTOVEM MULTI-AGENT OS
             </div>
-            <div class="cover-edition-tag">
-                <i class="fa-solid fa-certificate"></i> إصدار الإنتاج الرسمي 2026
+            <div class="cover-seal-badge">
+                <i class="fa-solid fa-award"></i> معتمد معمارياً | PRODUCTION GRADE
             </div>
         </div>
 
@@ -749,20 +766,20 @@
                 من أول سطر وفكرة.. إلى بيئات الإنتاج والتطوير السحابية العالمية بنقرة زر واحدة.
             </p>
 
-            <!-- 4 Architectural Pillars -->
+            <!-- 4 Architectural Pillars (Apple Glassmorphic Depth) -->
             <div class="cover-pillars-grid">
                 <div class="cover-pillar-card">
-                    <div class="pillar-icon" style="background: rgba(168, 85, 247, 0.25); color: #c084fc;">
+                    <div class="pillar-icon" style="background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.5);">
                         <i class="fa-solid fa-diagram-project"></i>
                     </div>
                     <div class="pillar-text">
-                        <strong>خط الإنتاج المزدوج (Dual-Agent)</strong>
+                        <strong>خط الإنتاج المزدوج (Dual-Agent Pipeline)</strong>
                         <span>Claude للتخطيط والتدقيق الصارم + Antigravity للبرمجة والحراسة.</span>
                     </div>
                 </div>
 
                 <div class="cover-pillar-card">
-                    <div class="pillar-icon" style="background: rgba(6, 182, 212, 0.25); color: #38bdf8;">
+                    <div class="pillar-icon" style="background: rgba(6, 182, 212, 0.25); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.5);">
                         <i class="fa-solid fa-bolt"></i>
                     </div>
                     <div class="pillar-text">
@@ -772,7 +789,7 @@
                 </div>
 
                 <div class="cover-pillar-card">
-                    <div class="pillar-icon" style="background: rgba(34, 197, 94, 0.25); color: #4ade80;">
+                    <div class="pillar-icon" style="background: rgba(34, 197, 94, 0.25); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.5);">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
                     <div class="pillar-text">
@@ -782,7 +799,7 @@
                 </div>
 
                 <div class="cover-pillar-card">
-                    <div class="pillar-icon" style="background: rgba(234, 179, 8, 0.25); color: #facc15;">
+                    <div class="pillar-icon" style="background: rgba(234, 179, 8, 0.25); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.5);">
                         <i class="fa-solid fa-brain"></i>
                     </div>
                     <div class="pillar-text">
@@ -795,20 +812,22 @@
             <!-- Specs Strip -->
             <div class="cover-specs-strip">
                 <span class="cover-spec-pill"><i class="fa-solid fa-wand-magic-sparkles" style="color: var(--neon-cyan);"></i> تثبيت فوري بنقرة زر (setup_one_click.bat)</span>
-                <span class="cover-spec-pill"><i class="fa-solid fa-code" style="color: var(--neon-purple);"></i> صفر خبرة برمجية مطلوبة</span>
-                <span class="cover-spec-pill"><i class="fa-brands fa-github" style="color: #ffffff;"></i> مستودع مفتوح المصدر بالكامل</span>
+                <span class="cover-spec-pill"><i class="fa-solid fa-check-double" style="color: var(--neon-green);"></i> صفر خبرة برمجية مطلوبة</span>
+                <span class="cover-spec-pill"><i class="fa-brands fa-github" style="color: #ffffff;"></i> مستودع مفتوح المصدر 100%</span>
             </div>
         </div>
 
         <!-- Cover Footer -->
         <div class="cover-footer">
             <div class="cover-author-info">
-                <div class="cover-author-name">م / إبراهيم الكاتب</div>
+                <div class="cover-author-name">
+                    <i class="fa-solid fa-circle-check" style="color: var(--neon-cyan); font-size: 11px;"></i> م / إبراهيم الكاتب
+                </div>
                 <div class="cover-author-title">مهندس برمجيات ومدير مشاريع معتمد PMP®</div>
             </div>
             <div class="cover-org-info">
                 <strong>AUTOVEM AI ARCHITECTURE TEAM</strong>
-                <span>Production-Grade Multi-Agent Framework</span>
+                <span>Official Production Multi-Agent Framework • 2026</span>
             </div>
         </div>
     </div>
