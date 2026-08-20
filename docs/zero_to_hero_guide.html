@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رحلة من الصفر إلى قيادة أسطول الوكلاء الذكي | The Zero-to-Hero Journey</title>
+    <!-- Google Fonts matching Dynamic Prompt Library -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== EXACT NEON CANDY PALETTE FROM DYNAMIC PROMPT LIBRARY ===== */
+        :root {
+            --bg: #0a0a14;
+            --surface: #121024;
+            --surface-card: #181530;
+            --surface-hover: #221c44;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(168, 85, 247, 0.35);
+
+            /* Neon Accents */
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
+            --neon-cyan: #06b6d4;
+            --neon-green: #22c55e;
+            --neon-orange: #f97316;
+            --neon-yellow: #eab308;
+
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.45;
+            font-size: 11px;
+            direction: rtl;
+            text-align: right;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Print Page Setup: Minimal margins to eliminate empty space */
+        @page {
+            size: A4 portrait;
+            margin: 8mm 10mm 8mm 10mm;
+        }
+
+        .document-wrapper {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: var(--bg);
+            padding: 0;
+        }
+
+        /* Page Layout & Controls */
+        .page {
+            page-break-after: always;
+            break-after: page;
+            min-height: 275mm;
+            max-height: 280mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+            break-after: auto;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        /* Links */
+        a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .live-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(168, 85, 247, 0.15));
+            color: #38bdf8 !important;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            font-size: 9.5px;
+            font-weight: 700;
+            text-decoration: none !important;
+        }
+
+        /* Header / Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #130f2e 0%, #1e1338 50%, #0d1527 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .hero-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(168, 85, 247, 0.18);
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #c084fc;
+        }
+
+        .hero-title {
+            font-size: 20px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 4px;
+            background: linear-gradient(to left, #ffffff, #c084fc, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 10.5px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .badges-strip {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .mini-badge {
+            background: rgba(18, 16, 36, 0.85);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mini-badge strong { color: var(--text-primary); }
+
+        /* Section Title */
+        .section-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0 6px 0;
+            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-bar i {
+            color: var(--neon-purple);
+            font-size: 12px;
+        }
+
+        .section-bar h2 {
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        /* 4 Steps Grid */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .step-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .step-box:hover {
+            border-color: var(--border-glow);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .step-num {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            color: #ffffff;
+            font-size: 9.5px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .step-text {
+            font-size: 9.5px;
+            color: var(--text-muted);
+            line-height: 1.35;
+            margin-bottom: 6px;
+        }
+
+        .code-snippet {
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+            text-align: left;
+            background: #06060c;
+            color: #38bdf8;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 8.5px;
+            border: 1px solid rgba(255,255,255,0.06);
+            word-break: break-all;
+        }
+
+        /* 5 Scenes Grid / Compact Cards */
+        .scenes-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .scene-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 7px 10px;
+        }
+
+        .scene-item.full-width {
+            grid-column: span 2;
+        }
+
+        .scene-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .scene-name {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #e2e8f0;
+        }
+
+        .hook-tag {
+            font-size: 8.5px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 3px;
+            background: rgba(168, 85, 247, 0.18);
+            color: #d8b4fe;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .dialogue-user {
+            background: rgba(30, 27, 75, 0.6);
+            border-right: 2px solid var(--neon-cyan);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 9.5px;
+            font-weight: 700;
+            color: #7dd3fc;
+            margin-bottom: 3px;
+        }
+
+        .dialogue-agent {
+            font-size: 9.5px;
+            color: var(--text-secondary);
+            line-height: 1.35;
+        }
+
+        /* Table on Page 2 */
+        .hooks-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .hooks-table th {
+            background: #191436;
+            color: #ffffff;
+            font-weight: 800;
+            padding: 5px 8px;
+            text-align: right;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+            font-size: 10px;
+        }
+
+        .hooks-table td {
+            padding: 4px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-secondary);
+        }
+
+        .hooks-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .table-pill {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.12);
+            color: #38bdf8;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            font-size: 9px;
+        }
+
+        /* Bottom Feature Cards */
+        .features-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .feature-mini {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 6px 8px;
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .feature-mini strong {
+            color: #ffffff;
+            font-size: 9.5px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Page Footer */
+        .page-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8.5px;
+            color: var(--text-muted);
+        }
+
+        .page-footer a {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-wrapper">
+
+    <!-- ==================== PAGE 1 ==================== -->
+    <div class="page">
+        <div>
+            <!-- Hero Banner matching Prompt Library aesthetics -->
+            <header class="hero-banner avoid-break">
+                <div class="hero-top-row">
+                    <div class="brand-badge"><i class="fa-solid fa-microchip"></i> Autovem Architecture OS</div>
+                    <span style="font-size: 9.5px; color: var(--text-muted);">دليل المبتدئ الشامل | Zero-to-Hero</span>
+                </div>
+                <h1 class="hero-title">رحلة من الصفر إلى قيادة أسطول الوكلاء الذكي</h1>
+                <p class="hero-desc">
+                    دليلك التنفيذي السريع لتفعيل المحرك المعماري لمنظومة Claude & Antigravity (25+ وكيلاً و 80+ مهارة) على جهازك، وإدارة مشروعاتك باللغة العربية البسيطة بنقرة زر واحدة دون الحاجة لأي خبرة سابقة في البرمجة.
+                </p>
+                <div class="badges-strip">
+                    <span class="mini-badge"><i class="fa-solid fa-layer-group" style="color: var(--neon-cyan);"></i> <strong>21 خطافاً تخصصياً</strong></span>
+                    <span class="mini-badge"><i class="fa-solid fa-user-astronaut" style="color: var(--neon-purple);"></i> <strong>25+ وكيلاً خبيراً</strong></span>
+                    <span class="mini-badge"><i class="fa-solid fa-bolt" style="color: var(--neon-orange);"></i> <strong>تفعيل بنقرة واحدة</strong></span>
+                    <span class="mini-badge"><i class="fa-solid fa-shield-halved" style="color: var(--neon-green);"></i> <strong>بوابات حراسة الجودة</strong></span>
+                </div>
+            </header>
+
+            <!-- 4 Quickstart Steps -->
+            <div class="section-bar avoid-break">
+                <i class="fa-solid fa-rocket"></i>
+                <h2>خريطة الطريق السريعة: تفعيل المحرك على جهازك (في 4 خطوات)</h2>
+            </div>
+
+            <div class="steps-grid avoid-break">
+                <!-- Step 1 -->
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-num">1</div>
+                        <div class="step-title">تثبيت الأدوات</div>
+                    </div>
+                    <div class="step-text">تنزيل المحرر ومحرك بايثون المجانيين مع وضع علامة صح على Add to PATH:</div>
+                    <div style="display: flex; flex-direction: column; gap: 3px;">
+                        <a href="https://antigravity.google" target="_blank" class="live-btn"><i class="fa-solid fa-download"></i> Antigravity IDE</a>
+                        <a href="https://www.python.org/downloads/" target="_blank" class="live-btn"><i class="fa-brands fa-python"></i> Python Engine</a>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-num">2</div>
+                        <div class="step-title">جلب المستودع</div>
+                    </div>
+                    <div class="step-text">تحميل المستودع كملف ZIP أو استنساخه عبر سطر الأوامر:</div>
+                    <a href="https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace" target="_blank" class="live-btn" style="margin-bottom: 3px;"><i class="fa-brands fa-github"></i> مستودع GitHub</a>
+                    <div class="code-snippet">git clone https://...</div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-num">3</div>
+                        <div class="step-title">التفعيل السحري</div>
+                    </div>
+                    <div class="step-text">ادخل للمجلد وانقر نقراً مزدوجاً على الملف التنفيذي السريع:</div>
+                    <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.35); padding: 3px 6px; border-radius: 4px; color: #4ade80; font-weight: 800; font-size: 9.5px; text-align: center;">
+                        👉 setup_one_click.bat
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-box">
+                    <div class="step-header">
+                        <div class="step-num">4</div>
+                        <div class="step-title">قول: «بسم الله»</div>
+                    </div>
+                    <div class="step-text">افتح المجلد بالمحرر واكتب في الشات كلمة الافتتاح لتهيئة الأسطول:</div>
+                    <div style="background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.4); padding: 3px 6px; border-radius: 4px; color: #e9d5ff; font-weight: 800; font-size: 10.5px; text-align: center;">
+                        "بسم الله" 🚀
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulation of 5 Scenes -->
+            <div class="section-bar avoid-break">
+                <i class="fa-solid fa-comments"></i>
+                <h2>المحاكاة التفاعلية: كيف يقود أحمد أسطول الوكلاء لبناء مشروعه؟</h2>
+            </div>
+
+            <div class="scenes-container avoid-break">
+                <!-- Scene 1 -->
+                <div class="scene-item">
+                    <div class="scene-top">
+                        <span class="scene-name">المشهد 1: الترحيب والجاهزية</span>
+                        <span class="hook-tag">الخطاف 1</span>
+                    </div>
+                    <div class="dialogue-user">👤 أحمد: "بسم الله"</div>
+                    <div class="dialogue-agent">🤖 <strong>المحرك:</strong> «تم استدعاء بروتوكول الخطوة صفر وتطبيق القيود صامتاً. أسطول الوكلاء الـ 25 بكامل مهاراته في خدمتك.»</div>
+                </div>
+
+                <!-- Scene 2 -->
+                <div class="scene-item">
+                    <div class="scene-top">
+                        <span class="scene-name">المشهد 2: هندسة سياق المشروع</span>
+                        <span class="hook-tag">الخطاف 2</span>
+                    </div>
+                    <div class="dialogue-user">👤 أحمد: "سياق المشروع : بناء تطبيق عيادة طبية مع تنبيهات واتساب"</div>
+                    <div class="dialogue-agent">🤖 <strong>المحرك:</strong> يحلل <code>[prompt-engineer]</code> و <code>[code-architect]</code> الفكرة ويولدان ملف <code>PROJECT_CONTEXT.md</code> معمارياً.</div>
+                </div>
+
+                <!-- Scene 3 -->
+                <div class="scene-item">
+                    <div class="scene-top">
+                        <span class="scene-name">المشهد 3: التخصيص وحذف الفائض (Pruning)</span>
+                        <span class="hook-tag">الخطاف 3 المستقل</span>
+                    </div>
+                    <div class="dialogue-user">👤 أحمد: "اعتمد سياق المشروع وتخصيص الوكلاء"</div>
+                    <div class="dialogue-agent">🤖 <strong>المحرك:</strong> يستدعي <code>project_agent_tailor.py</code> لتصدير وكلاء الويب وحذف مهارات أندرويد والإنشاءات الفائضة لترشيد السياق 100%.</div>
+                </div>
+
+                <!-- Scene 4 -->
+                <div class="scene-item">
+                    <div class="scene-top">
+                        <span class="scene-name">المشهد 4: بناء الميزة وحراسة الجودة</span>
+                        <span class="hook-tag">الخطاف 5</span>
+                    </div>
+                    <div class="dialogue-user">👤 أحمد: "ابدأ ميزة : شاشة حجز المواعيد للمرضى"</div>
+                    <div class="dialogue-agent">🤖 <strong>المحرك:</strong> تدقيق الخطة 7 مرات ببرومبت "محامي الشيطان"، ثم يكتب المبرمج الكود ويفحصه حراس الجودة (<code>clean-code-guard</code>).</div>
+                </div>
+
+                <!-- Scene 5 -->
+                <div class="scene-item full-width">
+                    <div class="scene-top">
+                        <span class="scene-name">المشهد 5: حفظ الذاكرة المستدامة والرفع السحابي لـ GitHub</span>
+                        <span class="hook-tag">الخطافات 14، 15، 12</span>
+                    </div>
+                    <div class="dialogue-user">👤 أحمد: "تم بنجاح" ثم "نظم جيت وارفع لجيتهاب"</div>
+                    <div class="dialogue-agent">🤖 <strong>المحرك:</strong> يحفظ <code>[persistent-memory-engine]</code> القرارات في <code>MEMORY_STORE.md</code>، ويدفع <code>[git-github-manager]</code> التعديلات إلى GitHub بنقرة واحدة.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 1 Footer -->
+        <footer class="page-footer">
+            <span>منظومة Claude & Antigravity Multi-Agent Ecosystem — فريق Autovem</span>
+            <span>الصفحة 1 من 2</span>
+        </footer>
+    </div>
+
+    <!-- ==================== PAGE 2 ==================== -->
+    <div class="page">
+        <div>
+            <!-- Section Header -->
+            <div class="section-bar avoid-break" style="margin-top: 0;">
+                <i class="fa-solid fa-table-list"></i>
+                <h2>جدول الخطافات التلقائية الـ 21 (دليل المحفزات المباشرة للنسخ السريع)</h2>
+            </div>
+
+            <!-- Master Hooks Table (21 Hooks) -->
+            <table class="hooks-table avoid-break">
+                <thead>
+                    <tr>
+                        <th style="width: 4%;">م</th>
+                        <th style="width: 26%;">اسم الخطاف</th>
+                        <th style="width: 36%;">المحفزات السريعة (Triggers للنسخ)</th>
+                        <th style="width: 34%;">الوكيل المسؤول والدور</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>خطاف البدء والافتتاح</strong></td><td><span class="table-pill">"بسم الله"</span>, <span class="table-pill">"بسم الله الرحمن الرحيم"</span></td><td><code>[prompt-engineer]</code> - تهيئة الجلسة وترشيد التوكنز.</td></tr>
+                    <tr><td>2</td><td><strong>خطاف هندسة السياق</strong></td><td><span class="table-pill">"سياق المشروع"</span>, <span class="table-pill">"هندسة السياق"</span></td><td><code>[prompt-engineer]</code> - بناء <code>PROJECT_CONTEXT.md</code>.</td></tr>
+                    <tr><td>3</td><td><strong>خطاف التخصيص والتصدير الذكي</strong></td><td><span class="table-pill">"اعتمد سياق المشروع"</span>, <span class="table-pill">"تخصيص وكلاء المشروع"</span></td><td><code>[code-architect]</code> - تصدير الحزم وتنظيف الفائض (Pruning).</td></tr>
+                    <tr><td>4</td><td><strong>خطاف تصحيح المسار</strong></td><td><span class="table-pill">"تصحيح مسار"</span>, <span class="table-pill">"تعديل البرومبت"</span></td><td><code>[prompt-engineer]</code> - تشريح الخلل وإعادة التوجيه.</td></tr>
+                    <tr><td>5</td><td><strong>خطاف خط الإنتاج البرمجي</strong></td><td><span class="table-pill">"ابدأ ميزة"</span>, <span class="table-pill">"تطوير ميزة"</span></td><td><code>[code-architect]</code> + <code>[clean-code-guard]</code> - دورة التطوير الكاملة.</td></tr>
+                    <tr><td>6</td><td><strong>خطاف التكامل الفني</strong></td><td><span class="table-pill">"ربط API"</span>, <span class="table-pill">"تكامل خارجي"</span></td><td><code>[devops-deployer]</code> - ربط الخدمات وحماية الشبكة.</td></tr>
+                    <tr><td>7</td><td><strong>خطاف تدقيق الصيانة</strong></td><td><span class="table-pill">"تدقيق صيانة"</span>, <span class="table-pill">"كود نظيف"</span></td><td><code>[code-reviewer-quality]</code> - فحص DRY وتطبيق الكود النظيف.</td></tr>
+                    <tr><td>8</td><td><strong>خطاف الفحص الأمني</strong></td><td><span class="table-pill">"فحص أمني"</span>, <span class="table-pill">"مراجعة أمان"</span></td><td><code>[security-auditor]</code> - مسح الثغرات وتشفير البيانات.</td></tr>
+                    <tr><td>9</td><td><strong>خطاف تحديث المكتبات والنماذج</strong></td><td><span class="table-pill">"تحديث الاعتماديات"</span>, <span class="table-pill">"معايرة النماذج"</span></td><td><code>[github-talent-scout]</code> - فحص Gradle ومعايرة النماذج.</td></tr>
+                    <tr><td>10</td><td><strong>خطاف الفحص والاختبار التلقائي</strong></td><td><span class="table-pill">"قم بالاختبار"</span>, <span class="table-pill">"جاهز للتجربة"</span></td><td><code>[android-testing]</code> + <code>[test-guard]</code> - فحص السلوك الفعلي.</td></tr>
+                    <tr><td>11</td><td><strong>خطاف معالجة الأعطال</strong></td><td><span class="table-pill">"حدث خطأ"</span>, <span class="table-pill">"Crash"</span></td><td><code>[debugger]</code> - تحليل السجلات وعزل المشكلة وحلها.</td></tr>
+                    <tr><td>12</td><td><strong>خطاف إدارة النسخ و Git</strong></td><td><span class="table-pill">"نظم جيت"</span>, <span class="table-pill">"ارفع لجيتهاب"</span></td><td><code>[git-github-manager]</code> - إدارة الإصدارات والرفع لـ GitHub.</td></tr>
+                    <tr><td>13</td><td><strong>خطاف تحديث الإنجازات</strong></td><td><span class="table-pill">"حدث الإنجازات"</span>, <span class="table-pill">"تحديث README"</span></td><td><code>[docs-guard]</code> - مطابقة التوثيق وصياغة الإنجازات.</td></tr>
+                    <tr><td>14</td><td><strong>خطاف الذاكرة المستدامة</strong></td><td><span class="table-pill">"حفظ ذاكرة"</span>, <span class="table-pill">"سجّل هذا"</span></td><td><code>[persistent-memory-engine]</code> - توثيق المعارف في <code>MEMORY_STORE.md</code>.</td></tr>
+                    <tr><td>15</td><td><strong>خطاف النجاح والتحليل البعدي</strong></td><td><span class="table-pill">"تم بنجاح"</span>, <span class="table-pill">"انتهى المشروع بنجاح"</span></td><td><code>[agent-optimizer]</code> - التحليل البعدي وتطوير المهارات.</td></tr>
+                    <tr><td>16</td><td><strong>خطاف تنظيم وترتيب الأجهزة</strong></td><td><span class="table-pill">"رتب جهازى"</span>, <span class="table-pill">"فرز الملفات"</span></td><td><code>[windows-c-drive-optimizer]</code> - ترتيب الملفات وتنظيف قرص C.</td></tr>
+                    <tr><td>17</td><td><strong>خطاف ترتيب مسار محدد</strong></td><td><span class="table-pill">"رتب المسار"</span>, <span class="table-pill">"نظم المجلد"</span></td><td><code>[windows-file-organizer]</code> - فرز الملفات بمسار مخصص.</td></tr>
+                    <tr><td>18</td><td><strong>خطاف إدارة تليجرام</strong></td><td><span class="table-pill">"شغل البوت"</span>, <span class="table-pill">"Telegram Bot"</span></td><td><code>[devops-deployer]</code> - تشغيل البوت بنمط الاستماع للطلبات.</td></tr>
+                    <tr><td>19</td><td><strong>خطاف التدقيق وحراسة الجودة</strong></td><td><span class="table-pill">"تدقيق الجودة"</span>, <span class="table-pill">"فحص الكود النظيف"</span></td><td><code>[clean-code-guard]</code> + <code>[test-guard]</code> - تدقيق شامل للكود.</td></tr>
+                    <tr><td>20</td><td><strong>خطاف تكامل الموارد العالمية</strong></td><td><span class="table-pill">"استكشف المورد"</span>, <span class="table-pill">"integrate repo"</span></td><td><code>[resource-scout-integrator]</code> - استيراد وتعميم المهارات.</td></tr>
+                    <tr><td>21</td><td><strong>خطاف المزامنة السحابية الشاملة</strong></td><td><span class="table-pill">"مزامنة المنظومة"</span>, <span class="table-pill">"sync ecosystem"</span></td><td><code>[git-github-manager]</code> - مطابقة كامل المنظومة مع GitHub.</td></tr>
+                </tbody>
+            </table>
+
+            <!-- 3 Integrated Tools -->
+            <div class="features-row avoid-break">
+                <div class="feature-mini">
+                    <strong><i class="fa-solid fa-laptop-code" style="color: var(--neon-cyan);"></i> تطبيق مكتبة الأوامر (HTML)</strong>
+                    صفحة تفاعلية <code>index.html</code> لتصفح ونسخ محفزات الـ 21 خطافاً بنقرة زر واحدة.
+                </div>
+                <div class="feature-mini">
+                    <strong><i class="fa-solid fa-file-excel" style="color: var(--neon-green);"></i> مصنف الإكسيل الذكي (XLSX)</strong>
+                    مصنف <code>HOOKS_GUIDE.xlsx</code> بـ 22 ورقة عمل منسقة ومفصلة بالكامل.
+                </div>
+                <div class="feature-mini">
+                    <strong><i class="fa-solid fa-arrows-rotate" style="color: var(--neon-purple);"></i> محرك التحسين الذاتي (AI)</strong>
+                    محرك <code>Self_Refinement_Engine</code> لتدريب وتطوير الوكلاء تلقائياً وتحديث الذاكرة.
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2 Footer -->
+        <footer class="page-footer">
+            <span>
+                <a href="https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace" target="_blank">
+                    <i class="fa-brands fa-github"></i> المستودع الرسمي: Claude-Antigravity-Workspace
+                </a>
+            </span>
+            <span>الصفحة 2 من 2</span>
+        </footer>
+    </div>
+
+</div>
+
+</body>
+</html>

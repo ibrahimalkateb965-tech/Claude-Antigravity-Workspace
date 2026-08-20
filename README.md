@@ -35,29 +35,24 @@ flowchart TD
 
 ## ⚡ التشغيل السريع على أي جهاز (Quickstart Guide)
 
-لتثبيت وتفعيل هذه المنظومة على جهازك الخاص في دقائق معدودة:
+لتثبيت وتفعيل هذه المنظومة على جهازك الخاص في ثوانٍ معدودة:
 
-### 1. استنساخ المستودع
+### 1. استنساخ المستودع (أو تنزيله كملف ZIP)
 ```bash
 git clone https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace.git
 cd Claude-Antigravity-Workspace
 ```
 
-### 2. تفعيل المهارات والوكلاء عالمياً (Global Deployment)
-لجعل جميع المهارات والوكلاء متاحة لكافة مشاريعك في بيئة Antigravity:
+### 2. التفعيل الشامل بنقرة واحدة (One-Click Setup)
 * **لمستخدمي Windows:**
-  قم بنسخ مجلد المهارات والوكلاء إلى مسار الإعدادات العالمي للمحرر:
-  ```powershell
-  # إنشاء المجلدات إن لم تكن موجودة
-  New-Item -ItemType Directory -Force -Path "$HOME\.gemini\config\skills"
-  New-Item -ItemType Directory -Force -Path "$HOME\.gemini\config\Sub_Agent"
-
-  # نسخ المهارات والوكلاء
-  Copy-Item -Recurse -Force .agents\skills\* "$HOME\.gemini\config\skills\"
-  Copy-Item -Recurse -Force .agents\Sub_Agent\* "$HOME\.gemini\config\Sub_Agent\"
-  Copy-Item -Force .agents\HOOKS_GUIDE.md "$HOME\.gemini\config\HOOKS_GUIDE.md"
-  Copy-Item -Force .agents\AGENTS.md "$HOME\.gemini\config\AGENTS.md"
-  ```
+  ما عليك سوى النقر المزدوج على ملف:
+  👉 **`setup_one_click.bat`** (أو تشغيل `setup_one_click.ps1` في PowerShell).
+  
+  *يقوم هذا السكربت آلياً بـ:*
+  1. تجهيز مسار الإعدادات العالمي للمحرر (`~/.gemini/config/`).
+  2. تعميم وتفعيل كافة المهارات الـ 80+ والوكلاء الـ 25+ والإضافات عالمياً لكافة مشاريعك.
+  3. ربط الدساتير المعمارية وقواعد الـ 21 خطافاً ومحركات التخصيص والمزامنة.
+  4. فتح تطبيق مكتبة الأوامر التفاعلية مباشرة في متصفحك.
 
 ---
 

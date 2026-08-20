@@ -176,6 +176,16 @@
   content: "اعتماد المسح والتنظيف التلقائي الصارم (Pruning) للمهارات والوكلاء الفائضين في بيئات المشاريع المحلية فور اعتماد سياق المشروع، مع الحفاظ فقط على حزمة النواة والحزم التخصصية المعتمدة لحماية نافذة السياق من الاستنزاف."
   tags: [user-preference, pruning, context-budget]
   status: active
+
+- id: PREF-2026-08-20-002
+  type: preference
+  timestamp: "2026-08-20T19:10:00+03:00"
+  agents: [persistent-memory-engine, ui-ux-design-lead, frontend-design-builder]
+  context: "معايير تصميم وتوليد الوثائق المكتوبة وملفات PDF لكافة المشاريع"
+  content: "في كافة المشاريع التي تحتوي على وثائق مكتوبة أو ملفات PDF: 1) استخدام نفس لوحة ألوان وهوية مكتبة الأوامر التفاعلية (Dark Neon Candy Palette: #0a0a14 مع لمسات Neon Purple, Cyan, Pink, Green وبطاقات زجاجية Glassmorphism). 2) منع المسافات الفارغة الكبيرة والصفحات البيضاء/الفارغة تماماً. 3) ضغط وتنسيق المحتوى ليحتل أقل عدد ممكن من الصفحات مع مراعاة راحة العين البصرية وعدم تكدس الكلام عبر التوزيع الشبكي والخطوط المتناسقة (Tajawal / Outfit / Cairo)."
+  anti_pattern_avoided: "المسافات البيضاء المهدرة، الصفحات الفارغة العالقة، تباين الهوية البصرية، وتكدس النصوص غير المريح للعين."
+  tags: [pdf-design, prompt-library-palette, minimal-pages, ergonomic-layout, no-blank-pages, universal-rule]
+  status: active
 ```
 
 ---
