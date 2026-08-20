@@ -82,7 +82,7 @@ cd Claude-Antigravity-Workspace
 | **18** | **خطاف إدارة تليجرام** | `"شغل البوت"`, `"تفعيل تليجرام"`, `"Telegram Bot"` | `[devops-deployer]`, `[persistent-memory-engine]` | تشغيل بوت تليجرام بنمط الاستماع للطلبات عن بعد. |
 | **19** | **خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"clean code audit"` | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]` | فحص شامل للكود النظيف، سلامة الاختبارات، ومطابقة التوثيق. |
 | **20** | **خطاف استكشاف وتكامل الموارد العالمية** | `"استكشف المورد"`, `"حلل المستودع"`, `"integrate repo"` | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]` | استيراد المهارات من المستودعات الخارجية وتعميمها وتحديث المنظومة تلقائياً. |
-| **21** | **خطاف المزامنة السحابية الشاملة ومطابقة المنظومة** | `"مزامنة المنظومة"`, `"sync ecosystem"`, `"sync workspace"` | `[git-github-manager]`, `[persistent-memory-engine]`, `[agent-optimizer]` | مطابقة ومزامنة كافة الإضافات والمهارات وتطبيق الأوامر ورفعها لـ GitHub بتطابق 100%. |
+| **21** | **خطاف المزامنة السحابية والمساهمة المجتمعية** | `"مزامنة المنظومة"`, `"sync ecosystem"`, `"ارسل pull request"`, `"مساهمة في المستودع"`, `"create PR"`, `"contribute repo"` | `[git-github-manager]`, `[persistent-memory-engine]` | للمالك: مزامنة ومطابقة كامل المنظومة ورفعها لـ GitHub. للمساهمين: تجهيز فرع الميزة وإرسال Pull Request للمستودع المركزي للمشاركة. |
 
 ---
 
@@ -119,41 +119,51 @@ cd Claude-Antigravity-Workspace
 
 ---
 
+## 🏆 نماذج من مشاريعنا المنجزة بواسطة هذا المحرك (Autovem Portfolio)
+
+1. 📱 **تطبيق تيجان النور:** منظومة متكاملة لإدارة الحلقات القرآنية ومتابعة خطط الطلاب والتسميع والتقييمات الذاتية بنمط (Offline-First).
+2. 🎙️ **تطبيق القرآن الكريم للمكفوفين:** معمارية ثنائية الوضع (Dual-Mode) وتوافق قياسي بنسبة 100% مع قارئ الشاشة TalkBack وإيماءات السحب الصامتة.
+3. 🏗️ **مشاريع التخطيط وحصر الكميات الهندسية:** محركات أتمتة حصر الخرسانات وحديد التسليح وتوليد جداول Primavera P6 (Sp Engine) آلياً من المخططات.
+
+---
+
 ## 📂 هيكلية مجلدات المنظومة (Ecosystem Structure)
 
 ```text
 Claude-Antigravity-Workspace/
-├── .agents/
-│   ├── Sub_Agent/               # إعدادات وتعاريف كافة الوكلاء الـ 25+
-│   ├── skills/                  # مجلد المهارات البرمجية الـ 80+
-│   ├── AGENTS.md                # الدستور المعماري وقواعد التطوير الصارمة
-│   ├── HOOKS_GUIDE.md           # الدليل المفصل للخطافات التلقائية الـ 21
-│   ├── HOOKS_GUIDE.xlsx         # جدول الإكسيل التفاعلي المولد تلقائياً (22 شيت)
-│   ├── ACTIVE_CONTEXT_INJECTION.md # قيود بروتوكول الخطوة صفر الإلزامية
-│   └── convert_hooks_to_sheets.py # سكربت أتمتة تحويل الخطافات لملف إكسيل
-├── 03_Dynamic_Prompt_Library/   # تطبيق مكتبة الأوامر التفاعلية (HTML/CSS/JS)
-├── PROJECT_CONTEXT.md           # عقل وسياق المشروع المعتمد
-├── USER_GUIDE.md                # دليل الاستخدام والممارسة التفصيلي
-├── README.md                    # هذا الملف التعريفي الشامل
-├── project_agent_tailor.py      # محرك التخصيص والتصدير الذكي للمشاريع والتنظيف
-├── sync_local_agents_template.py # قالب سكربت المزامنة المحلي للمشاريع
-└── sync_global_ecosystem.py     # محرك المزامنة التلقائية للمنظومة مع GitHub
+├── 🚀 setup_one_click.bat        # سكربت التثبيت السحري بنقرة واحدة
+├── 📜 setup_one_click.ps1        # المحرك البرمجي لتجهيز المسار العالمي
+├── 📄 The_Zero_To_Hero_Journey_Autovem.pdf # دليل رحلة من الصفر لملف PDF تفاعلي
+├── 🧠 project_agent_tailor.py    # محرك التخصيص والتنظيف التلقائي للمشاريع (الخطاف 3)
+├── 🔄 sync_local_agents_template.py # قالب المزامنة الذاتية للمشاريع الفرعية
+├── 🌐 sync_global_ecosystem.py   # محرك المزامنة الشاملة ومطابقة المنظومة مع GitHub
+├── 📱 03_Dynamic_Prompt_Library/ # تطبيق ويب تفاعلي لنسخ الخطافات بنقرة واحدة
+├── 🛡️ .agents/                    # النواة المعمارية (25+ وكيل و 80+ مهارة ودستور AGENTS.md)
+└── 📘 USER_GUIDE.md & README.md  # الدليل الإرشادي والتوجيهي الشامل
 ```
 
 ---
 
 ## 🤝 المشاركة والمساهمة (Contributing)
 
-نرحب بكافة المساهمات لتطوير وتوسيع مكتبة المهارات والوكلاء:
+نرحب بكافة المساهمات لتطوير وتوسيع مكتبة المهارات والوكلاء عبر **الخطاف 21 (`ارسل pull request`)**:
 1. قم بعمل **Fork** للمستودع.
 2. أضف مهاراتك أو وكيلك الجديد تحت مجلد `.agents/skills/` أو `.agents/Sub_Agent/`.
-3. شغل سكربت `python .agents/convert_hooks_to_sheets.py` لتحديث الجداول.
-4. أرسل **Pull Request** لمراجعة التعديلات واعتمادها.
+3. اكتب في المحادثة `"ارسل pull request"` أو أرسل **Pull Request** عبر GitHub مباشرة.
+
+---
+
+## ⭐ تواصل معنا وادعم المنظومة (Connect & Support)
+
+يسعدنا ويشرفنا دعمكم بوضع **نجمة (Star ⭐)** على المستودع، والتواصل معنا عبر القنوات الرسمية:
+* 🐙 **GitHub:** [ibrahimalkateb965-tech](https://github.com/ibrahimalkateb965-tech)
+* 💼 **LinkedIn:** [Ibrahim Alkateb (PMP®)](https://www.linkedin.com/in/ibrahim-alkateb-pmp%C2%AE-7b07b1229?utm_source=share_via&utm_content=profile&utm_medium=member_android)
+* 💬 **WhatsApp:** [+966 53 891 5582](https://wa.me/966538915582)
 
 ---
 
 <div align="center">
-  <b>تم البناء والتطوير بواسطة إبراهيم الكاتب وطاقم الوكلاء المساعدين</b> 🚀
+  <b>تم البناء والتطوير بحمد الله بواسطة إبراهيم الكاتب وطاقم الوكلاء المساعدين</b> 🚀
 </div>
 
 </div>

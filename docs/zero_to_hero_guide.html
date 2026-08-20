@@ -58,7 +58,7 @@
             margin: 0;
         }
 
-        /* Print Page Setup: Minimal margins to eliminate empty space */
+        /* Print Page Setup */
         @page {
             size: A4 portrait;
             margin: 8mm 10mm 8mm 10mm;
@@ -222,10 +222,6 @@
             justify-content: space-between;
         }
 
-        .step-box:hover {
-            border-color: var(--border-glow);
-        }
-
         .step-header {
             display: flex;
             align-items: center;
@@ -272,7 +268,7 @@
             word-break: break-all;
         }
 
-        /* 5 Scenes Grid / Compact Cards */
+        /* 5 Scenes Grid */
         .scenes-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -335,7 +331,7 @@
         .hooks-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 9.5px;
+            font-size: 9px;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
@@ -347,14 +343,14 @@
             background: #191436;
             color: #ffffff;
             font-weight: 800;
-            padding: 5px 8px;
+            padding: 4px 8px;
             text-align: right;
             border-bottom: 1px solid rgba(168, 85, 247, 0.3);
-            font-size: 10px;
+            font-size: 9.5px;
         }
 
         .hooks-table td {
-            padding: 4px 8px;
+            padding: 3.5px 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             color: var(--text-secondary);
         }
@@ -371,7 +367,7 @@
             padding: 1px 5px;
             border-radius: 3px;
             border: 1px solid rgba(6, 182, 212, 0.25);
-            font-size: 9px;
+            font-size: 8.5px;
         }
 
         /* Bottom Feature Cards */
@@ -397,6 +393,112 @@
             display: block;
             margin-bottom: 2px;
         }
+
+        /* Page 3 Styles: Projects & Social */
+        .epilogue-card {
+            background: linear-gradient(135deg, #161233 0%, #1c1440 100%);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .epilogue-title {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: #f1f5f9;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .epilogue-text {
+            font-size: 10.5px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            border-color: var(--border-glow);
+        }
+
+        .project-icon-box {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .project-title {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+
+        .project-desc {
+            font-size: 9.5px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Social & Support Card */
+        .support-card {
+            background: linear-gradient(135deg, #0d1a2d 0%, #151f38 100%);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin-bottom: 10px;
+        }
+
+        .social-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-decoration: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff !important;
+            transition: all 0.2s ease;
+        }
+
+        .btn-github { background: #1f2937; border-color: #374151; }
+        .btn-linkedin { background: #0077b5; border-color: #0284c7; }
+        .btn-whatsapp { background: #25d366; border-color: #16a34a; color: #ffffff !important; }
 
         /* Page Footer */
         .page-footer {
@@ -557,7 +659,7 @@
         <!-- Page 1 Footer -->
         <footer class="page-footer">
             <span>منظومة Claude & Antigravity Multi-Agent Ecosystem — فريق Autovem</span>
-            <span>الصفحة 1 من 2</span>
+            <span>الصفحة 1 من 3</span>
         </footer>
     </div>
 
@@ -575,9 +677,9 @@
                 <thead>
                     <tr>
                         <th style="width: 4%;">م</th>
-                        <th style="width: 26%;">اسم الخطاف</th>
+                        <th style="width: 25%;">اسم الخطاف</th>
                         <th style="width: 36%;">المحفزات السريعة (Triggers للنسخ)</th>
-                        <th style="width: 34%;">الوكيل المسؤول والدور</th>
+                        <th style="width: 35%;">الوكيل المسؤول والدور</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -600,8 +702,8 @@
                     <tr><td>17</td><td><strong>خطاف ترتيب مسار محدد</strong></td><td><span class="table-pill">"رتب المسار"</span>, <span class="table-pill">"نظم المجلد"</span></td><td><code>[windows-file-organizer]</code> - فرز الملفات بمسار مخصص.</td></tr>
                     <tr><td>18</td><td><strong>خطاف إدارة تليجرام</strong></td><td><span class="table-pill">"شغل البوت"</span>, <span class="table-pill">"Telegram Bot"</span></td><td><code>[devops-deployer]</code> - تشغيل البوت بنمط الاستماع للطلبات.</td></tr>
                     <tr><td>19</td><td><strong>خطاف التدقيق وحراسة الجودة</strong></td><td><span class="table-pill">"تدقيق الجودة"</span>, <span class="table-pill">"فحص الكود النظيف"</span></td><td><code>[clean-code-guard]</code> + <code>[test-guard]</code> - تدقيق شامل للكود.</td></tr>
-                    <tr><td>20</td><td><strong>خطاف تكامل الموارد العالمية</strong></td><td><span class="table-pill">"استكشف المورد"</span>, <span class="table-pill">"integrate repo"</span></td><td><code>[resource-scout-integrator]</code> - استيراد وتعميم المهارات.</td></tr>
-                    <tr><td>21</td><td><strong>خطاف المزامنة السحابية الشاملة</strong></td><td><span class="table-pill">"مزامنة المنظومة"</span>, <span class="table-pill">"sync ecosystem"</span></td><td><code>[git-github-manager]</code> - مطابقة كامل المنظومة مع GitHub.</td></tr>
+                    <tr><td>20</td><td><strong>خطاف استكشاف وتكامل الموارد العالمية</strong></td><td><span class="table-pill">"استكشف المورد"</span>, <span class="table-pill">"integrate repo"</span></td><td><code>[resource-scout-integrator]</code> - استيراد وتعميم المهارات.</td></tr>
+                    <tr><td>21</td><td><strong>خطاف المزامنة السحابية والمساهمة</strong></td><td><span class="table-pill">"مزامنة المنظومة"</span>, <span class="table-pill">"ارسل pull request"</span></td><td><code>[git-github-manager]</code> - مزامنة المنظومة وإرسال PR للمستودع الأم.</td></tr>
                 </tbody>
             </table>
 
@@ -629,7 +731,116 @@
                     <i class="fa-brands fa-github"></i> المستودع الرسمي: Claude-Antigravity-Workspace
                 </a>
             </span>
-            <span>الصفحة 2 من 2</span>
+            <span>الصفحة 2 من 3</span>
+        </footer>
+    </div>
+
+    <!-- ==================== PAGE 3 ==================== -->
+    <div class="page">
+        <div>
+            <!-- Section 1: AI Engineering Epilogue -->
+            <div class="epilogue-card avoid-break">
+                <div class="epilogue-title">
+                    <i class="fa-solid fa-brain" style="color: var(--neon-purple);"></i>
+                    <span>هندسة الذكاء الاصطناعي (AI Engineering) — تحويل النماذج إلى قوة إنتاجية</span>
+                </div>
+                <p class="epilogue-text">
+                    هذا المحرك المعماري ليس مجرد مجموعة أوامر جاهزة، بل هو تطبيق عملي متقدم لمبادئ <strong>هندسة الذكاء الاصطناعي (AI Engineering)</strong> الحديثة. لقد نجحنا في تحويل نماذج اللغة الكبيرة من مجرد أدوات للمحادثة العشوائية إلى <strong>أسطول هندسي منضبط</strong> يعمل عبر خطوط إنتاج دقيقة، وحراسة صارمة للكود النظيف، ومحاكاة لـ "محامي الشيطان" لمنع الثغرات، مع ذاكرة تراكمية مستدامة تحمي نافذة السياق وترشد التكلفة.
+                </p>
+                <div style="margin-top: 8px; padding-top: 6px; border-top: 1px dashed rgba(255, 255, 255, 0.1); font-size: 10px; color: #7dd3fc; font-weight: 700;">
+                    💬 <strong>سؤالنا لك ومشاركتنا رأيك:</strong> ما هو انطباعك عن تجربة قيادة الوكلاء بهذا النمط المعماري؟ وما هي الميزات أو الوكلاء الذين تقترح إضافتهم لتطوير المنظومة مستقبلاً؟ يسعدنا جداً سماع صوتك!
+                </div>
+            </div>
+
+            <!-- Section 2: Featured Projects -->
+            <div class="section-bar avoid-break">
+                <i class="fa-solid fa-trophy" style="color: var(--neon-yellow);"></i>
+                <h2>نبذة فخرية عن أبرز مشاريعنا المنجزة بواسطة هذا المحرك (Autovem Portfolio)</h2>
+            </div>
+
+            <div class="projects-grid avoid-break">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-icon-box" style="background: rgba(168, 85, 247, 0.2); color: #c084fc;">
+                            <i class="fa-solid fa-quran"></i>
+                        </div>
+                        <div class="project-title">تطبيق تيجان النور</div>
+                        <div class="project-desc">
+                            منظومة إدارية وتعليمية متكاملة للحلقات القرآنية، تشمل إدارة الطلاب والخطط الفردية والتسميع والتقييمات المتقدمة بنمط غير متصل (Offline-First).
+                        </div>
+                    </div>
+                    <div style="margin-top: 6px; font-size: 8.5px; color: var(--neon-cyan); font-weight: 700;">
+                        ✓ معمارية Clean Architecture + Room
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-icon-box" style="background: rgba(6, 182, 212, 0.2); color: #38bdf8;">
+                            <i class="fa-solid fa-hands-holding-circle"></i>
+                        </div>
+                        <div class="project-title">تطبيق القرآن للمكفوفين</div>
+                        <div class="project-desc">
+                            معمارية ثنائية الوضع (Dual-Mode) وتوافق قياسي 100% مع قارئ الشاشة TalkBack وإيماءات السحب الصامتة بالأصابع لدعم الاستقلالية التامة للمكفوفين.
+                        </div>
+                    </div>
+                    <div style="margin-top: 6px; font-size: 8.5px; color: var(--neon-green); font-weight: 700;">
+                        ✓ TalkBack Compliant + Accessible UI
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div>
+                        <div class="project-icon-box" style="background: rgba(234, 179, 8, 0.2); color: #facc15;">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <div class="project-title">التخطيط وحصر الكميات</div>
+                        <div class="project-desc">
+                            محركات أتمتة هندسية لحصر الكميات الإنشائية (خرسانات وحديد) وتوليد جداول Primavera P6 (Sp Engine) ذاتية الترابط وخالية من الحلقات.
+                        </div>
+                    </div>
+                    <div style="margin-top: 6px; font-size: 8.5px; color: var(--neon-orange); font-weight: 700;">
+                        ✓ Excel Automation + P6 Import Engine
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Social & Support Card -->
+            <div class="support-card avoid-break">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 12px; font-weight: 800; color: #ffffff;">
+                        <i class="fa-solid fa-star" style="color: #facc15;"></i> دعوة متواضعة للدعم والتواصل المستمر
+                    </div>
+                    <span style="font-size: 9px; color: #94a3b8;">إبراهيم الكاتب — م / مهندس برمجيات وإدارة مشاريع PMP®</span>
+                </div>
+                <p style="font-size: 10px; color: #cbd5e1; margin: 4px 0 6px 0; line-height: 1.4;">
+                    إن نال هذا المحرك المعماري استحسانك وساهم في تسريع مشاريعك، يسعدنا ويشرفنا تواضعاً دعمك بوضع <strong>نجمة (Star ⭐)</strong> على مستودعنا في GitHub، ومتابعتنا والتواصل معنا عبر قنواتنا الرسمية:
+                </p>
+
+                <div class="social-buttons-grid">
+                    <!-- GitHub -->
+                    <a href="https://github.com/ibrahimalkateb965-tech" target="_blank" class="social-btn btn-github">
+                        <i class="fa-brands fa-github"></i> GitHub Profile
+                    </a>
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/ibrahim-alkateb-pmp%C2%AE-7b07b1229?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="social-btn btn-linkedin">
+                        <i class="fa-brands fa-linkedin"></i> LinkedIn
+                    </a>
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/966538915582" target="_blank" class="social-btn btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> +966 53 891 5582
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3 Footer -->
+        <footer class="page-footer">
+            <span>جميع الحقوق محفوظة © 2026 — فريق Autovem & المهندس إبراهيم الكاتب</span>
+            <span>الصفحة 3 من 3</span>
         </footer>
     </div>
 
