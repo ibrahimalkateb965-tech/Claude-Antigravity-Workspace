@@ -63,6 +63,16 @@
   content: "عند تشغيل بوت تليجرام باستخدام getUpdates، فإن أي نسخة قديمة نشطة في الخلفية ستسبب خطأ Conflict (رمز 409). لحلها يجب تحديد معرّف العملية (PID) لـ pythonw.exe أو python.exe وإنهاؤها قسراً. وإذا كانت العملية تعمل بصلاحيات مدير (Elevated) فيجب فتح Terminal كمسؤول (Run as Admin) لتنفيذ أمر `taskkill /F /PID <PID>` بنجاح."
   tags: [process-management, taskkill, telegram-bot, conflict, windows]
   status: active
+
+- id: MEM-2026-08-20-001
+  type: lesson
+  timestamp: "2026-08-20T18:28:00+03:00"
+  agents: [persistent-memory-engine, frontend-design-builder, agent-optimizer]
+  context: "تحديث وتزامن كائن libraryData في تطبيق مكتبة الأوامر HTML وشيتات الإكسيل للـ 21 خطافاً"
+  content: "عند إضافة أو تعديل أو إعادة ترقيم أي خطاف في `HOOKS_GUIDE.md`، يجب تشغيل سكربت `convert_hooks_to_sheets.py` لتحديث مصنف الإكسيل بـ N+1 ورقة عمل (22 شيت)، وتشغيل `update_html.py` لتحديث كائن `libraryData` داخل تطبيق الويب `03_Dynamic_Prompt_Library/index.html` لضمان ظهور التبويبات والبطاقات وأزرار النسخ الفوري بشكل متطابق ومتزامن."
+  anti_pattern_avoided: "عدم تزامن واجهة الويب ومصنف الإكسيل مع الدليل الفني المحدث للخطافات (Docs & UI Drift)."
+  tags: [dynamic-prompt-library, excel-sync, html-ui, full-parity, automation]
+  status: active
 ```
 
 ---
@@ -114,6 +124,16 @@
   content: "لتفعيل دورة اتصال ثنائية الاتجاه بين بوت تليجرام والمحرر (IDE) دون استهلاك المعالج ودون نوم الوكيل، تم اعتماد نمط (One-Shot Polling). يقوم السكربت `poll_once.py` بالدوران في الخلفية حتى يستقبل رسالة واحدة من المستخدم، يكتبها في `telegram_request.json` ثم يغلق نفسه (exit 0). هذا الإغلاق يوقظ بيئة التطوير تلقائياً لتقوم بمعالجة الطلب، إرسال الرد، ومن ثم إعادة تشغيل السكربت مجدداً."
   tags: [one-shot-polling, lifecycle, background-tasks, process-wakeup]
   status: active
+
+- id: ADR-2026-08-20-001
+  type: decision
+  timestamp: "2026-08-20T18:28:00+03:00"
+  agents: [code-architect, persistent-memory-engine, agent-optimizer]
+  context: "تخصيص الخطاف رقم 3 مستقلاً للتخصيص والتصدير الذكي لطاقم المشروع وترقية المنظومة لـ 21 خطافاً"
+  content: "تم فصل عملية تخصيص الوكلاء والمهارات إلى خطاف مستقل بذاته (الخطاف رقم 3: خطاف التخصيص والتصدير الذكي لطاقم المشروع) بدلاً من دمجه ضمن خطاف هندسة السياق، لتوسيع المنظومة لتصبح 21 خطافاً تخصصياً. يتولى هذا الخطاف استدعاء محرك `project_agent_tailor.py` لتحليل سياق المشروع المعتمد، وتصدير حزم الوكلاء المطلوبة فقط، وإجراء تنظيف تلقائي (Pruning) لأي مهارات فائضة، وتوليد سكربت المزامنة المحلي `sync_local_agents.py` لترشيد نافذة السياق 100%."
+  anti_pattern_avoided: "تضخم المهارات غير المستخدمة داخل مجلدات المشاريع المحلية (Context Window Bloat) وتشتت الوكلاء واستنزاف التوكنز."
+  tags: [hooks-architecture, project-agent-tailor, 21-hooks, pruning, context-window-optimization]
+  status: active
 ```
 
 ---
@@ -147,6 +167,15 @@
   content: "عند بناء ملف الإكسيل الخاص بالخطافات لتطبيق الويب، يجب الالتزام الصارم بتخصيص العمود الثالث ليكون (المحفزات - Triggers فقط) لضمان أن زر النسخ في التطبيق ينسخ المحفز فقط لتشغيل الوكيل، بينما يتم عزل (الوصف والتفاصيل) في عمود مستقل (الأخير) ليتم عرضه للمستخدم كمعلومات دون أن يتداخل مع النص المنسوخ."
   tags: [excel-export, ui-preference, prompt-library, copy-action]
   status: active
+
+- id: PREF-2026-08-20-001
+  type: preference
+  timestamp: "2026-08-20T18:28:00+03:00"
+  agents: [persistent-memory-engine, code-architect]
+  context: "تنظيف وحذف المهارات والوكلاء الفائضين آلياً في المشاريع المستهدفة"
+  content: "اعتماد المسح والتنظيف التلقائي الصارم (Pruning) للمهارات والوكلاء الفائضين في بيئات المشاريع المحلية فور اعتماد سياق المشروع، مع الحفاظ فقط على حزمة النواة والحزم التخصصية المعتمدة لحماية نافذة السياق من الاستنزاف."
+  tags: [user-preference, pruning, context-budget]
+  status: active
 ```
 
 ---
@@ -171,13 +200,14 @@
 | القسم | عدد المهارات | المهارات |
 |:------|:---:|:---------|
 | **النواة والذاكرة** | 1 | persistent-memory-engine |
-| **أدوات التطوير** | 4 | skill-forge-builder, docs-fetcher-context, mcp-tool-builder, webapp-qa-tester |
+| **أدوات التطوير والتخصيص** | 5 | skill-forge-builder, docs-fetcher-context, mcp-tool-builder, webapp-qa-tester, project-agent-tailor |
 | **التصميم والعلامة** | 6 | ui-ux-design-lead, taste-design-critic, motion-transitions-pro, frontend-design-builder, web-artifacts-prototyper, brand-kit-keeper |
 | **التسويق والنمو** | 5 | copywriting-lead, ai-geo-seo-optimizer, cro-conversion-lead, ad-creative-maker, customer-research-voice |
 | **صناعة المحتوى** | 3 | post-content-writer, script-hook-generator, profile-optimizer |
 | **المالية** | 6 | financial-statements-builder, journal-entry-keeper, reconciliation-auditor, variance-analyst, audit-support-prep, close-management-lead |
 | **الأعمال** | 6 | cash-flow-watcher, invoice-chaser, payroll-planner, margin-analyst, tax-prepper, campaign-runner |
 | **القانون** | 6 | contract-reviewer, nda-triage, compliance-officer, legal-risk-assessor, vendor-vetter, signature-wrangler |
-| **الوكلاء الأصليون** | 23 | (راجع sub_agents.yaml للقائمة الكاملة) |
+| **حراس الجودة** | 4 | clean-code-guard, test-guard, docs-guard, security-auditor |
+| **الوكلاء المتخصصون** | 25+ | (راجع sub_agents.yaml للقائمة الكاملة) |
 
 </div>
