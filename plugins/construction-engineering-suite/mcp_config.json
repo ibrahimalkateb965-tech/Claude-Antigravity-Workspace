@@ -1,0 +1,10 @@
+{
+    "mcpServers": {
+        "construction-engineering-suite": {
+            "command": "C:/Users/Kt/.gemini/config/plugins/arabic-docx-builder/mcp/venv/Scripts/python.exe",
+            "args": [
+                "C:/Users/Kt/.gemini/config/plugins/construction-engineering-suite/mcp/server.py"
+            ]
+        }
+    }
+}

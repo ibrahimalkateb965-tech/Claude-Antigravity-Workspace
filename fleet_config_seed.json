@@ -1,0 +1,81 @@
+{
+  "project_name": "Project Name",
+  "version": "1.0.0",
+  "active_milestone": "Phase 1: Initial Architecture",
+  "language_policy": "English Only in all CLIs and Terminal interactions",
+  "fleet_pipeline_workflow": [
+    "1. Task Delegation: Issue structured Delegate Prompt (Template 02) to target CLI",
+    "2. Implementation & Test: Target CLI builds code and confirms zero analyze/lint errors",
+    "3. Mandatory Phase Code Review: Submit diffs & metrics for Quality Audit (Template 03)",
+    "4. Architectural Sign-off: Formal [APPROVED] verdict + ADR logging in MEMORY_STORE.md before unlocking next Phase"
+  ],
+  "fleet_agents": [
+    {
+      "id": "orchestrator",
+      "cli_tool": "Claude Code CLI",
+      "active_model": "Claude 5 Opus (Opus Max) / Sonnet 5",
+      "effort_level": "Max Reasoning",
+      "assigned_role": "Master Orchestrator, Staff Architect, Sole Test Authority & Senior Code Reviewer",
+      "status": "Active",
+      "token_budget_strategy": "Zero Boilerplate Writing - Architecture, Testing & Review Only",
+      "exclusive_ownership_tree": [
+        "test/",
+        "tests/"
+      ],
+      "assigned_skills": [
+        "code-architect",
+        "agent-optimizer",
+        "code-reviewer-quality",
+        "devil-advocate-audit",
+        "test-guard",
+        "test-automator"
+      ]
+    },
+    {
+      "id": "terminal_executor",
+      "cli_tool": "OpenCode CLI",
+      "active_model": "Ox Alpha Unlimited",
+      "effort_level": "High Speed & Terminal Execution",
+      "assigned_role": "Database, Remote Client & CLI Build Execution (NO TESTING)",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "lib/core/remote/",
+        "lib/core/sync/",
+        "lib/core/database/"
+      ],
+      "assigned_skills": [
+        "offline-sync-db",
+        "devops-deployer"
+      ]
+    },
+    {
+      "id": "ide_architect_engineer",
+      "cli_tool": "Antigravity CLI / IDE",
+      "active_model": "Gemini 3.7 Flash (High Reasoning)",
+      "effort_level": "High Reasoning & Continuous Code Generation",
+      "assigned_role": "Domain Logic, App Shell, UI Architecture & Memory Core",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "lib/app/",
+        "lib/features/",
+        "lib/core/theme/",
+        ".agents/"
+      ],
+      "assigned_skills": [
+        "flutter-ui-pro",
+        "jetpack-compose-ui",
+        "domain-contracts",
+        "persistent-memory-engine",
+        "prompt-engineer"
+      ]
+    }
+  ],
+  "governing_constraints": [
+    "Strictly adhere to Clean Architecture boundaries.",
+    "Do NOT modify locked dependency configurations without explicit coordinator approval.",
+    "Enforce zero linter / analyzer errors after every delivery.",
+    "Testing Monopoly: Strictly NO agent other than Claude Code CLI is permitted to execute tests or issue test sign-offs. Claude Code CLI alone executes all test suites, audits diffs, and approves code written by other agents.",
+    "Mandatory Code Review & Quality Audit (Template 03) at the end of every Phase before starting the next.",
+    "English-only communication in all terminal chats, logs, and delegate prompts."
+  ]
+}

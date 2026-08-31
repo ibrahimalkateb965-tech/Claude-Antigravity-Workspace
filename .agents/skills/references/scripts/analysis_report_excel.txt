@@ -1,0 +1,64 @@
+# تقرير تحليل ملف Excel مرجعي: A-1420.xlsx
+- **المسار الكامل:** G:\M.Yonis\حديقة الملك فهد الحلوة\A-1420.xlsx
+- **أسماء الأوراق (Sheets):** TASK, TASKPRED, USERDATA
+
+---
+
+## الورقة: TASK
+- **إجمالي الصفوف المقروءة للتحليل:** 15
+- **رقم صف الترويسة المكتشف:** 1
+- **أعمدة الجدول المكتشفة بالترتيب (10 عمود):**
+  1. `task_code`
+  2. `status_code`
+  3. `wbs_id`
+  4. `task_name`
+  5. `target_drtn_hr_cnt`
+  6. `start_date`
+  7. `end_date`
+  8. `total_float_hr_cnt`
+  9. `pred_list`
+  10. `delete_record_flag`
+- **عينة من صفوف البيانات التالية:**
+  - صف 2: Activity ID | Activity Status | WBS Code | Activity Name | Original Duration(d) | (*)Start | (*)Finish | (*)Total Float(d) | (*)Predecessors | Delete This Row
+  - صف 3: ACT1000 | Not Started | A-15.1.1 | ‫إصدار إشعار المباشرة (NTP) وتفعيل وثائق الموقع‬ | 0 | 2026-08-01 01:00:00 |  | 0 |  | 
+  - صف 4: ACT1010 | Not Started | A-15.1.1 | ‫اعتماد خطة الصحة والسلامة (HSE) والعمل الليلي لتفادي الإجهاد الحراري‬ | 2 | 2026-08-01 01:00:00 | 2026-08-02 20:00:00 | 0 | ACT1000 | 
+  - صف 5: ACT1020 | Not Started | A-15.1.2 | ‫تقديم واعتماد عينات ليات شبكات الري (1/2, 1, 2 بوصة بضغط 6 و10 بار PX80)‬ | 5 | 2026-08-02 20:00:00 | 2026-08-07 20:00:00 | 2 | ACT1010 | 
+
+
+## الورقة: TASKPRED
+- **إجمالي الصفوف المقروءة للتحليل:** 15
+- **رقم صف الترويسة المكتشف:** 1
+- **أعمدة الجدول المكتشفة بالترتيب (15 عمود):**
+  1. `pred_task_id`
+  2. `task_id`
+  3. `pred_type`
+  4. `PREDTASK__status_code`
+  5. `TASK__status_code`
+  6. `pred_proj_id`
+  7. `proj_id`
+  8. `predtask__projwbs__wbs_full_name`
+  9. `task__projwbs__wbs_full_name`
+  10. `predtask__task_name`
+  11. `task__task_name`
+  12. `lag_hr_cnt`
+  13. `predtask__rsrc_id`
+  14. `task__rsrc_id`
+  15. `delete_record_flag`
+- **عينة من صفوف البيانات التالية:**
+  - صف 2: Predecessor | Successor | Relationship Type | (*)Predecessor Activity Status | (*)Successor Activity Status | (*)Predecessor Project | (*)Successor Project | (*)Predecessor WBS | (*)Successor WBS | (*)Predecessor Activity Name | (*)Successor Activity Name | Lag(d) | (*)Predecessor Primary Resource | (*)Successor Primary Resource | Delete This Row
+  - صف 3: ACT1000 | ACT1010 | SS | Not Started | Not Started | A-15 | A-15 | A-15.1.1 1.1 الأعمال الإدارية والتحضيرية | A-15.1.1 1.1 الأعمال الإدارية والتحضيرية | ‫إصدار إشعار المباشرة (NTP) وتفعيل وثائق الموقع‬ | ‫اعتماد خطة الصحة والسلامة (HSE) والعمل الليلي لتفادي الإجهاد الحراري‬ | 0 |  |  | 
+  - صف 4: ACT1010 | ACT1020 | FS | Not Started | Not Started | A-15 | A-15 | A-15.1.1 1.1 الأعمال الإدارية والتحضيرية | A-15.1.2 الاعتمادات الفنية والمخططات | ‫اعتماد خطة الصحة والسلامة (HSE) والعمل الليلي لتفادي الإجهاد الحراري‬ | ‫تقديم واعتماد عينات ليات شبكات الري (1/2, 1, 2 بوصة بضغط 6 و10 بار PX80)‬ | 0 |  |  | 
+  - صف 5: ACT1010 | ACT1030 | FS | Not Started | Not Started | A-15 | A-15 | A-15.1.1 1.1 الأعمال الإدارية والتحضيرية | A-15.1.2 الاعتمادات الفنية والمخططات | ‫اعتماد خطة الصحة والسلامة (HSE) والعمل الليلي لتفادي الإجهاد الحراري‬ | ‫تقديم واعتماد عينات الملحقات والرشاشات (ماكس بو 3/4، نبل، برامق)‬ | 0 |  |  | 
+
+
+## الورقة: USERDATA
+- **إجمالي الصفوف المقروءة للتحليل:** 3
+- لم يتم تحديد ترويسة واضحة. عينة من الصفوف الأولى:
+  - صف 1: user_data
+  - صف 2: UserSettings Do Not Edit
+  - صف 3: DurationQtyType=QT_Day
+ShowAsPercentage=0
+SmallScaleQtyType=QT_Day
+DateFormat=m/d/yyyy
+CurrencyFormat=Saudi Riyal
+

@@ -1,32 +1,29 @@
 import os
 import re
 import sys
-import codecs
+from pathlib import Path
+from typing import Optional
 from fastmcp import FastMCP
-
-
-# إعداد المسارات الأساسية
-LOCAL_MEMORY_PATH = r"f:\AI PROJECTS\Blind App\.agents\MEMORY_STORE.md"
-GLOBAL_REFERENCES_DIR = r"C:\Users\Kt\.gemini\config\references"
-GLOBAL_MEMORY_PATH = os.path.join(GLOBAL_REFERENCES_DIR, "GLOBAL_MEMORY_STORE.md")
 
 # تهيئة سيرفر MCP
 mcp = FastMCP("GlobalMemorySync")
 
-def extract_global_memories(filepath):
-    with open(filepath, 'r', encoding='utf-8') as f:
+GLOBAL_REFERENCES_DIR = r"C:\Users\Kt\.gemini\config\references"
+GLOBAL_MEMORY_PATH = os.path.join(GLOBAL_REFERENCES_DIR, "GLOBAL_MEMORY_STORE.md")
+
+def extract_global_memories(filepath: str):
+    if not os.path.exists(filepath):
+        return []
+    with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
         content = f.read()
 
-    # البحث عن جميع كتل YAML
     yaml_matches = re.findall(r'```yaml(.*?)```', content, re.DOTALL)
     if not yaml_matches:
         return []
     
     global_entries = []
-    
     for yaml_content in yaml_matches:
         blocks = yaml_content.split('- id:')
-        
         for block in blocks[1:]:
             if 'global' in block.lower():  
                 entry = "- id:" + block
@@ -35,53 +32,53 @@ def extract_global_memories(filepath):
     return global_entries
 
 @mcp.tool()
-def sync_global_memory() -> str:
+def sync_global_memory(local_memory_path: Optional[str] = None) -> str:
     """Syncs the 'global' tagged memory entries from the local MEMORY_STORE.md to the Global References directory."""
-    if not os.path.exists(LOCAL_MEMORY_PATH):
-        return "❌ ملف الذاكرة المحلية غير موجود!"
+    target_path = local_memory_path
+    if not target_path or not os.path.exists(target_path):
+        candidates = [
+            os.path.join(os.getcwd(), ".agents", "MEMORY_STORE.md"),
+            r"g:\M.Yonis\.agents\MEMORY_STORE.md",
+            r"f:\AI PROJECTS\Blind App\.agents\MEMORY_STORE.md"
+        ]
+        for c in candidates:
+            if os.path.exists(c):
+                target_path = c
+                break
+
+    if not target_path or not os.path.exists(target_path):
+        return f"❌ لم يتم العثور على ملف ذاكرة محلي في: {target_path or 'المسارات الافتراضية'}"
         
-    entries = extract_global_memories(LOCAL_MEMORY_PATH)
-    
+    entries = extract_global_memories(target_path)
     if not entries:
-        return "⚠️ لم يتم العثور على ذكريات مصنفة كعالمية (global) للتصدير."
+        return f"⚠️ لم يتم العثور على ذكريات مصنفة كعالمية (global) في {target_path}."
         
     os.makedirs(GLOBAL_REFERENCES_DIR, exist_ok=True)
-    
     existing_content = ""
     if os.path.exists(GLOBAL_MEMORY_PATH):
-        with open(GLOBAL_MEMORY_PATH, 'r', encoding='utf-8') as f:
+        with open(GLOBAL_MEMORY_PATH, 'r', encoding='utf-8', errors='replace') as f:
             existing_content = f.read()
             
     new_entries_count = 0
     entries_to_add = []
     
     for entry in entries:
-        id_match = re.search(r'(MEM|BUG|ADR)-\d{4}-\d{2}-\d{2}-\d+', entry)
-        entry_id = id_match.group(0) if id_match else None
+        # البحث عن أي معرّف ID متاح
+        id_match = re.search(r'- id:\s*([A-Za-z0-9_-]+)', entry)
+        entry_id = id_match.group(1) if id_match else None
         
         if entry_id and entry_id not in existing_content:
             entries_to_add.append(entry)
             new_entries_count += 1
             
     if new_entries_count == 0:
-        return "ℹ️ جميع الذكريات العالمية موجودة بالفعل في المركز العالمي (لم تتم إضافة أي جديد)."
+        return f"ℹ️ جميع الذكريات العالمية من ({Path(target_path).name}) موجودة بالفعل في المركز العالمي."
 
-    is_new_file = not existing_content.strip()
-    
     with open(GLOBAL_MEMORY_PATH, 'a', encoding='utf-8') as f:
-        if is_new_file:
-            f.write("<div dir=\"rtl\">\n\n# 🧠 الذاكرة العالمية المجمعة (Global Memory Store)\n\n")
-            f.write("> **يحتوي هذا الملف على الذكريات والدروس المستفادة التي تم تصديرها أوتوماتيكياً عبر أداة MCP.**\n\n")
-            f.write("```yaml\n")
-            
         for entry in entries_to_add:
-            f.write(entry + "\n\n")
+            f.write("\n" + entry + "\n")
             
-        if is_new_file:
-            f.write("```\n\n</div>\n")
-            
-    return f"🚀 تم تصدير {new_entries_count} ذكريات جديدة بنجاح إلى المركز العالمي!"
+    return f"🚀 تم تصدير {new_entries_count} ذكريات جديدة بنجاح من {Path(target_path).parent.parent.name} إلى المركز العالمي!"
 
 if __name__ == "__main__":
-    # تشغيل سيرفر MCP عبر stdio
     mcp.run()

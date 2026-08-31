@@ -12,7 +12,13 @@ import shutil
 import json
 import re
 import argparse
+import sys
+import codecs
 from typing import Dict, List, Set, Tuple
+
+if hasattr(sys.stdout, 'encoding') and sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
+
 
 # المسارات المركزية
 CENTRAL_WORKSPACE = r"F:\AI PROJECTS\Claude+Antigravity"
@@ -42,7 +48,8 @@ CORE_MANDATORY_SKILLS = [
     "writing-plans",
     "executing-plans",
     "systematic-debugging",
-    "persistent-memory-engine"
+    "persistent-memory-engine",
+    "fleet-orchestrator"
 ]
 
 # 2. حزم التخصصات البرمجية والمهنية
@@ -151,6 +158,91 @@ STACK_BUNDLES: Dict[str, Dict[str, List[str]]] = {
             "backend-architect",
             "excel-data-analyst"
         ]
+    },
+    "civil_contracting_planning": {
+        "name": "هندسة التخطيط والمقاولات العامة (BOQ, WBS, DOCX)",
+        "keywords": ["مقاولات", "إنشاء", "ترميم", "سفلتة", "بلديات", "طرق", "تعليم", "مدرسة", "تطوير للمباني", "tbc", "منهجية", "جدول زمني", "مخاطر", "سلامة", "hse", "كود سعودي", "boq", "wbs", "إعمار الفرعة"],
+        "agents": [
+            "planning-engineer",
+            "schedule-builder",
+            "methodology-writer",
+            "boq-analyst",
+            "risk-planner",
+            "saudi-code-validator",
+            "document-formatter",
+            "monorepo-architect",
+            "windows-file-organizer",
+            "documentation-expert",
+            "linguistic-assistant"
+        ],
+        "skills": [
+            "boq-generation",
+            "methodology-generation",
+            "schedule-generation",
+            "document-formatting",
+            "references",
+            "arabic-docx-specialist",
+            "excel-data-analyst",
+            "contract-reviewer",
+            "compliance-officer",
+            "self-refinement-engine"
+        ]
+    },
+    "education_presentations": {
+        "name": "صناعة المحتوى التعليمي والعروض التقديمية واللغات (ESL & Presentations)",
+        "keywords": ["تعليم", "محتوى", "عروض", "عرض", "شرائح", "إنجليزي", "لغة", "طفل", "تأسيس", "قراءة", "محادثة", "education", "english", "tutor", "presentation", "slides", "lesson", "phonics", "grammar", "vocabulary", "pedagogy"],
+        "agents": [
+            "documentation-expert",
+            "linguistic-assistant",
+            "ux-product-designer",
+            "prompt-engineer",
+            "vibe-coder"
+        ],
+        "skills": [
+            "linguistic-assistant",
+            "documentation-expert",
+            "ui-ux-design-lead",
+            "taste-design-critic",
+            "frontend-design-builder",
+            "web-artifacts-prototyper",
+            "motion-transitions-pro",
+            "script-hook-generator",
+            "post-content-writer",
+            "copywriting-lead",
+            "arabic-docx-specialist",
+            "self-refinement-engine"
+        ]
+    },
+    "digital_marketing_growth": {
+        "name": "التسويق الرقمي وحملات إعلانات جوجل والنمو (Google Ads & Growth)",
+        "keywords": ["تسويق", "إعلانات", "جوجل", "حملات", "marketing", "google ads", "ads", "seo", "geo", "cro", "campaign", "leads", "copywriting", "analytics", "شجن", "حاويات", "autovemtech", "عميل", "clients"],
+        "agents": [
+            "documentation-expert",
+            "linguistic-assistant",
+            "ux-product-designer",
+            "prompt-engineer"
+        ],
+        "skills": [
+            "campaign-runner",
+            "ad-creative-maker",
+            "copywriting-lead",
+            "ai-geo-seo-optimizer",
+            "cro-conversion-lead",
+            "customer-research-voice",
+            "brand-kit-keeper",
+            "post-content-writer",
+            "script-hook-generator",
+            "profile-optimizer",
+            "excel-data-analyst",
+            "arabic-docx-specialist",
+            "self-refinement-engine",
+            "web-artifacts-prototyper",
+            "frontend-design-builder",
+            "ui-ux-design-lead",
+            "cash-flow-watcher",
+            "invoice-chaser",
+            "margin-analyst"
+        ]
     }
 }
 
@@ -246,27 +338,60 @@ def tailor_project_environment(project_path: str, verbose: bool = True) -> Dict[
 
     # 1. تصدير الوكلاء
     copied_agents = 0
+    candidate_subagent_sources = [
+        CENTRAL_SUBAGENTS,
+        r"C:\Users\Kt\.gemini\config\Sub_Agent",
+        local_subagents_dir
+    ]
     for agent in target_agents:
-        src_file = os.path.join(CENTRAL_SUBAGENTS, f"{agent}.yaml")
         dst_file = os.path.join(local_subagents_dir, f"{agent}.yaml")
-        if os.path.exists(src_file):
-            shutil.copy2(src_file, dst_file)
-            copied_agents += 1
+        for src_dir in candidate_subagent_sources:
+            src_file = os.path.join(src_dir, f"{agent}.yaml")
+            if os.path.exists(src_file):
+                if os.path.abspath(src_file) != os.path.abspath(dst_file):
+                    shutil.copy2(src_file, dst_file)
+                copied_agents += 1
+                # مزامنة عكسية للمجلد المركزي إذا لم يكن موجوداً
+                central_dst = os.path.join(r"C:\Users\Kt\.gemini\config\Sub_Agent", f"{agent}.yaml")
+                if not os.path.exists(central_dst) and os.path.exists(src_file):
+                    try:
+                        shutil.copy2(src_file, central_dst)
+                    except Exception:
+                        pass
+                break
 
     # نسخ ملفات الوكلاء المساندة
     for helper in ["sub_agents.yaml", "system_prompt.md"]:
-        src = os.path.join(CENTRAL_SUBAGENTS, helper)
-        if os.path.exists(src):
-            shutil.copy2(src, os.path.join(local_subagents_dir, helper))
+        for src_dir in candidate_subagent_sources:
+            src = os.path.join(src_dir, helper)
+            dst = os.path.join(local_subagents_dir, helper)
+            if os.path.exists(src) and os.path.abspath(src) != os.path.abspath(dst):
+                shutil.copy2(src, dst)
+                break
 
     # 2. تصدير المهارات
     copied_skills = 0
+    candidate_skill_sources = [
+        CENTRAL_SKILLS,
+        r"C:\Users\Kt\.gemini\config\skills",
+        local_skills_dir
+    ]
     for skill in target_skills:
-        src_dir = os.path.join(CENTRAL_SKILLS, skill)
         dst_dir = os.path.join(local_skills_dir, skill)
-        if os.path.exists(src_dir) and os.path.isdir(src_dir):
-            shutil.copytree(src_dir, dst_dir, dirs_exist_ok=True)
-            copied_skills += 1
+        for src_parent in candidate_skill_sources:
+            src_dir = os.path.join(src_parent, skill)
+            if os.path.exists(src_dir) and os.path.isdir(src_dir):
+                if os.path.abspath(src_dir) != os.path.abspath(dst_dir):
+                    shutil.copytree(src_dir, dst_dir, dirs_exist_ok=True)
+                copied_skills += 1
+                # مزامنة عكسية لـ config
+                central_skill_dst = os.path.join(r"C:\Users\Kt\.gemini\config\skills", skill)
+                if not os.path.exists(central_skill_dst) and os.path.exists(src_dir):
+                    try:
+                        shutil.copytree(src_dir, central_skill_dst, dirs_exist_ok=True)
+                    except Exception:
+                        pass
+                break
 
     # 3. عملية التنظيف (Pruning) للمهارات والوكلاء الفائضين
     pruned_skills = []
@@ -306,6 +431,27 @@ def tailor_project_environment(project_path: str, verbose: bool = True) -> Dict[
     if os.path.exists(SYNC_TEMPLATE_PATH):
         shutil.copy2(SYNC_TEMPLATE_PATH, local_sync_script)
 
+    # 6. تصدير قوالب وإعدادات الأسطول التشاركي (Fleet Templates & Config) تلقائياً
+    fleet_templates_src = os.path.join(os.path.dirname(__file__), "fleet_templates")
+    fleet_seed_src = os.path.join(os.path.dirname(__file__), "fleet_config_seed.json")
+    
+    local_fleet_templates = os.path.join(project_path, "fleet_templates")
+    local_fleet_config = os.path.join(project_path, "fleet_config.json")
+    local_agents_fleet_templates = os.path.join(local_agents_dir, "fleet_templates")
+    
+    if os.path.exists(fleet_templates_src):
+        if not os.path.exists(local_fleet_templates):
+            shutil.copytree(fleet_templates_src, local_fleet_templates, dirs_exist_ok=True)
+        if not os.path.exists(local_agents_fleet_templates):
+            shutil.copytree(fleet_templates_src, local_agents_fleet_templates, dirs_exist_ok=True)
+            
+    if os.path.exists(fleet_seed_src):
+        if not os.path.exists(local_fleet_config):
+            shutil.copy2(fleet_seed_src, local_fleet_config)
+        local_agents_seed = os.path.join(local_agents_dir, "fleet_config_seed.json")
+        if not os.path.exists(local_agents_seed):
+            shutil.copy2(fleet_seed_src, local_agents_seed)
+
     if verbose:
         print(f"\n✨ اكتمل تخصيص وتصدير البيئة بنجاح:")
         print(f"   - تم تصدير {copied_agents} وكيلاً متخصصاً.")
@@ -316,6 +462,7 @@ def tailor_project_environment(project_path: str, verbose: bool = True) -> Dict[
             print(f"   - 🧹 تم تنظيف {len(pruned_skills)} مهارة فائضة: {pruned_skills}")
         print(f"   - 📄 تم إنشاء ملف التعريف: {manifest_path}")
         print(f"   - 🔄 تم توفير سكربت المزامنة المحلي: {local_sync_script}")
+        print(f"   - 🚀 تم توفير وضبط قوالب الأسطول التشاركي: {local_fleet_templates}")
 
     return manifest
 

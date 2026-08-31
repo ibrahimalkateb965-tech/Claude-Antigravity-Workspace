@@ -23,6 +23,7 @@ def update_prompt_library():
 
     html_targets = [
         r"F:\AI PROJECTS\Claude+Antigravity\03_Dynamic_Prompt_Library\index.html",
+        r"F:\AI PROJECTS\Claude+Antigravity -production\03_Dynamic_Prompt_Library\index.html",
         r"F:\AI PROJECTS\Quran_Records\with antigravity\New Crew\03_Dynamic_Prompt_Library\index.html"
     ]
 

@@ -5,8 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Architecture: Dual-Agent Pipeline](https://img.shields.io/badge/Architecture-Dual--Agent%20Pipeline-emerald.svg)]()
 [![Sub-Agents: 25+](https://img.shields.io/badge/Sub--Agents-25%2B-purple.svg)]()
-[![Global Skills: 80+](https://img.shields.io/badge/Global%20Skills-80%2B-gold.svg)]()
-[![Hooks: 21 Triggers](https://img.shields.io/badge/Hooks-21%20Triggers-cyan.svg)]()
+[![Global Skills: 95+](https://img.shields.io/badge/Global%20Skills-95%2B-gold.svg)]()
+[![Hooks: 22 Triggers](https://img.shields.io/badge/Hooks-22%20Triggers-cyan.svg)]()
 
 مرحباً بك في المستودع المرجعي الشامل لمنظومة التطوير المتقدمة **Claude & Antigravity Multi-Agent Ecosystem**.  
 تم تصميم هذه المنظومة لتمكين المطورين من تشغيل طاقم هندسي متكامل من وكلاء الذكاء الاصطناعي (AI Crew) بأعلى درجات الانضباط المعماري، والجودة البرمجية، وترشيد استهلاك التوكنز.
@@ -83,6 +83,7 @@ cd Claude-Antigravity-Workspace
 | **19** | **خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"clean code audit"` | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]` | فحص شامل للكود النظيف، سلامة الاختبارات، ومطابقة التوثيق. |
 | **20** | **خطاف استكشاف وتكامل الموارد العالمية** | `"استكشف المورد"`, `"حلل المستودع"`, `"integrate repo"` | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]` | استيراد المهارات من المستودعات الخارجية وتعميمها وتحديث المنظومة تلقائياً. |
 | **21** | **خطاف المزامنة السحابية والمساهمة المجتمعية** | `"مزامنة المنظومة"`, `"sync ecosystem"`, `"ارسل pull request"`, `"مساهمة في المستودع"`, `"create PR"`, `"contribute repo"` | `[git-github-manager]`, `[persistent-memory-engine]` | للمالك: مزامنة ومطابقة كامل المنظومة ورفعها لـ GitHub. للمساهمين: تجهيز فرع الميزة وإرسال Pull Request للمستودع المركزي للمشاركة. |
+| **22** | **خطاف قيادة وإدارة الأسطول التشاركي** | `"أسطول الـ CLIs"`, `"تشغيل الأسطول"`, `"تنسيق الأسطول"`, `"fleet orchestrator"`, `"multi cli fleet"` | `[fleet-orchestrator]`, `[code-architect]`, `[agent-optimizer]` | تفعيل وضبط أسطول الوكلاء المتعدد (Claude Code Opus Max, OpenCode, Antigravity) وحوكمة بوابات الجودة وترشيد التوكنز. |
 
 ---
 
