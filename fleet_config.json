@@ -28,7 +28,7 @@
     {
       "id": "terminal_executor",
       "cli_tool": "OpenCode CLI",
-      "active_model": "0x Alpha Free (Unlimited) OpenCode Zen / DeepSeek V4",
+      "active_model": "deepseek/deepseek-v4-flash",
       "effort_level": "High Speed & Terminal Execution",
       "assigned_role": "Database, Remote Client & CLI Build Execution",
       "status": "Active",
@@ -48,7 +48,7 @@
     {
       "id": "ide_architect_engineer",
       "cli_tool": "Antigravity CLI / IDE",
-      "active_model": "Gemini 3.7 Flash (High Reasoning)",
+      "active_model": "Gemini 3.8 Flash (High Reasoning)",
       "effort_level": "High Reasoning & Continuous Code Generation",
       "assigned_role": "Domain Logic, App Shell, UI Architecture & Memory Core",
       "status": "Active",

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autovem Flowchart Studio | معزز بذكاء UI/UX Pro Max</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;500;600&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg-main: #0a0a14;
+      --bg-panel: rgba(18, 18, 36, 0.92);
+      --bg-card: rgba(26, 26, 50, 0.8);
+      --border-color: rgba(99, 102, 241, 0.28);
+      --border-glow: rgba(6, 182, 212, 0.45);
+      --accent-cyan: #06b6d4;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --sidebar-width: 440px;
+    }
+
+    [data-palette="indigo"] {
+      --bg-main: #0f172a;
+      --bg-panel: rgba(30, 41, 59, 0.95);
+      --bg-card: rgba(51, 65, 85, 0.7);
+      --border-color: rgba(96, 165, 250, 0.3);
+      --accent-cyan: #38bdf8;
+      --accent-purple: #818cf8;
+      --accent-green: #34d399;
+    }
+
+    [data-palette="amber"] {
+      --bg-main: #18181b;
+      --bg-panel: rgba(39, 39, 42, 0.95);
+      --bg-card: rgba(63, 63, 70, 0.7);
+      --border-color: rgba(245, 158, 11, 0.3);
+      --accent-cyan: #fbbf24;
+      --accent-purple: #fb923c;
+      --accent-green: #4ade80;
+    }
+
+    [data-palette="light"] {
+      --bg-main: #f8fafc;
+      --bg-panel: rgba(255, 255, 255, 0.96);
+      --bg-card: #f1f5f9;
+      --border-color: #cbd5e1;
+      --border-glow: rgba(6, 182, 212, 0.6);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      direction: rtl;
+      text-align: right;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Header Bar */
+    header {
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      height: 68px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(6, 182, 212, 0.45);
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .brand-info h1 {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid var(--accent-purple);
+      color: var(--accent-purple);
+      font-weight: 700;
+      font-family: 'Fira Code', monospace;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .promax-badge {
+      font-size: 11px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(168, 85, 247, 0.25));
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .brand-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .select-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+      direction: rtl;
+      transition: all 0.2s;
+    }
+
+    .select-pill:hover {
+      border-color: var(--accent-cyan);
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn:hover {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7, #7c3aed);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.55);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #059669, #10b981);
+      border-color: transparent;
+      color: #ffffff;
+    }
+
+    .btn-icon-only {
+      padding: 8px 12px;
+      font-size: 15px;
+    }
+
+    .tag-token {
+      direction: ltr;
+      display: inline-block;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Main Container */
+    .studio-container {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 68px);
+      position: relative;
+    }
+
+    /* Sidebar / Editor */
+    .editor-sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      z-index: 40;
+      transition: transform 0.3s ease;
+    }
+
+    .editor-sidebar.collapsed {
+      transform: translateX(100%);
+    }
+
+    .sidebar-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-title {
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-cyan);
+    }
+
+    .template-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+      direction: rtl;
+    }
+
+    .editor-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding: 12px;
+    }
+
+    textarea#mermaidCode {
+      flex: 1;
+      background: rgba(10, 10, 20, 0.9);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: #38bdf8;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      padding: 14px;
+      resize: none;
+      outline: none;
+      direction: ltr;
+      text-align: left;
+      tab-size: 2;
+    }
+
+    textarea#mermaidCode:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 14px rgba(6, 182, 212, 0.35);
+    }
+
+    .error-box {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      border-radius: 8px;
+      color: #fca5a5;
+      font-size: 12px;
+      display: none;
+      text-align: right;
+    }
+
+    .error-box.active {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .editor-footer {
+      padding: 12px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Viewport / Diagram Stage */
+    .diagram-stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.12) 1px, transparent 0);
+      background-size: 28px 28px;
+      cursor: grab;
+    }
+
+    .diagram-stage:active {
+      cursor: grabbing;
+    }
+
+    .diagram-wrapper {
+      transform-origin: center center;
+      transition: transform 0.05s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 100%;
+      min-height: 100%;
+      padding: 60px;
+    }
+
+    #diagramSvgContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    #diagramSvgContainer svg {
+      max-width: none;
+      filter: drop-shadow(0 14px 34px rgba(0, 0, 0, 0.65));
+    }
+
+    /* HUD Controls */
+    .hud-controls {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      z-index: 30;
+      direction: ltr;
+    }
+
+    .hud-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .hud-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: scale(1.05);
+    }
+
+    .zoom-level-badge {
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      min-width: 52px;
+      text-align: center;
+      color: var(--text-muted);
+      direction: ltr;
+    }
+
+    /* Floating Toggle Sidebar */
+    .toggle-sidebar-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 35;
+      background: var(--bg-panel);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.95), rgba(168, 85, 247, 0.95));
+      color: #ffffff;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      direction: rtl;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body data-palette="neon">
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">🎨</div>
+      <div class="brand-info">
+        <h1>
+          <span>Autovem Flowchart Studio</span>
+          <span class="promax-badge">✨ UI/UX PRO MAX</span>
+          <span class="brand-badge">v2.5</span>
+        </h1>
+        <p>مستعرض ومصمم المخططات الانسيابية معزز بذكاء التصميم ونظام الهوية البصرية المتناسقة</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <!-- UI/UX Pro Max Palette Dial -->
+      <select class="select-pill" id="paletteSelect" title="اختيار لوحة الألوان الذكية من UI/UX Pro Max">
+        <option value="neon">لوحة Dark Neon Candy (الافتراضية)</option>
+        <option value="indigo">لوحة Midnight Indigo (المؤسسية)</option>
+        <option value="amber">لوحة Obsidian Amber (المالية والفخمة)</option>
+        <option value="light">لوحة Executive Light (العروض الرسمية)</option>
+      </select>
+
+      <button class="btn" id="btnAutoFix" title="إصلاح أخطاء Mermaid الشائعة تلقائياً">
+        <span>🪄</span> إصلاح الكود التلقائي
+      </button>
+
+      <button class="btn btn-success" id="btnExportPng" title="تصدير صورة فائقة الدقة للتقارير">
+        <span>🖼️</span> تصدير <bdi class="tag-token">PNG</bdi> عالي الدقة
+      </button>
+
+      <button class="btn btn-primary" id="btnExportSvg" title="تحميل ملف متجهات SVG">
+        <span>📐</span> تحميل <bdi class="tag-token">SVG</bdi>
+      </button>
+
+      <button class="btn btn-icon-only" id="btnCopySvg" title="نسخ كود SVG للحافظة">
+        <span>📋</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Studio Main -->
+  <div class="studio-container">
+    
+    <!-- Stage Canvas -->
+    <div class="diagram-stage" id="stage">
+      <div class="diagram-wrapper" id="diagramWrapper">
+        <div id="diagramSvgContainer"></div>
+      </div>
+
+      <!-- HUD Controls -->
+      <div class="hud-controls">
+        <button class="hud-btn" id="btnZoomIn" title="تكبير">+</button>
+        <div class="zoom-level-badge" id="zoomBadge">100%</div>
+        <button class="hud-btn" id="btnZoomOut" title="تصغير">-</button>
+        <button class="hud-btn" id="btnFit" title="ملاءمة الشاشة">⛶</button>
+        <button class="hud-btn" id="btnReset" title="إعادة الضبط">↺</button>
+      </div>
+
+      <!-- Toggle Sidebar Button -->
+      <button class="toggle-sidebar-btn" id="btnToggleSidebar">
+        <span>⚙️</span> محرر الكود
+      </button>
+    </div>
+
+    <!-- Sidebar Editor -->
+    <aside class="editor-sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <span>📝</span> محرر كود <bdi class="tag-token">Mermaid</bdi>
+        </div>
+        <select class="template-select" id="templateSelect">
+          <option value="google_ads">خارطة تفعيل Google Ads API (المطلوبة)</option>
+          <option value="agency_workflow">تدفق مهام وكالة Autovem التسويقية</option>
+          <option value="cro_funnel">قمع التحويل والإعلانات المباشرة</option>
+        </select>
+      </div>
+
+      <div class="editor-wrapper">
+        <textarea id="mermaidCode" spellcheck="false" placeholder="اكتب كود Mermaid هنا..."></textarea>
+        <div class="error-box" id="errorBox">
+          <strong>⚠️ تنبيه في صياغة الكود:</strong>
+          <div id="errorMsg" style="margin-top: 4px; font-family: monospace; direction: ltr;"></div>
+        </div>
+      </div>
+
+      <div class="editor-footer">
+        <button class="btn btn-primary" id="btnRender" style="flex: 1;">
+          <span>⚡</span> تحديث الرسم فوراً
+        </button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">تم الإجراء بنجاح!</div>
+
+  <script>
+    // Pro Max Palettes & Directives
+    const proMaxPalettes = {
+      neon: {
+        primaryColor: '#16192e',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#06b6d4',
+        lineColor: '#38bdf8',
+        secondaryColor: '#3b0764',
+        tertiaryColor: '#064e3b'
+      },
+      indigo: {
+        primaryColor: '#1e293b',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#3b82f6',
+        lineColor: '#60a5fa',
+        secondaryColor: '#312e81',
+        tertiaryColor: '#064e3b'
+      },
+      amber: {
+        primaryColor: '#27272a',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#f59e0b',
+        lineColor: '#fbbf24',
+        secondaryColor: '#7c2d12',
+        tertiaryColor: '#14532d'
+      },
+      light: {
+        primaryColor: '#ffffff',
+        primaryTextColor: '#0f172a',
+        primaryBorderColor: '#0284c7',
+        lineColor: '#0284c7',
+        secondaryColor: '#f3e8ff',
+        tertiaryColor: '#ecfdf5'
+      }
+    };
+
+    // Strict RTL & BiDi Isolated Templates (UI/UX Pro Max Balanced Hierarchy)
+    const templates = {
+      google_ads: `flowchart LR
+    %% فئات التنسيق البصري UI/UX Pro Max
+    classDef credential fill:#16192e,stroke:#06b6d4,stroke-width:2px,color:#ffffff,rx:10px,ry:10px;
+    classDef engine fill:#3b0764,stroke:#a855f7,stroke-width:3px,color:#ffffff,rx:14px,ry:14px;
+    classDef output fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ffffff,rx:10px,ry:10px;
+
+    subgraph Keys [" 🔑 مفاتيح الاعتماد الثلاثة المطلوبة "]
+        MCC["<b>1. حساب المدير <span dir='ltr'>(MCC)</span></b><br/><code dir='ltr'>Developer Token</code><br/><small style='color:#94a3b8;'>تصريح المطور المعتمد للوصول المباشر</small>"]:::credential
+        Cloud["<b>2. منصة <span dir='ltr'>Google Cloud</span></b><br/><code dir='ltr'>Client ID &amp; Secret</code><br/><small style='color:#94a3b8;'>هوية التطبيق الأمنية وتشفير الاتصال</small>"]:::credential
+        Auth["<b>3. تصريح الدخول <span dir='ltr'>(OAuth 2.0)</span></b><br/><code dir='ltr'>Refresh Token دائم</code><br/><small style='color:#94a3b8;'>صلاحية تشغيل مستمرة 24/7 دون تسجيل متكرر</small>"]:::credential
+    end
+
+    Engine["⚙️ <b>محرك الأتمتة المركزي</b><br/><span dir='ltr' style='font-size:15px; color:#c084fc;'>Google Ads API Engine</span><br/><small style='color:#e2e8f0;'>إدارة الميزانيات، الكلمات المفتاحية، والحملات</small>"]:::engine
+
+    DailyCheck["📊 <b>التشغيل والمخرجات الذاتية</b><br/><span style='color:#34d399;'>فحص يومي + تنبيهات الميزانية</span><br/><small style='color:#a7f3d0;'>تقارير استراتيجية دورية لنظام <bdi dir='ltr'>Claude</bdi></small>"]:::output
+
+    %% مسارات الربط
+    MCC ==>|1. ترخيص الربط البرمجي| Engine
+    Cloud ==>|2. مفاتيح المصادقة والتشفير| Engine
+    Auth ==>|3. تفويض الصلاحية المستمر| Engine
+    Engine ===>|مزامنة التقارير الدورية| DailyCheck`,
+
+      agency_workflow: `flowchart TD
+    Client["👤 العميل الجديد<br/><span dir='rtl'>(شجن / ياز)</span>"] --> Profile["📁 فتح ملف العميل وتعبئة البيانات"]
+    Profile --> Research["🔍 تحليل السوق والكلمات المفتاحية"]
+    Research --> Campaign["🎯 إعداد هيكل حملات <span dir='ltr'>Google Ads</span>"]
+    Campaign --> Copy["✍️ صياغة نصوص الإعلانات المتجاوبة"]
+    Copy --> Launch["🚀 إطلاق الحملة وتفعيل التتبع <span dir='ltr'>GA4/GTM</span>"]
+    Launch --> Audit["📈 فحص يومي وتقارير أداء استراتيجية"]`,
+
+      cro_funnel: `flowchart LR
+    Impression["👀 ظهور الإعلان في بحث جوجل"] --> Click["🖱️ نقرة العميل المستهدف"]
+    Click --> Landing["📱 صفحة هبوط سريعة متوافقة مع الجوال"]
+    Landing --> Action{"📞 إجراء التحويل"}
+    Action -->|اتصال هاتفي| Call["🟢 مكالمة هاتفية مباشرة"]
+    Action -->|واتساب| Chat["💬 محادثة واتساب فورية"]
+    Call --> Deal["💰 إتمام الاتفاق والتعاقد"]
+    Chat --> Deal`
+    };
+
+    // State
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let currentPalette = 'neon';
+
+    // Elements
+    const codeArea = document.getElementById('mermaidCode');
+    const container = document.getElementById('diagramSvgContainer');
+    const stage = document.getElementById('stage');
+    const wrapper = document.getElementById('diagramWrapper');
+    const errorBox = document.getElementById('errorBox');
+    const errorMsg = document.getElementById('errorMsg');
+    const zoomBadge = document.getElementById('zoomBadge');
+    const toast = document.getElementById('toast');
+    const sidebar = document.getElementById('sidebar');
+    const paletteSelect = document.getElementById('paletteSelect');
+
+    // Initialize Mermaid with UI/UX Pro Max Theme
+    function initMermaid() {
+      const pal = proMaxPalettes[currentPalette] || proMaxPalettes.neon;
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'Tajawal, Cairo, sans-serif',
+          primaryColor: pal.primaryColor,
+          primaryTextColor: pal.primaryTextColor,
+          primaryBorderColor: pal.primaryBorderColor,
+          lineColor: pal.lineColor,
+          secondaryColor: pal.secondaryColor,
+          tertiaryColor: pal.tertiaryColor
+        },
+        flowchart: {
+          curve: 'basis',
+          htmlLabels: true
+        },
+        securityLevel: 'loose'
+      });
+    }
+
+    // Initial Setup
+    initMermaid();
+    codeArea.value = templates.google_ads;
+
+    // Render Diagram
+    async function renderDiagram() {
+      const code = codeArea.value.trim();
+      errorBox.classList.remove('active');
+
+      if (!code) {
+        container.innerHTML = '<div style="color:var(--text-muted); font-size:14px;">لا يوجد كود لعرضه</div>';
+        return;
+      }
+
+      try {
+        initMermaid();
+        const id = 'mermaid_' + Date.now();
+        const { svg } = await mermaid.render(id, code);
+        container.innerHTML = svg;
+        
+        const svgElement = container.querySelector('svg');
+        if (svgElement) {
+          svgElement.style.maxWidth = '100%';
+          svgElement.style.height = 'auto';
+        }
+      } catch (err) {
+        console.error('Mermaid Render Error:', err);
+        errorMsg.textContent = err.message || 'خطأ في صياغة كود Mermaid';
+        errorBox.classList.add('active');
+      }
+    }
+
+    // Auto-fix Mermaid Common Syntax Errors
+    function autoFixCode() {
+      let code = codeArea.value;
+
+      code = code.replace(/([0-9]+)\.\s*([^\s\[\-]+)\[/g, 'node_$1["$1. $2 ');
+      code = code.replace(/<--/g, '-->');
+      code = code.replace(/\["([^"]*)\(/g, '["$1&#40;');
+      code = code.replace(/\)([^"]*)"\]/g, '&#41;$1"]');
+
+      codeArea.value = code;
+      showToast('تم تطبيق الإصلاح الذكي للكود بنجاح!');
+      renderDiagram();
+    }
+
+    // Update Transform (Pan & Zoom)
+    function updateTransform() {
+      wrapper.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+      zoomBadge.textContent = `${Math.round(zoom * 100)}%`;
+    }
+
+    // Reset View
+    function resetView() {
+      zoom = 1;
+      panX = 0;
+      panY = 0;
+      updateTransform();
+    }
+
+    // Fit View
+    function fitView() {
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+      
+      const stageRect = stage.getBoundingClientRect();
+      const svgBBox = svg.getBBox ? svg.getBBox() : svg.getBoundingClientRect();
+
+      const scaleX = (stageRect.width - 140) / (svgBBox.width || 800);
+      const scaleY = (stageRect.height - 140) / (svgBBox.height || 600);
+      zoom = Math.min(Math.max(Math.min(scaleX, scaleY), 0.4), 2.0);
+      panX = 0;
+      panY = 0;
+      updateTransform();
+    }
+
+    // Toast
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    // Mouse Pan & Zoom
+    stage.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.hud-controls') || e.target.closest('.toggle-sidebar-btn')) return;
+      isDragging = true;
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      panX = e.clientX - startX;
+      panY = e.clientY - startY;
+      updateTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    stage.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      zoom = Math.min(Math.max(zoom + delta, 0.2), 4.0);
+      updateTransform();
+    }, { passive: false });
+
+    // Buttons
+    document.getElementById('btnZoomIn').addEventListener('click', () => {
+      zoom = Math.min(zoom + 0.2, 4.0);
+      updateTransform();
+    });
+
+    document.getElementById('btnZoomOut').addEventListener('click', () => {
+      zoom = Math.max(zoom - 0.2, 0.2);
+      updateTransform();
+    });
+
+    document.getElementById('btnReset').addEventListener('click', resetView);
+    document.getElementById('btnFit').addEventListener('click', fitView);
+    document.getElementById('btnRender').addEventListener('click', renderDiagram);
+    document.getElementById('btnAutoFix').addEventListener('click', autoFixCode);
+
+    // Sidebar Toggle
+    document.getElementById('btnToggleSidebar').addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      setTimeout(fitView, 320);
+    });
+
+    // Palette Selector (UI/UX Pro Max)
+    paletteSelect.addEventListener('change', (e) => {
+      currentPalette = e.target.value;
+      document.body.setAttribute('data-palette', currentPalette);
+      renderDiagram();
+      showToast(`تم تفعيل لوحة ألوان: ${paletteSelect.options[paletteSelect.selectedIndex].text}`);
+    });
+
+    // Template Selector
+    document.getElementById('templateSelect').addEventListener('change', (e) => {
+      const key = e.target.value;
+      if (templates[key]) {
+        codeArea.value = templates[key];
+        renderDiagram();
+        setTimeout(fitView, 120);
+      }
+    });
+
+    // Export SVG
+    document.getElementById('btnExportSvg').addEventListener('click', () => {
+      const svg = container.querySelector('svg');
+      if (!svg) return showToast('لا يوجد مخطط لتصديره');
+      
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `flowchart_promax_${currentPalette}.svg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('تم تحميل ملف متجهات SVG بمعايير UI/UX Pro Max!');
+    });
+
+    // Copy SVG
+    document.getElementById('btnCopySvg').addEventListener('click', () => {
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+      const svgData = new XMLSerializer().serializeToString(svg);
+      navigator.clipboard.writeText(svgData).then(() => {
+        showToast('تم نسخ كود SVG إلى الحافظة بنجاح!');
+      });
+    });
+
+    // Export High-Res PNG (UI/UX Pro Max 3x Crispness)
+    document.getElementById('btnExportPng').addEventListener('click', () => {
+      const svg = container.querySelector('svg');
+      if (!svg) return showToast('لا يوجد مخطط لتصديره');
+
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      const svgBBox = svg.getBoundingClientRect();
+      const scale = 3;
+      const width = (svgBBox.width || 1200) * scale;
+      const height = (svgBBox.height || 700) * scale;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      img.onload = () => {
+        const bgColors = {
+          neon: '#0a0a14',
+          indigo: '#0f172a',
+          amber: '#18181b',
+          light: '#ffffff'
+        };
+        ctx.fillStyle = bgColors[currentPalette] || '#0a0a14';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const a = document.createElement('a');
+        a.download = `flowchart_promax_${currentPalette}_4k.png`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+        showToast('تم تصدير صورة PNG فائقة الدقة 4K!');
+      };
+
+      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+    });
+
+    // Live Render with debounce
+    let debounceTimer;
+    codeArea.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(renderDiagram, 500);
+    });
+
+    // First load
+    window.addEventListener('load', async () => {
+      await renderDiagram();
+      setTimeout(fitView, 200);
+    });
+  </script>
+</body>
+</html>

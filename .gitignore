@@ -15,6 +15,7 @@
 .cxx
 local.properties
 .env
+mcp_config.json
 debug.keystore
 
 # AI Downloaded Plugins & Archives

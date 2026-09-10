@@ -653,3 +653,263 @@
   content: "نقل قاعدة البيانات من الـ Root، تنظيف المجلدات المكررة، أرشفة السكريبتات المؤقتة، إنشاء محرك المستندات الموحد tbc_document_engine.py، وترقية 04_Self_Refinement_Engine إلى مهارة عالمية (Global Skill)."
   tags: [refactoring, architecture]
   status: active
+
+- id: LESSON-QS-001
+  timestamp: "2026-08-13T21:35:00+03:00"
+  context: "حصر الكميات لفيلا فيريال"
+  tags: ['global']
+  lesson: "تحويل المخططات من PDF إلى DWG/DXF يفقد الطبقات الأصلية ويحول النصوص العربية والأبعاد إلى Polylines أو أحرف تالفة، ولذلك فإن مسار الجداول التقديرية مع السماكة المكافئة للأسقف هو الأسرع والأكثر موثوقية."
+
+- id: LESSON-AGENT-008
+  timestamp: "2026-08-14T00:30:00+03:00"
+  context: "حزمة تأسيس الوكلاء المعيارية وسكربت التهيئة التلقائي (Universal Agent Starter Kit)"
+  tags: ['global', 'architecture', 'automation']
+  lesson: "تأسيس حزمة معيارية مجردة ومستقلة مع سكربت تهيئة آلي (init_project_agents.py) يعتمد على الاكتشاف التلقائي لملفات البيئة والمقابلة التأسيسية، يمنع تلوث السياق الموروث (Context Bleeding) ويوحد قواعد الوكلاء الـ 20 عبر جميع المشاريع بنقرة واحدة."
+
+- id: LESSON-AGENT-009
+  timestamp: "2026-08-14T00:39:00+03:00"
+  context: "اعتماد معمارية الذاكرة اللامركزية الثلاثية وتنظيف الدستور (3-Tier Memory Architecture)"
+  tags: ['global', 'architecture', 'context-optimization']
+  lesson: "حظر حشو الدروس اليومية في ملف الدستور AGENTS.md لتفادي تضخم نافذة السياق وهدر التوكنز وتشتت تركيز النماذج، واعتماد MEMORY_STORE.md كمستودع محلي وحيد للدروس مع ترحيل الدروس الحرجة الموسومة بـ global إلى ACTIVE_CONTEXT_INJECTION.md."
+
+- id: LESSON-AGENT-013
+  timestamp: "2026-09-03T15:50:00+03:00"
+  context: "بروتوكول تسليم قيادة الأسطول ذاتياً عند نفاد كوتا جلسة Claude Code CLI"
+  tags: ['fleet', 'quota-limit', 'failover', 'global']
+  lesson: "عند وصول كوتا جلسة Claude Code CLI للحد الأقصى (100% used)، يتولى وكيل Antigravity IDE (Gemini 3.8 Flash High) فوراً قيادة الأسطول وإجراء كافة التعديلات البرمجية وتحديث جداول الإكسل والاعتماد الهندسي دون أي توقف."
+
+- id: ADR-AGENT-004
+  type: decision
+  timestamp: "2026-08-14T00:30:00+03:00"
+  agents: [code-architect, persistent-memory-engine, test-automator]
+  context: "حزمة تأسيس الوكلاء المعيارية (Universal Agent Starter Kit)"
+  content: "بناء حزمة معيارية مجردة تضم 20 وكيلاً و26 مهارة وسكربت تهيئة آلي يدعم الاكتشاف التلقائي لبيئات (Android/Web/QS/Python)، مع عزل ملفات المشاريع السابقة لمنع التلوث السياقي وضمان استخدام أحدث نماذج 2026 وقواعد lean-ctx عالمياً."
+  tags: [scaffolding, agents, starter_kit, automation, global]
+  status: active
+
+- id: ADR-AGENT-005
+
+- id: ADR-RESTRUCT-002
+  type: decision
+  timestamp: "2026-08-04T12:39:00+03:00"
+  agents: [code-architect, persistent-memory-engine]
+  context: "إعادة الهيكلة الشاملة للمشروع وترقية محرك المراجعة الذاتية"
+  content: "نقل قاعدة البيانات من الـ Root، تنظيف المجلدات المكررة، أرشفة السكريبتات المؤقتة، إنشاء محرك المستندات الموحد tbc_document_engine.py، وترقية 04_Self_Refinement_Engine إلى مهارة عالمية (Global Skill)."
+  tags: [refactoring, architecture]
+  status: active
+
+- id: LESSON-QS-001
+  timestamp: "2026-08-13T21:35:00+03:00"
+  context: "حصر الكميات لفيلا فيريال"
+  tags: ['global']
+  lesson: "تحويل المخططات من PDF إلى DWG/DXF يفقد الطبقات الأصلية ويحول النصوص العربية والأبعاد إلى Polylines أو أحرف تالفة، ولذلك فإن مسار الجداول التقديرية مع السماكة المكافئة للأسقف هو الأسرع والأكثر موثوقية."
+
+- id: LESSON-AGENT-008
+  timestamp: "2026-08-14T00:30:00+03:00"
+  context: "حزمة تأسيس الوكلاء المعيارية وسكربت التهيئة التلقائي (Universal Agent Starter Kit)"
+  tags: ['global', 'architecture', 'automation']
+  lesson: "تأسيس حزمة معيارية مجردة ومستقلة مع سكربت تهيئة آلي (init_project_agents.py) يعتمد على الاكتشاف التلقائي لملفات البيئة والمقابلة التأسيسية، يمنع تلوث السياق الموروث (Context Bleeding) ويوحد قواعد الوكلاء الـ 20 عبر جميع المشاريع بنقرة واحدة."
+
+- id: LESSON-AGENT-009
+  timestamp: "2026-08-14T00:39:00+03:00"
+  context: "اعتماد معمارية الذاكرة اللامركزية الثلاثية وتنظيف الدستور (3-Tier Memory Architecture)"
+  tags: ['global', 'architecture', 'context-optimization']
+  lesson: "حظر حشو الدروس اليومية في ملف الدستور AGENTS.md لتفادي تضخم نافذة السياق وهدر التوكنز وتشتت تركيز النماذج، واعتماد MEMORY_STORE.md كمستودع محلي وحيد للدروس مع ترحيل الدروس الحرجة الموسومة بـ global إلى ACTIVE_CONTEXT_INJECTION.md."
+
+- id: LESSON-AGENT-013
+  timestamp: "2026-09-03T15:50:00+03:00"
+  context: "بروتوكول تسليم قيادة الأسطول ذاتياً عند نفاد كوتا جلسة Claude Code CLI"
+  tags: ['fleet', 'quota-limit', 'failover', 'global']
+  lesson: "عند وصول كوتا جلسة Claude Code CLI للحد الأقصى (100% used)، يتولى وكيل Antigravity IDE (Gemini 3.8 Flash High) فوراً قيادة الأسطول وإجراء كافة التعديلات البرمجية وتحديث جداول الإكسل والاعتماد الهندسي دون أي توقف."
+
+- id: ADR-AGENT-004
+  type: decision
+  timestamp: "2026-08-14T00:30:00+03:00"
+  agents: [code-architect, persistent-memory-engine, test-automator]
+  context: "حزمة تأسيس الوكلاء المعيارية (Universal Agent Starter Kit)"
+  content: "بناء حزمة معيارية مجردة تضم 20 وكيلاً و26 مهارة وسكربت تهيئة آلي يدعم الاكتشاف التلقائي لبيئات (Android/Web/QS/Python)، مع عزل ملفات المشاريع السابقة لمنع التلوث السياقي وضمان استخدام أحدث نماذج 2026 وقواعد lean-ctx عالمياً."
+  tags: [scaffolding, agents, starter_kit, automation, global]
+  status: active
+
+- id: ADR-AGENT-005
+  type: decision
+  timestamp: "2026-08-14T00:39:00+03:00"
+  agents: [code-architect, persistent-memory-engine]
+  context: "هيكلة الذاكرة الثلاثية وترشيق الدستور (3-Tier Memory System)"
+  content: "اعتماد الفصل الصارم بين: (1) دستور الوكلاء AGENTS.md للقواعد السلوكية الثابتة، (2) القيود العالمية المانعة للأخطاء ACTIVE_CONTEXT_INJECTION.md للخطوة صفر، و (3) متجر الذاكرة اللامركزي MEMORY_STORE.md لتسجيل 100% من الدروس والقرارات المحلية."
+  tags: [memory, architecture, 3-tier, optimization, global]
+  status: active
+
+- id: MEM-2026-09-08-044
+  type: lesson
+  timestamp: "2026-09-08T09:30:00+03:00"
+  agents: [prompt-engineer, boq-analyst, document-formatter, persistent-memory-engine]
+  context: "حظر وضع الأسعار الافتراضية وتثبيت هوية المقاول المنفذ إعمار الفرعة"
+  content: "الحظر المطلق لأي أسعار افتراضية أو تقديرية (Strict Zero-Pricing Rule) في جداول الكميات وعروض الأسعار ما لم يطلب المستخدم ذلك صراحة، مع إبقاء خانات التسعير مفرغة [             ر.س ] وبناء معادلات Excel شرطية ذكية =IF(K9=\"\",\"\",I9*K9) تعمل ديناميكياً فور كتابة السعر، وتثبيت مؤسسة إعمار الفرعة كالمقاول العام المنفذ لأعمال التوريد والتركيب."
+  tags: [zero-pricing, unpriced-boq, efc-contractor, prompt-engineer, global]
+  status: active
+
+- id: MEM-2026-09-08-045
+  type: lesson
+  timestamp: "2026-09-08T09:35:00+03:00"
+  agents: [feature-startup-orchestrator, prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "اعتماد الأرقام الإنجليزية (0-9) حصرياً مع حراسة التنسيقات وقيد الصفحة الواحدة"
+  content: "اعتماد الأرقام الإنجليزية (0-9) حصرياً وبشكل مطلق في كافة المستندات الرسمية، الخطابات، عروض الأسعار، وجداول الكميات، مع حظر الأرقام الهندية المشرقية تماماً وتفعيل بوابة الصفر أرقام هندية len(re.findall(r'[\\u0660-\\u0669]', text)) == 0، مع الحفاظ التام على محاذاة الجداول والعزل ثنائي الاتجاه BiDi/RTL وقيد الصفحة الواحدة الصارم (Strict 1-Page A4)."
+  tags: [english-digits, western-numerals, zero-indic-digits, formatting-retention, strict-1-page, global]
+  status: active
+
+- id: MEM-2026-09-08-046
+  type: decision
+  timestamp: "2026-09-08T12:45:00+03:00"
+  agents: [backend-architect, devops-deployer, persistent-memory-engine]
+  context: "نموذج الاشتراك السنوي المدار لوكالة Autovem وتغطية تكاليف الـ VPS"
+  content: "اعتماد عقود البريد والنطاق كاشتراك سنوي مُدار شامل بقيمة ثابتة 399.00 ر.س / سنوياً لكل سنة دون تخفيض للتجديد؛ لضمان تغطية تكاليف الخوادم السحابية للـ VPS، واستدامة النسخ الاحتياطي، والمتابعة الأمنية الدورية لـ DMARC والدعم الفني."
+  tags: [managed-subscription, vps-cost, autovem-agency, financial, global]
+  status: active
+
+- id: MEM-2026-09-08-047
+  type: decision
+  timestamp: "2026-09-08T12:50:00+03:00"
+  agents: [backend-architect, code-architect, persistent-memory-engine]
+  context: "معيار تخصيص حصص البريد وإدارة سعة خوادم الـ VPS والصياغة الذكية للتخزين"
+  content: "على خوادم الـ VPS السحابية (KVM 1 بسعة 50GB NVMe)، تعيين حصة البريد الافتراضية بـ 1 GB لكل حساب بريد داخلياً لحماية موارد القرص (3 حسابات = 3GB أي 6% فقط)، مع اعتماد الصياغة الذكية في عروض الأسعار: 'سعة تخزينية سحابية مستقلة قابلة للتوسعة' دون ذكر أرقام صلبة لتجنب الالتزامات القانونية وفتح المجال للترقية المدفوعة."
+  tags: [mailbox-quota, vps-storage, scalable-wording, autovem, global]
+  status: active
+
+- id: MEM-2026-09-08-048
+  type: lesson
+  timestamp: "2026-09-08T14:52:00+03:00"
+  agents: [backend-architect, devops-deployer, persistent-memory-engine]
+  context: "معيار إدخال العناوين بالحروف الإنجليزية في مسجل النطاقات DNet والمركز السعودي"
+  content: "في مسجل النطاقات السعودي DNet، حقل العنوان بالكامل لبيانات المنشأة يرفض المحارف العربية ويتطلب إدخال العنوان باللغة الإنجليزية (ASCII) ليتوافق مع بروتوكولات WHOIS والمركز السعودي لمعلومات الشبكة (SaudiNIC)، مع بقاء حقول توضيح العلاقة بالعربية."
+  tags: [dnet, saudinic, domain-registration, ascii-address, global]
+  status: active
+
+- id: MEM-2026-09-08-049
+  type: decision
+  timestamp: "2026-09-08T16:55:00+03:00"
+  agents: [backend-architect, devops-deployer, persistent-memory-engine]
+  context: "المعمارية الهجينة لإدارة النطاقات الوطنية السعودية والبريد المهني المدار"
+  content: "اعتماد النمط الهجين لإدارة خدمات عملاء وكالة Autovem: تسجيل وتوثيق النطاقات الوطنية (.sa) عبر DNet/SaudiNIC، وربط وتوجيه البريد المهني عبر Hostinger Business Email (MX1/MX2, SPF include, DKIM CNAME Rotation) لضمان تسليم الإنبوكس 100% والتطبيقات الرسمية وتفادي حظر Port 25 على الـ VPS، مع إبقاء سجلات A موجهة لخادم الـ VPS لتطبيقات الويب."
+  tags: [hybrid-architecture, saudinic, hostinger-mail, dkim-rotation, vps-port25, global]
+  status: active
+
+- id: MEM-2026-09-08-050
+
+- id: MEM-2026-09-08-046
+  type: decision
+  timestamp: "2026-09-08T12:45:00+03:00"
+  agents: [backend-architect, devops-deployer, persistent-memory-engine]
+  context: "نموذج الاشتراك السنوي المدار لوكالة Autovem وتغطية تكاليف الـ VPS"
+  content: "اعتماد عقود البريد والنطاق كاشتراك سنوي مُدار شامل بقيمة ثابتة 399.00 ر.س / سنوياً لكل سنة دون تخفيض للتجديد؛ لضمان تغطية تكاليف الخوادم السحابية للـ VPS، واستدامة النسخ الاحتياطي، والمتابعة الأمنية الدورية لـ DMARC والدعم الفني."
+  tags: [managed-subscription, vps-cost, autovem-agency, financial, global]
+  status: active
+
+- id: MEM-2026-09-08-047
+  type: decision
+  timestamp: "2026-09-08T12:50:00+03:00"
+  agents: [backend-architect, code-architect, persistent-memory-engine]
+  context: "معيار تخصيص حصص البريد وإدارة سعة خوادم الـ VPS والصياغة الذكية للتخزين"
+  content: "على خوادم الـ VPS السحابية (KVM 1 بسعة 50GB NVMe)، تعيين حصة البريد الافتراضية بـ 1 GB لكل حساب بريد داخلياً لحماية موارد القرص (3 حسابات = 3GB أي 6% فقط)، مع اعتماد الصياغة الذكية في عروض الأسعار: 'سعة تخزينية سحابية مستقلة قابلة للتوسعة' دون ذكر أرقام صلبة لتجنب الالتزامات القانونية وفتح المجال للترقية المدفوعة."
+  tags: [mailbox-quota, vps-storage, scalable-wording, autovem, global]
+  status: active
+
+- id: MEM-2026-09-08-048
+  type: lesson
+  timestamp: "2026-09-08T14:52:00+03:00"
+  agents: [backend-architect, devops-deployer, persistent-memory-engine]
+  context: "معيار إدخال العناوين بالحروف الإنجليزية في مسجل النطاقات DNet والمركز السعودي"
+  content: "في مسجل النطاقات السعودي DNet، حقل العنوان بالكامل لبيانات المنشأة يرفض المحارف العربية ويتطلب إدخال العنوان باللغة الإنجليزية (ASCII) ليتوافق مع بروتوكولات WHOIS والمركز السعودي لمعلومات الشبكة (SaudiNIC)، مع بقاء حقول توضيح العلاقة بالعربية."
+  tags: [dnet, saudinic, domain-registration, ascii-address, global]
+  status: active
+
+- id: MEM-2026-09-08-049
+  type: decision
+  timestamp: "2026-09-08T16:55:00+03:00"
+  agents: [backend-architect, devops-deployer, persistent-memory-engine]
+  context: "المعمارية الهجينة لإدارة النطاقات الوطنية السعودية والبريد المهني المدار"
+  content: "اعتماد النمط الهجين لإدارة خدمات عملاء وكالة Autovem: تسجيل وتوثيق النطاقات الوطنية (.sa) عبر DNet/SaudiNIC، وربط وتوجيه البريد المهني عبر Hostinger Business Email (MX1/MX2, SPF include, DKIM CNAME Rotation) لضمان تسليم الإنبوكس 100% والتطبيقات الرسمية وتفادي حظر Port 25 على الـ VPS، مع إبقاء سجلات A موجهة لخادم الـ VPS لتطبيقات الويب."
+  tags: [hybrid-architecture, saudinic, hostinger-mail, dkim-rotation, vps-port25, global]
+  status: active
+
+- id: MEM-2026-09-08-050
+  type: decision
+  timestamp: "2026-09-08T17:10:00+03:00"
+  agents: [backend-architect, devops-deployer, excel-data-analyst, persistent-memory-engine]
+  context: "تدشين حسابات البريد المهني لشركة ياز وتوليد سجل الإكسيل التنفيذي المعتمد"
+  content: "اكتمال تفعيل حسابات البريد الإلكتروني الثلاثة حياً على نطاق yazairconditioning.sa (n.abdallah, m.arafa, b.hassan) وتوليد مصنف الإكسيل التنفيذي الشامل لكلمات المرور وإعدادات IMAP/SMTP/Webmail، وتجهيز حزمة التسليم الرسمية للعميل وفق معايير Autovem."
+  tags: [yaz-airconditioning, business-email, excel-register, credentials-handover, autovem, global]
+  status: active
+
+- id: MEM-2026-09-08-051
+  type: lesson
+  timestamp: "2026-09-08T22:05:00+03:00"
+  agents: [feature-startup-orchestrator, prompt-engineer, document-formatter, linguistic-assistant, self-refinement-engine, persistent-memory-engine]
+  context: "تحديث الترويسة العلوية بالترويسة الرسمية header_emaar.png واقتصار المقر على الرياض بخط الأميري الملكي"
+  content: "اعتماد البانر الرأسي المعتمد للترويسة (header_emaar.png) في أعلى صفحات البروفايلات، الكتالوجات، الفواصل، وأغلفة الختام بدلاً من اللوجو المستطيل المصغر. واقتصار المقر والعنوان لمؤسسة إعمار الفرعة للمقاولات العامة على 'الرياض' حصرياً مع الحظر الصارم لذكر 'شارع الفرعة العام' أو 'حوطة بني تميم' في العناوين الرسمية، وحذف الهاتف الأرضي، وتثبيت البريدين المعتمدين (emaaralfharah2040@gmail.com و engmohamedyones@gmail.com). واعتماد خط الأميري الملكي (Amiri Typography) في العناوين والبطاقات المستحدثة وصفحات المشاريع، والالتزام ببوابة الصفر أرقام هندية مشرقية (Zero Indic Digits = 0) والسرعة الفائقة (< 5 ثوانٍ)."
+  tags: [official-header, header-emaar, riyadh-only-address, amiri-typography, zero-indic-digits, master-unified-profile, fast-pipeline, memory-sync, global]
+  status: active
+
+- id: ADR-HOSTINGER-REMOTE-FUTRX-048
+  type: adr
+  timestamp: "2026-09-08"
+  agents: [fleet-orchestrator, backend-architect, devops-deployer, persistent-memory-engine]
+  context: "أتمتة نشر منصة remote.futrx على خادم Hostinger VPS بواسطة أدوات Hostinger MCP وتنسيق الأسطول"
+  content: "بناءً على توجيه المستخدم ('نستكمل عملية نشر ريموت فيوتريكس تكس على هوستنجر بواسطة إم سي بي هوستنجر مع الأسطول'): 1) تفعيل بروتوكول الخطوة صفر وقراءة القيود التقنية صامتاً مع اعتماد القيد 53 (عزل المنصات الخادومية على خوادم سحابية KVM). 2) استخدام أدوات Hostinger MCP للتحقق من السيرفر الفعلي (ID: 1810150, IP: 187.55.226.225, Ubuntu 24.04 with Docker). 3) أتمتة إضافة والتحقق من سجلات DNS الأربعة عبر DNS_validateDNSRecordsV1 و DNS_updateDNSRecordsV1 لنطاق autovem.tech (تشمل remote, code.remote, *.code.remote, *.dev.remote) بنجاح 100%. 4) ربط المفتاح العام SSH (autovem_vps ID: 574899) بالسيرفر عبر VPS_attachPublicKeyV1. 5) تدقيق بيئة Docker الحالية واكتشاف تشغيل caddy على المنافذ 80 و 443 ووضع الحلول المعمارية لمنع تضارب المنافذ مع مثبت المنصة الرئيسي."
+  tags: [hostinger-mcp, remote-futrx, vps-deployment, dns-automation, caddy-routing, multi-cli-fleet, zero-indic-digits, global]
+
+- id: LESSON-OFFICIAL-HEADER-RIYADH-AMIRI-047
+  type: lesson
+  timestamp: "2026-09-08"
+  agents: [feature-startup-orchestrator, prompt-engineer, document-formatter, linguistic-assistant, self-refinement-engine, persistent-memory-engine]
+  context: "تحديث الترويسة العلوية بالترويسة الرسمية header_emaar.png واقتصار العنوان على الرياض بخط الأميري الملكي"
+  content: "بناءً على طلب وميزة المستخدم ('استخدم هذه في الترويسة العلوية بدلاً من اللوجو المستطيل' و 'قم بإزالة شارع الفرعة العام، اكتفي فقط بذكر الرياض بالنسبة لإعمار الفرعة'): 1) استبدال الشعار المستطيل في الترويسة العلوية بالترويسة الرسمية المعتمدة للمؤسسة (header_emaar.png) في كل من الصفحة الفاصلة للذراع الصناعي (صفحة 25) والغلاف الختامي ودليل التواصل الموحد (صفحة 76) داخل إطار هندسي نقي مدعوم بخط ذهبي فاصل. 2) إزالة 'شارع الفرعة العام' والهاتف الأرضي بالكامل من صفحة الغلاف الأولى وبطاقة المقاولات بالغلاف الختامي والاكتفاء الحصري بذكر 'الرياض' مع إدراج البريدين الرسميين (emaaralfharah2040@gmail.com و engmohamedyones@gmail.com). 3) اعتماد خط الأميري الملكي (Amiri-Bold و Amiri-Regular) لكافة العناوين والنصوص المحدثة وصفحات المشاريع (14، 15، 16). 4) إنجاز التجميع والأتمتة بسرعة فائقة (< 5 ثوانٍ) في ملف 76 صفحة مستوفٍ 100% لبوابة الأرقام الإنجليزية (Zero Indic Digits = 0) وتوزيعه على كافة المسارات."
+  tags: [official-header, header-emaar, riyadh-only-address, amiri-typography, zero-indic-digits, master-unified-profile, fast-pipeline, memory-sync, global]
+
+- id: LESSON-WESTERN-DIGITS-FORMATTING-RETENTION-045
+  type: lesson
+  timestamp: "2026-09-08"
+  agents: [feature-startup-orchestrator, prompt-engineer, document-formatter, linguistic-assistant, self-refinement-engine, persistent-memory-engine]
+  context: "اعتماد الأرقام الإنجليزية (0-9) حصرياً بناءً على ميزة المستخدم الصريحة مع حراسة التنسيقات وقيد الصفحة الواحدة"
+  content: "بناءً على طلب وميزة المستخدم الصريحة في الخطاف ('ابدأ ميزة: أريد استخدام الأرقام الإنجليزية فقط، ومع الالتزام بكافة التنسيقات في كل مكان'): 1) اعتماد الأرقام الإنجليزية الغربية (0-9) حصرياً في كافة المستندات الرسمية، عروض الأسعار، جداول الكميات (BOQ)، الخطابات التنفيذية، ملفات Excel و Word و PDF والتقارير الهندسية، مع حظر الأرقام الهندية المشرقية تماماً. 2) الحفاظ التام على محاذاة وتنسيقات الجداول والعزل ثنائي الاتجاه (BiDi Isolation) عبر <w:bidiVisual/> و <w:jc w:val=\"left\"/> لمنع انقلاب الأبعاد أو الأكواد. 3) التحقق البرمجي التلقائي عبر PyMuPDF من بوابة الصفر أرقام هندية (len(re.findall(r'[\u0660-\u0669]', text)) == 0) وقيد الصفحة الواحدة الصارم (Strict 1-Page A4) وثبات خانات التسعير المفرغة [             ر.س ]. 4) ترقية دليل القواعد العامة AGENTS.md والأمر القياسي لوكيل الأوامر UNPRICED_CONTRACTOR_BOQ_PROMPT.md لتثبيت هذا المعيار في كافة المشاريع اللاحقة."
+  tags: [global, english-digits, western-numerals, zero-indic-digits, formatting-retention, bidi-isolation, strict-1-page, prompt-engineer, memory-sync]
+
+- id: LESSON-UNPRICED-EFC-PROPOSAL-PROMPT-044
+  type: lesson
+  timestamp: "2026-09-08"
+  agents: [prompt-engineer, boq-analyst, document-formatter, linguistic-assistant, self-refinement-engine, persistent-memory-engine]
+  context: "تفعيل وكيل الأوامر (prompt-engineer) لترسيخ معيار حظر وضع الأسعار قطعياً وإصدار الأمر التشغيلي القياسي لعروض أسعار المقاول المنفذ"
+  content: "بناءً على التوجيه الصارم للمستخدم واستدعاء وكيل الأوامر (prompt-engineer): 1) ترسيخ قاعدة الحظر المطلق للأسعار (Strict Zero-Pricing Rule)؛ يُحظر تماماً على أي وكيل افتراض أو تخمين أو وضع أي سعر للمتر أو احتساب مبالغ إجمالية أو ضرائب ما لم يطلب المستخدم ذلك كتابياً، والاكتفاء بحقول مفرغة ونظيفة [             ر.س ] للإدخال اليدوي. 2) بناء جداول Excel (XLSX) بمعادلات شرطية ذكية مثل =IF(K9=\"\",\"\",I9*K9) و =IF(L29=\"\",\"\",L29*0.15) لتعمل ديناميكياً وفورياً بمجرد إدخال السعر لاحقاً دون إظهار أصفار أو أخطاء. 3) صياغة الأمر التشغيلي القياسي وحفظه في المرجع UNPRICED_CONTRACTOR_BOQ_PROMPT.md وتحديث AGENTS.md ليكون ملزماً لكافة الوكلاء. 4) الحفاظ التام على قيد الصفحة الواحدة (Strict 1-Page A4) والورق الرسمي لمؤسسة إعمار الفرعة وبوابة الصفر أرقام غربية في ملفات PDF."
+  tags: [global, prompt-engineer, zero-pricing, unpriced-boq, efc-contractor, conditional-excel-formulas, strict-1-page, zero-western-digits, memory-sync]
+
+- id: LESSON-MCP-026
+  type: architecture-decision
+  timestamp: "2026-08-26"
+  agents: [mcp-tool-builder, script-to-mcp-converter, code-architect, persistent-memory-engine]
+  context: "تفعيل الخطاف العالمي #23 لأتمتة تحويل سكربتات المشاريع إلى خوادم MCP"
+  content: "إطلاق الخطاف 23 في ملفات الإعدادات المركزية (.config) مدعوماً بمحرك project_scripts_to_mcp.py لمسح السكربتات عبر AST وتجريد منطق العمل وتوليد نماذج Pydantic وخوادم FastMCP مع أرشفة آمنة على الأقراص الثانوية وحماية قرص النظام C:."
+  tags: [global, hooks-pipeline, hook-23, mcp-automation, script-migration, system-optimization]
+
+- id: LESSON-MCP-025
+  type: architecture-decision
+  timestamp: "2026-08-26"
+  agents: [mcp-tool-builder, script-to-mcp-converter, code-architect, persistent-memory-engine]
+  context: "تأسيس خادم construction-engineering-suite وأتمتة تحويل سكربتات المشاريع إلى MCP (الخطاف #23)"
+  content: "تحويل وتجميع أكثر من 60 سكريبت بايثون مبعثر عبر مشاريع مساحة العمل إلى خادم FastMCP موحد (construction-engineering-suite) يضم 7 أدوات هندسية متكاملة (DOCX, BOQ, CPM, Letters, WIR, Handover, PDF Export). تم تفعيل الخطاف العالمي #23 ومحرك project_scripts_to_mcp.py، مع أرشفة جميع السكربتات القديمة بأمان في قرص البيانات الثانوي (G:\_scripts_archive) وتوفير حماية تامة لسعة قرص النظام C:."
+  tags: [global, fastmcp, mcp-server, script-migration, boq, cpm, docx-rtl, pdf-converter, secondary-drive-archive]
+
+- id: LESSON-C-DRIVE-OPTIMIZATION-ORGANIZATION-050
+  type: lesson
+  timestamp: "2026-09-09"
+  agents: [windows-c-drive-optimizer, windows-file-organizer, persistent-memory-engine]
+  context: "تنقيد وفرز وترتيب ملفات القرص C وتحرير 12.26 GB من المساحة الحرجة بنظام الروابط الوصلية"
+  content: "استجابة لمحفز خطاف 16 ('رتب جهازى, فرز الملفات, ترتيب ملفات القرص سي'): 1) تشخيص حالة القرص C واكتشاف وصول المساحة الحرة للحد الحرج (0.17 GB فقط). 2) ترحيل مجلد كاش البناء .gradle بحجم 7.48 GB إلى القرص D:\DevCache\.gradle وربطه برابط وصلي (Directory Junction) لحماية استقرار بناء المشاريع بدون استهلاك مساحة C. 3) تطهير 4.29 GB من مخلفات حزم تحديثات كرت الشاشة NVIDIA OTA Artifacts. 4) تنظيف المجلدات الفارغة المؤقتة بجذر C (مثل Voiceover و tmp)، وفرز ونقل ملفات النسخ الاحتياطية للسجل إلى مجلد Documents\\System_Backups. 5) قفزت المساحة الحرة للقرص C فورياً من 0.17 GB إلى 12.43 GB مع بقاء كافة روابط العبور النشطة سليمة 100% وبانعدام تام للأرقام الهندية المشرقية."
+  tags: [windows-optimization, c-drive-cleanup, devcache-junction, file-organization, zero-indic-digits, memory-sync, global]
+
+- id: LESSON-REMOTE-FUTRX-UBUNTU24-DOCKER-LXD-NETWORKING-051
+  type: lesson
+  timestamp: "2026-09-09"
+  agents: [claude-code-cli, antigravity-ide, persistent-memory-engine, devops-deployer]
+  context: "نشر منصة remote.futrx على Hostinger VPS Ubuntu 24.04 وحل تعارض توجيه شبكة الحاويات بين Docker و LXD و UFW"
+  content: "عند تثبيت remote.futrx على سيرفر سحابي (Hostinger VPS) بنظام Ubuntu 24.04 يحتوي على Docker مسبقاً: 1) فشل بناء الصورة الأساسية futrx-remote-dev-base بمهلة زمنية (no IPv4 egress) بسبب ضبط Docker لسياسة FORWARD على DROP وتعارض جدار الحماية UFW مع جسر الحاويات lxdbr0. 2) أجرى Claude Code CLI تدقيقاً معمارياً صارماً (Devil's Advocate Audit) ورفض تعطيل UFW أمنياً، وقدم حلاً محصناً ومستداماً عبر خدمة systemd دائمة (lxd-docker-forward.service) تمرر lxdbr0 عبر سلسلة DOCKER-USER دون كسر عزل Docker، مع ضبط UFW لتمرير شبكة lxdbr0 ومنافذ 53 (DNS) و 67 (DHCP). 3) اكتمل البناء بنجاح 100% ونشرت المنصة على remote.autovem.tech و code.remote.autovem.tech بنظام تشفير Caddy التلقائي."
+  tags: [remote-futrx, lxd-networking, docker-forward, ufw-routing, hostinger-vps, fleet-orchestration, zero-indic-digits, global]

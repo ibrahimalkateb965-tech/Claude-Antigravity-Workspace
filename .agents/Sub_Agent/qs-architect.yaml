@@ -1,0 +1,7 @@
+---
+name: qs-architect
+description: "Quantity Surveying (Q.S) Architect Agent. Specializes in planning takeoff structures, matching drawings with BOQ specifications, and defining measurement sequences."
+tools: Glob, Grep, Read, WebSearch, Skill
+model: sonnet
+color: blue
+skills: boq-matching, takeoff-planning, structural-analysis

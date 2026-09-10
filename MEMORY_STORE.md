@@ -10,6 +10,24 @@
 ## سجل الدروس المستفادة (Lessons Learned)
 
 ```yaml
+- id: MEM-HOSTINGER-REMOTE-FUTRX-005
+  type: adr
+  timestamp: "2026-09-08T23:25:00+03:00"
+  agents: [fleet-orchestrator, backend-architect, devops-deployer, persistent-memory-engine]
+  context: "أتمتة نشر منصة remote.futrx على خادم Hostinger VPS بواسطة أدوات Hostinger MCP وتنسيق الأسطول"
+  content: "بناءً على توجيه المستخدم واستدعاء أسطول الـ CLIs: 1) تفعيل بروتوكول الخطوة صفر والالتزام بالقيد 53 (عزل منصات الحاويات السحابية). 2) استخدام أدوات Hostinger MCP للتحقق من السيرفر (ID: 1810150, IP: 187.55.226.225). 3) أتمتة إضافة سجلات DNS الأربعة لنطاق autovem.tech عبر DNS_validateDNSRecordsV1 و DNS_updateDNSRecordsV1 بنجاح كامل. 4) ربط المفتاح العام SSH بالسيرفر عبر VPS_attachPublicKeyV1. 5) اكتشاف عمل caddy على الحاوية وحل تعارض المنافذ 80 و 443 مع التثبيت المباشر."
+  tags: [hostinger-mcp, remote-futrx, vps-deployment, dns-automation, multi-cli-fleet, global]
+  status: active
+
+- id: MEM-FLEET-MODELS-2026-09-08-006
+  type: adr
+  timestamp: "2026-09-08T23:25:00+03:00"
+  agents: [fleet-orchestrator, persistent-memory-engine]
+  context: "اعتماد نموذج deepseek/deepseek-v4-flash لـ OpenCode CLI وترقية Antigravity إلى Gemini 3.8 Flash High عبر /learn"
+  content: "تطبيقاً لأمر /learn وموافقة المستخدم الصريحة: 1) اعتماد نموذج deepseek/deepseek-v4-flash رسمياً كنموذج حصري لمنفذ الأوامر الطرفية وقواعد البيانات OpenCode CLI في القاعدة 13 وملفات fleet_config.json. 2) ترقية محرك Antigravity IDE إلى Gemini 3.8 Flash High للاستفادة من قدرات الاستدلال المتطورة وسرعة التوليد. 3) الحفاظ الصارم على احتكار الاختبارات والتدقيق المعماري النهائي لـ Claude Code CLI (Opus Max)."
+  tags: [fleet-config, opencode-model, deepseek-v4-flash, gemini-3-8-flash, rule-13, memory-sync]
+  status: active
+
 - id: MEM-2026-07-21-001
   type: lesson
   timestamp: "2026-07-21T11:00:00+03:00"
@@ -560,6 +578,42 @@
   context: "تفعيل الخطاف 20 والمزامنة الكاملة 100% مع مستودع Claude-Antigravity-Workspace"
   content: "تم إنشاء وتفعيل الخطاف 20 (`مزامنة المنظومة`) لمطابقة ومزامنة كافة الإضافات (Plugins)، المراجع وبذور المشاريع (References & Seeds)، إعدادات البيئة و MCP، المهارات (80+) والوكلاء (25+)، وتحديث ملفات الإكسيل وتطبيق مكتبة الأوامر HTML، ودفعها بنقرة واحدة إلى مستودع `https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace.git` بضمان تطابق كامل 100%."
   tags: [hook-20, cloud-sync, full-parity, plugins, mcp, claude-antigravity-workspace, global]
+  status: active
+
+- id: MEM-2026-09-08-001
+  type: architecture-decision
+  timestamp: "2026-09-08T10:55:00+03:00"
+  agents: [code-architect, persistent-memory-engine, devops-deployer]
+  context: "اعتماد معمارية السيرفر السحابي الهجين (Hostinger VPS) لمنصات حاويات الوكلاء"
+  content: "1. المنصات الخادومية لتشغيل الوكلاء التي تعتمد على حاويات لينكس (مثل remote.futrx المبنية على LXD و Caddy) مكانها الحصري هو خادم سحابي مستقل (Hostinger VPS بنظام Ubuntu 24.04)، ويُحظر محاولة تشغيلها محلياً على Windows عبر WSL2 لتفادي تعقيدات المحاكاة المتداخلة واستنزاف الموارد.\n2. تخصيص جهاز Windows المحلي حصرياً لـ Antigravity IDE و Claude Code CLI للبرمجة المباشرة وتطوير الواجهات، بينما يتولى خادم VPS التشغيل الدائم 24/7 في الخلفية وتوفير العزل التام بصلاحيات كاملة دون أي خطر على جهاز المطور."
+  tags: [hostinger-vps, cloud-agent-os, remote-futrx, lxd, hybrid-architecture]
+  status: active
+
+- id: MEM-2026-09-08-002
+  type: security-and-testing
+  timestamp: "2026-09-08T10:55:00+03:00"
+  agents: [security-auditor, test-guard, prompt-engineer]
+  context: "حوكمة أمان التوكنز وحظر بوابات الفحص الصورية وتوضيح شريط الحالة"
+  content: "1. حظر صريح لتضمين أي توكنز أو مفاتيح سحابية (مثل HOSTINGER_API_TOKEN) بنص مكشوف في mcp_config.json؛ وإلزامية عزلها عبر ملف .env وتضمين الملف الحساس في .gitignore.\n2. سكريبتات فحص المهارات يجب أن تفحص ملفات .agents/skills/ الفعلية وتُرجع رمز خروج غير صفري (sys.exit(1)) عند الفشل لإيقاف خط الإنتاج، ومنع طباعة رسائل النجاح الصورية.\n3. النسبة المئوية في شريط حالة Claude Code تم تثبيتها باسم session:NN% لتعبر حصرياً عن استهلاك نافذة سياق المحادثة للجلسة الحالية (Active Session Context Window) وليس كوتا الـ 5 ساعات."
+  tags: [token-security, test-gate, statusline, session-context, gitleaks]
+  status: active
+
+- id: MEM-2026-09-08-003
+  type: resource-integration
+  timestamp: "2026-09-08T22:40:00+03:00"
+  agents: [resource-scout-integrator, devops-deployer, code-architect, persistent-memory-engine]
+  context: "استكشاف وتكامل منصة remote.futrx للوكلاء السحابيين وبوابة حظر SSH"
+  content: "1. تم استكشاف واستنساخ وتكامل مستودع remote.futrx كمنصة خادومية متكاملة لاستضافة الوكلاء المتعددين (Claude Code, Antigravity agy, Codex, MiniMax, Kimi) داخل حاويات LXD مستقلة لكل مشروع على خادم Hostinger VPS (Ubuntu 24.04).\n2. [تحذير أمني حرج - SSH Hardening]: سكربت التثبيت (06-ssh-hardening.sh) يعطل تسجيل الدخول بكلمة المرور فوراً (PasswordAuthentication no)؛ لذا تم إلزام التحقق من وجود مفتاح SSH العام المسجل في authorized_keys قبل تشغيل مثبت المنصة لتفادي إغلاق السيرفر.\n3. [إدارة الذاكرة في VPS KVM 1]: بناء صورة الحاوية الأساسية (futrx-remote-dev-base) يتطلب تفعيل ملف تبادل (4GB Swap File) كشرط مسبق لتجنب انهيار الذاكرة (OOM Killer).\n4. تم بناء مهارة remote-futrx ونشرها وتوزيعها بكامل أدلتها وسكربت الفحص المساعد في الجذور الأربعة للمنظومة وتحديث HOOKS_GUIDE و HOOKS_GUIDE.xlsx ومزامنة المنظومة بنجاح."
+  tags: [remote-futrx, cloud-vps, hostinger, lxd-containers, ssh-hardening, swap-4gb, hook-20, global]
+  status: active
+
+- id: MEM-2026-09-08-004
+  type: model-calibration
+  timestamp: "2026-09-08T23:07:00+03:00"
+  agents: [prompt-engineer, fleet-orchestrator, code-architect, persistent-memory-engine]
+  context: "تحديث مصفوفة نماذج الأسطول واعتماد deepseek-v4-flash لـ OpenCode وترقية Gemini 3.8 Flash لـ Antigravity"
+  content: "1) اعتماد وتثبيت نموذج deepseek/deepseek-v4-flash كنموذج حصري وافتراضي لـ OpenCode CLI لتنفيذ الأوامر الطرفية والسكربتات وترحيل قواعد البيانات بأعلى سرعة ومجانية، بعد التحقق من خلو قائمة مزودي OpenCode الحالية من اسم Ox Alpha الصريح. 2) ترقية محرك Antigravity CLI / IDE رسمياً إلى Gemini 3.8 Flash (High Reasoning) في ملفات الأسطول والقواعد العامة، للاستفادة من قدراته الفائقة في المنطق المعماري وإدارة السياق. 3) تحديث القاعدة رقم 13 وملفات fleet_config.json بالتزامن."
+  tags: [fleet-models, deepseek-v4-flash, gemini-3.8-flash, opencode, antigravity, hook-22, rule-13, global]
   status: active
 ```
 

@@ -1,4 +1,4 @@
-﻿---
+---
 name: arabic-docx-specialist
 description: "Autovem Arabic DOCX Specialist — knows exactly how to format markdown (alignments, tables, headers) for the arabic-docx-builder MCP tool."
 ---
@@ -20,3 +20,6 @@ Trigger this skill whenever you need to generate, build, or write an Arabic Micr
    - Supply the markdown_content.
    - Supply the output_path (must be absolute).
    - If the user provided a template path, pass it in 	emplate_path. Otherwise, omit it so the built-in fallback is used.
+5. **Clean Templates & Zero Cross-Project Bleed**:
+   - The default template (`default_template.docx`) must remain a pure structural template with only RTL styles and `{{CONTENT_HERE}}`. Never allow body text from prior projects to contaminate templates.
+   - Always verify the generated document text to guarantee zero bleed of unrelated project terms.

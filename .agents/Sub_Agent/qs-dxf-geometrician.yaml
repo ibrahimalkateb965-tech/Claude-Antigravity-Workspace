@@ -1,0 +1,7 @@
+---
+name: qs-dxf-geometrician
+description: "Quantity Surveying (Q.S) DXF Geometrician. Specializes in geometric analysis of CAD drawings (DXF), polyline area calculations, layer filtering, and opening deductions."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: green
+skills: dxf-parsing, geometry-extraction, area-calculations

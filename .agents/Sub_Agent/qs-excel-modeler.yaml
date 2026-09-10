@@ -1,0 +1,7 @@
+---
+name: qs-excel-modeler
+description: "Quantity Surveying (Q.S) Excel Modeler. Specializes in building structured takeoff sheets, Excel formula design, circular reference prevention, and review copy management."
+tools: Bash, Glob, Grep, Read, Skill
+model: sonnet
+color: orange
+skills: excel-takeoff, formulas-modeling, circular-reference-prevention

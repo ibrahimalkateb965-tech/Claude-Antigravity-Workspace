@@ -17,16 +17,14 @@ def extract_global_memories(filepath: str):
     with open(filepath, 'r', encoding='utf-8', errors='replace') as f:
         content = f.read()
 
-    yaml_matches = re.findall(r'```yaml(.*?)```', content, re.DOTALL)
-    if not yaml_matches:
-        return []
-    
+    blocks = content.split('- id:')
     global_entries = []
-    for yaml_content in yaml_matches:
-        blocks = yaml_content.split('- id:')
-        for block in blocks[1:]:
-            if 'global' in block.lower():  
-                entry = "- id:" + block
+    for block in blocks[1:]:
+        if 'tags:' in block:
+            tags_match = re.search(r'tags:\s*\[(.*?)\]', block, re.IGNORECASE)
+            if tags_match and 'global' in tags_match.group(1).lower():
+                clean_block = re.split(r'\n(?=[#\-]{3,}|\s*##|\s*```)', block)[0]
+                entry = "- id:" + clean_block
                 global_entries.append(entry.strip())
             
     return global_entries
