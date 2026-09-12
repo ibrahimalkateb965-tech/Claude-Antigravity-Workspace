@@ -15,7 +15,7 @@ Scope and exceptions:
 | Channel | Language |
 | :--- | :--- |
 | Replies to Ibrahim in chat | **Arabic** (technical terms in English) |
-| Task Delegation orders to OpenCode CLI / Antigravity IDE | **English only** |
+| Task Delegation orders to OpenCode CLI / Antigravity CLI (agcli) | **English only** |
 | Code, identifiers, comments, commit messages, PR bodies | **English only** |
 | CI logs, CLI terminal commands | **English only** |
 | Generated `.md` orders and audits under `fleet_orders/` | **English only** |
@@ -44,7 +44,8 @@ Every subsequent request is converted into structured delegation using:
 | :--- | :--- | :--- |
 | **Claude Code CLI** (`Opus 5`) | Planning, architectural review, Devil's Advocate Audit, **exclusive execution of ALL automated tests**, final approval / Quality Gates | Writing bulk boilerplate that a cheaper model can produce |
 | **OpenCode CLI** (`Meta Muse Spark 1.3` / Fallback: `Dynamic Multi-Provider`) | Terminal execution, build files, Gradle / version catalog, database layer, network clients, CI workflows | **Running any test.** Touching UI composables or accessibility semantics |
-| **Antigravity IDE** (`Gemini 3.7 Flash High`) | UI building, iOS adaptation, Domain Logic, `expect/actual` platform abstractions, persistent memory | **Running any test.** Editing Gradle files or CI workflows |
+| **Antigravity CLI** (`agcli` [Gemini 3.8 Flash High / Local]) | Headless UI building, iOS adaptation, Domain Logic, `expect/actual` platform abstractions, persistent memory via direct CLI invocation | **Running any test.** Editing Gradle files or CI workflows |
+| **Antigravity IDE** (`Gemini 3.8 Flash High`) | Interactive Developer Workbench & Cockpit (human pair programming, visual diffs, workspace intelligence) | **Programmatic CLI order target** (All CLI delegation routes to `agcli` to avoid manual copy-paste) |
 
 ### Testing Monopoly
 No code is merged until Claude Code has executed the tests itself and issued

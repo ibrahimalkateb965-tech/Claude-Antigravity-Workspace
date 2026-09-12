@@ -7,10 +7,11 @@ Orders are written in **English only**.
 
 ```
 ### ORDER-<PHASE>-<NNN>
-ASSIGNED TO : <opencode-cli | antigravity-ide>
+ASSIGNED TO : <opencode-cli | antigravity-cli>
 MODEL       : <declared model>
 PRIORITY    : <P0 | P1 | P2>
 DEPENDS ON  : <ORDER id(s) | none>
+<!-- Programmatic CLI delegation targets headless agents (opencode-cli, antigravity-cli / agcli). Antigravity IDE is the human workbench. -->
 
 OBJECTIVE
   <One sentence. What must exist when this order is done.>
