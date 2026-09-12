@@ -10,6 +10,15 @@
 ## سجل الدروس المستفادة (Lessons Learned)
 
 ```yaml
+- id: MEM-FLEET-STRATEGIC-CLEAR-AGCLI-2026-09-12-007
+  type: adr
+  timestamp: "2026-09-12T10:40:00+03:00"
+  agents: [fleet-orchestrator, prompt-engineer, persistent-memory-engine]
+  context: "اعتماد بروتوكول التصفير الاستراتيجي وعزل تفويض Antigravity CLI عن بيئة Antigravity IDE"
+  content: "1) اعتماد مصطلح وبروتوكول 'التصفير الاستراتيجي' (Strategic Clear) تحت الخطاف 25 والقالب 04 لضمان حسم المهام الحرجة وتثبيت الكود في حالة مستقرة خالية من أخطاء البناء وعمل Git Commit نظيف قبل مسح السياق أو التصفير. 2) الفصل المعماري التام بين الأدوات الطرفية (Headless CLIs) وبيئة العمل التفاعلية: حصر التكليفات البرمجية لأسطول الـ CLIs في الأدوات الطرفية المستقلة (Claude Code CLI, OpenCode CLI, Antigravity CLI agcli عبر agcli run)، وحظر التكليف لـ Antigravity IDE لحماية الأتمتة المباشرة ومنع الحاجة للنسخ واللصق اليدوي."
+  tags: [fleet-orchestration, strategic-clear, hook-25, template-04, agcli-decoupling, antigravity-cli, autonomous-dispatch]
+  status: active
+
 - id: MEM-HOSTINGER-REMOTE-FUTRX-005
   type: adr
   timestamp: "2026-09-08T23:25:00+03:00"
