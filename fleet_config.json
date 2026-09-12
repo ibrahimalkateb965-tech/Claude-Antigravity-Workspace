@@ -1,77 +1,116 @@
 {
-  "project_name": "Autovem Ecosystem & Workspace",
-  "version": "2.0.0",
-  "active_milestone": "Continuous Workspace & Fleet Orchestration",
-  "language_policy": "English Only in all CLIs and Terminal interactions",
-  "fleet_pipeline_workflow": [
-    "1. Task Delegation: Issue structured Delegate Prompt (Template 02) to target CLI",
-    "2. Implementation & Test: Target CLI builds code and confirms zero analyze/lint errors",
-    "3. Mandatory Phase Code Review: Submit diffs & metrics for Quality Audit (Template 03)",
-    "4. Architectural Sign-off: Formal [APPROVED] verdict + ADR logging in MEMORY_STORE.md before unlocking next Phase"
-  ],
-  "fleet_agents": [
-    {
-      "id": "orchestrator",
-      "cli_tool": "Claude Code CLI",
-      "active_model": "Claude 5 Opus (Opus Max) / Sonnet 5",
-      "effort_level": "Max Reasoning",
-      "assigned_role": "Master Orchestrator, Staff Architect & Senior Code Reviewer",
-      "status": "Active",
-      "token_budget_strategy": "Zero Boilerplate Writing - Architecture & Review Only",
-      "assigned_skills": [
-        "code-architect",
-        "agent-optimizer",
-        "code-reviewer-quality",
-        "fleet-orchestrator"
+  "$schema": "internal://fleet_config/v1",
+  "hook": "22 - Multi-CLI Fleet Orchestrator",
+  "project": "Blind App - Quran for the Blind",
+  "phase": "IOS-KMP-PHASE-0",
+  "created": "2026-09-10",
+  "orchestrator": "claude-code-cli",
+  "terminal_language": "en",
+  "reply_language_to_maintainer": "ar",
+  "target_stack": {
+    "shared": "Kotlin Multiplatform",
+    "ui": "Compose Multiplatform",
+    "di": "Koin",
+    "network": "Ktor + kotlinx.serialization",
+    "persistence": "SQLDelight (pending ADR-002)",
+    "audio_android": "androidx.media3 / ExoPlayer",
+    "audio_ios": "AVPlayer + AVAudioSession",
+    "ci_ios": "GitHub Actions macos-15 runner"
+  },
+  "agents": {
+    "claude-code-cli": {
+      "model": "Claude Opus 5",
+      "invocation": "claude -p \"<prompt>\"",
+      "role": "Planning, architecture review, Devil's Advocate Audit, exclusive test execution, quality gates",
+      "owns": [
+        "CLAUDE.md",
+        "fleet_config.json",
+        "fleet_templates/**",
+        "fleet_orders/**",
+        "docs/adr/**",
+        "docs/IOS_KMP_READINESS_AUDIT.md"
+      ],
+      "exclusive_rights": [
+        "gradlew test",
+        "gradlew allTests",
+        "gradlew iosSimulatorArm64Test",
+        "gradlew connectedAndroidTest",
+        "maestro test",
+        "merge approval"
+      ],
+      "forbidden": [
+        "writing bulk boilerplate assignable to a cheaper model"
       ]
     },
-    {
-      "id": "terminal_executor",
-      "cli_tool": "OpenCode CLI",
-      "active_model": "deepseek/deepseek-v4-flash",
-      "effort_level": "High Speed & Terminal Execution",
-      "assigned_role": "Database, Remote Client & CLI Build Execution",
-      "status": "Active",
-      "exclusive_ownership_tree": [
-        "lib/core/remote/",
-        "lib/core/sync/",
-        "lib/core/database/",
-        "test/",
-        "scripts/"
+    "opencode-cli": {
+      "model": "Meta Muse Spark 1.3 (opencode/muse-spark-1.3-contributor-free)",
+      "failover_policy": "dynamic_multi_provider",
+      "fallback_models": [
+        "google/gemini-2.5-flash",
+        "deepseek/deepseek-chat",
+        "openrouter/meta-llama/llama-3.3-70b-instruct:free",
+        "openrouter/qwen/qwen-2.5-coder-32b-instruct:free",
+        "ollama/qwen2.5-coder:1.5b"
       ],
-      "assigned_skills": [
-        "offline-sync-db",
-        "test-automator",
-        "devops-deployer"
+      "invocation": "opencode run -m opencode/muse-spark-1.3-contributor-free \"<message>\"",
+      "fallback_invocation": "opencode run -m <fallback_model> \"<message>\"",
+      "role": "Terminal execution, build configuration, database, network clients, CI",
+      "owns": [
+        "settings.gradle.kts",
+        "build.gradle.kts",
+        "gradle.properties",
+        "gradle/libs.versions.toml",
+        "androidApp/build.gradle.kts",
+        "composeApp/build.gradle.kts",
+        "shared/build.gradle.kts",
+        "shared/src/commonMain/sqldelight/**",
+        "shared/src/commonMain/kotlin/**/data/network/**",
+        "iosApp/**",
+        ".github/workflows/**"
+      ],
+      "forbidden": [
+        "RUNNING ANY TEST OF ANY KIND",
+        "composeApp/src/commonMain/kotlin/**/ui/**",
+        "**/accessibility/**",
+        "CLAUDE.md",
+        "fleet_config.json"
       ]
     },
-    {
-      "id": "ide_architect_engineer",
-      "cli_tool": "Antigravity CLI / IDE",
-      "active_model": "Gemini 3.8 Flash (High Reasoning)",
-      "effort_level": "High Reasoning & Continuous Code Generation",
-      "assigned_role": "Domain Logic, App Shell, UI Architecture & Memory Core",
-      "status": "Active",
-      "exclusive_ownership_tree": [
-        "lib/app/",
-        "lib/features/",
-        "lib/core/theme/",
-        ".agents/"
+    "antigravity-ide": {
+      "model": "Gemini 3.7 Flash High",
+      "invocation": "agy --print \"<prompt>\"",
+      "role": "UI building, iOS adaptation, Domain Logic, expect/actual platform abstractions",
+      "owns": [
+        "shared/src/commonMain/kotlin/**/domain/**",
+        "shared/src/commonMain/kotlin/**/accessibility/**",
+        "shared/src/androidMain/kotlin/**",
+        "shared/src/iosMain/kotlin/**",
+        "composeApp/src/commonMain/kotlin/**/ui/**",
+        "composeApp/src/commonMain/composeResources/**",
+        ".agents/MEMORY_STORE.md"
       ],
-      "assigned_skills": [
-        "flutter-ui-pro",
-        "jetpack-compose-ui",
-        "frontend-design-builder",
-        "persistent-memory-engine",
-        "prompt-engineer"
+      "forbidden": [
+        "RUNNING ANY TEST OF ANY KIND",
+        "**/build.gradle.kts",
+        "gradle/libs.versions.toml",
+        "gradle.properties",
+        ".github/workflows/**",
+        "CLAUDE.md",
+        "fleet_config.json"
       ]
     }
-  ],
-  "governing_constraints": [
-    "Strictly adhere to Clean Architecture boundaries.",
-    "Do NOT modify locked dependency configurations without explicit coordinator approval.",
-    "Enforce zero linter / analyzer errors after every delivery.",
-    "Mandatory Code Review & Quality Audit (Template 03) at the end of every Phase before starting the next.",
-    "English-only communication in all terminal chats, logs, and delegate prompts."
-  ]
+  },
+  "quality_gates": {
+    "G0_compile": "./gradlew :shared:compileKotlinIosSimulatorArm64 :composeApp:assembleDebug --no-daemon",
+    "G1_lint": "./gradlew lint ktlintCheck",
+    "G2_unit_tests": "./gradlew :shared:allTests (Claude Code ONLY)",
+    "G3_accessibility": "Manual VoiceOver + TalkBack parity checklist per ACCESSIBILITY_GUIDELINES_IOS.md",
+    "G4_approval": "Explicit 'QUALITY GATE: PASS' emitted by Claude Code",
+    "blocking_rule": "No merge without G4. Agents other than Claude Code may not self-certify."
+  },
+  "collision_policy": {
+    "rule": "one_owner_per_path",
+    "on_conflict": "Halt. Escalate to Claude Code. Never resolve by overwriting another agent's owned path.",
+    "shared_read": "All agents may READ any path. Write is restricted to the owns[] list."
+  }
 }

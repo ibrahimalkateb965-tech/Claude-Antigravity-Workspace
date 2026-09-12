@@ -3,8 +3,15 @@
 Local Project Agent & Skill Sync Script
 """
 import os
+import sys
 import shutil
 import json
+import codecs
+
+# إصلاح ترميز مخرجات كونسول ويندوز (UTF-8 Console Encoding Fix)
+if hasattr(sys.stdout, 'encoding') and sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
+
 
 # المسار المركزي للمنظومة
 CENTRAL_WORKSPACE = r"F:\AI PROJECTS\Claude+Antigravity"
@@ -90,5 +97,21 @@ def sync_project_agents():
     if pruned_skills > 0 or pruned_agents > 0:
         print(f"   - تم تنظيف {pruned_agents} وكيلاً زائداً و {pruned_skills} مهارة زائدة.")
 
+def export_project_updates():
+    """تصدير تحديثات أدوات الذكاء الاصطناعي من المشروع الحالي إلى المستودع المركزي"""
+    print(f"📤 جاري تصدير تحديثات أدوات الذكاء الاصطناعي إلى المستودع المركزي: {CENTRAL_WORKSPACE}")
+    central_sync_script = os.path.join(CENTRAL_WORKSPACE, "sync_global_ecosystem.py")
+    if os.path.exists(central_sync_script):
+        import subprocess
+        import sys
+        subprocess.run([sys.executable, central_sync_script, "--from", PROJECT_ROOT], check=False)
+    else:
+        print(f"❌ تعذر العثور على سكربت التصدير المركزي: {central_sync_script}")
+
 if __name__ == "__main__":
-    sync_project_agents()
+    import sys
+    if "--export" in sys.argv:
+        export_project_updates()
+    else:
+        sync_project_agents()
+

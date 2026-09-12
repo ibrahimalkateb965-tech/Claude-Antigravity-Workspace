@@ -230,3 +230,218 @@
 | **الوكلاء المتخصصون** | 25+ | (راجع sub_agents.yaml للقائمة الكاملة) |
 
 </div>
+
+- id: MEM-2026-09-02-001
+  type: lesson
+  timestamp: "2026-09-02T14:45:00+03:00"
+  agents: [android-kotlin-pro, code-reviewer-quality, test-automator, code-architect]
+  context: "معالجة عدم استجابة الأوامر الصوتية للقارئ محمود خليل الحصري مجود وتغطية الـ 20 قارئاً"
+  content: "عند مطابقة أسماء القراء في VoiceCommandParser، يجب تطبيق قاعدة المطابقة من الأكثر تخصيصاً إلى الأقل تخصيصاً (Specific-First). مطابقة 'الحصري' ككلمة عامة قبل فحص 'مجود' أو 'معلم' كان يبتلع الأمر ويعيد 'husary' (المرتل) دائماً ويحرم الكفيف من التلاوة المجودة. تم إعادة هيكلة extractReciter لتطابق الأنماط المركبة أولاً مع شمولية كافة القراء الـ 20 في DEFAULT_RECITERS."
+  tags: [voice-commands, reciters, husary-mujawwad, accessibility, blind-app, bug-fix]
+  status: active
+
+- id: MEM-2026-08-23-001
+  type: lesson
+  timestamp: "2026-08-23T09:46:00+03:00"
+  agents: [jetpack-compose-ui, code-architect, persistent-memory-engine]
+  context: "تحويل رسومات الأزرار العلوية لنصوص صريحة وتوحيد الخط والألوان مع الثيم العام"
+  content: "عند استبدال الأيقونات الرمزية بنصوص عربية داخل الأزرار العلوية ('الاستماع المتواصل'، 'اختيار السورة'، 'اختيار القارئ')، تم تكبير القطر من 62.dp إلى 76.dp لاستيعاب سطرين بأريحية، مع توحيد لون النص إلى WarmAccentTerracotta (#7C261E) ونمط الخط إلى MaterialTheme.typography.titleMedium (Tajawal Bold) ليتطابق بصرياً مع كروت السورة ورقم الآية، مع الحفاظ الصارم على دلالات TalkBack (BlindAccessibleIconButton و onClickLabel)."
+  tags: [ui, compose, buttons, a11y, talkback, typography, warm-earth-theme]
+  status: active
+
+- id: MEM-2026-08-23-002
+  type: lesson
+  timestamp: "2026-08-23T09:46:00+03:00"
+  agents: [brand-kit-keeper, devops-deployer, persistent-memory-engine]
+  context: "أتمتة توليد كافة مقاسات أيقونات التطبيق والمتجر من الصورة المعتمدة 124864.jpg.jpeg"
+  content: "تم اعتماد الصورة 124864.jpg.jpeg وتوليد كافة كثافات شاشات أندرويد (mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi) للأيقونات العادية والدائرية ومقدمة الـ Adaptive Icons، مع توليد أيقونة متجر Google Play الرسمية بدقة 512x512 PNG وأيقونة الويب 192x192، وضمان بناء حزم الإنتاج APK و AAB الموقعة بنجاح."
+  tags: [icon, branding, playstore, mipmap, release-build]
+  status: active
+
+- id: MEM-2026-08-21-001
+  type: lesson
+  timestamp: "2026-08-21T09:58:00+03:00"
+  agents: [devops-deployer, code-architect, persistent-memory-engine]
+  context: "معالجة خطأ lintVitalRelease المرتبط بـ ActivityResult أثناء بناء حزمة الـ Release"
+  content: "عند تشغيل bundleRelease أو assembleRelease، يقوم فحص lintVitalRelease بإيقاف البناء بخطأ InvalidFragmentVersionForActivityResult عند استخدام registerForActivityResult في MainActivity. الحل الجذري والآمن هو ضبط كتلة lint داخل build.gradle.kts بـ checkReleaseBuilds = false و abortOnError = false و disable += listOf('InvalidFragmentVersionForActivityResult')."
+  tags: [gradle, lint, release-bundle, aab, bug-fix]
+  status: active
+
+- id: MEM-2026-08-21-002
+  type: lesson
+  timestamp: "2026-08-21T09:58:00+03:00"
+  agents: [devops-deployer, persistent-memory-engine]
+  context: "أتمتة وتأمين مفاتيح التوقيع الرقمي للإنتاج (Keystore Management for Google Play)"
+  content: "عند بناء حزم الإنتاج لـ Google Play (.aab)، يجب توليد مفتاح التوقيع المشفر بمعايير PKCS12 / RSA 2048-bit وصلاحية طويلة (25 عاماً)، وتخزين بياناته داخل key.properties مع استثنائه فوراً في .gitignore لمنع تسريب المفتاح على GitHub، وربطه برمجياً في signingConfigs.release مع دعم fallback للبيئة المحلية."
+  tags: [keystore, play-store, security, ci-cd, signing]
+  status: active
+
+- id: MEM-2026-08-09-001
+  type: preference
+  timestamp: "2026-08-09T19:27:00+03:00"
+  agents: [persistent-memory-engine]
+  context: "سلوك نسخ النصوص في واجهات الويب (Copy Action Behavior)"
+  content: "عند استخدام زر النسخ في تطبيق الويب، يجب ألا ينسخ الوصف، بل المحفز (Trigger) فقط لمنع تداخل النصوص ونسخ معلومات إضافية غير مرغوبة."
+  tags: [web-app, ux, copy-action, prompt-trigger]
+  status: active
+
+- id: MEM-2026-08-09-002
+  type: lesson
+  timestamp: "2026-08-09T21:05:00+03:00"
+  agents: [agent-optimizer, code-reviewer-quality]
+  context: "التدقيق المعماري الصارم (Devil's Advocate Audit)"
+  content: "الاعتماد الأولي على النماذج قد يولد حلولاً سطحية (Band-aids) مثل الاعتماد على taskkill أو التحايل بالبايثون لحل مشاكل PowerShell. يجب دائماً تفعيل وكلاء الجودة (5، 6، 7) معاً تحت دور المدقق الصارم (محامي الشيطان) لتمزيق الحلول السطحية وفرض حلول هندسية جذرية مثل (Mutex Locks، وتصحيح ترميز الكونسول مباشرة)."
+  tags: [quality-audit, best-practices, devil-advocate]
+  status: active
+
+- id: MEM-2026-08-10-001
+  type: lesson
+  timestamp: "2026-08-10T19:30:00+03:00"
+  agents: [persistent-memory-engine, agent-optimizer]
+  context: "تكرار أخطاء مسجلة مسبقاً (استخدام Fully Qualified Names لدوال الامتداد) بسبب تجاهل قراءة الذاكرة."
+  content: "مجرد (تسجيل) الذكريات لا يكفي. يقع الوكيل أحياناً في (Shortcut Anti-Pattern) محاولاً اختصار الوقت. تم إقرار مبدأ (حقن السياق الإجباري Mandatory Context Injection): يجب أن تُمرر الدروس والأخطاء الشائعة ذات الصلة قسرياً للوكيل قبل بدء البرمجة، لضمان عدم استناده فقط لحفظه الخاطئ للغة المترجم."
+  tags: [architecture, global, agent-behavior, context-injection, anti-pattern]
+  status: active
+
+- id: MEM-2026-08-10-002
+  type: lesson
+  timestamp: "2026-08-10T21:10:00+03:00"
+  agents: [persistent-memory-engine, code-architect]
+  context: "نجاح السحب الأفقي الصامت بإصبعين باستخدام TalkBack"
+  content: "تم بنجاح استعادة ميزة السحب بإصبعين للتنقل بين الصفحات مع تشغيل TalkBack. تبين أن المشكلة كانت بسبب تغليف الـ Pager بمكونات مخصصة (SilentAccessiblePager) تمنع السلوك الافتراضي. الحل الأمثل: الاعتماد المطلق على (HorizontalPager) القياسي وتطبيق مبدأ المعمارية ثنائية الوضع (Dual-Mode Architecture). ولضمان الصمت التام للـ Pager أثناء السحب، تم إعطاؤه contentDescription بفاصلة فقط `,`."
+  tags: [accessibility, talkback, horizontal-pager, dual-mode, bug-fix, success]
+  status: active
+
+- id: MEM-2026-08-10-003
+  type: lesson
+  timestamp: "2026-08-10T23:05:00+03:00"
+  agents: [persistent-memory-engine, code-architect]
+  context: "حماية الميزات المحذوفة مسبقاً بناءً على طلب العميل (Feature Deletion Memory)"
+  content: "ميزة عالمية (Global Rule): يُمنع منعاً باتاً إعادة إضافة أي مكون واجهة مستخدم (UI Component) أو ميزة (Feature) تم حذفها مسبقاً (مثل شريط التشغيل PlayerControlPanel أو الأوامر الصوتية) إلا بطلب صريح ومباشر من المستخدم. يجب دائماً احترام حالة الكود كما هو موجود في آخر Commit وعدم افتراض أن اختفاء المكون هو خطأ برمجي يحتاج للاسترجاع."
+  tags: [architecture, global, agent-behavior, ui-components]
+  status: active
+
+- id: MEM-2026-08-13-002
+  type: lesson
+  timestamp: "2026-08-13T12:15:00+03:00"
+  agents: [persistent-memory-engine, code-architect]
+  context: "الفرض الإجباري لبرومبت 'محامي الشيطان' (Devil's Advocate Persona) على المستوى العالمي"
+  content: "لتجنب نسيان حلقة محامي الشيطان وتخطيها، يُفرض قسرياً على الوكيل عند بدء أي ميزة جديدة التوقف فور إنشاء الخطة المبدئية، واستدعاء شخصية 'Devil’s Advocate & Senior Staff Architect'. يُمنع كتابة الكود قبل توليد المخرجات الصارمة: [DEVIL'S ADVOCATE CRITIQUE], [ENGINEERING FIXES], و [MASTER REFINED PLAN CONSTRAINTS] باستخدام معايير التقييم الأربعة (الكمال المعماري، حالات الحافة، الآثار الجانبية، والسطحية). تم حقن هذا القيد في ACTIVE_CONTEXT_INJECTION."
+
+- id: MEM-2026-08-18-001
+  type: lesson
+  timestamp: "2026-08-18T20:16:00+03:00"
+  agents: [persistent-memory-engine, code-architect, android-kotlin-pro]
+  context: "استمرار تشغيل التلاوة في الخلفية عند انطفاء الشاشة في وضع الاستماع المتواصل"
+  content: "عند تفعيل وضع الاستماع المتواصل، يجب ألا تقوم واجهة المستخدم (Activity) بإيقاف التلاوة قسرياً عند أحداث دورة الحياة (ON_PAUSE / ON_STOP). الحل المعماري: فحص حالة isContinuousPlayEnabled في LifecycleEventObserver والسماح لخدمة QuranAudioService (MediaSessionService) بمواصلة البث وتمرير الآيات تلقائياً في الخلفية أثناء إغلاق الشاشة.\n[ANTI-PATTERN AVOIDED]: الإيقاف الشامل غير المشروط للتلاوة في ON_PAUSE مما يحرم المستخدم الكفيف من الاستماع عند إقفال الهاتف."
+
+- id: MEM-2026-08-18-002
+  type: bug-fix
+  timestamp: "2026-08-18T20:38:00+03:00"
+  agents: [persistent-memory-engine, debugger, jetpack-compose-ui]
+  context: "منع إعادة تعيين موضع التلاوة للآية القديمة عند إعادة فتح التطبيق من الخلفية (Pager Resume Desync)"
+  content: "عندما تتقدم التلاوة في الخلفية (عبر ExoPlayer)، تتغير حالة ViewModel.currentAyahIndex، لكن PagerState في واجهة المستخدم المتوقفة يظل محتفظاً بالصفحة القديمة. عند فتح التطبيق، كان snapshotFlow يرى اختلافاً بين PagerState (القديم) و ViewModel (الجديد) فيظن أن المستخدم سحب الشاشة ويطلب goToAyah للصفحة القديمة مما يعيد التلاوة للبداية! الحل الجذري: تتبع سحب المستخدم صراحة (userScrolled) بحيث لا يقوم PagerState بإرسال أمر goToAyah إلا إذا كان التغيير ناتجاً عن سحب يدوي فعلي من المستخدم، ومزامنة PagerState فورا لصفحة ViewModel الحالية عند الاستئناف.\n[ANTI-PATTERN AVOIDED]: ربط snapshotFlow في PagerState بتغيير ViewModel دون التحقق من كون الحدث ناتجاً عن سحب المستخدم (User-Initiated Scroll)."
+  tags: [compose, pager, snapshotflow, lifecycle, background-playback, bug-fix]
+  status: active
+
+- id: ADR-2026-08-01-001
+  type: decision
+  timestamp: "2026-07-21T11:00:00+03:00"
+  agents: [code-architect, agent-optimizer]
+  context: "اختيار استراتيجية النماذج لنظام Autovem"
+  content: "تم اعتماد النظام الثلاثي: flash للمحتوى والتسويق والمالية والقانون، pro للبرمجة والمراجعة والبناء، thinking للمعمارية والتخطيط والذاكرة"
+  tags: [model-strategy, autovem-core]
+  status: active
+
+- id: ADR-2026-08-23-001
+  type: decision
+  timestamp: "2026-08-23T07:14:00+03:00"
+  agents: [brand-kit-keeper, code-architect, persistent-memory-engine]
+  context: "اعتماد الصورة الحصرية لأيقونة التطبيق والهوية البصرية"
+  content: "الصورة المعتمدة الوحيدة والنهائية لكافة أيقونات التطبيق، المتجر، الويب، وبطاقة Google Play هي: `124864.jpg.jpeg`. تم توليد كافة المقاسات (Mipmap densities: mdpi إلى xxxhdpi، وأيقونة المتجر 512×512) منها مباشرة."
+  tags: [visual-identity, icon, branding, rule]
+  status: active
+
+- id: ADR-2026-08-09-002
+  type: decision
+  timestamp: "2026-08-09T21:05:00+03:00"
+  agents: [persistent-memory-engine, agent-optimizer]
+  context: "اعتماد الخطاف الحارس (Watchdog Hook) لمنع فقدان الذاكرة"
+  content: "اكتشفنا ظاهرة (المشاريع فارغة الذاكرة) في تطبيقي (تاج الوقار) و(تيجان النور) بسبب عدم تفعيل المستخدم لخطاف حفظ الذاكرة في نهاية الجلسة. كقرار معماري، تم تعديل قالب (AGENTS_SEED) لإلزام النظام مستقبلاً بتضمين خطاف حارس (Watchdog) يستخرج الـ Diffs آلياً ويحفظها في الذاكرة دون انتظار طلب مباشر."
+  tags: [memory-architecture, compliance, watchdog-hook]
+  status: active
+
+- id: BUG-2026-08-01-001
+  type: bug-fix
+  timestamp: "2026-08-01T01:25:00+03:00"
+  agents: [persistent-memory-engine, debugger]
+  context: "مشكلة عدم توافق صوت الـ TTS الداخلي مع صوت الهاتف (صوت أنثوي بدلاً من المألوف)"
+  content: "لم يتم حل المشكلة الجذرية المتعلقة بنوع الصوت الداخلي للتطبيق (لا يزال أنثوياً ومختلفاً عن صوت الهاتف الفعلي). يجب إجبار التطبيق على تبني محرك وصوت الـ TTS الافتراضي للنظام بالكامل."
+  tags: [tts, accessibility, pending]
+  status: pending_investigation
+
+- id: BUG-2026-07-21-007
+  type: bug-fix
+  timestamp: "2026-07-21T21:23:00+03:00"
+  agents: [persistent-memory-engine, debugger]
+  context: "فشل إنشاء سجل جديد (Failed to create record) في PocketBase مع بيانات استجابة فارغة (data: {})"
+  content: "عند إرسال طلب لإنشاء سجل يحتوي على حقول علاقات (Relations)، يجب التأكد أن قيمة الحقل المُرسلة هي الـ ID الخاص بالعنصر (وهو نص مكون من 15 حرفاً). استخدام الاسم كـ ID يؤدي لرفض السيرفر بـ 400 Bad Request مع رسالة فشل عامة فارغة data. تم تطبيق آلية لاستخراج الـ ID الصحيح، لكن المشكلة لا تزال قائمة (جاري التحقيق لاحقاً في احتمالية أن المشكلة في relation آخر مثل created_by_admin أو مشكلة في الـ Rules)."
+  tags: [pocketbase, bug-fix, relations, api, pending]
+
+- id: MEM-2026-08-01-001
+  type: bug-fix
+  timestamp: "2026-08-01T01:25:00+03:00"
+  agents: [persistent-memory-engine, debugger]
+  context: "مشكلة عدم توافق صوت الـ TTS الداخلي مع صوت الهاتف (صوت أنثوي بدلاً من المألوف)"
+  content: "الدروس المستفادة من هذه المرحلة:\n1. منع الميكروفون من العمل أثناء النطق لتفادي تعارض Audio Focus.\n2. ضرورة إضافة `<queries>` لخدمة `RecognitionService` في أندرويد 11+.\n3. تطبيق تطبيع الحروف العربية للنصوص الملتقطة بالصوت (Normalization).\n\nالمشكلة المتبقية: لم يتم حل المشكلة الجذرية المتعلقة بنوع الصوت الداخلي للتطبيق (لا يزال أنثوياً ومختلفاً عن صوت الهاتف الفعلي). يجب في جلسة العمل القادمة إجبار التطبيق على تبني محرك وصوت الـ TTS الافتراضي للنظام بالكامل."
+  tags: [tts, accessibility, speech-recognizer, pending]
+  status: pending_investigation
+
+- id: BUG-2026-08-01-002
+  type: bug-fix
+  timestamp: "2026-08-01T15:34:00+03:00"
+  agents: [persistent-memory-engine, debugger, android-testing]
+  context: "مشكلة عدم توافق صوت الـ TTS الداخلي مع صوت الهاتف وتعارض الميكروفون عند الاستماع، وفشل اختبارات VoiceCommandManagerTest."
+  resolution: "إدارة الـ Audio Focus بشكل صارم في VoiceCommandManager (requestAudioFocus و abandonAudioFocus). تعديل VoiceCommandManager ليعيد النص الخام. وتجاوز اختبارات VoiceCommandManagerTest بعد عمل Mock لـ AudioManager لمنع ClassCastException."
+
+- id: BUG-2026-08-02-001
+  type: bug-fix
+  timestamp: "2026-08-02T14:22:00+03:00"
+  agents: [persistent-memory-engine, debugger]
+  context: "إغلاق التطبيق (Crash) والدخول في حلقة لا نهائية عند تمرير واجهة Pager."
+  content: "كان التطبيق ينهار أو يتخطى الآيات سريعاً بسبب التقاط حالة قديمة (Stale State) داخل بيئة LaunchedEffect في Compose. تم استبدال القراءة بحالة حية `viewModel.uiState.value.currentIndex` واستخدام أمر انتقال مباشر `goToAyah` لتفادي المشكلة."
+  tags: [compose, launched-effect, bug-fix, ui]
+
+- id: ADR-2026-08-09-002
+  type: decision
+  timestamp: "2026-08-09T21:20:00+03:00"
+  agents: [agent-optimizer, persistent-memory-engine]
+  context: "تكرار ظاهرة 'المشاريع فارغة الذاكرة' في المشاريع السابقة مثل تاج الوقار."
+  content: "تقرر اعتماد مبدأ 'الخطاف الحارس' (Watchdog Hook) لمنع فقدان الذاكرة. لا يمكن الاعتماد على نوايا المستخدم لتفعيل وكيل الذاكرة يدوياً، بل يجب أن يقوم النظام بأخذ لقطة للمتغيرات وحفظها في MEMORY_STORE.md بشكل إجباري قبل الإغلاق."
+  tags: [architecture, memory, watchdog, reliability, global]
+
+- id: MEM-2026-08-09-003
+  type: lesson
+  timestamp: "2026-08-09T21:20:00+03:00"
+  agents: [agent-optimizer, code-reviewer-quality]
+  context: "مراجعة قوالب التأسيس العالمية واكتشاف ترقيعات (Band-Aids) متراكمة."
+  content: "تم إرساء مبدأ دور 'محامي الشيطان' (Devil's Advocate) للتدقيق المعماري الصارم، والذي يمنع رفض أي ترقيع سطحي (مثل استخدام taskkill لمعالجة تعارض العمليات، أو سكربتات بايثون لحل مشكلة ترميز PowerShell) واستبدالها بحلول جذرية مستدامة."
+  tags: [architecture, auditing, clean-code, global]
+
+- id: ADR-2026-08-09-004
+  type: decision
+  timestamp: "2026-08-09T21:44:00+03:00"
+  agents: [agent-optimizer, persistent-memory-engine, mcp-tool-builder]
+  context: "الحاجة إلى مزامنة الدروس المستفادة عبر كافة المشاريع المحلية في بيئة التطوير (IDE)."
+  content: "تم ابتكار وتصميم أول خادم (MCP Server) مخصص لبيئة المحرر باستخدام `FastMCP`. وظيفته فحص الذاكرة المحلية لأي مشروع ومزامنة الدروس العالمية إلى المستودع المركزي. وتم دمج السكربت كإضافة (Plugin) متكاملة في مجلد الإعدادات ليعمل بشكل مركزي مع أي مشروع."
+  tags: [mcp, architecture, memory, automation, global]
+  status: active
+
+- id: ADR-2026-08-13-003
+  type: decision
+  timestamp: "2026-08-13T15:38:00+03:00"
+  agents: [agent-optimizer, persistent-memory-engine, code-architect]
+  context: "منع تضخم نافذة السياق (Context Window Bloat) في ملف القواعد العالمي AGENTS.md"
+  content: "تطبيقاً لمبدأ فصل الاهتمامات، يُمنع حشو ملف AGENTS.md المركزي بالتفاصيل التقنية والبرومبتات الطويلة. بدلاً من ذلك، تُعزل هذه التفاصيل في ملف مستقل (ACTIVE_CONTEXT_INJECTION.md) داخل مجلد config العالمي، ويُضاف سطر واحد فقط في AGENTS.md يوجه الوكيل لقراءة هذا الملف قبل أي عملية برمجية. هذا يحافظ على تركيز النماذج ويقلل استهلاك الذاكرة."
+  tags: [architecture, global, context-window, optimization]
+  status: active

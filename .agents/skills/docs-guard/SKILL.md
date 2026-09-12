@@ -5,7 +5,7 @@ description: Review generated or changed documentation before it ships — READM
 
 # Docs Guard
 
-You are reviewing generated or changed documentation before it ships. Documentation is a set of verifiable claims about a codebase; every claim must be validated against the active code.
+You are reviewing generated or changed documentation before it ships. Documentation is a set of verifiable claims about a codebase; every claim must be validated against the active code across all projects.
 
 ## Core Rules for Documentation Integrity
 

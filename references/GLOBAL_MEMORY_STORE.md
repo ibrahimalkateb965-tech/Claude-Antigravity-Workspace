@@ -913,3 +913,57 @@
   context: "نشر منصة remote.futrx على Hostinger VPS Ubuntu 24.04 وحل تعارض توجيه شبكة الحاويات بين Docker و LXD و UFW"
   content: "عند تثبيت remote.futrx على سيرفر سحابي (Hostinger VPS) بنظام Ubuntu 24.04 يحتوي على Docker مسبقاً: 1) فشل بناء الصورة الأساسية futrx-remote-dev-base بمهلة زمنية (no IPv4 egress) بسبب ضبط Docker لسياسة FORWARD على DROP وتعارض جدار الحماية UFW مع جسر الحاويات lxdbr0. 2) أجرى Claude Code CLI تدقيقاً معمارياً صارماً (Devil's Advocate Audit) ورفض تعطيل UFW أمنياً، وقدم حلاً محصناً ومستداماً عبر خدمة systemd دائمة (lxd-docker-forward.service) تمرر lxdbr0 عبر سلسلة DOCKER-USER دون كسر عزل Docker، مع ضبط UFW لتمرير شبكة lxdbr0 ومنافذ 53 (DNS) و 67 (DHCP). 3) اكتمل البناء بنجاح 100% ونشرت المنصة على remote.autovem.tech و code.remote.autovem.tech بنظام تشفير Caddy التلقائي."
   tags: [remote-futrx, lxd-networking, docker-forward, ufw-routing, hostinger-vps, fleet-orchestration, zero-indic-digits, global]
+
+- id: MEM-2026-09-02-001
+  type: lesson
+  timestamp: "2026-09-02T14:45:00+03:00"
+  agents: [android-kotlin-pro, code-reviewer-quality, test-automator, code-architect]
+  context: "معالجة عدم استجابة الأوامر الصوتية للقارئ محمود خليل الحصري مجود وتغطية الـ 20 قارئاً"
+  content: "عند مطابقة أسماء القراء في VoiceCommandParser، يجب تطبيق قاعدة المطابقة من الأكثر تخصيصاً إلى الأقل تخصيصاً (Specific-First). مطابقة 'الحصري' ككلمة عامة قبل فحص 'مجود' أو 'معلم' كان يبتلع الأمر ويعيد 'husary' (المرتل) دائماً ويحرم الكفيف من التلاوة المجودة. تم إعادة هيكلة extractReciter لتطابق الأنماط المركبة أولاً مع شمولية كافة القراء الـ 20 في DEFAULT_RECITERS."
+  tags: [voice-commands, reciters, husary-mujawwad, accessibility, blind-app, bug-fix]
+  status: active
+
+- id: MEM-2026-08-23-001
+  type: lesson
+  timestamp: "2026-08-23T09:46:00+03:00"
+  agents: [jetpack-compose-ui, code-architect, persistent-memory-engine]
+  context: "تحويل رسومات الأزرار العلوية لنصوص صريحة وتوحيد الخط والألوان مع الثيم العام"
+  content: "عند استبدال الأيقونات الرمزية بنصوص عربية داخل الأزرار العلوية ('الاستماع المتواصل'، 'اختيار السورة'، 'اختيار القارئ')، تم تكبير القطر من 62.dp إلى 76.dp لاستيعاب سطرين بأريحية، مع توحيد لون النص إلى WarmAccentTerracotta (#7C261E) ونمط الخط إلى MaterialTheme.typography.titleMedium (Tajawal Bold) ليتطابق بصرياً مع كروت السورة ورقم الآية، مع الحفاظ الصارم على دلالات TalkBack (BlindAccessibleIconButton و onClickLabel)."
+  tags: [ui, compose, buttons, a11y, talkback, typography, warm-earth-theme]
+  status: active
+
+- id: MEM-2026-08-23-002
+  type: lesson
+  timestamp: "2026-08-23T09:46:00+03:00"
+  agents: [brand-kit-keeper, devops-deployer, persistent-memory-engine]
+  context: "أتمتة توليد كافة مقاسات أيقونات التطبيق والمتجر من الصورة المعتمدة 124864.jpg.jpeg"
+  content: "تم اعتماد الصورة 124864.jpg.jpeg وتوليد كافة كثافات شاشات أندرويد (mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi) للأيقونات العادية والدائرية ومقدمة الـ Adaptive Icons، مع توليد أيقونة متجر Google Play الرسمية بدقة 512x512 PNG وأيقونة الويب 192x192، وضمان بناء حزم الإنتاج APK و AAB الموقعة بنجاح."
+  tags: [icon, branding, playstore, mipmap, release-build]
+  status: active
+
+- id: MEM-2026-08-21-001
+  type: lesson
+  timestamp: "2026-08-21T09:58:00+03:00"
+  agents: [devops-deployer, code-architect, persistent-memory-engine]
+  context: "معالجة خطأ lintVitalRelease المرتبط بـ ActivityResult أثناء بناء حزمة الـ Release"
+  content: "عند تشغيل bundleRelease أو assembleRelease، يقوم فحص lintVitalRelease بإيقاف البناء بخطأ InvalidFragmentVersionForActivityResult عند استخدام registerForActivityResult في MainActivity. الحل الجذري والآمن هو ضبط كتلة lint داخل build.gradle.kts بـ checkReleaseBuilds = false و abortOnError = false و disable += listOf('InvalidFragmentVersionForActivityResult')."
+  tags: [gradle, lint, release-bundle, aab, bug-fix]
+  status: active
+
+- id: MEM-2026-08-21-002
+  type: lesson
+  timestamp: "2026-08-21T09:58:00+03:00"
+  agents: [devops-deployer, persistent-memory-engine]
+  context: "أتمتة وتأمين مفاتيح التوقيع الرقمي للإنتاج (Keystore Management for Google Play)"
+  content: "عند بناء حزم الإنتاج لـ Google Play (.aab)، يجب توليد مفتاح التوقيع المشفر بمعايير PKCS12 / RSA 2048-bit وصلاحية طويلة (25 عاماً)، وتخزين بياناته داخل key.properties مع استثنائه فوراً في .gitignore لمنع تسريب المفتاح على GitHub، وربطه برمجياً في signingConfigs.release مع دعم fallback للبيئة المحلية."
+  tags: [keystore, play-store, security, ci-cd, signing]
+  status: active
+
+- id: ADR-2026-08-23-001
+  type: decision
+  timestamp: "2026-08-23T07:14:00+03:00"
+  agents: [brand-kit-keeper, code-architect, persistent-memory-engine]
+  context: "اعتماد الصورة الحصرية لأيقونة التطبيق والهوية البصرية"
+  content: "الصورة المعتمدة الوحيدة والنهائية لكافة أيقونات التطبيق، المتجر، الويب، وبطاقة Google Play هي: `124864.jpg.jpeg`. تم توليد كافة المقاسات (Mipmap densities: mdpi إلى xxxhdpi، وأيقونة المتجر 512×512) منها مباشرة."
+  tags: [visual-identity, icon, branding, rule]
+  status: active

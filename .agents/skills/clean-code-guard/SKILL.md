@@ -5,14 +5,14 @@ description: Review generated or changed production code before it ships, using 
 
 # Clean Code Guard
 
-You are reviewing generated or changed code before it ships. Apply the rules below as a guard pass after the first implementation pass to catch the systematic failure modes of AI-generated code.
+You are reviewing generated or changed code before it ships. Apply the rules below as a guard pass after the first implementation pass to catch the systematic failure modes of AI-generated code across any workspace or project.
 
 ## The 14 AI-Specific Failure Modes to Eliminate
 
 1. **Broad Exception Swallowing**: Never wrap risky operations in empty catch blocks `catch (Exception e) {}` or log-only catches without rethrowing or user-facing error handling.
 2. **Declaration of Success Despite Failures**: Never return hardcoded fixture/mock data to make an unverified path appear working.
 3. **Bloated Monolithic Functions**: Target ≤ 20-30 lines per function with single responsibility.
-4. **Vague Naming**: Prohibit names like `data`, `item`, `temp`, `res`, `helper`, `utils` without domain qualifiers.
+4. **Vague Naming**: Prohibit names like `data`, `data2`, `item`, `temp`, `res`, `helper`, `utils` without domain qualifiers.
 5. **Over-Abstraction / Premature Architecture**: Do not invent generic interfaces, wrappers, or factory layers for single-use logic (YAGNI).
 6. **Code Duplication**: Never copy-paste similar logic blocks across files; extract shared pure utilities.
 7. **Flag Arguments**: Avoid boolean parameters that branch function behavior into two separate functions; split them cleanly.

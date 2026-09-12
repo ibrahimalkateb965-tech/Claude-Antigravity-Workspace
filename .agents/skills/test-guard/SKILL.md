@@ -1,11 +1,11 @@
 ---
 name: test-guard
-description: Review generated or changed test code against universal testing rules before it ships. Best used reactively after an agent writes, edits, generates, or refactors tests, before presenting, committing, or merging them. Use for JUnit/MockK/Robolectric (*Test.kt), Jest/Vitest (*.test.js), or any test suite to prevent AI-generated test bloat, mock abuse, and empty assertions.
+description: Review generated or changed test code against universal testing rules before it ships. Best used reactively after an agent writes, edits, generates, or refactors tests, before presenting, committing, or merging them. Use for JUnit/MockK/Robolectric (*Test.kt), Jest/Vitest (*.test.js), pytest, or any test suite to prevent AI-generated test bloat, mock abuse, and empty assertions.
 ---
 
 # Test Guard
 
-You are reviewing generated or changed test code before it ships. Enforce the rules below to prevent AI test bloat and false-positive test suites.
+You are reviewing generated or changed test code before it ships. Enforce the rules below to prevent AI test bloat and false-positive test suites across all projects.
 
 ## Core Rules for Test Verification
 
