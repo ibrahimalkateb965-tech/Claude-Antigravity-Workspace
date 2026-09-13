@@ -445,3 +445,21 @@
   content: "تطبيقاً لمبدأ فصل الاهتمامات، يُمنع حشو ملف AGENTS.md المركزي بالتفاصيل التقنية والبرومبتات الطويلة. بدلاً من ذلك، تُعزل هذه التفاصيل في ملف مستقل (ACTIVE_CONTEXT_INJECTION.md) داخل مجلد config العالمي، ويُضاف سطر واحد فقط في AGENTS.md يوجه الوكيل لقراءة هذا الملف قبل أي عملية برمجية. هذا يحافظ على تركيز النماذج ويقلل استهلاك الذاكرة."
   tags: [architecture, global, context-window, optimization]
   status: active
+
+- id: MEM-ANTIGRAVITY-CONTEXT-MONITOR-2026-09-13-008
+  type: discovery
+  timestamp: "2026-09-13T14:49:00+03:00"
+  agents: [prompt-engineer, code-architect, persistent-memory-engine]
+  context: "اكتشاف وبناء أداة المراقبة اللحظية لنافذة سياق Antigravity IDE (Context Window Monitor)"
+  content: "1) تم بالهندسة العكسية فك تشفير بروتوكول Protobuf في قواعد بيانات المحادثات لـ Antigravity IDE الواقعة في `~/.gemini/antigravity-ide/conversations/*.db`. حقل `step_payload` لخطوات النموذج (step_type=15) يحمل بدقة متناهية تحت الوسم 0x4A: الـ input_tokens (سياق المحادثة الفعلي)، و output_tokens، و thinking_tokens. 2) تم بناء ونشر أداة طرفية خفيفة بدون أي مكتبات خارجية `ag_context_monitor.py` وأمر النظام المباشر `ag-context` مع دعم الوضع اللحظي (`--watch`)، وسجل المنحنى التاريخي (`--history`)، ومخرجات JSON، والتحذير الملون عند تجاوز عتبات الاستهلاك (60% / 80% / 90%). 3) الاتصال بقواعد بيانات المحادثات يتم حصرياً بنمط القراءة فقط `mode=ro` مع `PRAGMA query_only = ON` لمنع أي تعارض أو قفل مع المحرر أثناء التشغيل."
+  tags: [antigravity-ide, context-window, telemetry, token-monitor, reverse-engineering, ag-context, hook-05]
+  status: active
+
+- id: MEM-FLEET-STRATEGIC-CLEAR-AGCLI-2026-09-12-007
+  type: adr
+  timestamp: "2026-09-12T10:40:00+03:00"
+  agents: [fleet-orchestrator, prompt-engineer, persistent-memory-engine]
+  context: "اعتماد بروتوكول التصفير الاستراتيجي وعزل تفويض Antigravity CLI عن بيئة Antigravity IDE"
+  content: "1) اعتماد مصطلح وبروتوكول 'التصفير الاستراتيجي' (Strategic Clear) تحت الخطاف 25 والقالب 04 لضمان حسم المهام الحرجة وتثبيت الكود في حالة مستقرة خالية من أخطاء البناء وعمل Git Commit نظيف قبل مسح السياق أو التصفير. 2) الفصل المعماري التام بين الأدوات الطرفية (Headless CLIs) وبيئة العمل التفاعلية: حصر التكليفات البرمجية لأسطول الـ CLIs في الأدوات الطرفية المستقلة (Claude Code CLI, OpenCode CLI, Antigravity CLI agcli عبر agcli run)، وحظر التكليف لـ Antigravity IDE لحماية الأتمتة المباشرة ومنع الحاجة للنسخ واللصق اليدوي."
+  tags: [fleet-orchestration, strategic-clear, hook-25, template-04, agcli-decoupling, antigravity-cli, autonomous-dispatch]
+  status: active
