@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" width="1440" height="960">
+  <defs>
+    <!-- Google Fonts Embed -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&amp;family=Tajawal:wght@500;700;800&amp;family=Fira+Code:wght@500;600&amp;display=swap');
+
+      * { box-sizing: border-box; }
+      text { font-family: 'Cairo', 'Tajawal', sans-serif; text-anchor: end; }
+      .title-main { font-family: 'Cairo', sans-serif; font-weight: 900; fill: #ffffff; letter-spacing: -0.5px; text-anchor: middle; }
+      .subtitle-main { font-family: 'Tajawal', sans-serif; font-weight: 500; fill: #94a3b8; text-anchor: middle; }
+      .section-badge { font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 13px; text-anchor: middle; }
+      .card-title { font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 15px; fill: #ffffff; text-anchor: end; }
+      .card-code { font-family: 'Fira Code', monospace; font-size: 11.5px; font-weight: 600; text-anchor: end; }
+      .card-desc { font-family: 'Tajawal', sans-serif; font-size: 11.5px; font-weight: 500; fill: #94a3b8; text-anchor: end; }
+      .badge-text { font-family: 'Cairo', sans-serif; font-size: 11px; font-weight: 800; text-anchor: middle; }
+      .flow-label { font-family: 'Tajawal', sans-serif; font-size: 11px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+    </style>
+
+    <!-- Background Radial Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#14142b"/>
+      <stop offset="60%" stop-color="#0b0b16"/>
+      <stop offset="100%" stop-color="#06060c"/>
+    </radialGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a36" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#101024" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="fastLoopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a0d4a" stop-opacity="0.92"/>
+      <stop offset="100%" stop-color="#150626" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="slowLoopGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#082c47" stop-opacity="0.92"/>
+      <stop offset="100%" stop-color="#041827" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="deviceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#02281e" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <linearGradient id="deployGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#11362b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#081e18" stop-opacity="0.98"/>
+    </linearGradient>
+
+    <!-- Filter Shadows & Glows -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+
+    <filter id="neonPurple" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#a855f7" flood-opacity="0.45"/>
+    </filter>
+
+    <filter id="neonCyan" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#06b6d4" flood-opacity="0.45"/>
+    </filter>
+
+    <filter id="neonGreen" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#10b981" flood-opacity="0.45"/>
+    </filter>
+
+    <!-- Arrow Markers -->
+    <marker id="arrowCyan" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="9" markerHeight="9" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1440" height="960" fill="url(#bgGrad)"/>
+
+  <!-- Ambient Glow Orbs -->
+  <circle cx="720" cy="200" r="350" fill="#6366f1" opacity="0.04"/>
+  <circle cx="1060" cy="560" r="300" fill="#a855f7" opacity="0.05"/>
+  <circle cx="380" cy="560" r="300" fill="#06b6d4" opacity="0.05"/>
+  <circle cx="380" cy="830" r="220" fill="#10b981" opacity="0.04"/>
+
+  <!-- ==================== TOP BANNER HEADER ==================== -->
+  <g transform="translate(720, 42)" text-anchor="middle">
+    <rect x="-480" y="-26" width="960" height="52" rx="26" fill="#121426" stroke="#334155" stroke-width="1.6" filter="url(#dropShadow)"/>
+    <text y="-2" class="title-main" font-size="19">معمارية وتدفق تطوير تطبيق القرآن الكريم عن بُعد للآيفون بدون ماك</text>
+    <text y="16" class="subtitle-main" font-size="12">Remote iOS Flutter Dev Playbook • التدفق الهندسي الكامل من اليمين إلى اليسار (RTL Topology)</text>
+  </g>
+
+
+  <!-- ==================== FLOW CONNECTORS (BEHIND CARDS) ==================== -->
+  <!-- 1. From Card 1 (Tasking) left to Card 2 (Code Edit): x=1050 to x=1025 at y=204 -->
+  <path d="M 1050 204 L 1027 204" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <!-- 2. From Card 2 (Code Edit) down to Fast Inner Loop (Right Box) -->
+  <path d="M 880 254 C 880 310, 1055 310, 1055 363" fill="none" stroke="#a855f7" stroke-width="2.5" marker-end="url(#arrowPurple)"/>
+  
+  <!-- 3. From Fast Loop (Right Box) up to Card 3 (Web Preview, Middle Left) -->
+  <path d="M 850 365 C 850 310, 565 310, 565 256" fill="none" stroke="#c084fc" stroke-width="2.2" stroke-dasharray="6,4" marker-end="url(#arrowPurple)"/>
+
+  <!-- 4. From Card 2 (Code Edit) across to Slow Outer Loop (GitHub Actions, Left Box) -->
+  <path d="M 735 204 C 550 204, 385 280, 385 363" fill="none" stroke="#06b6d4" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <!-- 5. From Slow Outer Loop down to TestFlight (Bottom Left) -->
+  <path d="M 385 715 L 385 773" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#arrowGreen)"/>
+
+  <!-- 6. From TestFlight up to Card 4 (VoiceOver Real Device, Top Left) -->
+  <path d="M 130 775 C 130 500, 250 400, 250 256" fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#arrowGreen)"/>
+
+  <!-- 7. Feedback Corridor: From Card 4 (Top Left) across to Card 1 (Top Right) at y=88 -->
+  <path d="M 250 154 C 250 88, 480 88, 720 88 C 960 88, 1195 88, 1195 152" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrowAmber)"/>
+
+  <!-- Connector Badges -->
+  <!-- Badge 1: Local Loop -->
+  <g transform="translate(970, 310)">
+    <rect x="-85" y="-12" width="170" height="24" rx="12" fill="#2e1065" stroke="#a855f7" stroke-width="1.2"/>
+    <text y="4" text-anchor="middle" class="flow-label" fill="#e9d5ff">فحص محلي سريع خلال 10 ثوانٍ</text>
+  </g>
+
+  <!-- Badge 2: Git Push to Cloud -->
+  <g transform="translate(560, 285)">
+    <rect x="-95" y="-12" width="190" height="24" rx="12" fill="#082f49" stroke="#06b6d4" stroke-width="1.2"/>
+    <text y="4" text-anchor="middle" class="flow-label" fill="#7dd3fc">git push origin feat/ios-*</text>
+  </g>
+
+  <!-- Badge 3: APNs Deploy -->
+  <g transform="translate(160, 520)">
+    <rect x="-85" y="-12" width="170" height="24" rx="12" fill="#064e3b" stroke="#10b981" stroke-width="1.2"/>
+    <text y="4" text-anchor="middle" class="flow-label" fill="#a7f3d0">إشعار APNs وتثبيت فوري</text>
+  </g>
+
+  <!-- Badge 4: VoiceOver Feedback (Clear Corridor at y=88) -->
+  <g transform="translate(720, 88)">
+    <rect x="-130" y="-12" width="260" height="24" rx="12" fill="#451a03" stroke="#f59e0b" stroke-width="1.2"/>
+    <text y="4" text-anchor="middle" class="flow-label" fill="#fde68a">تغذية راجعة: رصد فجوات التوجيه الصوتي</text>
+  </g>
+
+
+  <!-- ==================== LAYER 1: IPHONE OPERATOR LAYER (RTL ORDER: 1 -> 2 -> 3 -> 4) ==================== -->
+  <g transform="translate(80, 118)">
+    <rect width="1280" height="150" rx="16" fill="#0d1124" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="640" y="24" text-anchor="middle" class="section-badge" fill="#38bdf8">طبقة المطور والمستخدم عبر الهاتف: iPhone (Safari / Chrome PWA)</text>
+
+    <!-- STEP 1: Task Agent (FAR RIGHT: x=970) -->
+    <g transform="translate(970, 36)">
+      <rect width="290" height="100" rx="12" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="1.4" filter="url(#dropShadow)"/>
+      <circle cx="256" cy="32" r="17" fill="#082f49" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="256" y="38" text-anchor="middle" font-size="16">💬</text>
+      <text x="228" y="28" class="card-title">الخطوة 1: توجيه الوكلاء</text>
+      <text x="228" y="48" class="card-code" fill="#38bdf8">Remote Chat: claude -p / agy</text>
+      <text x="228" y="70" class="card-desc">توجيه بمبدأ قيد واحد واختباره فوراً</text>
+      <text x="228" y="86" class="card-desc">حظر دمج المهام لتجنب كسر البنية</text>
+    </g>
+
+    <!-- STEP 2: Code Server (MIDDLE RIGHT: x=655) -->
+    <g transform="translate(655, 36)">
+      <rect width="290" height="100" rx="12" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.6" filter="url(#dropShadow)"/>
+      <circle cx="256" cy="32" r="17" fill="#2e1065" stroke="#a855f7" stroke-width="1.2"/>
+      <text x="256" y="38" text-anchor="middle" font-size="16">💻</text>
+      <text x="228" y="28" class="card-title">الخطوة 2: التحرير والفحص</text>
+      <text x="228" y="48" class="card-code" fill="#c084fc">code-server (:8842)</text>
+      <text x="228" y="70" class="card-desc">إعدادات مخصصة للجوال لمنع تشويش الكتابة</text>
+      <text x="228" y="86" class="card-desc">إيقاف اقتراحات الإدخال لتفادي أخطاء الشاشة</text>
+    </g>
+
+    <!-- STEP 3: Web Preview (MIDDLE LEFT: x=340) -->
+    <g transform="translate(340, 36)">
+      <rect width="290" height="100" rx="12" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="1.4" filter="url(#dropShadow)"/>
+      <circle cx="256" cy="32" r="17" fill="#082f49" stroke="#38bdf8" stroke-width="1.2"/>
+      <text x="256" y="38" text-anchor="middle" font-size="16">🌐</text>
+      <text x="228" y="28" class="card-title">الخطوة 3: المعاينة الحية</text>
+      <text x="228" y="48" class="card-code" fill="#38bdf8">Flutter Web (:8080)</text>
+      <text x="228" y="70" class="card-desc">فحص الهيكل اللغوي وشجرة العناصر الدلالية</text>
+      <text x="228" y="86" class="card-desc">تحديث لحظي سريع خلال 10 ثوانٍ</text>
+    </g>
+
+    <!-- STEP 4: Real Device VoiceOver (FAR LEFT: x=20) -->
+    <g transform="translate(20, 36)">
+      <rect width="300" height="100" rx="12" fill="url(#deviceGrad)" stroke="#10b981" stroke-width="2" filter="url(#dropShadow)"/>
+      <circle cx="266" cy="32" r="18" fill="#065f46" stroke="#10b981" stroke-width="1.4"/>
+      <text x="266" y="38" text-anchor="middle" font-size="17">🎧</text>
+      <text x="238" y="28" class="card-title">الخطوة 4: التجربة الواقعية</text>
+      <text x="238" y="48" class="card-code" fill="#a7f3d0">VoiceOver ON + Screen Off in Pocket</text>
+      <text x="238" y="70" class="card-desc" fill="#d1fae5">فحص السحب الأفقي ثلاثي الأصابع في العربية</text>
+      <text x="238" y="86" class="card-desc" fill="#6ee7b7">التحقق الصارم من عدم استئناف الصوت بعد المكالمات</text>
+    </g>
+  </g>
+
+
+  <!-- ==================== LAYER 2: FAST INNER LOOP (RIGHT SIDE: x=750) ==================== -->
+  <g transform="translate(750, 365)">
+    <rect width="610" height="350" rx="18" fill="url(#fastLoopGrad)" stroke="#a855f7" stroke-width="2.2" filter="url(#neonPurple)"/>
+    
+    <rect x="230" y="18" width="350" height="28" rx="14" fill="#4c1d95" stroke="#c084fc" stroke-width="1"/>
+    <text x="405" y="37" text-anchor="middle" class="badge-text" fill="#f3e8ff">⚡ الحلقة السريعة: تطوير واختبار فوري مجاني بالكامل</text>
+
+    <text x="580" y="80" text-anchor="end" class="card-title" font-size="16">حاوية لينكس المعزولة على سيرفر أوبونتو السحابي</text>
+    <text x="580" y="104" text-anchor="end" class="card-code" font-size="11.5" fill="#c084fc">Hostinger VPS | Ubuntu 24.04 | LXD Container | 4GB RAM</text>
+
+    <!-- Task 1 -->
+    <g transform="translate(30, 120)">
+      <rect width="550" height="54" rx="10" fill="#1b0733" stroke="#581c87" stroke-width="1.2"/>
+      <circle cx="522" cy="27" r="14" fill="#3b0764"/>
+      <text x="522" y="32" text-anchor="middle" font-size="13">🔍</text>
+      <text x="485" y="24" text-anchor="end" class="card-title" font-size="13.5">المرحلة 1: الفحص والتحليل المحلي الصارم</text>
+      <text x="485" y="43" text-anchor="end" class="card-code" font-size="11" fill="#e9d5ff">flutter analyze --fatal-infos &amp;&amp; flutter test</text>
+    </g>
+
+    <!-- Task 2 -->
+    <g transform="translate(30, 184)">
+      <rect width="550" height="54" rx="10" fill="#1b0733" stroke="#581c87" stroke-width="1.2"/>
+      <circle cx="522" cy="27" r="14" fill="#3b0764"/>
+      <text x="522" y="32" text-anchor="middle" font-size="13">✨</text>
+      <text x="485" y="24" text-anchor="end" class="card-title" font-size="13.5">المرحلة 2: تنسيق وترتيب الأكواد التلقائي</text>
+      <text x="485" y="43" text-anchor="end" class="card-code" font-size="11" fill="#e9d5ff">dart format --set-exit-if-changed lib test</text>
+    </g>
+
+    <!-- Task 3 -->
+    <g transform="translate(30, 248)">
+      <rect width="550" height="54" rx="10" fill="#1b0733" stroke="#581c87" stroke-width="1.2"/>
+      <circle cx="522" cy="27" r="14" fill="#3b0764"/>
+      <text x="522" y="32" text-anchor="middle" font-size="13">🚀</text>
+      <text x="485" y="24" text-anchor="end" class="card-title" font-size="13.5">المرحلة 3: سيرفر المعاينة الحية عبر كادي</text>
+      <text x="485" y="43" text-anchor="end" class="card-code" font-size="11" fill="#e9d5ff">flutter run -d web-server --web-port 8080 (Hot Restart 10s)</text>
+    </g>
+
+    <!-- Metric Bar -->
+    <g transform="translate(30, 312)">
+      <rect width="550" height="26" rx="13" fill="#120324" stroke="#a855f7" stroke-width="1"/>
+      <text x="275" y="17" text-anchor="middle" class="badge-text" fill="#a855f7">زمن الاستجابة: أقل من 10 ثوانٍ • التكلفة: 0$ مجاناً بالكامل دون استهلاك كوتا سحابية</text>
+    </g>
+  </g>
+
+
+  <!-- ==================== LAYER 3: SLOW OUTER LOOP (LEFT SIDE: x=80) ==================== -->
+  <g transform="translate(80, 365)">
+    <rect width="610" height="350" rx="18" fill="url(#slowLoopGrad)" stroke="#0284c7" stroke-width="2.2" filter="url(#neonCyan)"/>
+    
+    <rect x="230" y="18" width="350" height="28" rx="14" fill="#0369a1" stroke="#38bdf8" stroke-width="1"/>
+    <text x="405" y="37" text-anchor="middle" class="badge-text" fill="#f0f9ff">⏱️ الحلقة السحابية البطيئة: بناء وتوقيع الماك المدفوع</text>
+
+    <text x="580" y="80" text-anchor="end" class="card-title" font-size="16">سيرفرات البناء السحابية المؤقتة لمنصة جيت هب</text>
+    <text x="580" y="104" text-anchor="end" class="card-code" font-size="11.5" fill="#38bdf8">GitHub Actions | macOS-15 Runner | xcodebuild | 10x Minutes</text>
+
+    <!-- Phase 1 -->
+    <g transform="translate(30, 120)">
+      <rect width="550" height="54" rx="10" fill="#041b2c" stroke="#0284c7" stroke-width="1.2"/>
+      <circle cx="522" cy="27" r="14" fill="#075985"/>
+      <text x="522" y="32" text-anchor="middle" font-size="13">🧪</text>
+      <text x="485" y="24" text-anchor="end" class="card-title" font-size="13.5">المرحلة 1: مهمة التحقق السريع على لينكس</text>
+      <text x="485" y="43" text-anchor="end" class="card-code" font-size="11" fill="#bae6fd">نحو 3 دقائق لاختبارات الوحدة والفحص قبل استهلاك كوتا الماك</text>
+    </g>
+
+    <!-- Phase 2 -->
+    <g transform="translate(30, 184)">
+      <rect width="550" height="54" rx="10" fill="#041b2c" stroke="#0284c7" stroke-width="1.2"/>
+      <circle cx="522" cy="27" r="14" fill="#075985"/>
+      <text x="522" y="32" text-anchor="middle" font-size="13">🔐</text>
+      <text x="485" y="24" text-anchor="end" class="card-title" font-size="13.5">المرحلة 2: توقيع الكود بأمان بدون ماك</text>
+      <text x="485" y="43" text-anchor="end" class="card-code" font-size="11" fill="#bae6fd">OpenSSL legacy p12 + Profiles via GitHub Secrets</text>
+    </g>
+
+    <!-- Phase 3 -->
+    <g transform="translate(30, 248)">
+      <rect width="550" height="54" rx="10" fill="#041b2c" stroke="#0284c7" stroke-width="1.2"/>
+      <circle cx="522" cy="27" r="14" fill="#075985"/>
+      <text x="522" y="32" text-anchor="middle" font-size="13">📦</text>
+      <text x="485" y="24" text-anchor="end" class="card-title" font-size="13.5">المرحلة 3: بناء وتوليد حزمة التوزيع الرسمية</text>
+      <text x="485" y="43" text-anchor="end" class="card-code" font-size="11" fill="#bae6fd">flutter build ipa --release --export-options-plist</text>
+    </g>
+
+    <!-- Metric Bar -->
+    <g transform="translate(30, 312)">
+      <rect width="550" height="26" rx="13" fill="#031522" stroke="#38bdf8" stroke-width="1"/>
+      <text x="275" y="17" text-anchor="middle" class="badge-text" fill="#38bdf8">التكلفة: استهلاك 10× دقائق ماك • لا تطلق هذه الحلقة إلا بعد اجتياز السريعة بنجاح كامل</text>
+    </g>
+  </g>
+
+
+  <!-- ==================== LAYER 4: BOTTOM FEEDBACK & DEPLOY ==================== -->
+  <!-- Right Bottom: Continuous Dev Loop Summary (x=750) -->
+  <g transform="translate(750, 775)">
+    <rect width="610" height="110" rx="14" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.6" filter="url(#dropShadow)"/>
+    <circle cx="565" cy="55" r="24" fill="#3b0764" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="565" y="62" text-anchor="middle" font-size="20">🔄</text>
+    <text x="525" y="40" text-anchor="end" class="card-title" font-size="16">حلقة التطوير والتكرار السريع المستمر</text>
+    <text x="525" y="64" text-anchor="end" class="card-desc" font-size="12">توجيه الوكيل ← كتابة الكود ← فحص محلي ← معاينة فورية</text>
+    <text x="525" y="87" text-anchor="end" class="card-code" fill="#c084fc">Continuous Dev Loop: إنجاز كافة الفحوصات في الحاوية قبل الماك</text>
+  </g>
+
+  <!-- Left Bottom: App Store Connect / TestFlight Deployment (x=80) -->
+  <g transform="translate(80, 775)">
+    <rect width="610" height="110" rx="14" fill="url(#deployGrad)" stroke="#10b981" stroke-width="2" filter="url(#neonGreen)"/>
+    <circle cx="565" cy="55" r="24" fill="#064e3b" stroke="#10b981" stroke-width="1.6"/>
+    <text x="565" y="63" text-anchor="middle" font-size="22">🚀</text>
+    <text x="525" y="40" text-anchor="end" class="card-title" font-size="16">الرفع والتوزيع المباشر لنسخ الاختبار التجريبي</text>
+    <text x="525" y="64" text-anchor="end" class="card-code" font-size="11.5" fill="#34d399">xcrun altool / notarytool via TestFlight API</text>
+    <text x="525" y="87" text-anchor="end" class="card-desc" fill="#a7f3d0">تثبيت فوري على هاتف المطور والمختبرين المكفوفين (5 إلى 20 دقيقة)</text>
+  </g>
+
+
+  <!-- ==================== FOOTER ==================== -->
+  <g transform="translate(720, 935)" text-anchor="middle">
+    <text class="subtitle-main" font-size="12.5">معمارية Blind Quran iOS Remote Playbook • إبراهيم الكاتب • معزز بنظام UI/UX Pro Max وقواعد العزل الصارم BiDi</text>
+  </g>
+
+</svg>
