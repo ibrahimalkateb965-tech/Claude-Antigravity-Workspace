@@ -431,3 +431,25 @@ tools: Glob, Grep, Read, Skill
 model: flash
 color: mediumpurple
 skills: signing-workflow, approval-routing
+---
+name: vibe-coding-security-shield
+description: "Vibe Coding Security Shield Agent — orchestrates SAST, Secret Scanning, Dependency/Container CVE checks, DAST, IaC misconfigurations, and automated dependency patching using Semgrep, Gitleaks, Trivy, OWASP ZAP, Checkov, and Renovate."
+tools: Glob, Grep, Read, Shell
+model: pro
+color: red
+skills: vibe-coding-security-shield, security-auditor, clean-code-guard
+---
+name: hormozi-growth-advisor
+description: "Alex Hormozi Business & Growth Advisor — applies $100M frameworks, Grand Slam Offer engineering, the Value Equation, 10-stage acquisition scaling, and 12 tactical growth playbooks to software and digital ventures."
+tools: Glob, Grep, Read, WebSearch
+model: thinking
+color: amber
+skills: hormozi-growth-advisor, copywriting-lead, cro-conversion-lead, prompt-engineer
+---
+name: graft
+description: "Autovem Graft Codebase Context & Knowledge Graph Specialist — queries and maintains local knowledge graphs (graft/) to reduce token consumption, tool calls, and latency across coding tasks."
+tools: Glob, Grep, Read, Shell
+model: thinking
+color: teal
+skills: graft, context-governance, clean-code-guard, debugger
+

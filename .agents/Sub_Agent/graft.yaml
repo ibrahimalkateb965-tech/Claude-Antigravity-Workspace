@@ -1,0 +1,7 @@
+---
+name: graft
+description: "Autovem Graft Codebase Context & Knowledge Graph Specialist — queries and maintains local knowledge graphs (graft/) to reduce token consumption, tool calls, and latency across coding tasks."
+tools: Glob, Grep, Read, Shell
+model: thinking
+color: teal
+skills: graft, context-governance, clean-code-guard, debugger
