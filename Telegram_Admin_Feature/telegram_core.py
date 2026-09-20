@@ -6,8 +6,17 @@ import psutil
 import datetime
 from pathlib import Path
 
-# Safe utf-8 output
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach() if hasattr(sys.stdout, 'detach') else sys.stdout)
+# Safe utf-8 output without detaching underlying pipe handles
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if hasattr(sys.stderr, 'reconfigure'):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 import telebot
 from dotenv import load_dotenv
@@ -142,6 +151,29 @@ def download_media(bot, message, downloads_dir):
                 new_file.write(downloaded_file)
             media_path = str(save_path.absolute())
             print(f"✅ تم تحميل المرفق بنجاح: {save_path.name}")
+            
+            # Convert OGG voice notes to WAV for native IDE audio listening
+            if file_name.endswith(".ogg"):
+                try:
+                    import av
+                    wav_name = file_name[:-4] + ".wav"
+                    wav_path = downloads_dir / wav_name
+                    container = av.open(str(save_path))
+                    output = av.open(str(wav_path), 'w', 'wav')
+                    in_stream = container.streams.audio[0]
+                    out_stream = output.add_stream('pcm_s16le', rate=in_stream.rate, layout=in_stream.layout)
+                    for packet in container.demux(in_stream):
+                        for frame in packet.decode():
+                            for out_packet in out_stream.encode(frame):
+                                output.mux(out_packet)
+                    for out_packet in out_stream.encode(None):
+                        output.mux(out_packet)
+                    output.close()
+                    container.close()
+                    media_path = str(wav_path.absolute())
+                    print(f"🎵 تم تحويل التسجيل الصوتي إلى WAV بنجاح: {wav_name}")
+                except Exception as conv_err:
+                    print(f"⚠️ تنبيه: تعذّر تحويل المقطع الصوتي إلى WAV: {conv_err}")
         except Exception as e:
             print(f"⚠️ فشل تحميل المرفق: {e}")
             

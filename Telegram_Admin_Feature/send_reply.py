@@ -5,8 +5,17 @@ import codecs
 import subprocess
 from pathlib import Path
 
-# Safe utf-8 output
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach() if hasattr(sys.stdout, 'detach') else sys.stdout)
+# Safe utf-8 output without detaching underlying pipe handles
+if hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if hasattr(sys.stderr, 'reconfigure'):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 current_dir = Path(__file__).parent.absolute()
 project_root = current_dir.parent

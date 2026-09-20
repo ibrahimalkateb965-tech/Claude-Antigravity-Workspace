@@ -26,15 +26,18 @@ def on_message(bot, message):
     os._exit(0)
 
 if __name__ == "__main__":
+    import time
     takeover = "--takeover" in sys.argv
     bot = build_bot(TOKEN, ALLOWED_CHAT_ID, SHARED_PID_FILE, on_message, takeover=takeover)
     print("جاري الاتصال بتليجرام وانتظار رسالة واحدة...")
-    try:
-        bot.infinity_polling(timeout=10, long_polling_timeout=5)
-    except KeyboardInterrupt:
-        release_lock(SHARED_PID_FILE)
-        sys.exit(0)
-    except Exception as e:
-        print(f"حدث خطأ: {e}")
-        release_lock(SHARED_PID_FILE)
-        sys.exit(1)
+    
+    while True:
+        try:
+            bot.infinity_polling(timeout=20, long_polling_timeout=10)
+        except KeyboardInterrupt:
+            release_lock(SHARED_PID_FILE)
+            sys.exit(0)
+        except Exception as e:
+            # Network glitches and read timeouts are retried seamlessly
+            time.sleep(2)
+
