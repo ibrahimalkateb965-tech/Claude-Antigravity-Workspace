@@ -985,3 +985,220 @@
   content: "1) تم بالهندسة العكسية فك تشفير بروتوكول Protobuf في قواعد بيانات المحادثات لـ Antigravity IDE الواقعة في `~/.gemini/antigravity-ide/conversations/*.db`. حقل `step_payload` لخطوات النموذج (step_type=15) يحمل بدقة متناهية تحت الوسم 0x4A: الـ input_tokens (سياق المحادثة الفعلي)، و output_tokens، و thinking_tokens. 2) تم بناء ونشر أداة طرفية خفيفة بدون أي مكتبات خارجية `ag_context_monitor.py` وأمر النظام المباشر `ag-context` مع دعم الوضع اللحظي (`--watch`)، وسجل المنحنى التاريخي (`--history`)، ومخرجات JSON، والتحذير الملون عند تجاوز عتبات الاستهلاك (60% / 80% / 90%). 3) الاتصال بقواعد بيانات المحادثات يتم حصرياً بنمط القراءة فقط `mode=ro` مع `PRAGMA query_only = ON` لمنع أي تعارض أو قفل مع المحرر أثناء التشغيل."
   tags: [antigravity-ide, context-window, telemetry, token-monitor, reverse-engineering, ag-context, hook-05]
   status: active
+
+- id: MEM-OPENCODE-GO-GLM53-FLASH-2026-09-15-001
+  type: adr
+  timestamp: "2026-09-15T15:30:00+03:00"
+  agents: [fleet-orchestrator, prompt-engineer, persistent-memory-engine]
+  context: "تفعيل اشتراك OpenCode Go ودمج نموذج GLM 5.3 Flash مع Meta Muse Spark 1.3 عالمياً"
+  content: "1) تفعيل اشتراك OpenCode Go وربطه عالمياً بالمعرف opencode-go. 2) اعتماد نموذج GLM 5.3 Flash (opencode-go/glm-5.3-flash) كنموذج إضافي أساسي وسريع لـ OpenCode CLI بالتكامل مع Meta Muse Spark 1.3 دون حذفه. 3) تثبيت هرمية التراجع متعدد الطبقات (4-Tier Cascading Failover) في كافة القواعد والملفات المركزية لترشيد التوكنز وضمان استمرارية خط الإنتاج."
+  tags: [global, opencode-go, glm-5.3-flash, muse-spark, fleet-orchestration, multi-cli, token-conservation]
+  status: active
+
+- id: MEM-2026-09-10-051
+  type: standard
+  timestamp: "2026-09-10T12:00:00+03:00"
+  agents: [devops-deployer, security-auditor, compliance-officer, persistent-memory-engine]
+  context: "معايير وسياسات متطلبات حسابات المطورين ونقل التطبيقات في Google Play Console"
+  content: "حصر تسجيل حسابات المؤسسات (Organization) برقم D-U-N-S لتطبيقات الخدمات المالية، الصحية، الـ VPN، والتطبيقات الحكومية؛ وإلزامية توفير حساب تجريبي نشط (Demo Account) وبيانات دخول كاملة لفريق مراجعة جوجل، وحظر نقل أو شراء الحسابات خارج القنوات الرسمية لـ Google Play مع إمكانية نقل ملكية التطبيق منفرداً."
+  tags: [play-console, google-play, developer-verification, organization-duns, account-transfers, vpn-finance-health, global]
+  status: active
+
+- id: MEM-2026-09-10-052
+  type: standard
+  timestamp: "2026-09-10T14:10:00+03:00"
+  agents: [ui-ux-design-lead, frontend-design-builder, linguistic-assistant, persistent-memory-engine]
+  context: "معيار الالتزام الصارم بالقاعدة رقم 1 وعزل BiDi وتدشين استوديو المخططات العالمي"
+  content: "إلزامية العزل التام للمصطلحات اللاتينية والتقنية (BiDi Isolation) بوسوم <bdi> و <span dir='ltr'> في كافة واجهات ومخرجات المنظومة، واعتماد معيار المعرفات اللاتينية لمخططات Mermaid العربية، وتعميم أداة Autovem Flowchart Studio عالمياً ومحلياً."
+  tags: [rule-1, bidi-isolation, rtl-standard, mermaid-arabic, flowchart-studio, global]
+  status: active
+
+- id: MEM-2026-09-10-053
+  type: decision
+  timestamp: "2026-09-10T14:41:00+03:00"
+  agents: [devops-deployer, backend-architect, persistent-memory-engine]
+  context: "تأسيس بنية Google Ads API وتفعيل مؤقت الجدولة (6 أيام) لتجاوز فترة أمان Passkey"
+  content: "اكتمال استخراج Developer Token (vmlJBJB2iNPbkGkjDjLC4w) وبيانات OAuth Client (ID & Secret) لحساب المدير MCC (576-627-3068) وحفظها معزولة في .env، مع رصد فترة تأخير أمان Passkey من جوجل (6 أيام) لحساب ibrahimalkateb965@gmail.com، وتفعيل مؤقت جدولة أوتوماتيكي (task-172 لمدة 518400 ثانية حتى 16 سبتمبر 2026) لاستئناف تفويض Refresh Token، مع استمرار العمل بمراجعة التقارير التصديرية."
+  tags: [google-ads-api, developer-token, oauth-client, passkey-delay, scheduled-reminder, autovem, global]
+  status: active
+
+- id: MEM-2026-09-10-054
+  type: standard
+  timestamp: "2026-09-10T14:45:00+03:00"
+  agents: [ui-ux-design-lead, frontend-design-builder, persistent-memory-engine]
+  context: "دمج ذكاء تصميم UI/UX Pro Max في إنتاج المخططات والصور المعمارية"
+  content: "اكتمال دمج وتفعيل مهارة ui-ux-pro-max في محرك إنتاج المخططات الانسيابية والصور، وترقية استوديو Flowchart Studio بدعم لوحات الألوان الأربع وخوارزميات التباين WCAG AA، واعتماد القيد رقم 58 في الدستور التقني."
+  tags: [ui-ux-pro-max, design-intelligence, visual-hierarchy, wcag-contrast, flowchart-studio, global]
+  status: active
+
+- id: MEM-2026-09-15-055
+  type: standard
+  timestamp: "2026-09-15T10:18:00+03:00"
+  agents: [ui-ux-design-lead, frontend-design-builder, arabic-docx-specialist, persistent-memory-engine]
+  context: "معايير إعداد وتصدير تقارير الأداء الدورية المخصصة للطباعة (Print-Ready PDF Standards)"
+  content: "اعتماد معمارية التسليم المزدوج لتقارير أداء حملات Google Ads: 1) توليد مستند Word رسمي (DOCX) عبر arabic-docx-builder وضبط الهوامش والمسافات بدقة لمنع الصفحات البيضاء الزائدة والالتزام بميزانية الصفحات (Exact 3 Pages). 2) التصدير إلى PDF عالي الدقة عبر Word COM Automation لضمان ترابط الخطوط العربية OpenType. 3) توفير صفحة ويب تفاعلية مخصصة للطباعة (Print.html) ببطاقات مؤشرات أداء (KPIs) وقواعد CSS paged media. 4) الالتزام المطلق بالقيد 50 باعتماد الأرقام الإنجليزية (0-9) حصرياً وعزل اتجاه RTL لكافة الجداول."
+  tags: [print-ready-pdf, google-ads-reporting, shajan-containers, docx-builder, word-com-automation, rule-50, rule-20, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-056
+  type: standard
+  timestamp: "2026-09-16T09:27:00+03:00"
+  agents: [code-architect, devops-deployer, persistent-memory-engine]
+  context: "معيار نظافة جذر المشروع وهيكلة مسار وكالة Autovem"
+  content: "إنشاء مجلد docs/ دائم لعزل وثائق PDF الرسمية لحسابات مطوري Google Play وسجلات الدفع وتكاملات HubSpot، ودمج أي عملاء شاردين من مجلدات مطبعية في مسار Clients/04_Apex_Services بالترقيم المعياري، وهيكلة ملفات الهوية الرقمية في مجلدات فرعية للشهادات."
+  tags: [workspace-hierarchy, clean-root, clients-organization, docs-isolation, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-057
+  type: decision
+  timestamp: "2026-09-16T09:28:00+03:00"
+  agents: [code-architect, devops-deployer, persistent-memory-engine]
+  context: "تدشين الدستور المعماري الموحد والمدخل المزدوج (AGENTS.md & CLAUDE.md) لوكالة Autovemtech"
+  content: "اعتماد المدخل المزدوج الذكي في جذر Autovemtech: ملف AGENTS.md كمرجع موحد لكافة بيئات الذكاء الاصطناعي (Codex Harness, ChatGPT Desktop, OpenCode, Cursor, Antigravity)، وملف CLAUDE.md كمدخل مباشر لـ Claude Code باستيراد @AGENTS.md. تمثيل الركائز الثلاث بالتساوي (التسويق الرقمي MCC 576-627-3068، حلول الذكاء الاصطناعي و FastMCP/n8n، وهندسة تطبيقات Android/iOS/Web)، مع جدول توجيه فوري للمحفزات، وحظر الوصول للمجلدات الشخصية والمالية."
+  tags: [agents-md, claude-md, dual-entry, autovemtech-agency, task-router, three-pillars, global]
+  status: active
+
+- id: MEM-2026-09-16-058
+  type: decision
+  timestamp: "2026-09-16T10:10:00+03:00"
+  agents: [master-orchestrator, fleet-orchestrator, devops-deployer, persistent-memory-engine]
+  context: "تثبيت وضبط مسارات أسطول الـ CLIs عالمياً في config.json"
+  content: "اعتماد وحفظ مسارات أسطول الـ CLIs عالمياً في ~/.config/delegate-skills/config.json: tests لـ claude (Opus Max حصر الاختبارات)، ui لـ opencode (GLM 5.3 Flash)، database لـ opencode (Muse Spark 1.3)، fast لـ opencode (Flash)، و logic لـ codex. حظر توجيه الأوامر لـ agy لأنه IDE، واستبعاد Kimi لعدم توفر اشتراك."
+  tags: [fleet-config, delegate-skills, global-lanes, claude, opencode, codex, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-059
+  type: decision
+  timestamp: "2026-09-16T10:30:00+03:00"
+  agents: [growth-architect, compliance-officer, persistent-memory-engine]
+  context: "تأسيس نشاط خدمات السياحة الدينية والعمرة ونموذج الميسّر التقني"
+  content: "تأسيس مجلد Visa/ ودراسة الجدوى القانونية والتشغيلية: تأكيد عدم جواز استخراج المقيم لزيارات شخصية للأصدقاء وتطبيق المادة 39، واعتماد نموذج الوسيط التقني (Tech Facilitator) لمساعدة المعتمرين على الحجز الذاتي عبر منصة نسك وتأشيرة الترانزيت 96 ساعة بتكلفة تأمين ~40-50 ر.س فقط، مع التحصيل المسبق 100% والتخطيط لشراكات B2B مع شركات العمرة والنقل في مكة والمدينة."
+  tags: [visa-services, umrah-tech, concierge-guide, nusuk-b2c, transit-visa, autovem-agency, global]
+  status: active
+
+- id: MEM-2026-09-16-060
+  type: decision
+  timestamp: "2026-09-16T10:50:00+03:00"
+  agents: [code-architect, frontend-design-builder, persistent-memory-engine]
+  context: "تضمين معمارية أسطول الـ CLIs في Autovem Flowchart Studio وسكربتات التشغيل"
+  content: "إضافة مخطط معمارية أسطول الـ CLIs التشاركي كخيار افتراضي أساسي في Autovem Flowchart Studio (tools/flowchart_studio/index.html) مع تعقيم كود Mermaid ضد أخطاء الاقتباسات والأقواس المربعة، وتوليد ملف المتجهات فائق الدقة fleet_architecture_flowchart.svg بأبعاد 1440x980 وفق هوية Dark Neon Candy وبطاقات Glassmorphism. تحديث open_flowchart_studio.bat وتدشين open_fleet_flowchart.bat للتشغيل المباشر بنقرة واحدة."
+  tags: [flowchart-studio, fleet-architecture, batch-launcher, mermaid, svg-export, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-061
+  type: decision
+  timestamp: "2026-09-16T11:08:00+03:00"
+  agents: [master-orchestrator, staff-architect, persistent-memory-engine]
+  context: "اعتماد حوكمة نافذة السياق (Hook 27) ومنظومة ترشيد التوكنز في أسطول الـ CLIs ومخطط Flowchart Studio بتصديق Claude Code [APPROVED]"
+  content: "إدماج منظومة حوكمة نافذة السياق (النطاق الذهبي 30k إلى 300k توكن ومناطق الأمان الأربع: الخضراء <180k، الصفراء 180k-240k، البرتقالية 240k-300k، الحمراء >300k) وترشيد استهلاك التوكنز بتفريغ المهام الروتينية لـ OpenCode CLI (GLM 5.3 Flash & Muse Spark 1.3) وتكريس Claude Code CLI (Opus Max) للاختبارات والتدقيق المعماري الصارم. توليد المخطط بواسطة GLM 5.3 Flash، وضبط البنية بواسطة Codex CLI، وحصول المعمارية على اعتماد Claude Code الرسمي [APPROVED] بعد تضمين failover_chain الصريحة وحظر تفويض سلطة الاختبارات أثناء نفاد الكوتا، وتحديث Flowchart Studio و fleet_architecture_flowchart.svg."
+  tags: [context-governance, token-conservation, sweet-spot, hook-27, claude-approved, glm-flash, codex, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-062
+  type: decision
+  timestamp: "2026-09-16T11:20:00+03:00"
+  agents: [frontend-design-builder, code-architect, persistent-memory-engine]
+  context: "تدشين النسخة الإنجليزية الكاملة لـ Flowchart Studio ومعيار تفويض Muse Spark 1.3"
+  content: "هندسة النسخة الإنجليزية لـ Autovem Flowchart Studio (tools/flowchart_studio/index_en.html) بالاتجاه الأيسر القياسي LTR والخطوط الحديثة (Plus Jakarta Sans و Inter) مع ترجمة هندسية دقيقة لكافة القوالب الخمسة (بما فيها معمارية الأسطول ومناطق الأمان الأربع للتوكنز). صياغة برومبت التفويض المعياري لـ OpenCode CLI Worker B (Meta Muse Spark 1.3)، وتدشين سكربت التشغيل open_flowchart_studio_en.bat، والتحقق البصري الآلي عبر المتصفح."
+  tags: [flowchart-studio-en, muse-spark, ltr-layout, open-flowchart-studio-en, plus-jakarta-sans, autovem, global]
+
+- id: MEM-2026-09-16-063
+  type: decision
+  timestamp: "2026-09-16T12:53:30+03:00"
+  agents: [prompt-engineer, persistent-memory-engine, fleet-orchestrator]
+  context: "اعتماد Claude Code كـ Master Orchestrator حصري للسبرنت الذاتي وتخصيص Antigravity IDE للمراقبة والاستعلام بالعربية"
+  content: "تحديث موجه السبرنت الذاتي في مصنف مكتبة الأوامر المركزي (Workflows_Pipelines.Claude - Row #14) ومصنف سطح المكتب (إدارة الأسطول - Row #8). تثبيت Claude Code CLI كـ Master Orchestrator وحيد يقود السبرنت المستمر (8 ساعات) ويفوض المهام الروتينية لـ OpenCode و Codex مع احتكار الفحص والاعتماد، بينما يتولى Antigravity IDE دور الحاضنة التفاعلية والمقر البصري (Cockpit) لقراءة ملف CURRENT_STATE.md وسجلات الذاكرة وإحاطة المطور باللغة العربية عند عودته."
+
+- id: MEM-2026-09-16-064
+  type: decision
+  timestamp: "2026-09-16T12:56:40+03:00"
+  agents: [master-orchestrator, growth-architect, code-reviewer-quality, persistent-memory-engine]
+  context: "اعتماد وتسليم العرض التجاري والفني الكبير (Grand Slam Offer) لمركز غراس [APPROVED]"
+  content: "أنجز Claude Code CLI بنجاح وثيقة العرض التجاري والفني الكبير لمركز غراس في Clients/03_GHERAS_Center/06_Contracts_Invoices/GHERAS_GRAND_SLAM_OFFER.md بحجم 34.8 KB مع الامتثال الصارم لقواعد الوكالة: مطابقة القاعدة 50 (صفر أرقام مشرقية، 291 رقماً مغربياً 0-9، وصفر أسعار مفبركة بخانات ذكية)، مطابقة القاعدة 1 (144 وسم bdi لعزل المصطلحات الإنجليزية)، وترشيد السياق (<9k توكن عبر الفحص المجزأ). تتضمن الوثيقة 3 باقات متدرجة، وضمان اليوم العاشر، ومصفوفة نقل 201 دالة برمجية، ومعادلة القيمة لأليكس هورموزي."
+
+- id: MEM-2026-09-16-065
+  type: decision
+  timestamp: "2026-09-16T13:31:00+03:00"
+  agents: [growth-architect, campaign-runner, arabic-docx-specialist, persistent-memory-engine]
+  context: "تثبيت تسعير منظومة غراس المتكاملة، دمج حملات سناب شات وتيك توك، وتوليد DOCX و PDF رسمي"
+  content: "تحديث وثيقة GHERAS_GRAND_SLAM_OFFER.md بإدراج الأسعار المعتمدة (باقة 1: 2,000 ريال، باقة 2 أندرويد: 3,000 ريال، باقة 3 كاملة: 5,000 ريال شاملة استضافة السنة الأولى مجاناً، وباقة 4 التأسيس المؤسسي والتوسع: 6,500 ريال). إضافة ملحق حملات النمو الموسمي عبر Snapchat و TikTok لاستثمار الـ 2,000 متابع للمركز في حوطة بني تميم بأتعاب إدارة 1,000 ريال للموسم. تم توليد ملف Word العربي الرسمي GHERAS_GRAND_SLAM_OFFER.docx (121 KB) عبر arabic-docx-builder وتصديره لـ PDF رسمي للطباعة (4.3 MB)."
+
+- id: MEM-2026-09-16-066
+  type: decision
+  timestamp: "2026-09-16T14:05:00+03:00"
+  agents: [growth-architect, code-reviewer-quality, arabic-docx-specialist, persistent-memory-engine]
+  context: "تطبيق التعديلات التنفيذية الـ 13 على عرض مركز غراس وضغطه في 9 صفحات وتوليد PDF و DOCX رسمي"
+  content: "إعادة هندسة وثيقة GHERAS_GRAND_SLAM_OFFER.md وفق توجيهات المطور التنفيذية: 1) استبدال 'ننقل نظامكم كما هو' بـ 'استكمال وتصحيح وفحص وتطوير وتأمين النظام الذي قمتم بإنشائه'. 2) تخصيص العرض 100% لمركز غراس وحذف أي إشارة لـ Multi-Tenant أو تأجير المنصة لآخرين. 3) إبراز دمج شعار وهوية المركز في كافة المطبوعات والتقارير الـ 11. 4) حظر إفشاء الأسرار الداخلية مثل خط إنتاج iOS بدون ماك. 5) قصر تدريب لوحة الويب على الإدارة فقط. 6) حذف جلسات اعتماد المعلمين. 7) حذف الملحقين أ و ب لتقليص الحجم. 8) ضغط المستند لـ 9 صفحات فقط في الـ PDF بجداول مخططة وأنيقة (DOCX: 115 KB, PDF: 4.29 MB)."
+  tags: [gheras-offer, executive-refinements, logo-branding, no-multi-tenant-leak, confidential-pipeline, 9-pages, docx-pdf, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-067
+  type: decision
+  timestamp: "2026-09-16T17:08:00+03:00"
+  agents: [performance-optimizer, backend-architect, persistent-memory-engine]
+  context: "معيار توسيع الذاكرة الافتراضية Pagefile لحماية استقرار الأسطول ومنع انهيارات Bun و Gradle مع توثيق أمر التراجع"
+  content: "بسبب وصول الذاكرة المحجوزة Committed Memory إلى 21.0/23.8 GB (88%) وحدوث انهيارات سابقة في Bun heap و JVM أثناء مهام البناء الثقيلة، تم توثيق الطريقة المباشرة عبر Registry لتفادي خطأ WMI (Value out of range). أمر التفعيل المباشر (16 GB مبدئي / 24 GB أقصى): `Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management' -Name 'PagingFiles' -Value @('C:\\pagefile.sys 16384 24576')`. أمر التراجع الفوري للوضع الافتراضي التلقائي لويندوز: `Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management' -Name 'PagingFiles' -Value @('?:\\pagefile.sys')`. هذا الإجراء آمن 100% ولا يؤثر على فتح الملفات الشخصية."
+  tags: [windows-pagefile, memory-optimization, committed-memory, bun-heap-fix, jvm-fix, powershell, safe-rollback, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-068
+  type: decision
+  timestamp: "2026-09-16T19:15:00+03:00"
+  agents: [master-orchestrator, staff-architect, devops-deployer, persistent-memory-engine]
+  context: "معيار التهيئة الإلزامية لمستودع Git والتذكير الاستباقي للمستخدم (Mandatory Git Init & Proactive Reminder Standard - Rule 8)"
+  content: "الدرس الحاكم: تعتمد منظومة حوكمة الأسطول وخطافات التصفير الاستراتيجي (Hook 25 / strategic-clear) بشكل بنيوي على تتبع دلائل Git الحية (git status, git log, git diff). انطلاق مشروع Autovemtech دون تهيئة Git تسبب في فشل خطافات الأمر الآلية واضطرار الوكيل للتراجع اليدوي، وحرمان المخرجات من نقاط التراجع الآمنة. كقاعدة حاكمة ملزمة لكافة المشاريع (Rule 8): 1) الخطوة صفر قبل كتابة أول سطر كود هي التحقق من وجود مستودع Git محلي (git init) وربطه بـ GitHub. 2) **التذكير الإلزامي عند نسيان المستخدم (Proactive User Reminder Gate):** إذا نسي المستخدم تهيئة Git وبدأ في طلب بناء ميزات، يُلزم المساعد البرمجي بالتوقف فوراً وتنبيهه وتذكيره بتهيئة المستودع وإعداد .gitignore وتثبيت خط الأساس أولاً. 3) إعداد ملف .gitignore صارم يحجر الملفات الحساسة (Digital persona, .agents, .claude, .env, fleet_orders, fleet_templates, **/build). 4) إجراء أول Commit نظيف لتثبيت خط الأساس (Baseline Commit)."
+  tags: [git-init, zero-day-repo, hook-25, rule-8, proactive-reminder, gitignore-quarantine, git-mandatory-rule, autovem, global]
+  status: active
+
+- id: MEM-2026-09-16-069
+  type: standard
+  timestamp: "2026-09-16T19:55:00+03:00"
+  agents: [performance-optimizer, context-governor, devops-deployer, persistent-memory-engine]
+  context: "معايرة شريط الحالة Statusline على سقف النطاق الذهبي 150k توكن لحماية كوتا الحساب وتفادي انفجار تكلفة الكاش"
+  content: "نظراً لأن إحصائيات أنثروبيك أظهرت أن 67% من الاستهلاك يحدث فوق 150k توكن حيث تتضاعف تكلفة قراءة الكاش تربيعياً O(N^2)، وكان شريط الحالة السابق يقيس النسبة ضد 1,000,000 توكن مما يعطي انطباعاً خادعاً بالأمان (مثل ctx 20%/1M بينما الاستهلاك الفعلي 200k في المنطقة الحمراء)؛ تمت إعادة معايرة statusline.ps1 و statusline.js في C:\\Users\\Kt\\.claude\\ ليقاس الاستهلاك حصراً ضد سقف النطاق الذهبي (150,000 توكن). يعرض الشريط الآن المقدار والنسبة معاً: `ctx {tokens}k/150k ({pct}%)` مع تلوين دلالي صارم: السماوي الآمن (<60%)، الأصفر التحذيري (60-84%)، والأحمر الحرج (>=85% أو تجاوز الـ 150k) للتأهب الفوري لـ /strategic-clear."
+  tags: [statusline, context-governance, golden-cap, 150k-tokens, cache-cost-prevention, quadratic-cost, powershell, nodejs, autovem, global]
+  status: active
+
+- id: MEM-2026-09-17-070
+  type: decision
+  timestamp: "2026-09-17T01:10:00+03:00"
+  agents: [devops-deployer, security-guardian, master-orchestrator]
+  context: "حزمة نشر EduTrack Pro على Hostinger VPS كنسخة نظيفة 100% بدون ترحيل بيانات قديمة (تأكيد العميل 2026-09-16)"
+  content: "تم إقرار طوبولوجيا النشر لنظام <bdi>EduTrack Pro</bdi> (مركز غراس): <bdi>Caddy</bdi> المضيف يخدم النطاق العام ويمرر <bdi>/api/*</bdi> إلى حاوية <bdi>uvicorn</bdi> على <bdi>127.0.0.1:8000</bdi> ويخدم الملفات الثابتة من <bdi>/opt/edutrack</bdi> بقائمة سماح صارمة (<bdi>/web/*</bdi> و <bdi>/assets/*</bdi> فقط؛ كل ما عداها 404 بما فيها <bdi>db/</bdi> و <bdi>server/</bdi> و <bdi>deploy/</bdi> وملفات <bdi>*.md</bdi>). قاعدة <bdi>PostgreSQL 16</bdi> بلا منفذ منشور، وتتصل الواجهة البرمجية حصراً بدور <bdi>gheras_app</bdi> المقيد (بدون <bdi>superuser</bdi>) — تم إثبات ذلك بتشغيل حزمة الاختبارات كاملة (19/19) بهذا الدور. الأسرار تُولَّد على الخادم في <bdi>deploy/.env</bdi> (600) ولا تُزامَن ولا تُرفع أبداً. البذرة الإدارية النظيفة: صف <bdi>admin</bdi> من الهجرة 003 بتجزئة مؤقتة غير قابلة للاستخدام، ثم <bdi>--set-admin-password</bdi> غير تفاعلي عبر متغير <bdi>EDUTRACK_ADMIN_PASSWORD</bdi>. فحص صحة القاعدة عبر <bdi>TCP</bdi> عمداً لأن فحص المقبس المحلي يعلن الجاهزية أثناء تنفيذ سكربتات <bdi>initdb</bdi>. عائقان يحتاجان إبراهيم قبل التنفيذ الفعلي: مفتاح <bdi>SSH</bdi> غير مسجل على الخادم (رفض بالمفتاحين المحليين)، وسجل <bdi>DNS</bdi> للاسم العام غير موجود بعد مع تعذر الاتصال بالمنفذ 443 من الخارج."
+  tags: [edutrack-pro, gheras, deployment, hostinger-vps, caddy, docker-compose, least-privilege, clean-instance, no-legacy-import, ssh-blocker, autovem, global]
+  status: active
+
+- id: MEM-2026-09-17-073
+  type: decision
+  timestamp: "2026-09-17T16:08:00+03:00"
+  agents: [performance-optimizer, context-governor, master-orchestrator, persistent-memory-engine]
+  context: "دروس قياس الاستهلاك الحقيقي لـ Claude Code CLI (قاعدة الـ 150k، ترشيد الوكلاء الفرعيين، وتحجيم المهارات الثقيلة)"
+  content: "بناءً على التليمتري والبيانات الحية المباشرة من لوحة تحكم Claude Code CLI (قسم Usage): 1) **تأكيد قاعدة جدار الـ 150k توكن رسميّاً:** أظهرت التليمتري أن 60% من استهلاك الكوتا والحدود يحدث عندما يتجاوز السياق 150k توكن؛ لأن تكلفة قراءة وكتابة الكاش تتصاعد تربيعياً O(N^2). هذا يؤكد صحة معيار المعايرة الحصري لـ Claude Code على 150k توكن ووجوب تنفيذ /compact في منتصف المهام و /clear عند التبديل بين المهام. 2) **ترشيد استدعاء الوكلاء الفرعيين (Subagents Overhead):** أظهرت التليمتري أن 10% من الاستهلاك سببه الجلسات كثيفة الوكلاء الفرعيين حيث ينشئ كل وكيل طلباته الخاصة بسياقه الكامل؛ لذا يجب تقنين توليد الوكلاء الفرعيين وتفويض المهام الروتينية لـ OpenCode CLI (Flash & Muse). 3) **تحجيم استهلاك المهارات الثقيلة (Heavy Skills Optimization):** تبين أن مهارة /remote-futrx وحدها استهلكت 15% من الحصة و /code-review استهلكت 7%؛ لذا يجب تقليص نصوص المهارات الثقيلة وتحديد نماذج أخف (cheaper models) في ترويسة YAML للمهارة (frontmatter). 4) **تنبيه انتهاء الجلسة الأمني:** رصد إشعار انتهاء صلاحية تسجيل الدخول (Your login expires in 3 days) مما يفرض تجديد الجلسة عبر /login قبل انقضائها لتفادي تعطل الاستدعاء المباشر في الطرفية."
+  tags: [claude-code, usage-telemetry, 150k-wall, subagents-cost, heavy-skills, remote-futrx, context-governance, login-renewal, autovem, global]
+
+- id: MEM-2026-09-17-074
+  type: decision
+  timestamp: "2026-09-17T16:22:00+03:00"
+  agents: [backend-architect, frontend-design-builder, test-automator, master-orchestrator, persistent-memory-engine]
+  context: "اكتمال وتفعيل منظومة المستندات والتقارير الـ 11 القابلة للطباعة في EduTrack Pro واعتماد Claude Code CLI الكامل [APPROVED]"
+  content: "اكتمال تفعيل منظومة التقارير والمستندات الـ 11 في تطبيق EduTrack Pro (مركز غراس): 1) بناء المحرك الشامل print_engine.js مع دعم حلقات Mustache التكرارية، الكتل المعكوسة، حماية XSS عبر الهروب التلقائي escapeHtml لكافة الوسوم النصية، وتوليد شريط أدوات طباعة زجاجي عائم يختفي تلقائياً في @media print. 2) ربط كافة قوالب الطباعة الـ 11 بقاعدة البيانات الحية وإلغاء تمرير التوكن في الـ Query Strings لمنع تسربه في سجلات Caddy. 3) حل مشكلة تحويل Decimal في Pydantic v2 بتغليف مخرجات مسارات print.py بدالة _resp(_convert(...)) لتحويل القيم النقدية إلى أرقام Float مدورة. 4) اجتياز كامل حزمة الاختبارات بنجاح بنسبة 100% (36/36 اختباراً أخضر: 14 print + 19 existing + 3 change_password) بحسب تدقيق واعتماد Claude Code CLI الصارم [APPROVED]. 5) تثبيت هوية العامل الثاني Worker B في OpenCode CLI كـ Meta Muse Spark 1.3 المتخصص في قواعد البيانات والبيانات، وتأكيد قاعدة حظر فتح أكثر من نسخة متزامنة لـ GLM 5.3 Flash لتفادي تجاوز حد التوازي."
+  tags: [edutrack-pro, print-system, 11-templates, xss-protection, decimal-serialization, pydantic-v2, claude-code-approved, 36-tests-green, worker-b, muse-spark, autovem, global]
+  status: active
+
+- id: MEM-2026-09-17-075
+  type: decision
+  timestamp: "2026-09-17T18:30:00+03:00"
+  agents: [master-orchestrator, backend-architect, frontend-design-builder, security-guardian, persistent-memory-engine]
+  context: "تفعيل أزرار لوحة EduTrack Pro، معمارية الصلاحيات الجزئية للمشرفين، وهجرة الجنس"
+  content: "اكتمال تفعيل كافة الأدوات المعلقة في EduTrack Pro (طلاب الإنجليزي أولاد/بنات، غياب الموظفين والخصم، التقييم اليومي، المعلمون والمشرفون). هندسة الصلاحيات الجزئية للمشرفين (students, attendance, daily_evaluation, monthly_evaluation, finance) مع حظر التعديل على users للمشرفين (403) والسماح بالقراءة، حجب الرواتب عن غير الماليين، وحماية نقاط الطباعة والتقارير الشهرية. إنشاء هجرة 004_phase3.sql لإضافة عمود gender، وتفعيل بروتوكول التراجع الذاتي لقيادة الأسطول عبر Antigravity IDE عند نفاد كوتا Claude Code دون توقف العمل."
+  tags: [edutrack-pro, supervisor-permissions, rbac, gender-migration, fleet-failover, phase-3, gheras, autovem, global]
+  status: active
+
+- id: MEM-2026-09-19-076
+  type: decision
+  timestamp: "2026-09-19T08:41:00+03:00"
+  agents: [resource-scout-integrator, graft, context-governance, fleet-orchestrator, persistent-memory-engine]
+  context: "اعتماد وتكامل محرك سياق الأكواد Graft لتوفير كوتا وتوكنز Claude Code والأسطول"
+  content: "تم استكشاف وتقييم واعتماد أداة ومكتبة Graft (@nanonets/graft / trailhq/Graft) عبر الخطاف 20. تقوم الأداة ببناء خريطة معرفية وسياقية محلية (graft/) عبر tree-sitter AST ($0 وبدون قواعد بيانات) لدعم أكثر من 23 لغة، مما يقلل استهلاك التوكنز بنسبة 42% واستدعاءات الأدوات بنسبة 46% ويسرع الاستجابة 60% مع تحسين دقة SWE-bench Verified بمقدار +12 نقطة. تم تعميم مهارة graft محلياً وعالمياً (~/.claude/skills و ~/.gemini/config/skills)، وتحديث خطافات 20 و 22 و 27 ومصنف الإكسل ومكتبة الأوامر."
+  tags: [graft, context-engine, token-conservation, claude-code, fleet, tree-sitter, global]
+  status: active

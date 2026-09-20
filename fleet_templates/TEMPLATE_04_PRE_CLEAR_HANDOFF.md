@@ -1,39 +1,35 @@
-# Template 04 — Strategic Clear & Session Handoff Protocol
+# Template 04 — Pre-Clear Session Handoff Protocol (Hook 25)
 
-Used by Claude Code CLI and Fleet Commander when preparing to execute a Strategic Clear (`/clear` or `/compact`) to finish in-flight priority tasks, prevent half-baked commits, and preserve complete context.
+Used by Claude Code CLI and Fleet Commander when preparing to clear the session (`/clear` or `/compact`) to prevent context loss.
 
 ---
 
 ```
-### STRATEGIC CLEAR CHECKLIST (التصفير الاستراتيجي)
+### PRE-CLEAR HANDOFF CHECKLIST
 
-1. IN-FLIGHT TASK ASSESSMENT & WRAP-UP (إنهاء المهام العالقة ذات الأولوية):
-   - Check if any immediate priority task or active order is currently in-progress.
-   - If it can be wrapped up cleanly within the remaining context: compile, verify Quality Gate, and commit it cleanly now.
-   - If it is too large to finish: set a clean stopping milestone, ensure code compiles, or isolate/stash uncompleted experiments so the branch is left in a 100% green/stable state.
+1. STATE FREEZE:
+   - Active Branch & HEAD commit: `git status --short --branch`
+   - Last completed milestone / order & Quality Gate status (test pass counts, approval status)
+   - Uncommitted changes (must be 0 or committed/stashed)
+   - Update `CURRENT_STATE.md` (§1 "THE ONE THING TO DO NEXT" & Phase log updated with exact standing)
 
-2. STATE FREEZE & GIT VERIFICATION:
-   - Branch status: `git status --short --branch` (Must be 100% clean, 0 uncommitted unhandled changes)
-   - Last completed order & Quality Gate evidence (tests passed, APK byte-size verification)
-   - Update `fleet_orders/CURRENT_STATE.md` (§1 "THE ONE THING TO DO NEXT" updated with exact standing and choices)
+2. MEMORY & GOTCHAS FLUSH:
+   - Any runtime lessons, OOM traps, or quirks flushed to `.agents/MEMORY_STORE.md`
+   - Blockers list in CURRENT_STATE.md updated
 
-3. MEMORY & GOTCHAS FLUSH:
-   - Any runtime lessons, OOM traps (e.g. B-17 idle compiler daemon kills), or quirks flushed to `MEMORY_STORE.md`
-   - B-issues list in CURRENT_STATE.md updated
-
-4. DECISION POINTS & HANDOFF SUMMARY:
+3. DECISION POINTS & HANDOFF SUMMARY:
    Print a formatted block for Ibrahim:
-   - What high-priority work was closed before clearing
-   - Current clean git commit hash and branch
-   - Clear statement of available next choices (e.g. Option A, Option B)
-
-5. RESUME PROMPT (Ready to copy-paste):
+   - Summary of completed work in this closing session
+   - Current clean git commit hash
+   - Next available choices (e.g. Choice A, Choice B)
+   
+4. RESUME PROMPT (Ready to copy-paste):
    Provide a concise 1-2 line prompt for Ibrahim to paste immediately after `/clear`:
    ```
-   Read CLAUDE.md and fleet_orders/CURRENT_STATE.md. State where we are and present the choices for the next order.
+   Read CLAUDE.md, AGENTS.md, and CURRENT_STATE.md. State where we are and present the choices for the next task.
    ```
 
-6. GREEN LIGHT FOR /clear:
+5. GREEN LIGHT:
    Print:
-   "✅ Strategic Clear preparation complete: In-flight tasks wrapped up, state frozen, branch clean. You can now safely run /clear in this terminal."
+   "✅ State frozen and documented. You can now safely run /clear in this terminal."
 ```

@@ -1,116 +1,184 @@
 {
-  "$schema": "internal://fleet_config/v1",
-  "hook": "22 - Multi-CLI Fleet Orchestrator",
-  "project": "Blind App - Quran for the Blind",
-  "phase": "IOS-KMP-PHASE-0",
-  "created": "2026-09-10",
-  "orchestrator": "claude-code-cli",
-  "terminal_language": "en",
-  "reply_language_to_maintainer": "ar",
-  "target_stack": {
-    "shared": "Kotlin Multiplatform",
-    "ui": "Compose Multiplatform",
-    "di": "Koin",
-    "network": "Ktor + kotlinx.serialization",
-    "persistence": "SQLDelight (pending ADR-002)",
-    "audio_android": "androidx.media3 / ExoPlayer",
-    "audio_ios": "AVPlayer + AVAudioSession",
-    "ci_ios": "GitHub Actions macos-15 runner"
-  },
-  "agents": {
-    "claude-code-cli": {
-      "model": "Claude Opus 5",
-      "invocation": "claude -p \"<prompt>\"",
-      "role": "Planning, architecture review, Devil's Advocate Audit, exclusive test execution, quality gates",
-      "owns": [
-        "CLAUDE.md",
-        "fleet_config.json",
-        "fleet_templates/**",
-        "fleet_orders/**",
-        "docs/adr/**",
-        "docs/IOS_KMP_READINESS_AUDIT.md"
+  "project_name": "Autovemtech Agency",
+  "version": "2.0.0",
+  "active_milestone": "Continuous Growth, AI Systems & App Engineering",
+  "language_policy": "English Only in all CLIs, Terminals, and Code Commits",
+  "fleet_pipeline_workflow": [
+    "1. Task Delegation: Issue structured Delegate Prompt (Template 02) to target CLI",
+    "2. Implementation & Local Verification: Target CLI builds code and confirms zero syntax/lint errors",
+    "3. Mandatory Phase Code Review: Submit diffs & metrics for Quality Audit (Template 03) to Claude Code",
+    "4. Architectural Sign-off: Formal [APPROVED] verdict by Claude Code + ADR logging in MEMORY_STORE.md before unlocking next milestone"
+  ],
+  "fleet_agents": [
+    {
+      "id": "orchestrator",
+      "cli_tool": "Claude Code CLI",
+      "active_model": "Claude 5 Opus (Opus Max) / Sonnet 5",
+      "effort_level": "Max Reasoning",
+      "assigned_role": "Master Orchestrator, Staff Architect, Sole Test Authority & Senior Code Reviewer",
+      "status": "Active",
+      "token_budget_strategy": "Zero Boilerplate Writing - Architecture, Testing & Review Only",
+      "exclusive_ownership_tree": [
+        "test/",
+        "tests/",
+        "quality_gates/"
       ],
-      "exclusive_rights": [
-        "gradlew test",
-        "gradlew allTests",
-        "gradlew iosSimulatorArm64Test",
-        "gradlew connectedAndroidTest",
-        "maestro test",
-        "merge approval"
-      ],
-      "forbidden": [
-        "writing bulk boilerplate assignable to a cheaper model"
+      "assigned_skills": [
+        "code-architect",
+        "agent-optimizer",
+        "code-reviewer-quality",
+        "devil-advocate-audit",
+        "test-guard",
+        "test-automator"
       ]
     },
-    "opencode-cli": {
-      "model": "Meta Muse Spark 1.3 (opencode/muse-spark-1.3-contributor-free)",
-      "failover_policy": "dynamic_multi_provider",
-      "fallback_models": [
-        "google/gemini-2.5-flash",
-        "deepseek/deepseek-chat",
-        "openrouter/meta-llama/llama-3.3-70b-instruct:free",
-        "openrouter/qwen/qwen-2.5-coder-32b-instruct:free",
-        "ollama/qwen2.5-coder:1.5b"
+    {
+      "id": "algorithmic_engineer",
+      "cli_tool": "Codex CLI / ChatGPT Desktop",
+      "active_model": "GPT-5.6 Soul / gpt-6-astra",
+      "effort_level": "Deep Algorithmic & Logic Engineering",
+      "assigned_role": "Complex Algorithms, Heavy Refactoring, Data Extraction & Math/Logic Engines",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "scripts/core/",
+        "engines/",
+        "converters/"
       ],
-      "invocation": "opencode run -m opencode/muse-spark-1.3-contributor-free \"<message>\"",
-      "fallback_invocation": "opencode run -m <fallback_model> \"<message>\"",
-      "role": "Terminal execution, build configuration, database, network clients, CI",
-      "owns": [
-        "settings.gradle.kts",
-        "build.gradle.kts",
-        "gradle.properties",
-        "gradle/libs.versions.toml",
-        "androidApp/build.gradle.kts",
-        "composeApp/build.gradle.kts",
-        "shared/build.gradle.kts",
-        "shared/src/commonMain/sqldelight/**",
-        "shared/src/commonMain/kotlin/**/data/network/**",
-        "iosApp/**",
-        ".github/workflows/**"
-      ],
-      "forbidden": [
-        "RUNNING ANY TEST OF ANY KIND",
-        "composeApp/src/commonMain/kotlin/**/ui/**",
-        "**/accessibility/**",
-        "CLAUDE.md",
-        "fleet_config.json"
+      "assigned_skills": [
+        "backend-architect",
+        "performance-optimizer",
+        "debugger"
       ]
     },
-    "antigravity-ide": {
-      "model": "Gemini 3.7 Flash High",
-      "invocation": "agy --print \"<prompt>\"",
-      "role": "UI building, iOS adaptation, Domain Logic, expect/actual platform abstractions",
-      "owns": [
-        "shared/src/commonMain/kotlin/**/domain/**",
-        "shared/src/commonMain/kotlin/**/accessibility/**",
-        "shared/src/androidMain/kotlin/**",
-        "shared/src/iosMain/kotlin/**",
-        "composeApp/src/commonMain/kotlin/**/ui/**",
-        "composeApp/src/commonMain/composeResources/**",
+    {
+      "id": "opencode_flash_executor",
+      "cli_tool": "OpenCode CLI (GLM Flash)",
+      "active_model": "opencode-go/glm-5.3-flash",
+      "invocation_command": "opencode run -m opencode-go/glm-5.3-flash",
+      "effort_level": "Ultra-High Speed & Low-Latency Terminal Execution",
+      "assigned_role": "Fast Terminal Commands, Shell Execution, Scaffolding & Routine Build Scripts (NO TESTING - PARALLEL WORKER A)",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "scripts/terminal/",
+        "build/",
+        "infrastructure/"
+      ],
+      "assigned_skills": [
+        "devops-deployer"
+      ]
+    },
+    {
+      "id": "opencode_muse_data_architect",
+      "cli_tool": "OpenCode CLI (Muse Spark)",
+      "active_model": "opencode-go/muse-spark-1.3-contributor",
+      "invocation_command": "opencode run -m opencode-go/muse-spark-1.3-contributor",
+      "effort_level": "High Reasoning Schema & Data Engineering",
+      "assigned_role": "Database Architecture, Schema Migrations, DAOs, Repositories & Structured Data Pipelines (NO TESTING - PARALLEL WORKER B)",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "scripts/db/",
+        "migrations/",
+        "data/"
+      ],
+      "assigned_skills": [
+        "offline-sync-db"
+      ]
+    },
+    {
+      "id": "terminal_ui_engineer",
+      "cli_tool": "Antigravity CLI (agcli)",
+      "active_model": "Gemini 3.8 Flash (High Reasoning)",
+      "effort_level": "Autonomous Code Generation & Terminal Execution",
+      "assigned_role": "Autonomous Terminal Executor: UI Architecture, Jetpack Compose, Web Views & Domain Logic (NO TESTING)",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "Clients/",
+        "tools/",
+        "web/",
+        "app/"
+      ],
+      "assigned_skills": [
+        "frontend-design-builder",
+        "jetpack-compose-ui",
+        "ui-ux-design-lead"
+      ]
+    },
+    {
+      "id": "interactive_cockpit",
+      "cli_tool": "Antigravity IDE",
+      "active_model": "Gemini 3.8 Flash (High Reasoning)",
+      "effort_level": "Interactive High Reasoning & Visual Consultation",
+      "assigned_role": "Human-AI Cockpit: Consultation, Visual Inspection, Memory Core, and Manual Prompt Refinement with User BEFORE Fleet Dispatch (NEVER TARGET WITH AUTOMATED CLI DELEGATE PROMPTS)",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        ".agents/",
         ".agents/MEMORY_STORE.md"
       ],
-      "forbidden": [
-        "RUNNING ANY TEST OF ANY KIND",
-        "**/build.gradle.kts",
-        "gradle/libs.versions.toml",
-        "gradle.properties",
-        ".github/workflows/**",
-        "CLAUDE.md",
-        "fleet_config.json"
+      "assigned_skills": [
+        "persistent-memory-engine",
+        "prompt-engineer"
       ]
     }
+  ],
+  "context_window_governance": {
+    "hook": "Hook 27",
+    "policy_name": "Context Window Sweet Spot Governance (30,000 - 300,000 tokens)",
+    "sweet_spot_tokens": {
+      "minimum": 30000,
+      "maximum": 300000,
+      "principle": "Peak attention fidelity is confined to the 30k-300k range; never rely on raw 1M/2M context capacity."
+    },
+    "zones": {
+      "green": {
+        "token_range": "< 180,000 tokens (< 60% of sweet spot)",
+        "status": "Safe & Peak Focus",
+        "directive": "Unrestricted development; enforce lean-ctx signatures to maintain low budget."
+      },
+      "yellow": {
+        "token_range": "180,000 - 240,000 tokens (60% - 80%)",
+        "status": "Early Warning",
+        "directive": "Ban full file reads (mode='full'); inspect line ranges and signatures only."
+      },
+      "orange": {
+        "token_range": "240,000 - 300,000 tokens (80% - 100%)",
+        "status": "Pre-Handoff Planning",
+        "directive": "Conclude active micro-task; create clean git commit; record ADR in MEMORY_STORE.md; prepare for session reset."
+      },
+      "red": {
+        "token_range": "> 300,000 tokens (> 100%)",
+        "status": "Degraded Attention Beyond Sweet Spot",
+        "directive": "Mandatory Hook 25 strategic reset; generate resume prompt; execute /clear."
+      }
+    },
+    "telemetry_tools": [
+      "ag-context",
+      "context-advisor",
+      "ag-context -a"
+    ]
   },
-  "quality_gates": {
-    "G0_compile": "./gradlew :shared:compileKotlinIosSimulatorArm64 :composeApp:assembleDebug --no-daemon",
-    "G1_lint": "./gradlew lint ktlintCheck",
-    "G2_unit_tests": "./gradlew :shared:allTests (Claude Code ONLY)",
-    "G3_accessibility": "Manual VoiceOver + TalkBack parity checklist per ACCESSIBILITY_GUIDELINES_IOS.md",
-    "G4_approval": "Explicit 'QUALITY GATE: PASS' emitted by Claude Code",
-    "blocking_rule": "No merge without G4. Agents other than Claude Code may not self-certify."
+  "token_conservation_subsystem": {
+    "enabled": true,
+    "principles": [
+      "Divert routine terminal execution, boilerplate generation, and DB migrations to fast, specialized workers (OpenCode GLM 5.3 Flash & Meta Muse Spark).",
+      "Reserve Claude Code CLI (Opus Max) strictly for high-leverage architectural plans, devil's advocate reviews, and the exclusive testing monopoly.",
+      "Prefer concise, structured delegate prompts (Template 02) over repeated full-context prompts.",
+      "Use lean-ctx signatures and chunked reads instead of dumping large files into context.",
+      "Enforce mandatory session reset (Hook 25) upon entering the Red Zone to return immediately to the Green Zone."
+    ],
+    "failover_chain": [
+      "OpenCode CLI (GLM 5.3 Flash)",
+      "OpenCode CLI (Meta Muse Spark 1.3)",
+      "Google Gemini 3.8 Flash High (agcli / google provider)",
+      "Ollama Local Fallback (qwen2.5-coder:1.5b)"
+    ],
+    "memory_authority": ".agents/MEMORY_STORE.md"
   },
-  "collision_policy": {
-    "rule": "one_owner_per_path",
-    "on_conflict": "Halt. Escalate to Claude Code. Never resolve by overwriting another agent's owned path.",
-    "shared_read": "All agents may READ any path. Write is restricted to the owns[] list."
-  }
+  "governing_constraints": [
+    "Strictly adhere to Clean Architecture boundaries across all three agency pillars.",
+    "Quarantine Perimeter: Strictly NEVER touch Visa/, Digital persona/, or root personal PDFs.",
+    "Testing Monopoly: Strictly NO agent other than Claude Code CLI is permitted to execute tests or issue test sign-offs.",
+    "Rule 50: Use Western Arabic numerals (0-9) exclusively in technical and client documents; never assume unconfirmed prices.",
+    "Rule 51: Ensure templates in Clients/_Agency_Templates/ remain 100% clean and generic.",
+    "English-only communication in all terminal chats, logs, commits, and delegate prompts."
+  ]
 }

@@ -81,8 +81,12 @@ def main():
         bot.send_message(chat_id=ALLOWED_CHAT_ID, text=message_text, parse_mode='Markdown')
         print("✅ تم إرسال الرسالة إلى تليجرام بنجاح.")
     except Exception as e:
-        print(f"❌ حدث خطأ أثناء إرسال الرسالة: {e}")
-        sys.exit(1)
+        try:
+            bot.send_message(chat_id=ALLOWED_CHAT_ID, text=message_text)
+            print("✅ تم إرسال الرسالة كنص عادي بعد تعذر بارس الماركداون.")
+        except Exception as e2:
+            print(f"❌ حدث خطأ أثناء إرسال الرسالة: {e2}")
+            sys.exit(1)
 
 if __name__ == "__main__":
     main()

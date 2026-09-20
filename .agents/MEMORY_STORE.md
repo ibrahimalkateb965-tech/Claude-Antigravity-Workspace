@@ -683,3 +683,247 @@
   status: active
 
 
+
+- id: ADR-INIT-001
+  type: decision
+  timestamp: "2026-07-21T13:30:00+03:00"
+  agents: [code-architect]
+  context: "التهيئة الأولية للمشروع القديم"
+  content: "تم تهيئة الذاكرة والسياق لهذا المشروع مع الحفاظ على ملفات AGENTS.md و HOOKS_GUIDE.md القديمة الخاصة به كما هي لضمان عدم تأثر قواعده السابقة."
+  tags: [init, architecture, legacy-support]
+  status: active
+
+- id: ADR-RESTRUCT-002
+  type: decision
+  timestamp: "2026-08-04T12:39:00+03:00"
+  agents: [code-architect, persistent-memory-engine]
+  context: "إعادة الهيكلة الشاملة للمشروع وترقية محرك المراجعة الذاتية"
+  content: "نقل قاعدة البيانات من الـ Root، تنظيف المجلدات المكررة، أرشفة السكريبتات المؤقتة، إنشاء محرك المستندات الموحد tbc_document_engine.py، وترقية 04_Self_Refinement_Engine إلى مهارة عالمية (Global Skill)."
+  tags: [refactoring, architecture]
+  status: active
+
+- id: ADR-WALKWAY-003
+  type: decision
+  timestamp: "2026-08-17T11:28:00+03:00"
+  agents: [schedule-builder, boq-analyst, document-formatter, persistent-memory-engine]
+  context: "إنشاء وهيكلة ملفات مشروع ممشى جانبي بطول 1 كم وعرض 3.60 م"
+  content: "إنشاء المجلد المخصص للمشروع في 03_المشاريع/مشاريع_البلديات/مشروع_الممشى_الجانبي_1كم وتقسيمه إلى 01_جداول_الكميات و 02_المواصفات_والمذكرات_الفنية و 03_البرمجيات_والأدوات مع توليد شيت إكسيل تفاعلي بالمعادلات ومستند وورد رسمي منسق RTL."
+  tags: [boq, walkway, excel, docx, municipal]
+  status: active
+
+- id: ADR-WALKWAY-004
+  type: decision
+  timestamp: "2026-08-17T15:10:00+03:00"
+  agents: [boq-analyst, schedule-builder, document-formatter, persistent-memory-engine]
+  context: "اعتماد تصميم أحواض الزراعة الطولية 30م × 60سم والتعريب الشامل"
+  content: "تحديث القطاع الهندسي ليتضمن 20 حوض زراعي طولي مقاس 30 م × 0.60 م بإجمالي مساحة 360 م²، يحتوي كل حوض على 5 شجيرات صغيرة (إجمالي 100 شجيرة) ومغطى بالحشائش الطبيعية، صافي مسطح الإنترلوك الملون 3,240 م²، 21 عمود إنارة موفرة بارتفاع 3.5 إلى 4.0 م كل 50 م، وتفريغ خانات الأسعار الإفرادية للتسعير المباشر مع تعريب 100% لكافة الجداول."
+  tags: [planters, boq, 30m-planters, turf-grass, arabic-tables, walkway]
+  status: active
+
+- id: ADR-WALKWAY-005
+  type: decision
+  timestamp: "2026-08-18T14:18:00+03:00"
+  agents: [boq-analyst, schedule-builder, document-formatter, persistent-memory-engine]
+  context: "المطابقة التامة للنماذج البلدية الرسمية بحوطة بني تميم وتحديث العرض الكلي إلى 4.00 م"
+  content: "إعادة هيكلة وصياغة جدول كميات ومواصفات مشروع الممشى ليتطابق 100% مع نمط وصياغة جداول بلدية محافظة حوطة بني تميم (8 أعمدة تشمل التفقيط كتابة وترويسة وتوقيعات معتمدة)، وتعديل العرض الكلي إلى 4.00 م (إنترلوك صافي 3,640 م² + أحواض 360 م²)."
+  tags: [boq, municipal-standard, hawteh-municipality, walkway-4m, 3640m2-interlock]
+  status: active
+
+- id: ADR-WALKWAY-006
+  type: decision
+  timestamp: "2026-08-18T14:31:00+03:00"
+  agents: [boq-analyst, document-formatter, persistent-memory-engine]
+  context: "تطبيق التعديلات الستة واعتماد جهة الإشراف بلدية البديع"
+  content: "تعديل مقاس الكابلات إلى 4×25 مم²، إزالة الخرسانة العادية من بند الإنترلوك، تعديل ارتفاع الأعمدة إلى 5-6 م، حذف بند اللوحة الكهربائية بالكامل، إلغاء الثيل وحشائش الحلفة والاعتماد على الشجيرات البيئية، واعتماد بلدية البديع مع ترك خانات الأسماء فارغة للتوقيع."
+  tags: [badee-municipality, 25mm-cables, no-plain-concrete, 5-6m-poles, environmental-shrubs, boq-update]
+  status: active
+
+- id: ADR-AFLAJ-ROUNDABOUTS-007
+  type: decision
+  timestamp: "2026-08-19T16:32:00+03:00"
+  agents: [planning-engineer, methodology-writer, schedule-builder, risk-planner, document-formatter, persistent-memory-engine]
+  context: "إعداد خطة تنفيذ الأعمال واستيفاء معايير التقييم الفني لمشروع كشط وسفلتة دورات الأفلاج 10,000 م²"
+  content: "تطوير وثيقة منهجية متكاملة بـ Markdown وبرمجة سكربتات توليد DOCX و XLSX لتغطية معايير التقييم الفني الثلاثة لبلدية الأفلاج بنسبة 100% (خطة المشروع، إدارة المدة والمخاطر، الكادر والمعدات) مع معالجة BiDi/RLM، إدارة أقفال الملفات، وضبط التحويلات المرورية بنظام القطاعات النصفية/الربعية."
+  tags: [aflaj-municipality, technical-evaluation, asphalt-milling, superpave-paving, traffic-phasing, risk-matrix, docx, excel]
+  status: active
+
+- id: ADR-AFLAJ-TECHNICAL-EVAL-PASSED-008
+  type: decision
+  timestamp: "2026-08-19T18:00:00+03:00"
+  agents: [methodology-writer, planning-engineer, document-formatter, persistent-memory-engine]
+  context: "اجتياز تدقيق محامي الشيطان واعتماد تقرير التقييم الفني بنسبة 96% لمشروع دورات الأفلاج"
+  content: "اجتياز التدقيق الفني الشامل لكافة معايير بلدية الأفلاج الثلاثة بمرتبة الشرف: المعيار الأول (34/35) لتغطية الـ 10,000 م² ومواصفات Superpave و RC-2 والترقيع العميق، المعيار الثاني (34/35) لتبرير مدة الـ 30 يوماً بمعدلات الإنتاجية ومصفوفة المخاطر المتخصصة وبروتوكول الطوارئ، المعيار الثالث (28/30) للكادر الفني المتكامل مع مشغل الفينشر والآليات الليزرية والحرارية."
+  tags: [technical-evaluation, pass-96-percent, superpave, aflaj, municipal, docx]
+  status: active
+
+- id: ADR-RIYADH-SCHOOL-HSE-PLAN-009
+  type: decision
+  timestamp: "2026-08-19T20:00:00+03:00"
+  agents: [planning-engineer, methodology-writer, document-formatter, risk-planner, persistent-memory-engine]
+  context: "إعداد وتوسيع خطة السلامة والصحة المهنية (HSE Plan) باللغة العربية لمشروع الصيانة الطارئة لمدرسة أم المؤمنين زينب الأسدية بالرياض (TBC) إلى 14 صفحة كاملة وإنشاء مخططات التدفق"
+  content: "إعداد وثيقة خطة سلامة متكاملة وموسعة موزعة على 14 صفحة بالضبط (صفحة لكل بند هندسي رئيسي) تشمل 16 قسماً تخصصياً، مصفوفة JSA الشاملة، مصفوفة PPE المعتمدة، اشتراطات عزل الطاقة LOTO وبيئة رياض الأطفال، وتوليد ملفات DOCX و PDF مع تطبيق محاذاة اليسار للنصوص والعناوين وتوسيط الجداول، بالإضافة إلى بناء وتصدير مخططات التدفق الهندسية السادة بالخلفية البيضاء (دورة تصريح العمل PTW وبروتوكول الإخلاء الطبي والميداني)."
+
+- id: ADR-CONTRACTOR-DIRECT-WARRANTY-010
+  type: decision
+  timestamp: "2026-08-20T11:45:00+03:00"
+  context: "إصدار خطابات الضمان الفنية مباشرة باسم المقاول الرئيسي (مؤسسة إعمار الفرعة) لـ TBC"
+  content: "عند صعوبة التواصل مع المصانع الموردة أو وجود تحفظات ومحددات مجحفة في شهادات الضمان الصادرة منها ترفضها المكاتب الاستشارية، يتم إصدار خطاب الضمان الرسمي مباشرة باسم مؤسسة إعمار الفرعة (المقاول الرئيسي) كجهة ضامنة ومسؤولة مسؤولية تامة ومباشرة عن كافة عيوب التصنيع والمواد والتركيب لمدة 10 سنوات تجاه المالك والاستشاري مع إفراد توقيع وختم المؤسسة منفرداً."
+  tags: [warranty, tbc, cables, main-contractor-guarantee, direct-warranty, docx, pdf]
+  status: active
+
+- id: ADR-HSE-PLAN-SUBMITTAL-FORM-011
+  type: decision
+  timestamp: "2026-08-20T13:26:00+03:00"
+  content: "اعتماد وتهيئة نموذج التقديم والاعتماد الرسمي المعتمد لشركة تطوير للمباني TBC (Submittal Form - S5-PRS-01-P01-F02) برقم التقديم EFC-HSE-SUB-01 وبشعار المقاول الرئيسي الرسمي EFC إلى جانب شعار TBC والاستشاري SAMAA لتقديم خطة السلامة والصحة المهنية لمشروع مدرسة أم المؤمنين زينب الأسدية (305333 / TBC006687)."
+  status: active
+
+- id: ADR-TAILOR-ECOSYSTEM-012
+  type: decision
+  timestamp: "2026-08-22T12:56:00+03:00"
+  agents: [persistent-memory-engine, code-architect, project-agent-tailor]
+  context: "اعتماد سياق المشروع وتخصيص وتصدير طاقم الوكلاء والمهارات الهندسية والذكاء الاصطناعي"
+  content: "تشغيل محرك التخصيص project_agent_tailor.py وتصدير 20 وكيلاً و 22 مهارة متخصصة تغطي قطاعات: 1) هندسة التخطيط والمقاولات العامة، 2) حصر الكميات والعقود والمستندات الهندسية، 3) ذكاء اصطناعي وأتمتة بايثون و MCP، مع توليد agent_manifest.json وسكربت المزامنة المحلي sync_local_agents.py وتنظيف المهارات الفائضة."
+  tags: [tailor, agent-roster, skills, manifest, sync-local, engineering-ecosystem]
+  status: active
+
+- id: ADR-RIYADH-CABLES-WARRANTY-MODIFIED-013
+  type: decision
+  timestamp: "2026-08-22T13:33:00+03:00"
+  agents: [methodology-writer, document-formatter, persistent-memory-engine]
+  context: "تعديل شهادة ضمان كابلات الرياض الموثقة من الغرفة التجارية لاعتماد الاستشاري و TBC"
+  content: "تعديل الفقرة 2 لإلزام الشركة بتحمل كامل تكاليف ومسؤولية عيوب التصنيع، إضافة إحداثيات مدرسة أم المؤمنين زينب الأسدية (24.7723938° N, 46.8335147° E)، تفصيل بيانات المالك (TBC) والمقاول (إعمار الفرعة) والاستشاري (سماء)، الحفاظ التام على كتلة توثيق الغرفة التجارية الأصلية والتذييل في أسفل الصفحة بدقة 300 DPI، وتطبيق محاذاة اليسار للنصوص مع ضبط احتواء المستند في صفحة A4 واحدة بالضبط."
+  tags: [warranty-certificate, riyadh-cables, chamber-of-commerce, consultant-approved, single-page, left-aligned, docx, pdf]
+  status: active
+
+- id: ADR-BOQ-REPLICA-EFC-014
+  type: decision
+  timestamp: "2026-08-29T14:15:00+03:00"
+  agents: [boq-analyst, excel-data-analyst, document-formatter, persistent-memory-engine]
+  context: "إعادة إنتاج جدول الكميات (BOQ) لأعمال الأبواب والنوافذ لفلل B و C على الورق الرسمي لمؤسسة إعمار الفرعة"
+  content: "استخراج وتفريغ كافة بنود وأسعار ومساحات الأبواب ونوافذ الألمنيوم بدقة 100% من المسح الضوئي الأصلي لفلل B و C، إزالة كافة أختام وشعارات وبيانات الشركة السابقة، وتوليد ملفات Excel تفاعلية بالمعادلات (XLSX) ومستندات وورد (DOCX) وملفات PDF ثلاثية الصفحات متطابقة مع الهوية البصرية الرسمية لمؤسسة إعمار الفرعة مع جدول الخلاصة والاعتماد الرسمي للمقاول."
+  tags: [boq, aluminium-doors-windows, efc-letterhead, excel, docx, pdf, new-project]
+  status: active
+
+- id: ADR-BRANDING-MINASAT-015
+  type: decision
+  timestamp: "2026-08-29T14:55:00+03:00"
+  agents: [frontend-design-builder, document-formatter, persistent-memory-engine]
+  context: "تصميم حزمة الورق الرسمي والهوية الصناعية لمصنع منصة الإبداع للمعادن"
+  content: "تصميم 3 أنماط بصرية صناعية فاخرة (Concept A: الحديث، Concept B: الفولاذي، Concept C: الملكي) بدقة 300 DPI وأيقونات فيكتور مدمجة، وتوليد قوالب Word قابلة للتعديل بدون تشوه الهوامش مع تصدير PDF عالي الدقة وصور A4 فارغة للطباعة، وبناء محرك بايثون ديناميكي لتحديث الهاتف والإيميل فورياً."
+  tags: [branding, letterhead, docx, pdf, 300dpi, vector-icons, minasat-al-abdaa, industrial-metals]
+  status: active
+
+- id: ADR-WARRANTY-SUPPLIER-016
+  type: decision
+  timestamp: "2026-08-29T22:52:00+03:00"
+  agents: [document-formatter, persistent-memory-engine]
+  context: "إصدار شهادة وخطاب ضمان الكابلات والأسلاك الكهربائية باسم المورد (مؤسسة النقطة المضيئة) لمشروع مدرسة أم المؤمنين زينب الأسدية (TBC)"
+  content: "إعادة صياغة شهادة ضمان الكابلات لتصدر رسمياً باسم المورد المعتمد (مؤسسة النقطة المضيئة) متضمنة كافة بيانات المشروع الـ 11 (المالك TBC، المقاول إعمار الفرعة، الاستشاري سماء، إحداثيات المدرسة، أرقام طلب الشراء وأمر التوريد، ومحضر الإسناد)، مع إعادة صياغة البنود الأربعة بلسان التزام المورد بالتنسيق مع المصنع (كابلات الرياض) بضمان 10 سنوات، وضبط الإخراج في صفحة A4 واحدة بجدول RTL وبيئة BiDi كاملة بصيغ DOCX و PDF."
+  tags: [warranty-certificate, supplier-warranty, al-noqtah-al-modeeah, riyadh-cables, tbc, emaar-al-farah, single-page, docx, pdf]
+  status: active
+
+- id: ADR-CATALOG-FOOTER-UPDATE-017
+  type: decision
+  timestamp: "2026-09-06T10:45:00+03:00"
+  agents: [prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "تحديث وإضافة بيانات التواصل لتذييل كتالوج منصة الإبداع للمعادن المكون من 52 صفحة"
+  content: "تنفيذ أتمتة غير إتلافية (Lossless Vector Overlay عبر PyMuPDF) لتحديث تذييل الكتالوج الفني، استبدال بيانات الاتصال القديمة على الغلافين (1 و 52) بلون أبيض نقي فوق الشريط الكحلي الداكن (#122D4B)، وتذييل كافة صفحات المنتجات (7 إلى 51) في أسفل اليمين بخط Segoe UI Symbol المدمج بالهاتف الجديد 0541819045 والإيميل engmohamedyones@gmail.com مع استثناء صفحات التراخيص الحكومية (2 إلى 6)، وأخذ نسخة احتياطية أصلية قبل التعديل."
+  tags: [catalog-footer, pdf-overlay, pymupdf, lossless, minasat-al-abdaa, new-project]
+  status: active
+
+- id: ADR-CATALOG-PAGINATION-018
+  type: decision
+  timestamp: "2026-09-06T10:54:00+03:00"
+  agents: [prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "إضافة ترقيم صفحات هندسي متناسق لكتالوج منصة الإبداع للمعادن"
+  content: "تطبيق ترقيم صفحات متوازن بصرياً بصيغة — X — في المنتصف الهندسي للتذييل (x = 283.0 pt) لصفحات المنتجات (7 إلى 51) مع توسيط ديناميكي بحسب طول النص، واستثناء صفحات الغلافين (1 و 52) وصفحات التراخيص الحكومية (2 إلى 6) دون أي مساس بجودة الـ PDF أو تداخل مع بيانات التواصل واسم المصنع."
+  tags: [catalog-pagination, optical-centering, tripartite-footer, pymupdf, minasat-al-abdaa, new-project]
+  status: superseded
+
+- id: ADR-CATALOG-TWOLINE-FOOTER-019
+  type: decision
+  timestamp: "2026-09-06T10:58:00+03:00"
+  agents: [prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "تصحيح مسار تذييل الكتالوج وتوزيع البيانات والترقيم على سطرين منفصلين"
+  content: "إعادة بناء التذييل نظيفاً بنسبة 100% من النسخة الاحتياطية الأصلية لمنع تراكم الطبقات، وتوزيع التذييل في جهة اليمين لصفحات المنتجات (7 إلى 51) على سطرين مستقلين: السطر الأول لبيانات الاتصال الرسمية (الهاتف والإيميل عند y = 776 pt) والسطر الثاني لرقم الصفحة (— X — عند y = 796 pt) متمركزاً بدقة أسفل كتلة الاتصال، مع بقاء اسم المصنع على اليسار وحماية الأغلفة والشهادات الحكومية."
+  tags: [catalog-footer, two-line-layout, clean-rollback, pymupdf, lossless, minasat-al-abdaa, new-project]
+  status: superseded
+
+- id: ADR-CATALOG-VISUAL-ALIGN-020
+  type: decision
+  timestamp: "2026-09-06T11:08:00+03:00"
+  agents: [prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "تصحيح موضع ترقيم صفحات الكتالوج إلى الموضع الأوسط المحدد بصرياً"
+  content: "نقل ترقيم الصفحات (— X —) في السطر السفلي (y = 796 pt) ليتمركز في الفراغ الأوسط تماماً بين اسم المصنع وبداية رقم الهاتف (x = 285.0 pt) بدقة متطابقة مع المؤشر البصري، مع الحفاظ على التوليد النظيف من النسخة الاحتياطية دون شوائب."
+  tags: [catalog-footer, visual-alignment, center-gap, pymupdf, minasat-al-abdaa, new-project]
+  status: superseded
+
+- id: ADR-CATALOG-VERTICAL-LEVEL-021
+  type: decision
+  timestamp: "2026-09-06T11:12:00+03:00"
+  agents: [prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "خفض منسوب ترقيم صفحات الكتالوج رأسياً وفق المؤشر البرتقالي"
+  content: "خفض المنسوب الرأسي لترقيم الصفحات (— X —) لأسفل من y = 796 pt إلى y = 814 pt في الفراغ الأوسط (x = 285.0 pt) ليتطابق مع الدائرة البرتقالية، مع الحفاظ على التوليد النظيف من النسخة الاحتياطية الأصلية وحماية الأغلفة والشهادات الحكومية."
+  tags: [catalog-footer, vertical-adjustment, lowered-pagination, pymupdf, minasat-al-abdaa, new-project]
+  status: active
+
+- id: ADR-CATALOG-ENGLISH-EDITION-022
+  type: decision
+  timestamp: "2026-09-06T13:17:00+03:00"
+  agents: [prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "توليد النسخة الإنجليزية الكاملة لكتالوج مصنع منصة الإبداع للمعادن المكون من 52 صفحة"
+  content: "بناء النسخة الإنجليزية الكاملة للكتالوج الصناعي بدءاً من النسخة الاحتياطية الأصلية (Lossless Single-Pass Overlay)، تعريب/ترجمة تخصصات الواجهة الرئيسية (الألمنيوم، الكلادنج، الحديد المشغول، الاستركشر، الزجاج، والستانلس ستيل) بأعمدة نقطية سيان متوازنة، استبدال فقرة المقدمة بترجمة هندسية دقيقة في صفحة الملف التعريفي 8 مع توحيد ترويسة INTRODUCTION البرتقالية، توحيد تذييل صفحات الأعمال الهندسية (8 إلى 51) ببيانات الاتصال والترقيم الأوسط المنخفض واسم المصنع بالإنجليزي، وترجمة عنوان الغلاف الخلفي وبياناته مع حماية الشهادات الحكومية الرسمية (2 إلى 6) بأصالتها."
+  tags: [english-edition, catalog-localization, pymupdf, lossless, minasat-al-abdaa, corporate-identity]
+  status: active
+
+- id: ADR-CATALOG-EBDAA-SPELLING-023
+  type: decision
+  timestamp: "2026-09-06T13:41:00+03:00"
+  agents: [prompt-engineer, document-formatter, persistent-memory-engine]
+  context: "تحديث تهجئة اسم المصنع الإنجليزي إلى MINASAT AL-EBDAA وحماية النسخة العربية"
+  content: "تحديث تهجئة اسم المصنع من MINASAT AL-ABDAA إلى MINASAT AL-EBDAA في كافة مواضع الكتالوج الإنجليزي الستة (الغلاف الأمامي ص 1، فاصل الفهرس ص 7، متن المقدمة ص 8، فاصل المشاريع ص 23، تذييل الصفحات 8 إلى 51، والغلاف الخلفي ص 52)، وتحديث الملفات المعتمدة إلى Minasat_Al_Ebdaa_Catalog_EN.pdf مع العزل والحماية المطلقة للنسخة العربية كتالوج منصة الابداع_compressed 0.pdf دون أي مساس."
+  tags: [spelling-update, ebdaa-standard, scope-isolation, english-catalog, pymupdf, memory-sync]
+  status: active
+
+- id: ADR-AMIRI-FONT-CORPORATE-PROFILE-024
+  type: decision
+  timestamp: "2026-09-08T20:30:00+03:00"
+  agents: [frontend-design-builder, document-formatter, persistent-memory-engine]
+  context: "اعتماد خط أميري (Amiri) الملكي في البروفايل الموحد لمؤسسة إعمار الفرعة والفاصل الهندسي للذراع الصناعي"
+  content: "تثبيت واعتماد حزمة خط أميري (Amiri-Bold و Amiri-Regular) كخط عربي رئيسي ومعتمد لصفحات الهوية المضافة والمحدثة في البروفايل الموحد لمؤسسة إعمار الفرعة ومصنع المعادن (76 صفحة)، وتطبيق الخط خصيصاً على: 1) الصفحة الفاصلة للذراع الصناعي (ص 25) لبيانات التكامل الصناعي والبطاقات الأربع والترخيص الصناعي والبيئي. 2) الغلاف الخلفي الموحد (ص 76) لبيانات الإدارة العامة والمصنع والرؤية الاستراتيجية. 3) تعديلات الغلاف الأمامي (ص 1) لعنوان الرياض والإيميلات والجوالات مع الحظر الصارم للأرقام الهندية المشرقية (100% English Numerals 0-9). 4) صفحات المشاريع (14 و 15 و 16) لاستبدال 'بحوطه بني تميم' بـ 'بالرياض'."
+
+- id: ADR-UI-UX-PRO-MAX-INTEGRATION-025
+  type: decision
+  timestamp: "2026-09-08T22:15:00+03:00"
+  agents: [resource-scout-integrator, ui-ux-pro-max, prompt-engineer, persistent-memory-engine]
+  context: "استكشاف وتكامل مورد ui-ux-pro-max-skill وتعميم المهارات الـ 7 عبر منظومة الوكلاء"
+  content: "استيراد وتكامل مستودع nextlevelbuilder/ui-ux-pro-max-skill بحفظ كامل لاسم المنبع وحزمته التنفيذية (القيد 39)، ونشر 7 مهارات متخصصة (ui-ux-pro-max, design-system, ui-styling, brand, design, banner-design, slides) في المسارات العالمية والمحلية، وربط محرك الاستدلال التصميمي (192 قاعدة، 79 نمط، 192 باليت ألوان، 74 خط، 22 stack) بالخطاف رقم 20 والخطاف رقم 5 لفرض الذكاء التصميمي وسهولة الوصول قبل كتابة أي واجهات، وتحديث HOOKS_GUIDE.xlsx ولوحات التحكم، وإنجاز المزامنة السحابية الكاملة بنجاح."
+  tags: [ui-ux-pro-max, design-intelligence, hook-20, hook-5, design-system, upstream-skills, memory-sync]
+  status: active
+
+- id: ADR-REMOTE-FUTRX-INTEGRATION-026
+  type: decision
+  timestamp: "2026-09-08T22:42:00+03:00"
+  agents: [resource-scout-integrator, devops-deployer, code-architect, persistent-memory-engine]
+  context: "استكشاف وتكامل منصة remote.futrx للوكلاء السحابيين المستقلين على سيرفرات Hostinger VPS"
+  content: "1) استكشاف واستنساخ مستودع futrx-com/remote.futrx وتكامله كمنصة تشغيل سحابية ذاتية الاستضافة (Self-Hosted Agent OS) تدير حاويات LXD معزولة لكل مشروع على Ubuntu 24.04 وتدعم الوكلاء الخمسة (Claude Code CLI, Antigravity agy, Codex, MiniMax, Kimi). 2) الالتزام المطلق بالقيد 53 بنشر وتشغيل المنصة حصرياً على خوادم Hostinger VPS (KVM) وتخصيص حاسوب Windows للواجهات والبرمجة عبر Antigravity IDE. 3) تثبيت بوابة الفحص المسبق لأمان SSH لحظر فقدان الاتصال بسبب تعطيل تسجيل الدخول بكلمة المرور تلقائياً في السكربت. 4) توليد مهارة remote-futrx بكامل أدلتها وسكربت الفحص المساعد ونشرها في الجذور الأربعة وتحديث HOOKS_GUIDE و HOOKS_GUIDE.xlsx والمزامنة الكاملة."
+  tags: [remote-futrx, cloud-vps, hostinger, lxd-containers, ssh-hardening, hybrid-cloud, hook-20, memory-sync]
+  status: active
+
+- id: ADR-FLEET-MODELS-2026-09-08-027
+  type: decision
+  timestamp: "2026-09-08T23:07:00+03:00"
+  agents: [prompt-engineer, fleet-orchestrator, code-architect, persistent-memory-engine]
+  context: "تحديث مصفوفة نماذج الأسطول واعتماد deepseek-v4-flash لـ OpenCode وترقية Gemini 3.8 Flash لـ Antigravity"
+  content: "1) اعتماد وتثبيت نموذج deepseek/deepseek-v4-flash كنموذج حصري وافتراضي لـ OpenCode CLI لتنفيذ الأوامر الطرفية والسكربتات وترحيل قواعد البيانات بأعلى سرعة ومجانية، بعد التحقق من خلو قائمة مزودي OpenCode الحالية من اسم Ox Alpha الصريح. 2) ترقية محرك Antigravity CLI / IDE رسمياً إلى Gemini 3.8 Flash (High Reasoning) في ملفات الأسطول والقواعد العامة، للاستفادة من قدراته الفائقة في المنطق المعماري وإدارة السياق. 3) تحديث القاعدة رقم 13 وملفات fleet_config.json بالتزامن."
+  tags: [fleet-models, deepseek-v4-flash, gemini-3.8-flash, opencode, antigravity, hook-22, rule-13]
+  status: active
+
+- id: ADR-TELEGRAM-ACI-LISTENER-028
+  type: decision
+  timestamp: "2026-09-19T14:15:00+03:00"
+  agents: [devops-deployer, code-architect, persistent-memory-engine]
+  context: "تفعيل مستمع تليجرام لإيقاظ Antigravity IDE ودعم الصوتيات OGG to WAV وتحديث مكتبة الأوامر"
+  content: "1) تفعيل منظومة Telegram ACI Listener بنمط الدورة الواحدة (poll_once.py --takeover) كـ Background Task داخل Antigravity IDE، لإيقاظ الجلسة فورياً وبأولوية قصوى (Priority High) عند استلام الأوامر من هاتف المطور دون تضارب 409 Conflict. 2) دمج مكتبة PyAV في telegram_core.py لتحويل البصمات الصوتية OGG تلقائياً إلى WAV لتمكين المحرر من الاستماع للأوامر الصوتية وتحليلها مباشرة. 3) حذف الخطاف القديم من مصنف الإكسيل (تبويب Auto_vem_Win الصف 4) وتوثيق الخطاف المعياري الجديد رقم 12 في Gates_Hooks.Claude الصف 13 ودليل الخطافات HOOKS_GUIDE.md."
+  tags: [telegram-aci, remote-development, background-listener, voice-commands, pyav, ogg-to-wav, prompt-library, hook-12, global]
+  status: active
