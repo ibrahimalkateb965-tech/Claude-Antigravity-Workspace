@@ -927,3 +927,13 @@
   content: "1) تفعيل منظومة Telegram ACI Listener بنمط الدورة الواحدة (poll_once.py --takeover) كـ Background Task داخل Antigravity IDE، لإيقاظ الجلسة فورياً وبأولوية قصوى (Priority High) عند استلام الأوامر من هاتف المطور دون تضارب 409 Conflict. 2) دمج مكتبة PyAV في telegram_core.py لتحويل البصمات الصوتية OGG تلقائياً إلى WAV لتمكين المحرر من الاستماع للأوامر الصوتية وتحليلها مباشرة. 3) حذف الخطاف القديم من مصنف الإكسيل (تبويب Auto_vem_Win الصف 4) وتوثيق الخطاف المعياري الجديد رقم 12 في Gates_Hooks.Claude الصف 13 ودليل الخطافات HOOKS_GUIDE.md."
   tags: [telegram-aci, remote-development, background-listener, voice-commands, pyav, ogg-to-wav, prompt-library, hook-12, global]
   status: active
+
+- id: ADR-MEIGEN-PROMPT-ARCHITECT-029
+  type: decision
+  timestamp: "2026-09-20T12:40:00+03:00"
+  agents: [prompt-engineer, resource-scout-integrator, persistent-memory-engine]
+  context: "تفعيل خطاف 20 وخطاف 26 على منصة meigen.ai وإدراج مهندس البرومبتات السينمائي في مكتبة الأوامر"
+  content: "1) تفعيل الخطاف 20 (Graft & Resource Integration) باستيعاب وهندسة قدرات منصة meigen.ai في توليد الصور والفيديوهات الواقعية والسينمائية (8K Photorealism, Volumetric Lighting, Unreal Engine 5 optics). 2) تفعيل الخطاف 26 (Prompt Library Curator) برمجياً عبر أداة prompt_library_curator.py وإدراج الأمر المعياري '🎨🎬 مهندس برومبتات الصور والفيديو السينمائي (MeiGen Photorealism & Prompt Architect)' في مصنف 'مكتبة الأوامر.xlsx' داخل تبويب Custom_Skills.Claude بالصف رقم 9 (No: 8) بتنسيق Segoe UI و Consolas والحدود الرقيقة، لتمكين الوكالة من توليد المواد الإعلانية والتصاميم السينمائية للعملاء بجودة استثنائية."
+  tags: [meigen-ai, hook-20, hook-26, prompt-curator, photorealism, cinematic-prompts, excel-sync, custom-skills]
+  status: active
+
