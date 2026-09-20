@@ -22,13 +22,14 @@ if __name__ == "__main__":
     print("[TELEGRAM_DAEMON] الخادم يعمل الآن في الخلفية وينتظر الرسائل المستمرة...")
     takeover = "--takeover" in sys.argv
     bot = build_bot(TOKEN, ALLOWED_CHAT_ID, SHARED_PID_FILE, on_message, takeover=takeover)
-    try:
-        bot.infinity_polling(timeout=10, long_polling_timeout=5)
-    except KeyboardInterrupt:
-        print("\n👋 إيقاف الخادم بناءً على طلب المستخدم.")
-        release_lock(SHARED_PID_FILE)
-        sys.exit(0)
-    except Exception as e:
-        print(f"حدث خطأ: {e}")
-        release_lock(SHARED_PID_FILE)
-        sys.exit(1)
+    import time
+    while True:
+        try:
+            bot.infinity_polling(timeout=20, long_polling_timeout=10)
+        except KeyboardInterrupt:
+            print("\n👋 إيقاف الخادم بناءً على طلب المستخدم.")
+            release_lock(SHARED_PID_FILE)
+            sys.exit(0)
+        except Exception as e:
+            print(f"⚠️ تنبيه شبكة في الديمون: {e} - جاري إعادة الاتصال تلقائياً...")
+            time.sleep(2)
