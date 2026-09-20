@@ -38,6 +38,8 @@ def main():
     parser.add_argument("message", type=str, nargs='?', help="The message text to send.")
     parser.add_argument("--file", type=str, help="Path to a text file to read the message from.")
     parser.add_argument("--sync", action="store_true", help="Sync artifacts to GitHub Pages and append link.")
+    parser.add_argument("--copy-text", type=str, help="Text to attach as a one-tap copy button.")
+    parser.add_argument("--button-label", type=str, default="📋 اضغط هنا لنسخ البرومبت فوراً", help="Label for copy button.")
     args = parser.parse_args()
 
     message_text = args.message
@@ -75,17 +77,36 @@ def main():
             print("⚠️ فشلت عملية المزامنة. سيتم إرسال الرسالة بدون الرابط المباشر.")
             message_text += "\n\n---\n⚠️ *لم يتم تحديث التقارير لسبب تقني.*"
 
-    bot = telebot.TeleBot(TOKEN)
-    
-    try:
-        bot.send_message(chat_id=ALLOWED_CHAT_ID, text=message_text, parse_mode='Markdown')
-        print("✅ تم إرسال الرسالة إلى تليجرام بنجاح.")
-    except Exception as e:
-        try:
-            bot.send_message(chat_id=ALLOWED_CHAT_ID, text=message_text)
-            print("✅ تم إرسال الرسالة كنص عادي بعد تعذر بارس الماركداون.")
-        except Exception as e2:
-            print(f"❌ حدث خطأ أثناء إرسال الرسالة: {e2}")
+    import requests
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    payload = {
+        "chat_id": ALLOWED_CHAT_ID,
+        "text": message_text,
+    }
+    if args.copy_text:
+        payload["reply_markup"] = {
+            "inline_keyboard": [[
+                {
+                    "text": args.button_label,
+                    "copy_text": {
+                        "text": args.copy_text
+                    }
+                }
+            ]]
+        }
+
+    # Attempt Markdown first, fall back to plain text
+    payload["parse_mode"] = "Markdown"
+    res = requests.post(url, json=payload)
+    if res.status_code == 200:
+        print("✅ تم إرسال الرسالة مع زر النسخ بنجاح (Markdown).")
+    else:
+        payload.pop("parse_mode", None)
+        res_plain = requests.post(url, json=payload)
+        if res_plain.status_code == 200:
+            print("✅ تم إرسال الرسالة مع زر النسخ بنجاح (Plain text).")
+        else:
+            print(f"❌ حدث خطأ أثناء إرسال الرسالة: {res_plain.text}")
             sys.exit(1)
 
 if __name__ == "__main__":
