@@ -1,0 +1,2462 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منظومة العهدة الذكية - Autovem Custody Pro</title>
+  <style>
+/* style.css - نظام التصميم العصري الفاخر لإدارة العهدة Autovem Custody Pro */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-primary: #070a13;
+  --bg-secondary: #0d1222;
+  --bg-card: rgba(18, 25, 46, 0.75);
+  --bg-card-hover: rgba(26, 36, 66, 0.85);
+  --bg-glass: rgba(15, 23, 42, 0.65);
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(0, 242, 254, 0.25);
+  
+  --accent-cyan: #00f2fe;
+  --accent-blue: #3b82f6;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --accent-amber: #f59e0b;
+  --accent-purple: #8b5cf6;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --font-arabic: 'Cairo', system-ui, -apple-system, sans-serif;
+  --font-numeric: 'Outfit', 'Cairo', system-ui, sans-serif;
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-glow-cyan: 0 0 25px rgba(0, 242, 254, 0.2);
+  --shadow-glow-emerald: 0 0 25px rgba(16, 185, 129, 0.2);
+  --shadow-glow-rose: 0 0 25px rgba(244, 63, 94, 0.2);
+  
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-arabic);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  direction: rtl;
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(0, 242, 254, 0.05) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* الأرقام الإنجليزية المعتمدة (القيد 50) */
+.num, .amount, .balance, .stat-value, .date-display {
+  font-family: var(--font-numeric);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  display: inline-block;
+}
+
+/* الترويسة الرئيسية */
+header.app-header {
+  background: rgba(13, 18, 34, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+}
+
+.header-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-logo {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #00f2fe, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.brand-title h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-title p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.badge-tag {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-full);
+  background: rgba(0, 242, 254, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  font-weight: 600;
+}
+
+/* مفاتيح التبديل وأزرار التحكم بالترويسة */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--font-arabic);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all var(--transition-normal);
+  user-select: none;
+}
+
+.btn:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00f2fe, #3b82f6);
+  color: #050814;
+  border: none;
+  font-weight: 700;
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1bf4ff, #4d8df8);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+}
+
+.btn-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-emerald);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover {
+  background: rgba(16, 185, 129, 0.25);
+  border-color: var(--accent-emerald);
+  box-shadow: var(--shadow-glow-emerald);
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.btn-outline:hover {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* تبديل العهد التاريخية */
+.custody-selector {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.custody-tab {
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: all var(--transition-fast);
+}
+
+.custody-tab.active {
+  background: rgba(0, 242, 254, 0.18);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+/* الحاوية الرئيسية للمحتوى */
+main.app-main {
+  max-width: 1440px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+/* بطاقات الإحصائيات العلوية KPI Cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-md);
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.kpi-card.cyan::before { background: var(--accent-cyan); }
+.kpi-card.emerald::before { background: var(--accent-emerald); }
+.kpi-card.rose::before { background: var(--accent-rose); }
+.kpi-card.amber::before { background: var(--accent-amber); }
+.kpi-card.purple::before { background: var(--accent-purple); }
+
+.kpi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.kpi-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.kpi-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.kpi-card.cyan .kpi-icon { background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); }
+.kpi-card.emerald .kpi-icon { background: rgba(16, 185, 129, 0.1); color: var(--accent-emerald); }
+.kpi-card.rose .kpi-icon { background: rgba(244, 63, 94, 0.1); color: var(--accent-rose); }
+.kpi-card.amber .kpi-icon { background: rgba(245, 158, 11, 0.1); color: var(--accent-amber); }
+.kpi-card.purple .kpi-icon { background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); }
+
+.kpi-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.kpi-subtext {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* بطاقة المطابقة المزدوجة التفاعلية (Double Reconciliation Card) */
+.reconciliation-banner {
+  background: linear-gradient(135deg, rgba(13, 23, 49, 0.8), rgba(20, 28, 56, 0.9));
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.recon-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.recon-title h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.recon-formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.recon-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.recon-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.recon-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.recon-val.negative { color: var(--accent-rose); }
+.recon-val.positive { color: var(--accent-emerald); }
+.recon-val.neutral { color: var(--accent-cyan); }
+
+.recon-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.recon-status-badge.matched {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* نظام التبويبات الرئيسي */
+.tabs-navigation {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.main-tab {
+  padding: 0.8rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.main-tab:hover {
+  color: var(--text-primary);
+}
+
+.main-tab.active {
+  color: var(--accent-cyan);
+  border-bottom-color: var(--accent-cyan);
+}
+
+/* شبكة كشوفات المستفيدين (Beneficiary Cards) */
+.beneficiaries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.beneficiary-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.beneficiary-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-md);
+}
+
+.beneficiary-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.beneficiary-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+}
+
+.beneficiary-info h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.beneficiary-info p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.beneficiary-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0.9rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.b-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.b-metric span.label {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.b-metric span.val {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.beneficiary-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.status-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.status-tag.surplus {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-tag.deficit {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--accent-rose);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+.status-tag.settled {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--accent-blue);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* جدول القيود والعمليات */
+.table-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.table-toolbar {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.search-box {
+  position: relative;
+  min-width: 260px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.55rem 1rem 0.55rem 2.2rem;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-arabic);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.search-box input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.filters-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-arabic);
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.data-table-wrapper {
+  overflow-x: auto;
+}
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  font-size: 0.88rem;
+}
+
+table.data-table th {
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-secondary);
+  font-weight: 700;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+table.data-table td {
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+table.data-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.badge-type {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-type.receipt {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-emerald);
+}
+
+.badge-type.expense {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--accent-rose);
+}
+
+.badge-type.extra {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent-amber);
+}
+
+/* قسم الفواتير النثرية لمهندس إبراهيم */
+.extra-expenses-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.extra-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.extra-tags-summary {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.extra-tag-pill {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* النوافذ المنبثقة Modals */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  transform: translateY(20px);
+  transition: transform var(--transition-normal);
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-arabic);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.form-control:focus {
+  border-color: var(--accent-cyan);
+}
+
+.form-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* الرسوم البيانية Charts */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.chart-card h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: #ffffff;
+}
+
+/* تذييل الصفحة */
+footer.app-footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: 4rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+/* ----------------------------------------------------
+   تنسيق الطباعة الرسمي المعتمد (Strict @media print)
+   مطابق للقيد 50 (A4 1-Page / Professional Border)
+   ---------------------------------------------------- */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .app-header, 
+  .header-actions, 
+  .tabs-navigation, 
+  .table-toolbar, 
+  .btn, 
+  .modal-overlay,
+  .custody-selector,
+  .no-print {
+    display: none !important;
+  }
+
+  main.app-main {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .print-only-header {
+    display: block !important;
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .kpi-card {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    padding: 8px !important;
+  }
+
+  .kpi-value {
+    color: #0f172a !important;
+    font-size: 14pt !important;
+  }
+
+  .reconciliation-banner {
+    background: #f1f5f9 !important;
+    border: 1.5px solid #475569 !important;
+    box-shadow: none !important;
+    padding: 10px !important;
+    margin-bottom: 14px !important;
+    color: #000 !important;
+  }
+
+  .table-card {
+    background: #ffffff !important;
+    border: 1px solid #94a3b8 !important;
+    box-shadow: none !important;
+  }
+
+  table.data-table th {
+    background: #e2e8f0 !important;
+    color: #000000 !important;
+    border: 1px solid #94a3b8 !important;
+    padding: 6px 8px !important;
+    font-size: 9pt !important;
+  }
+
+  table.data-table td {
+    color: #000000 !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 5px 8px !important;
+    font-size: 9pt !important;
+  }
+
+  .print-signatures {
+    display: flex !important;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px dashed #64748b;
+  }
+
+  .sig-block {
+    text-align: center;
+    width: 30%;
+  }
+
+  .sig-line {
+    margin-top: 35px;
+    border-bottom: 1px solid #000;
+  }
+}
+
+.print-only-header, .print-signatures {
+  display: none;
+}
+
+</style>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>">
+</head>
+<body>
+
+  <!-- ترويسة الطباعة الرسمية المعتمدة (تظهر فقط عند الطباعة) -->
+  <div class="print-only-header">
+    <h2 style="font-size: 16pt; font-weight: 800; margin-bottom: 4px;">مؤسسة إعمار الفرعة للمقاولات العامة</h2>
+    <h3 style="font-size: 13pt; font-weight: 700; color: #334155;">محضر تسوية وتصفية العهدة رقم 3 (بدءاً من 13/11/2025)</h3>
+    <p style="font-size: 9pt; color: #64748b;">تاريخ استخراج التقرير: <span class="date-display" id="printDate">2025-11-13</span> | أمين العهدة: عبدالله</p>
+  </div>
+
+  <!-- الترويسة الرئيسية للتطبيق -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="brand-logo">💼</div>
+        <div class="brand-title">
+          <h1>
+            <span>منظومة العهدة الذكية</span>
+            <span class="badge-tag">Autovem Custody Pro</span>
+          </h1>
+          <p>إدارة العهد النثرية، المصروفات الميدانية، ومحرك المطابقة المزدوجة</p>
+        </div>
+      </div>
+
+      <!-- محدد فترات العهد التاريخية -->
+      <div class="custody-selector">
+        <button class="custody-tab" title="22/10/2024 إلى 30/01/2025">العهدة 1 (مرحلة)</button>
+        <button class="custody-tab" title="30/01/2025 إلى 13/11/2025">العهدة 2 (مرحلة)</button>
+        <button class="custody-tab active" title="بدءاً من 13/11/2025">العهدة 3 (الحالية النشطة)</button>
+      </div>
+
+      <!-- أزرار الإجراءات السريعة -->
+      <div class="header-actions">
+        <button class="btn btn-primary" id="btnAddTransaction">
+          <span>➕</span>
+          <span>إضافة قيد مالي</span>
+        </button>
+        <button class="btn btn-success" id="btnExportExcel">
+          <span>📊</span>
+          <span>تصدير إكسيل</span>
+        </button>
+        <button class="btn btn-outline" id="btnPrint">
+          <span>🖨️</span>
+          <span>طباعة المحضر</span>
+        </button>
+        <button class="btn btn-outline" id="btnReset" title="استعادة أرقام الإكسل الأصلية">
+          <span>🔄</span>
+          <span>استعادة الأصل</span>
+        </button>
+        <button class="btn btn-outline" id="btnBackup" title="تنزيل نسخة احتياطية من البيانات">
+          <span>💾</span>
+          <span>نسخة احتياطية</span>
+        </button>
+        <button class="btn btn-outline" id="btnRestore" title="استرجاع نسخة احتياطية">
+          <span>📂</span>
+          <span>استرجاع</span>
+        </button>
+        <input type="file" id="fileRestore" accept=".json" style="display: none;">
+      </div>
+    </div>
+  </header>
+
+  <!-- جسم التطبيق الرئيسي -->
+  <main class="app-main">
+    
+    <!-- بطاقات المؤشرات الرئيسية KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card cyan">
+        <div class="kpi-header">
+          <span class="kpi-title">إجمالي المقبوضات (المستلم من العهدة)</span>
+          <div class="kpi-icon">📥</div>
+        </div>
+        <div class="kpi-value" id="kpiTotalCustody">172,621.00 ر.س</div>
+        <div class="kpi-subtext">
+          <span>مطابق لخلية إجمالي المقبوضات بالصف 92 (C92)</span>
+        </div>
+      </div>
+
+      <div class="kpi-card rose">
+        <div class="kpi-header">
+          <span class="kpi-title">إجمالي المنصرفات الفعلية الكلية</span>
+          <div class="kpi-icon">📤</div>
+        </div>
+        <div class="kpi-value" id="kpiTotalOutflows">174,255.00 ر.س</div>
+        <div class="kpi-subtext">
+          <span>مصروفات عبدالله + العهد الفرعية + الرواتب + نثريات إبراهيم</span>
+        </div>
+      </div>
+
+      <div class="kpi-card amber">
+        <div class="kpi-header">
+          <span class="kpi-title">عجز الصندوق الإجمالي للمشروع</span>
+          <div class="kpi-icon">⚖️</div>
+        </div>
+        <div class="kpi-value" id="kpiOverallDeficit">-1,634.00 ر.س</div>
+        <div class="kpi-subtext">
+          <span>معادلة العجز الكلي بالصف 94 (C94)</span>
+        </div>
+      </div>
+
+      <div class="kpi-card emerald">
+        <div class="kpi-header">
+          <span class="kpi-title">صافي النقدية المتوفرة بيد عبدالله</span>
+          <div class="kpi-icon">💵</div>
+        </div>
+        <div class="kpi-value" id="kpiCashInHand">-638.00 ر.س</div>
+        <div class="kpi-subtext">
+          <span>معادلة الصف 96 والصف 99 في الإكسل (مطابقة تامة)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- بطاقة المطابقة المزدوجة التفاعلية (Double-Entry Verification) -->
+    <div class="reconciliation-banner" id="reconciliationBanner">
+      <!-- يتم حقنها برمجياً عبر app.js -->
+    </div>
+
+    <!-- نظام التبويبات الرئيسي -->
+    <nav class="tabs-navigation">
+      <button class="main-tab active" data-tab="dashboard">
+        <span>📊</span>
+        <span>لوحة المؤشرات والرسوم البيانية</span>
+      </button>
+      <button class="main-tab" data-tab="beneficiaries">
+        <span>👥</span>
+        <span>كشوفات أصحاب العهد (8 بنود)</span>
+      </button>
+      <button class="main-tab" data-tab="transactions">
+        <span>📝</span>
+        <span>سجل العمليات والقيود التفصيلي</span>
+      </button>
+      <button class="main-tab" data-tab="ibrahim">
+        <span>📐</span>
+        <span>فواتير ونثريات م. إبراهيم (324 ر.س)</span>
+      </button>
+      <button class="main-tab" data-tab="formulas">
+        <span>🔍</span>
+        <span>المطابقة المحاسبية وشرح المعادلات</span>
+      </button>
+    </nav>
+
+    <!-- محتوى التبويبات -->
+
+    <!-- تبويب 1: لوحة المؤشرات والرسوم -->
+    <div class="tab-pane active" id="tab-dashboard">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4>توزيع المصروفات حسب المستفيدين والبنود</h4>
+          <canvas id="chartExpenses"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4>مقارنة تدفقات الصندوق (مقبوضات مقابل منصرفات)</h4>
+          <canvas id="chartComparison"></canvas>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">نظرة سريعة على أرصدة أصحاب العهد</h3>
+        <button class="btn btn-outline" onclick="app.switchTab('beneficiaries')">عرض الكشوفات المفصلة ⬅️</button>
+      </div>
+      <div class="beneficiaries-grid" id="beneficiariesGrid">
+        <!-- يتم ملؤها عبر JavaScript -->
+      </div>
+    </div>
+
+    <!-- تبويب 2: كشوفات أصحاب العهد -->
+    <div class="tab-pane" id="tab-beneficiaries">
+      <div style="margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 0.25rem;">كشوفات أصحاب العهد والبنود المالية</h3>
+        <p style="color: var(--text-secondary); font-size: 0.88rem;">انقر على أي بطاقة لفتح كشف الحساب التفصيلي وطباعة حركاته الخاصة.</p>
+      </div>
+      <div class="beneficiaries-grid" id="beneficiariesFullGrid">
+        <!-- يعاد استخدام نفس البطاقات أو ربطها ديناميكياً -->
+      </div>
+    </div>
+
+    <!-- تبويب 3: سجل العمليات التفصيلي -->
+    <div class="tab-pane" id="tab-transactions">
+      <div class="table-card">
+        <div class="table-toolbar">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="بحث في الحركات، الأسماء، الملاحظات...">
+          </div>
+          <div class="filters-group">
+            <select class="filter-select" id="filterType">
+              <option value="all">جميع أنواع القيود</option>
+              <option value="receipt">قبض / تغذية عهدة</option>
+              <option value="expense">صرف مشروع</option>
+            </select>
+            <select class="filter-select" id="filterBeneficiary">
+              <!-- خيارات الأشخاص -->
+            </select>
+          </div>
+        </div>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th style="width: 110px;">التاريخ</th>
+                <th style="width: 140px;">نوع الحركة</th>
+                <th>المستفيد / البند</th>
+                <th>المبلغ</th>
+                <th>البيان والملاحظات</th>
+                <th style="width: 80px; text-align: left;">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody">
+              <!-- ملؤها عبر JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- تبويب 4: نثريات مهندس إبراهيم -->
+    <div class="tab-pane" id="tab-ibrahim">
+      <div class="extra-expenses-section">
+        <div class="extra-header">
+          <div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #fff;">تفصيل فواتير ومصروفات مهندس إبراهيم النثرية</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">مطابقة لبيانات الصف 245 إلى 268 في ملف الإكسل (إجمالي المعادلة = 324.00 ر.س)</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: rgba(0,0,0,0.3); padding: 0.6rem 1.2rem; border-radius: var(--radius-md); border: 1px solid rgba(245, 158, 11, 0.3);">
+              <span style="font-size: 0.78rem; color: var(--text-muted); display: block;">إجمالي النثريات (C246):</span>
+              <span id="ibrahimTotalAmount" style="font-size: 1.3rem; font-weight: 800; color: var(--accent-amber);">324.00 ر.س</span>
+            </div>
+            <button class="btn btn-primary" id="btnAddIbrahimExpense">
+              <span>➕</span>
+              <span>إضافة فاتورة نثرية</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="extra-tags-summary">
+          <div class="extra-tag-pill">
+            <span>⛽</span>
+            <span>بنزين ووقود: <strong class="num" style="color:var(--accent-cyan);">50.00 ر.س</strong></span>
+          </div>
+          <div class="extra-tag-pill">
+            <span>🧱</span>
+            <span>قص نعله سيراميك: <strong class="num" style="color:var(--accent-cyan);">36.00 ر.س</strong></span>
+          </div>
+          <div class="extra-tag-pill">
+            <span>🍽️</span>
+            <span>غداء، مياه ومشروبات الموقع: <strong class="num" style="color:var(--accent-cyan);">238.00 ر.س</strong></span>
+          </div>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th style="width: 120px;">التاريخ</th>
+                <th style="width: 150px;">التصنيف</th>
+                <th style="width: 140px;">المبلغ (ر.س)</th>
+                <th>البيان وملاحظات الفاتورة</th>
+                <th style="width: 80px; text-align: left;">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="ibrahimTableBody">
+              <!-- ملؤها عبر JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- تبويب 5: دليل وشرح المطابقة المحاسبية -->
+    <div class="tab-pane" id="tab-formulas">
+      <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem;">
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">شرح الهيكل المحاسبي ومعادلات الإكسل الأصلية</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 0.92rem; color: var(--text-secondary);">
+          <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-cyan);">
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">1. طبيعة العهدة المركزية والعهد الفرعية:</h4>
+            <p>أمين العهدة الرئيسي هو <strong>عبدالله</strong>؛ تم إيداع كامل مبلغ العهدة المرحل (<span class="num">172,621.00</span> ر.س) في حسابه كصندوق مركزي (الصف 92 - العمود C). قام بعد ذلك بتسليم دفعات نقدية كـ "عهد فرعية" لباقي المهندسين والفنيين لمباشرة الأعمال، وصرف بند الرواتب والاوفرتايم (<span class="num">51,500.00</span> ر.س)، وصرف مصروفات مباشرة من قبله بمبلغ (<span class="num">28,181.50</span> ر.س).</p>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-rose);">
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">2. معادلة عجز الصندوق الإجمالي (الصف 94 - خلية C94):</h4>
+            <code style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 4px; color: var(--accent-cyan); display: block; margin-bottom: 0.5rem;">
+              = C92 - (C242 + E242 + G242 + I242 + K242 + M242 + O242) - Q92 - C246
+            </code>
+            <p>تمثل الفارق بين إجمالي ما تم استلامه من الإدارة (<span class="num">172,621.00</span> ر.س) ومجموع كافة المنصرفات الفعلية لكافة الأطراف (<span class="num">174,255.00</span> ر.س). الناتج = <strong class="num text-rose">-1,634.00 ر.س</strong>، وهو ما يعني أن المشروع تجاوز العهدة المودعة بعجز قدره 1,634 ريال.</p>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-emerald);">
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">3. معادلة صافي النقدية المتوفرة بيد أمين العهدة (الصف 96 والصف 99):</h4>
+            <code style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 4px; color: var(--accent-cyan); display: block; margin-bottom: 0.5rem;">
+              الصف 99: = C92 - E92 - G92 - I92 - K92 - M92 - O92 - Q92 - C242
+            </code>
+            <p>تحسب بالضبط كم تبقى نقدياً مع عبد الله في يده بعد أن أخرج العهد الفرعية للأشخاص والرواتب ومصروفاته المباشرة. الناتج = <strong class="num text-rose">-638.00 ر.س</strong> (قام عبدالله بدفعها مؤقتاً لتغطية التحويلات النقدية).</p>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-amber);">
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">4. التحقق والربط الرياضي (The Reconciliation Proof):</h4>
+            <p>صافي النقدية بيد عبد الله (<span class="num">-638.00</span> ر.س) + صافي ما يتبقى أو يستحق لأصحاب العهد الفرعية الستة (<span class="num">-996.00</span> ر.س) = <strong class="num text-rose">-1,634.00 ر.س</strong> (عجز الصندوق الكلي). هذه المطابقة المزدوجة هي الضمان المحاسبي لسلامة الدفاتر.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- تواقيع الاعتماد الرسمية عند الطباعة -->
+  <div class="print-signatures">
+    <div class="sig-block">
+      <strong>أمين العهدة والمصروفات</strong>
+      <div class="sig-line"></div>
+      <span>عبدالله</span>
+    </div>
+    <div class="sig-block">
+      <strong>مهندس الموقع المسؤول</strong>
+      <div class="sig-line"></div>
+      <span>مهندس إبراهيم</span>
+    </div>
+    <div class="sig-block">
+      <strong>اعتماد الإدارة المالية</strong>
+      <div class="sig-line"></div>
+      <span>المدير المالي</span>
+    </div>
+  </div>
+
+  <!-- تذييل الصفحة -->
+  <footer class="app-footer">
+    <p>منظومة العهدة الذكية © Autovemtech Agency • مصممة وفقاً للمعايير المحاسبية المزدوجة والقيد 50 (English Numerals 0-9)</p>
+  </footer>
+
+  <!-- نافذة إضافة قيد مالي (Modal Transaction) -->
+  <div class="modal-overlay" id="modalTransaction">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 style="color: #fff; font-size: 1.15rem; font-weight: 700;">إضافة قيد مالي جديد للعهدة</h4>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="formTransaction">
+        <div class="form-group">
+          <label>نوع الحركة المالية:</label>
+          <select class="form-control" id="txType" required>
+            <option value="expense">📤 صرف مشروع (خصم من العهدة)</option>
+            <option value="receipt">📥 قبض / تغذية عهدة (إضافة للعهدة)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>المستفيد / صاحب البند:</label>
+          <select class="form-control" id="txBeneficiary" required>
+            <!-- ملؤها عبر JS -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>المبلغ بالريال السعودي:</label>
+          <input type="text" class="form-control" id="txAmount" placeholder="مثال: 1500 أو 250+80" required>
+          <div class="form-hint">يدعم المعادلات الحسابية المباشرة مثل 25+9 أو 100*1.15</div>
+        </div>
+
+        <div class="form-group">
+          <label>التاريخ:</label>
+          <input type="date" class="form-control" id="txDate" required>
+        </div>
+
+        <div class="form-group">
+          <label>البيان والملاحظات:</label>
+          <input type="text" class="form-control" id="txNote" placeholder="وصف المصروف أو رقم الفاتورة...">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline modal-cancel">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ القيد المالي</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- نافذة إضافة فاتورة نثرية لمهندس إبراهيم (Modal Ibrahim) -->
+  <div class="modal-overlay" id="modalIbrahim">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 style="color: #fff; font-size: 1.15rem; font-weight: 700;">إضافة فاتورة نثرية لمصروفات م. إبراهيم</h4>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="formIbrahim">
+        <div class="form-group">
+          <label>تصنيف المصروف:</label>
+          <select class="form-control" id="ibCategory" required>
+            <option value="وقود وبنزين">⛽ وقود وبنزين</option>
+            <option value="أعمال موقع وسيراميك">🧱 أعمال موقع وسيراميك</option>
+            <option value="إعاشة وضيافة">🍽️ إعاشة، غداء ومشروبات</option>
+            <option value="مواد صيانة طارئة">🔧 مواد صيانة طارئة</option>
+            <option value="أخرى">📦 أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>المبلغ (يدعم تعابير مثل 25+9):</label>
+          <input type="text" class="form-control" id="ibAmount" placeholder="مثال: 58 أو 16+16+17" required>
+          <div class="form-hint">سيتم احتساب القيمة الإجمالية تلقائياً وإضافتها لمعادلة C246</div>
+        </div>
+
+        <div class="form-group">
+          <label>التاريخ:</label>
+          <input type="date" class="form-control" id="ibDate" required>
+        </div>
+
+        <div class="form-group">
+          <label>البيان والملاحظات:</label>
+          <input type="text" class="form-control" id="ibNote" placeholder="مثال: ف بنزين 27/12 أو غداء موقع..." required>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline modal-cancel">إلغاء</button>
+          <button type="submit" class="btn btn-primary">إضافة الفاتورة</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- نافذة كشف الحساب التفصيلي للشخص (Modal Beneficiary Details) -->
+  <div class="modal-overlay" id="modalBeneficiaryDetails">
+    <div class="modal-content" style="max-width: 680px;">
+      <div class="modal-header">
+        <h4 id="benModalTitle" style="color: #fff; font-size: 1.15rem; font-weight: 700;">كشف حساب تفصيلي</h4>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div id="benModalBody">
+        <!-- يتم ملؤها عبر JS -->
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline modal-cancel">إغلاق</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">🖨️ طباعة كشف الحساب</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+// === DATA ===
+// initialData.js - البيانات الأولية المستخرجة بدقة من ملف الإكسل (العهدة 3 بدءا من 13-11-2025.xlsx)
+const INITIAL_CUSTODY_DATA = {
+  title: "العهدة 3 بدءا من 13/11/2025",
+  activeCustodyId: "custody_3",
+  startDate: "13/11/2025",
+  currency: "ر.س",
+  history: [
+    { id: "custody_1", name: "العهدة 1", period: "من 22/10/2024 إلى 30/01/2025", status: "مغلقة / مرحلة" },
+    { id: "custody_2", name: "العهدة 2", period: "من 30/01/2025 إلى 13/11/2025", status: "مغلقة / مرحلة" },
+    { id: "custody_3", name: "العهدة 3", period: "من 13/11/2025 إلى الآن", status: "نشطة" }
+  ],
+  mainCustodyKeeper: "abdullah",
+  beneficiaries: [
+    { id: "abdullah", name: "عبدالله", role: "أمين العهدة الرئيسي ومسؤول المصروفات المباشرة", isMain: true, avatar: "👨‍💼" },
+    { id: "abu_yassin", name: "ابو ياسين", role: "مسؤول موقع / عهدة فرعية", isMain: false, avatar: "👷‍♂️" },
+    { id: "al_sayed", name: "السيد", role: "مسؤول مشتريات / عهدة فرعية", isMain: false, avatar: "📦" },
+    { id: "mohamed_galal", name: "محمد جلال ابوعبده", role: "فني ومشرف موقع / عهدة فرعية", isMain: false, avatar: "🔧" },
+    { id: "kardousha", name: "ابومحمد كردوشه", role: "مقاول باطن / عهدة فرعية", isMain: false, avatar: "🏗️" },
+    { id: "eng_ibrahim", name: "مهندس ابراهيم", role: "مهندس الموقع والمصروفات النثرية", isMain: false, avatar: "📐" },
+    { id: "abdulrahman", name: "عبدالرحمن", role: "فني موقع / عهدة فرعية", isMain: false, avatar: "🔨" },
+    { id: "salaries", name: "الرواتب و الاوفرتايم و السلف", role: "بند مالي مركزي من العهدة", isMain: false, avatar: "💰" }
+  ],
+  receipts: [
+    { id: "rec-1", beneficiaryId: "abdullah", amount: 172621, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
+    { id: "rec-2", beneficiaryId: "abu_yassin", amount: 23792, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
+    { id: "rec-3", beneficiaryId: "al_sayed", amount: 27073, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
+    { id: "rec-4", beneficiaryId: "mohamed_galal", amount: 19303.5, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
+    { id: "rec-5", beneficiaryId: "kardousha", amount: 9461, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
+    { id: "rec-6", beneficiaryId: "eng_ibrahim", amount: 10676, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
+    { id: "rec-7", beneficiaryId: "abdulrahman", amount: 3272, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
+    { id: "rec-8", beneficiaryId: "salaries", amount: 51500, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 }
+  ],
+  expenses: [
+    { id: "exp-1", beneficiaryId: "abdullah", amount: 28181.5, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
+    { id: "exp-2", beneficiaryId: "abu_yassin", amount: 23607, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
+    { id: "exp-3", beneficiaryId: "al_sayed", amount: 27200, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
+    { id: "exp-4", beneficiaryId: "mohamed_galal", amount: 19303.5, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
+    { id: "exp-5", beneficiaryId: "kardousha", amount: 9481, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
+    { id: "exp-6", beneficiaryId: "eng_ibrahim", amount: 11386, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
+    { id: "exp-7", beneficiaryId: "abdulrahman", amount: 3272, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 }
+  ],
+  engIbrahimExtraExpenses: [
+    { id: "ib-1", amount: 40, note: "ف بنزين 27/12", formula: null, date: "2025-12-27", category: "وقود وبنزين" },
+    { id: "ib-2", amount: 36, note: "ف قص نعله سراميك", formula: null, date: "2025-12-28", category: "أعمال موقع وسيراميك" },
+    { id: "ib-3", amount: 33, note: "غداء 11/12", formula: null, date: "2025-12-11", category: "إعاشة وضيافة" },
+    { id: "ib-4", amount: 20, note: "غداء 15/12", formula: null, date: "2025-12-15", category: "إعاشة وضيافة" },
+    { id: "ib-5", amount: 7, note: "مياه 21/12", formula: null, date: "2025-12-21", category: "إعاشة وضيافة" },
+    { id: "ib-6", amount: 34, note: "ف غداء ومشروبات 22/12", formula: "25+9", date: "2025-12-22", category: "إعاشة وضيافة" },
+    { id: "ib-7", amount: 49, note: "ف غداء ومشروبات 23/12", formula: "16+16+17", date: "2025-12-23", category: "إعاشة وضيافة" },
+    { id: "ib-8", amount: 37, note: "ف مشروبات 24/12", formula: null, date: "2025-12-24", category: "إعاشة وضيافة" },
+    { id: "ib-9", amount: 58, note: "ف غداء ومشروبات 25/12", formula: null, date: "2025-12-25", category: "إعاشة وضيافة" },
+    { id: "ib-10", amount: 10, note: "ف بنزين 25/12", formula: null, date: "2025-12-25", category: "وقود وبنزين" }
+  ]
+};
+
+
+// === ACCOUNTING ENGINE ===
+// accountingEngine.js - المحرك المحاسبي الصارم وحسابات المطابقة المزدوجة
+
+/**
+ * محلل رياضي آمن للتعابير الحسابية البسيطة لتجنب eval()
+ * @param {string|number} expr 
+ * @returns {number}
+ */
+function safeEvaluate(expr) {
+  if (typeof expr === 'number') return isNaN(expr) ? 0 : expr;
+  if (!expr) return 0;
+  
+  const clean = String(expr).trim().replace(/^=/, '');
+  if (!clean) return 0;
+  
+  // التحقق من أن التعبير يحتوي فقط على أرقام وعمليات حسابية أساسية
+  if (!/^[0-9+\-*/.()\s]+$/.test(clean)) {
+    const num = parseFloat(clean);
+    return isNaN(num) ? 0 : num;
+  }
+  
+  try {
+    // محلل بسيط وآمن بدون eval
+    // استخدام دالة Function مع بيئة معزولة صارمة خالية من أي سياق خارجي
+    const result = new Function(`"use strict"; return (${clean});`)();
+    return typeof result === 'number' && !isNaN(result) ? Math.round(result * 100) / 100 : 0;
+  } catch (e) {
+    const num = parseFloat(clean);
+    return isNaN(num) ? 0 : num;
+  }
+}
+
+/**
+ * تنسيق المبالغ المالية بالريال السعودي مع الالتزام الصارم بالقيد 50 (الأرقام الإنجليزية 0-9)
+ * @param {number} amount 
+ * @param {boolean} includeUnit 
+ * @returns {string}
+ */
+function formatCurrency(amount, includeUnit = true) {
+  if (amount === null || amount === undefined || isNaN(amount)) {
+    return includeUnit ? "0.00 ر.س" : "0.00";
+  }
+  const formatted = Number(amount).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  return includeUnit ? `${formatted} ر.س` : formatted;
+}
+
+/**
+ * الحسابات التفصيلية لكل طرف / بند عهدة
+ * @param {object} state 
+ * @returns {Array}
+ */
+function calculateBeneficiarySummaries(state) {
+  const { beneficiaries, receipts, expenses, engIbrahimExtraExpenses } = state;
+  
+  const extraIbrahimTotal = (engIbrahimExtraExpenses || []).reduce((sum, item) => {
+    return sum + (safeEvaluate(item.amount) || 0);
+  }, 0);
+
+  return beneficiaries.map(b => {
+    // إجمالي المقبوضات
+    const userReceipts = (receipts || []).filter(r => r.beneficiaryId === b.id);
+    const totalReceipts = userReceipts.reduce((sum, r) => sum + (safeEvaluate(r.amount) || 0), 0);
+    
+    // إجمالي المصروفات
+    const userExpenses = (expenses || []).filter(e => e.beneficiaryId === b.id);
+    let totalExpenses = userExpenses.reduce((sum, e) => sum + (safeEvaluate(e.amount) || 0), 0);
+    
+    // إضافة فواتير م. إبراهيم النثرية إذا كان الطرف هو م. إبراهيم
+    if (b.id === 'eng_ibrahim') {
+      totalExpenses += extraIbrahimTotal;
+    }
+    
+    const balance = totalReceipts - totalExpenses;
+    
+    let status = 'settled';
+    let statusText = 'متطابق (0)';
+    if (balance > 0.001) {
+      status = 'surplus';
+      statusText = 'فائض متبقي معه';
+    } else if (balance < -0.001) {
+      status = 'deficit';
+      statusText = 'مستحق له من الصندوق';
+    }
+
+    return {
+      ...b,
+      totalReceipts,
+      totalExpenses,
+      extraExpenses: b.id === 'eng_ibrahim' ? extraIbrahimTotal : 0,
+      balance,
+      status,
+      statusText,
+      receiptsCount: userReceipts.length,
+      expensesCount: userExpenses.length + (b.id === 'eng_ibrahim' ? engIbrahimExtraExpenses.length : 0)
+    };
+  });
+}
+
+/**
+ * الحسابات الإجمالية ومحرك المطابقة المزدوجة للصندوق بالكامل
+ * @param {object} state 
+ * @returns {object}
+ */
+function calculateAccountingMetrics(state) {
+  const summaries = calculateBeneficiarySummaries(state);
+  
+  const mainKeeper = summaries.find(s => s.id === 'abdullah') || { totalReceipts: 0, totalExpenses: 0, balance: 0 };
+  const salaries = summaries.find(s => s.id === 'salaries') || { totalReceipts: 0, totalExpenses: 0 };
+  
+  const subKeepers = summaries.filter(s => s.id !== 'abdullah' && s.id !== 'salaries');
+  
+  // 1. إجمالي العهدة المودعة لدى أمين الصندوق المركزي (عبدالله - C92)
+  const totalCustodyPool = mainKeeper.totalReceipts;
+  
+  // 2. إجمالي المبالغ المسلمة لأصحاب العهد الفرعية (E92 + G92 + I92 + K92 + M92 + O92)
+  const totalDisbursedToSubKeepers = subKeepers.reduce((acc, s) => acc + s.totalReceipts, 0);
+  
+  // 3. إجمالي بند الرواتب والاوفرتايم (Q92)
+  const totalSalariesDisbursed = salaries.totalReceipts;
+  
+  // 4. المصروفات المباشرة لأمين العهدة عبدالله (C242)
+  const abdullahDirectExpenses = mainKeeper.totalExpenses;
+  
+  // 5. مصروفات أصحاب العهد الفرعية
+  const subKeepersTotalExpenses = subKeepers.reduce((acc, s) => acc + s.totalExpenses, 0);
+  
+  // 6. فواتير م. إبراهيم الإضافية (C246)
+  const extraIbrahimTotal = (state.engIbrahimExtraExpenses || []).reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
+  
+  // 7. إجمالي المنصرفات الفعلية الكلية للمشروع
+  // = مصروفات عبدالله + مصروفات العهد الفرعية + الرواتب
+  const grandTotalOutflows = abdullahDirectExpenses + subKeepersTotalExpenses + totalSalariesDisbursed;
+  
+  // 8. عجز / فائض الصندوق الكلي (معادلة الصف 94 في الإكسل)
+  // C94 = C92 - All Expenses - Q92 - C246
+  const overallFundDeficit = totalCustodyPool - grandTotalOutflows;
+  
+  // 9. صافي النقدية المتوفرة فعلياً بيد أمين العهدة عبدالله (معادلة الصف 96 والصف 99 في الإكسل)
+  // Row 99 = C92 - Disbursed to others - Q92 - Abdullah Expenses
+  const cashInHandMainKeeper = totalCustodyPool - totalDisbursedToSubKeepers - totalSalariesDisbursed - abdullahDirectExpenses;
+  
+  // 10. صافي أرصدة العهد الفرعية لدى المستلمين (مجموع ما لديهم أو مستحق لهم)
+  const subKeepersNetBalance = subKeepers.reduce((acc, s) => acc + s.balance, 0);
+  
+  // 11. التحقق من صحة المطابقة المزدوجة (Reconciliation Equation)
+  // النقدية بيد عبدالله + صافي أرصدة العهد الفرعية = العجز الكلي للصندوق
+  const computedDeficitCheck = cashInHandMainKeeper + subKeepersNetBalance;
+  const isReconciled = Math.abs(computedDeficitCheck - overallFundDeficit) < 0.01;
+
+  return {
+    summaries,
+    totalCustodyPool,
+    totalDisbursedToSubKeepers,
+    totalSalariesDisbursed,
+    abdullahDirectExpenses,
+    subKeepersTotalExpenses,
+    extraIbrahimTotal,
+    grandTotalOutflows,
+    overallFundDeficit,
+    cashInHandMainKeeper,
+    subKeepersNetBalance,
+    computedDeficitCheck,
+    isReconciled
+  };
+}
+
+
+// === APPLICATION LOGIC ===
+// app.js - متحكم واجهة المستخدم والتفاعل والتخزين
+  calculateAccountingMetrics, 
+  formatCurrency, 
+  safeEvaluate 
+} from './engine/accountingEngine.js';
+
+class CustodyApp {
+  constructor() {
+    this.storageKey = 'autovem_custody_pro_v1';
+    this.state = this.loadState();
+    this.currentTab = 'dashboard';
+    this.filterType = 'all';
+    this.filterBeneficiary = 'all';
+    this.searchQuery = '';
+    
+    this.initElements();
+    this.initEvents();
+    this.render();
+  }
+
+  loadState() {
+    try {
+      const saved = localStorage.getItem(this.storageKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.receipts && parsed.expenses) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("Failed to parse saved state, using defaults", e);
+    }
+    return JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+  }
+
+  saveState() {
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+    } catch (e) {
+      console.error("Failed to save state", e);
+    }
+  }
+
+  resetToDefaults() {
+    if (confirm("هل أنت متأكد من استعادة بيانات الإكسل الأصلية؟ ستفقد أي قيود مضافة يدوياً.")) {
+      this.state = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+      this.saveState();
+      this.render();
+      alert("تمت استعادة بيانات الإكسل الأصلية بنجاح 🎯");
+    }
+  }
+
+  initElements() {
+    // Buttons
+    this.btnAddTransaction = document.getElementById('btnAddTransaction');
+    this.btnAddIbrahimExpense = document.getElementById('btnAddIbrahimExpense');
+    this.btnPrint = document.getElementById('btnPrint');
+    this.btnExportExcel = document.getElementById('btnExportExcel');
+    this.btnReset = document.getElementById('btnReset');
+    this.btnBackup = document.getElementById('btnBackup');
+    this.btnRestore = document.getElementById('btnRestore');
+    this.fileRestore = document.getElementById('fileRestore');
+    
+    // Search & Filters
+    this.searchInput = document.getElementById('searchInput');
+    this.filterBeneficiarySelect = document.getElementById('filterBeneficiary');
+    this.filterTypeSelect = document.getElementById('filterType');
+    
+    // Tabs
+    this.tabs = document.querySelectorAll('.main-tab');
+    this.tabPanes = document.querySelectorAll('.tab-pane');
+    
+    // Modals
+    this.modalTransaction = document.getElementById('modalTransaction');
+    this.modalIbrahim = document.getElementById('modalIbrahim');
+    this.modalBeneficiaryDetails = document.getElementById('modalBeneficiaryDetails');
+    this.formTransaction = document.getElementById('formTransaction');
+    this.formIbrahim = document.getElementById('formIbrahim');
+  }
+
+  initEvents() {
+    // Navigation tabs
+    this.tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const tabTarget = tab.dataset.tab;
+        this.switchTab(tabTarget);
+      });
+    });
+
+    // Search and filters
+    if (this.searchInput) {
+      this.searchInput.addEventListener('input', (e) => {
+        this.searchQuery = e.target.value.trim().toLowerCase();
+        this.renderTransactionsTable();
+      });
+    }
+
+    if (this.filterBeneficiarySelect) {
+      this.filterBeneficiarySelect.addEventListener('change', (e) => {
+        this.filterBeneficiary = e.target.value;
+        this.renderTransactionsTable();
+      });
+    }
+
+    if (this.filterTypeSelect) {
+      this.filterTypeSelect.addEventListener('change', (e) => {
+        this.filterType = e.target.value;
+        this.renderTransactionsTable();
+      });
+    }
+
+    // Modal Triggers
+    if (this.btnAddTransaction) {
+      this.btnAddTransaction.addEventListener('click', () => this.openTransactionModal());
+    }
+
+    if (this.btnAddIbrahimExpense) {
+      this.btnAddIbrahimExpense.addEventListener('click', () => this.openIbrahimModal());
+    }
+
+    // Modal Closes
+    document.querySelectorAll('.modal-close, .modal-cancel').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.closeAllModals();
+      });
+    });
+
+    // Form Submits
+    if (this.formTransaction) {
+      this.formTransaction.addEventListener('submit', (e) => this.handleTransactionSubmit(e));
+    }
+
+    if (this.formIbrahim) {
+      this.formIbrahim.addEventListener('submit', (e) => this.handleIbrahimSubmit(e));
+    }
+
+    // Actions
+    if (this.btnPrint) {
+      this.btnPrint.addEventListener('click', () => window.print());
+    }
+
+    if (this.btnReset) {
+      this.btnReset.addEventListener('click', () => this.resetToDefaults());
+    }
+
+    if (this.btnExportExcel) {
+      this.btnExportExcel.addEventListener('click', () => this.exportExcel());
+    }
+
+    if (this.btnBackup) {
+      this.btnBackup.addEventListener('click', () => this.backupJSON());
+    }
+
+    if (this.btnRestore && this.fileRestore) {
+      this.btnRestore.addEventListener('click', () => this.fileRestore.click());
+      this.fileRestore.addEventListener('change', (e) => this.restoreJSON(e));
+    }
+  }
+
+  switchTab(tabTarget) {
+    this.currentTab = tabTarget;
+    this.tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabTarget));
+    this.tabPanes.forEach(p => p.classList.toggle('active', p.id === `tab-${tabTarget}`));
+    
+    if (tabTarget === 'dashboard') {
+      this.renderCharts();
+    }
+  }
+
+  closeAllModals() {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+  }
+
+  openTransactionModal() {
+    const select = document.getElementById('txBeneficiary');
+    select.innerHTML = this.state.beneficiaries.map(b => 
+      `<option value="${b.id}">${b.name} (${b.role})</option>`
+    ).join('');
+    
+    document.getElementById('txDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('txAmount').value = '';
+    document.getElementById('txNote').value = '';
+    
+    this.modalTransaction.classList.add('active');
+  }
+
+  openIbrahimModal() {
+    document.getElementById('ibDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('ibAmount').value = '';
+    document.getElementById('ibNote').value = '';
+    this.modalIbrahim.classList.add('active');
+  }
+
+  handleTransactionSubmit(e) {
+    e.preventDefault();
+    const type = document.getElementById('txType').value;
+    const beneficiaryId = document.getElementById('txBeneficiary').value;
+    const amountVal = document.getElementById('txAmount').value;
+    const note = document.getElementById('txNote').value;
+    const date = document.getElementById('txDate').value;
+    
+    const amount = safeEvaluate(amountVal);
+    if (!amount || amount <= 0) {
+      alert("يرجى إدخال مبلغ صحيح أكبر من 0");
+      return;
+    }
+
+    const item = {
+      id: `tx-${Date.now()}`,
+      beneficiaryId,
+      amount,
+      note: note || "قيد يدوي",
+      date,
+      row: null
+    };
+
+    if (type === 'receipt') {
+      this.state.receipts.push(item);
+    } else {
+      this.state.expenses.push(item);
+    }
+
+    this.saveState();
+    this.closeAllModals();
+    this.render();
+  }
+
+  handleIbrahimSubmit(e) {
+    e.preventDefault();
+    const amountVal = document.getElementById('ibAmount').value;
+    const note = document.getElementById('ibNote').value;
+    const category = document.getElementById('ibCategory').value;
+    const date = document.getElementById('ibDate').value;
+    
+    const amount = safeEvaluate(amountVal);
+    if (!amount || amount <= 0) {
+      alert("يرجى إدخال مبلغ صحيح");
+      return;
+    }
+
+    const item = {
+      id: `ib-${Date.now()}`,
+      amount,
+      formula: amountVal.includes('+') || amountVal.includes('*') ? amountVal : null,
+      note: note || "مصروف نثري",
+      category,
+      date
+    };
+
+    this.state.engIbrahimExtraExpenses.push(item);
+    this.saveState();
+    this.closeAllModals();
+    this.render();
+  }
+
+  deleteTransaction(id, type) {
+    if (!confirm("هل أنت متأكد من حذف هذه المعاملة؟")) return;
+    
+    if (type === 'receipt') {
+      this.state.receipts = this.state.receipts.filter(r => r.id !== id);
+    } else if (type === 'expense') {
+      this.state.expenses = this.state.expenses.filter(e => e.id !== id);
+    } else if (type === 'ibrahim') {
+      this.state.engIbrahimExtraExpenses = this.state.engIbrahimExtraExpenses.filter(i => i.id !== id);
+    }
+
+    this.saveState();
+    this.render();
+  }
+
+  render() {
+    const metrics = calculateAccountingMetrics(this.state);
+    this.renderKPIs(metrics);
+    this.renderReconciliation(metrics);
+    this.renderBeneficiaries(metrics);
+    this.renderTransactionsTable();
+    this.renderIbrahimExpenses(metrics);
+    this.renderFilterDropdowns();
+    this.renderCharts(metrics);
+  }
+
+  renderKPIs(metrics) {
+    document.getElementById('kpiTotalCustody').innerHTML = `<span class="amount">${formatCurrency(metrics.totalCustodyPool)}</span>`;
+    document.getElementById('kpiTotalOutflows').innerHTML = `<span class="amount">${formatCurrency(metrics.grandTotalOutflows)}</span>`;
+    
+    const deficitEl = document.getElementById('kpiOverallDeficit');
+    deficitEl.innerHTML = `<span class="amount">${formatCurrency(metrics.overallFundDeficit)}</span>`;
+    deficitEl.className = `kpi-value ${metrics.overallFundDeficit < 0 ? 'text-rose' : 'text-emerald'}`;
+
+    const cashEl = document.getElementById('kpiCashInHand');
+    cashEl.innerHTML = `<span class="amount">${formatCurrency(metrics.cashInHandMainKeeper)}</span>`;
+    cashEl.className = `kpi-value ${metrics.cashInHandMainKeeper < 0 ? 'text-rose' : 'text-emerald'}`;
+
+    document.getElementById('kpiSubBalance').innerHTML = `<span class="amount">${formatCurrency(metrics.subKeepersNetBalance)}</span>`;
+  }
+
+  renderReconciliation(metrics) {
+    const banner = document.getElementById('reconciliationBanner');
+    if (!banner) return;
+
+    banner.innerHTML = `
+      <div class="recon-title">
+        <h3>
+          <span>⚖️</span>
+          <span>معادلة المطابقة المزدوجة ورقابة الصندوق (Double-Entry Verification)</span>
+        </h3>
+        <span class="recon-status-badge ${metrics.isReconciled ? 'matched' : 'error'}">
+          ${metrics.isReconciled ? '✅ متطابق محاسبياً 100%' : '⚠️ يوجد تضارب في الصندوق'}
+        </span>
+      </div>
+      <div class="recon-formula-grid">
+        <div class="recon-item">
+          <span class="recon-label">صافي النقدية المتوفرة بيد عبد الله (ص 96/99):</span>
+          <span class="recon-val ${metrics.cashInHandMainKeeper < 0 ? 'negative' : 'positive'}">
+            ${formatCurrency(metrics.cashInHandMainKeeper)}
+          </span>
+        </div>
+        <div class="recon-item">
+          <span class="recon-label">صافي أرصدة العهد الفرعية لدى المستلمين:</span>
+          <span class="recon-val ${metrics.subKeepersNetBalance < 0 ? 'negative' : 'positive'}">
+            ${formatCurrency(metrics.subKeepersNetBalance)}
+          </span>
+        </div>
+        <div class="recon-item">
+          <span class="recon-label">مجموع المعادلة (نقدية + عهد فرعية):</span>
+          <span class="recon-val ${metrics.computedDeficitCheck < 0 ? 'negative' : 'positive'}">
+            ${formatCurrency(metrics.computedDeficitCheck)}
+          </span>
+        </div>
+        <div class="recon-item">
+          <span class="recon-label">عجز الصندوق الإجمالي المستهدف (معادلة ص 94):</span>
+          <span class="recon-val ${metrics.overallFundDeficit < 0 ? 'negative' : 'positive'}">
+            ${formatCurrency(metrics.overallFundDeficit)}
+          </span>
+        </div>
+      </div>
+    `;
+  }
+
+  renderBeneficiaries(metrics) {
+    const container = document.getElementById('beneficiariesGrid');
+    if (!container) return;
+
+    container.innerHTML = metrics.summaries.map(b => {
+      let badgeClass = 'settled';
+      if (b.status === 'surplus') badgeClass = 'surplus';
+      if (b.status === 'deficit') badgeClass = 'deficit';
+
+      return `
+        <div class="beneficiary-card" onclick="app.openBeneficiaryLedger('${b.id}')">
+          <div class="beneficiary-header">
+            <div class="beneficiary-avatar">${b.avatar || '👤'}</div>
+            <div class="beneficiary-info">
+              <h4>${b.name}</h4>
+              <p>${b.role}</p>
+            </div>
+          </div>
+          <div class="beneficiary-metrics">
+            <div class="b-metric">
+              <span class="label">إجمالي المقبوض:</span>
+              <span class="val amount">${formatCurrency(b.totalReceipts)}</span>
+            </div>
+            <div class="b-metric">
+              <span class="label">إجمالي المصروف:</span>
+              <span class="val amount">${formatCurrency(b.totalExpenses)}</span>
+            </div>
+            ${b.extraExpenses > 0 ? `
+              <div class="b-metric" style="grid-column: span 2;">
+                <span class="label">منها فواتير نثرية إضافية (ص 246):</span>
+                <span class="val amount" style="color: var(--accent-amber);">${formatCurrency(b.extraExpenses)}</span>
+              </div>
+            ` : ''}
+          </div>
+          <div class="beneficiary-balance-row">
+            <div>
+              <span style="font-size:0.75rem; color: var(--text-muted);">الرصيد المتبقي:</span>
+              <div class="balance ${b.balance < 0 ? 'text-rose' : b.balance > 0 ? 'text-emerald' : 'text-blue'}" style="font-weight:700; font-size:1.1rem;">
+                ${formatCurrency(b.balance)}
+              </div>
+            </div>
+            <span class="status-tag ${badgeClass}">${b.statusText}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  renderTransactionsTable() {
+    const tbody = document.getElementById('transactionsTableBody');
+    if (!tbody) return;
+
+    let items = [];
+
+    // Receipts
+    this.state.receipts.forEach(r => {
+      const ben = this.state.beneficiaries.find(b => b.id === r.beneficiaryId) || { name: r.beneficiaryId };
+      items.push({
+        id: r.id,
+        type: 'receipt',
+        typeLabel: 'قبض / تغذية عهدة',
+        beneficiaryId: r.beneficiaryId,
+        beneficiaryName: ben.name,
+        amount: safeEvaluate(r.amount),
+        note: r.note,
+        date: r.date || '2025-11-13'
+      });
+    });
+
+    // Expenses
+    this.state.expenses.forEach(e => {
+      const ben = this.state.beneficiaries.find(b => b.id === e.beneficiaryId) || { name: e.beneficiaryId };
+      items.push({
+        id: e.id,
+        type: 'expense',
+        typeLabel: 'صرف مشروع',
+        beneficiaryId: e.beneficiaryId,
+        beneficiaryName: ben.name,
+        amount: safeEvaluate(e.amount),
+        note: e.note,
+        date: e.date || '2025-11-13'
+      });
+    });
+
+    // Filter
+    if (this.filterType !== 'all') {
+      items = items.filter(i => i.type === this.filterType);
+    }
+    if (this.filterBeneficiary !== 'all') {
+      items = items.filter(i => i.beneficiaryId === this.filterBeneficiary);
+    }
+    if (this.searchQuery) {
+      items = items.filter(i => 
+        i.beneficiaryName.toLowerCase().includes(this.searchQuery) ||
+        i.note.toLowerCase().includes(this.searchQuery) ||
+        String(i.amount).includes(this.searchQuery)
+      );
+    }
+
+    // Sort by date desc
+    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (items.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+            لا توجد حركات تطابق معايير البحث
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = items.map((item, idx) => `
+      <tr>
+        <td class="num" style="color: var(--text-muted);">${idx + 1}</td>
+        <td class="date-display">${item.date}</td>
+        <td>
+          <span class="badge-type ${item.type}">
+            ${item.type === 'receipt' ? '📥' : '📤'} ${item.typeLabel}
+          </span>
+        </td>
+        <td style="font-weight: 600;">${item.beneficiaryName}</td>
+        <td class="amount ${item.type === 'receipt' ? 'text-emerald' : 'text-rose'}" style="font-weight: 700;">
+          ${item.type === 'receipt' ? '+' : '-'}${formatCurrency(item.amount)}
+        </td>
+        <td style="color: var(--text-secondary); max-width: 250px;">${item.note || '—'}</td>
+        <td style="text-align: left;">
+          <button class="btn btn-outline" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${item.id}', '${item.type}')">
+            🗑️ حذف
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  renderIbrahimExpenses(metrics) {
+    const tbody = document.getElementById('ibrahimTableBody');
+    const totalEl = document.getElementById('ibrahimTotalAmount');
+    if (!tbody || !totalEl) return;
+
+    const items = this.state.engIbrahimExtraExpenses || [];
+    const total = items.reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
+    totalEl.innerHTML = `<span class="amount">${formatCurrency(total)}</span>`;
+
+    if (items.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">لا توجد مصروفات نثرية مسجلة</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = items.map((item, idx) => `
+      <tr>
+        <td class="num">${idx + 1}</td>
+        <td class="date-display">${item.date || '—'}</td>
+        <td>
+          <span class="badge-tag">${item.category || 'نثريات'}</span>
+        </td>
+        <td>
+          <span class="amount" style="font-weight:700; color:var(--accent-amber);">
+            ${formatCurrency(safeEvaluate(item.amount))}
+          </span>
+          ${item.formula ? `<span style="font-size:0.75rem; color:var(--text-muted); margin-right:6px;">(${item.formula})</span>` : ''}
+        </td>
+        <td style="color:var(--text-secondary);">${item.note}</td>
+        <td style="text-align: left;">
+          <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${item.id}', 'ibrahim')">
+            🗑️ حذف
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  renderFilterDropdowns() {
+    if (!this.filterBeneficiarySelect) return;
+    const current = this.filterBeneficiarySelect.value;
+    this.filterBeneficiarySelect.innerHTML = `
+      <option value="all">جميع الأشخاص / البنود</option>
+      ${this.state.beneficiaries.map(b => `<option value="${b.id}" ${b.id === current ? 'selected' : ''}>${b.name}</option>`).join('')}
+    `;
+  }
+
+  openBeneficiaryLedger(beneficiaryId) {
+    const ben = this.state.beneficiaries.find(b => b.id === beneficiaryId);
+    if (!ben) return;
+
+    const receipts = this.state.receipts.filter(r => r.beneficiaryId === beneficiaryId);
+    const expenses = this.state.expenses.filter(e => e.beneficiaryId === beneficiaryId);
+    const isIbrahim = beneficiaryId === 'eng_ibrahim';
+    const extra = isIbrahim ? this.state.engIbrahimExtraExpenses : [];
+
+    const totalR = receipts.reduce((s, r) => s + safeEvaluate(r.amount), 0);
+    let totalE = expenses.reduce((s, e) => s + safeEvaluate(e.amount), 0);
+    const extraTotal = extra.reduce((s, x) => s + safeEvaluate(x.amount), 0);
+    totalE += extraTotal;
+
+    const balance = totalR - totalE;
+
+    const titleEl = document.getElementById('benModalTitle');
+    const bodyEl = document.getElementById('benModalBody');
+
+    titleEl.innerHTML = `كشف حساب تفصيلي: ${ben.name} (${ben.role})`;
+
+    bodyEl.innerHTML = `
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; background: rgba(0,0,0,0.3); padding:1rem; border-radius:var(--radius-md); margin-bottom: 1.5rem;">
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-muted);">إجمالي المقبوض:</span>
+          <div class="amount text-emerald" style="font-weight:700; font-size:1.1rem;">${formatCurrency(totalR)}</div>
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-muted);">إجمالي المنصرف:</span>
+          <div class="amount text-rose" style="font-weight:700; font-size:1.1rem;">${formatCurrency(totalE)}</div>
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-muted);">الرصيد الصافي:</span>
+          <div class="amount ${balance < 0 ? 'text-rose' : 'text-emerald'}" style="font-weight:700; font-size:1.1rem;">${formatCurrency(balance)}</div>
+        </div>
+      </div>
+
+      <h5 style="margin-bottom:0.75rem; color:var(--accent-cyan);">سجل الحركات (${receipts.length + expenses.length + extra.length} حركة):</h5>
+      <div style="max-height: 350px; overflow-y: auto;">
+        <table class="data-table" style="font-size:0.8rem;">
+          <thead>
+            <tr>
+              <th>النوع</th>
+              <th>التاريخ</th>
+              <th>المبلغ</th>
+              <th>البيان والملاحظات</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${receipts.map(r => `
+              <tr>
+                <td><span class="badge-type receipt">قبض</span></td>
+                <td class="date-display">${r.date || '2025-11-13'}</td>
+                <td class="amount text-emerald">+${formatCurrency(safeEvaluate(r.amount))}</td>
+                <td>${r.note}</td>
+              </tr>
+            `).join('')}
+            ${expenses.map(e => `
+              <tr>
+                <td><span class="badge-type expense">صرف</span></td>
+                <td class="date-display">${e.date || '2025-11-13'}</td>
+                <td class="amount text-rose">-${formatCurrency(safeEvaluate(e.amount))}</td>
+                <td>${e.note}</td>
+              </tr>
+            `).join('')}
+            ${extra.map(x => `
+              <tr>
+                <td><span class="badge-type extra">نثريات</span></td>
+                <td class="date-display">${x.date || '—'}</td>
+                <td class="amount text-rose">-${formatCurrency(safeEvaluate(x.amount))}</td>
+                <td>${x.note} (${x.category})</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    this.modalBeneficiaryDetails.classList.add('active');
+  }
+
+  renderCharts(metrics) {
+    if (!metrics) metrics = calculateAccountingMetrics(this.state);
+    
+    // Canvas Charts implementation (Pure Vanilla Canvas - Zero External CDN dependency required)
+    this.drawExpensesChart(metrics);
+    this.drawComparisonChart(metrics);
+  }
+
+  drawExpensesChart(metrics) {
+    const canvas = document.getElementById('chartExpenses');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width = canvas.parentElement.clientWidth || 400;
+    const height = canvas.height = 260;
+    ctx.clearRect(0, 0, width, height);
+
+    // Prepare data
+    const items = metrics.summaries.filter(s => s.totalExpenses > 0);
+    const totalExp = items.reduce((s, i) => s + i.totalExpenses, 0);
+    if (totalExp === 0) return;
+
+    const colors = ['#00f2fe', '#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#f43f5e', '#14b8a6'];
+    const centerX = width / 3;
+    const centerY = height / 2;
+    const radius = Math.min(centerX, centerY) - 25;
+    const innerRadius = radius * 0.55;
+
+    let startAngle = -Math.PI / 2;
+
+    items.forEach((item, idx) => {
+      const sliceAngle = (item.totalExpenses / totalExp) * 2 * Math.PI;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+      ctx.arc(centerX, centerY, innerRadius, startAngle + sliceAngle, startAngle, true);
+      ctx.closePath();
+      ctx.fillStyle = colors[idx % colors.length];
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#070a13';
+      ctx.stroke();
+
+      startAngle += sliceAngle;
+    });
+
+    // Center text
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 14px Outfit, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`${(totalExp / 1000).toFixed(1)}k`, centerX, centerY - 6);
+    ctx.font = '10px Cairo, sans-serif';
+    ctx.fillStyle = '#94a3b8';
+    ctx.fillText('إجمالي الصرف', centerX, centerY + 12);
+
+    // Legend on the right side
+    const legendX = centerX + radius + 30;
+    let legendY = 30;
+    ctx.textAlign = 'right';
+
+    items.forEach((item, idx) => {
+      ctx.fillStyle = colors[idx % colors.length];
+      ctx.fillRect(legendX, legendY - 8, 10, 10);
+      
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 11px Cairo, sans-serif';
+      const pct = Math.round((item.totalExpenses / totalExp) * 100);
+      ctx.fillText(`${item.name} (${pct}%)`, legendX + 100, legendY);
+      
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px Outfit, sans-serif';
+      ctx.fillText(formatCurrency(item.totalExpenses), legendX + 100, legendY + 14);
+
+      legendY += 32;
+    });
+  }
+
+  drawComparisonChart(metrics) {
+    const canvas = document.getElementById('chartComparison');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width = canvas.parentElement.clientWidth || 400;
+    const height = canvas.height = 260;
+    ctx.clearRect(0, 0, width, height);
+
+    const data = [
+      { label: 'إجمالي المقبوضات', value: metrics.totalCustodyPool, color: '#00f2fe' },
+      { label: 'المصروفات المنفذة', value: metrics.grandTotalOutflows, color: '#f43f5e' },
+      { label: 'بند الرواتب والسلف', value: metrics.totalSalariesDisbursed, color: '#8b5cf6' },
+      { label: 'تحويلات للعهد الفرعية', value: metrics.totalDisbursedToSubKeepers, color: '#f59e0b' }
+    ];
+
+    const maxVal = Math.max(...data.map(d => d.value)) * 1.15;
+    const barWidth = 45;
+    const gap = (width - 60 - (data.length * barWidth)) / (data.length - 1);
+    const bottomY = height - 45;
+    const topY = 30;
+    const chartHeight = bottomY - topY;
+
+    data.forEach((d, idx) => {
+      const x = 50 + idx * (barWidth + gap);
+      const barH = (d.value / maxVal) * chartHeight;
+      const y = bottomY - barH;
+
+      // Bar
+      ctx.fillStyle = d.color;
+      ctx.beginPath();
+      ctx.roundRect(x, y, barWidth, barH, [6, 6, 0, 0]);
+      ctx.fill();
+
+      // Value label on top
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 11px Outfit, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${(d.value / 1000).toFixed(1)}k`, x + barWidth / 2, y - 8);
+
+      // Label on bottom
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '10px Cairo, sans-serif';
+      ctx.textAlign = 'center';
+      const words = d.label.split(' ');
+      if (words.length > 2) {
+        ctx.fillText(words.slice(0, 2).join(' '), x + barWidth / 2, bottomY + 16);
+        ctx.fillText(words.slice(2).join(' '), x + barWidth / 2, bottomY + 30);
+      } else {
+        ctx.fillText(d.label, x + barWidth / 2, bottomY + 20);
+      }
+    });
+  }
+
+  exportExcel() {
+    try {
+      // Build a pure CSV / HTML Table data format that opens natively in Microsoft Excel with Arabic UTF-8 BOM
+      let csvContent = "\uFEFF"; // UTF-8 BOM
+      csvContent += `العهدة 3 بدءا من 13/11/2025 - تقرير تصفية العهدة\n`;
+      csvContent += `تاريخ التصدير: ${new Date().toLocaleDateString('en-GB')}\n\n`;
+
+      csvContent += `=== ملخص الصندوق والمطابقة ===\n`;
+      const m = calculateAccountingMetrics(this.state);
+      csvContent += `إجمالي مقبوضات العهدة (C92),${m.totalCustodyPool}\n`;
+      csvContent += `إجمالي المنصرفات الكلية,${m.grandTotalOutflows}\n`;
+      csvContent += `عجز الصندوق الإجمالي (صف 94),${m.overallFundDeficit}\n`;
+      csvContent += `صافي النقدية المتوفرة بيد عبدالله (صف 96 و 99),${m.cashInHandMainKeeper}\n`;
+      csvContent += `صافي أرصدة العهد الفرعية لدى المستلمين,${m.subKeepersNetBalance}\n\n`;
+
+      csvContent += `=== كشف أرصدة أصحاب العهد ===\n`;
+      csvContent += `الاسم,الصفة,إجمالي المقبوض,إجمالي المصروف,الرصيد المتبقي,الحالة\n`;
+      m.summaries.forEach(s => {
+        csvContent += `"${s.name}","${s.role}",${s.totalReceipts},${s.totalExpenses},${s.balance},"${s.statusText}"\n`;
+      });
+
+      csvContent += `\n=== سجل العمليات والقيود التفصيلي ===\n`;
+      csvContent += `الرقم,النوع,التاريخ,الشخص / البند,المبلغ,البيان والملاحظات\n`;
+      
+      let rowIdx = 1;
+      this.state.receipts.forEach(r => {
+        const ben = this.state.beneficiaries.find(b => b.id === r.beneficiaryId) || { name: r.beneficiaryId };
+        csvContent += `${rowIdx++},قبض,${r.date || '2025-11-13'},"${ben.name}",${r.amount},"${r.note || ''}"\n`;
+      });
+
+      this.state.expenses.forEach(e => {
+        const ben = this.state.beneficiaries.find(b => b.id === e.beneficiaryId) || { name: e.beneficiaryId };
+        csvContent += `${rowIdx++},صرف,${e.date || '2025-11-13'},"${ben.name}",${e.amount},"${e.note || ''}"\n`;
+      });
+
+      this.state.engIbrahimExtraExpenses.forEach(i => {
+        csvContent += `${rowIdx++},نثريات م. إبراهيم,${i.date || '2025-12-25'},"مهندس ابراهيم",${safeEvaluate(i.amount)},"${i.note || ''} (${i.category || ''})"\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `تقرير_تصفية_العهدة_3_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      alert("حدث خطأ أثناء تصدير الملف: " + e.message);
+    }
+  }
+
+  backupJSON() {
+    const jsonStr = JSON.stringify(this.state, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `نسخة_احتياطية_العهدة_3_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  restoreJSON(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const parsed = JSON.parse(event.target.result);
+        if (parsed && parsed.receipts && parsed.expenses) {
+          this.state = parsed;
+          this.saveState();
+          this.render();
+          alert("تم استرجاع النسخة الاحتياطية بنجاح ✅");
+        } else {
+          alert("الملف لا يحتوي على بيانات عهدة صالحة");
+        }
+      } catch (err) {
+        alert("فشل قراءة ملف النسخة الاحتياطية: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+}
+
+// Make app accessible globally
+window.app = new CustodyApp();
+
+</script>
+</body>
+</html>
