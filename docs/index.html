@@ -1075,6 +1075,17 @@ footer.app-footer {
           <span>معادلة الصف 96 والصف 99 في الإكسل (مطابقة تامة)</span>
         </div>
       </div>
+
+      <div class="kpi-card purple">
+        <div class="kpi-header">
+          <span class="kpi-title">صافي أرصدة العهد الفرعية (الموقع)</span>
+          <div class="kpi-icon">👥</div>
+        </div>
+        <div class="kpi-value" id="kpiSubBalance">-996.00 ر.س</div>
+        <div class="kpi-subtext">
+          <span>مجموع أرصدة المستفيدين الستة (مستحق لهم من الصندوق)</span>
+        </div>
+      </div>
     </div>
 
     <!-- بطاقة المطابقة المزدوجة التفاعلية (Double-Entry Verification) -->
@@ -1404,8 +1415,9 @@ footer.app-footer {
   </div>
 
   <script>
+// === CUSTODY PRO STANDALONE JAVASCRIPT ===
 
-// === DATA ===
+// 1. Initial Data
 // initialData.js - البيانات الأولية المستخرجة بدقة من ملف الإكسل (العهدة 3 بدءا من 13-11-2025.xlsx)
 const INITIAL_CUSTODY_DATA = {
   title: "العهدة 3 بدءا من 13/11/2025",
@@ -1462,7 +1474,7 @@ const INITIAL_CUSTODY_DATA = {
 };
 
 
-// === ACCOUNTING ENGINE ===
+// 2. Accounting Engine
 // accountingEngine.js - المحرك المحاسبي الصارم وحسابات المطابقة المزدوجة
 
 /**
@@ -1632,12 +1644,10 @@ function calculateAccountingMetrics(state) {
 }
 
 
-// === APPLICATION LOGIC ===
+// 3. Application Controller
 // app.js - متحكم واجهة المستخدم والتفاعل والتخزين
-  calculateAccountingMetrics, 
-  formatCurrency, 
-  safeEvaluate 
-} from './engine/accountingEngine.js';
+
+
 
 class CustodyApp {
   constructor() {
@@ -1915,18 +1925,29 @@ class CustodyApp {
   }
 
   renderKPIs(metrics) {
-    document.getElementById('kpiTotalCustody').innerHTML = `<span class="amount">${formatCurrency(metrics.totalCustodyPool)}</span>`;
-    document.getElementById('kpiTotalOutflows').innerHTML = `<span class="amount">${formatCurrency(metrics.grandTotalOutflows)}</span>`;
+    const totalEl = document.getElementById('kpiTotalCustody');
+    if (totalEl) totalEl.innerHTML = `<span class="amount">${formatCurrency(metrics.totalCustodyPool)}</span>`;
+
+    const outflowsEl = document.getElementById('kpiTotalOutflows');
+    if (outflowsEl) outflowsEl.innerHTML = `<span class="amount">${formatCurrency(metrics.grandTotalOutflows)}</span>`;
     
     const deficitEl = document.getElementById('kpiOverallDeficit');
-    deficitEl.innerHTML = `<span class="amount">${formatCurrency(metrics.overallFundDeficit)}</span>`;
-    deficitEl.className = `kpi-value ${metrics.overallFundDeficit < 0 ? 'text-rose' : 'text-emerald'}`;
+    if (deficitEl) {
+      deficitEl.innerHTML = `<span class="amount">${formatCurrency(metrics.overallFundDeficit)}</span>`;
+      deficitEl.className = `kpi-value ${metrics.overallFundDeficit < 0 ? 'text-rose' : 'text-emerald'}`;
+    }
 
     const cashEl = document.getElementById('kpiCashInHand');
-    cashEl.innerHTML = `<span class="amount">${formatCurrency(metrics.cashInHandMainKeeper)}</span>`;
-    cashEl.className = `kpi-value ${metrics.cashInHandMainKeeper < 0 ? 'text-rose' : 'text-emerald'}`;
+    if (cashEl) {
+      cashEl.innerHTML = `<span class="amount">${formatCurrency(metrics.cashInHandMainKeeper)}</span>`;
+      cashEl.className = `kpi-value ${metrics.cashInHandMainKeeper < 0 ? 'text-rose' : 'text-emerald'}`;
+    }
 
-    document.getElementById('kpiSubBalance').innerHTML = `<span class="amount">${formatCurrency(metrics.subKeepersNetBalance)}</span>`;
+    const subEl = document.getElementById('kpiSubBalance');
+    if (subEl) {
+      subEl.innerHTML = `<span class="amount">${formatCurrency(metrics.subKeepersNetBalance)}</span>`;
+      subEl.className = `kpi-value ${metrics.subKeepersNetBalance < 0 ? 'text-rose' : 'text-emerald'}`;
+    }
   }
 
   renderReconciliation(metrics) {
@@ -2456,6 +2477,21 @@ class CustodyApp {
 
 // Make app accessible globally
 window.app = new CustodyApp();
+
+
+// 4. Safe DOM Loading & Global Fallbacks
+function initCustodyApp() {
+  if (!window.app) {
+    window.app = new CustodyApp();
+    console.log("CustodyApp successfully initialized and mounted to window.app ✅");
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCustodyApp);
+} else {
+  initCustodyApp();
+}
 
 </script>
 </body>
