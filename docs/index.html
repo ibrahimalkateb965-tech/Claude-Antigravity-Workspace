@@ -1565,14 +1565,14 @@ footer.app-footer {
 // === CUSTODY PRO STANDALONE JAVASCRIPT ===
 
 // 1. Initial Data
-// initialData.js - البيانات الأولية المستخرجة بدقة من ملف الإكسل (العهدة 3 بدءا من 13-11-2025.xlsx)
+// initialData.js - قالب العهدة المصفّر (نسخة الإنتاج النظيفة الخالية من أي معاملات سابقة)
 const INITIAL_CUSTODY_DATA = {
-  title: "العهدة 3 بدءا من 13/11/2025",
-  activeCustodyId: "custody_3",
-  startDate: "13/11/2025",
+  title: "منظومة إدارة العهدة",
+  activeCustodyId: "custody_1",
+  startDate: "2026-09-22",
   currency: "ر.س",
   history: [
-    { id: "custody_3", name: "العهدة 3", period: "بدءاً من 13/11/2025", status: "نشطة" }
+    { id: "custody_1", name: "العهدة 1", period: "العهدة الحالية", status: "نشطة" }
   ],
   mainCustodyKeeper: "abdullah",
   beneficiaries: [
@@ -1585,37 +1585,9 @@ const INITIAL_CUSTODY_DATA = {
     { id: "abdulrahman", name: "عبدالرحمن", role: "فني موقع / عهدة فرعية", isMain: false, avatar: "🔨" },
     { id: "salaries", name: "الرواتب و الاوفرتايم و السلف", role: "بند مالي مركزي من العهدة", isMain: false, avatar: "💰" }
   ],
-  receipts: [
-    { id: "rec-1", beneficiaryId: "abdullah", amount: 172621, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
-    { id: "rec-2", beneficiaryId: "abu_yassin", amount: 23792, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
-    { id: "rec-3", beneficiaryId: "al_sayed", amount: 27073, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
-    { id: "rec-4", beneficiaryId: "mohamed_galal", amount: 19303.5, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
-    { id: "rec-5", beneficiaryId: "kardousha", amount: 9461, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
-    { id: "rec-6", beneficiaryId: "eng_ibrahim", amount: 10676, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
-    { id: "rec-7", beneficiaryId: "abdulrahman", amount: 3272, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 },
-    { id: "rec-8", beneficiaryId: "salaries", amount: 51500, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 5 }
-  ],
-  expenses: [
-    { id: "exp-1", beneficiaryId: "abdullah", amount: 28181.5, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
-    { id: "exp-2", beneficiaryId: "abu_yassin", amount: 23607, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
-    { id: "exp-3", beneficiaryId: "al_sayed", amount: 27200, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
-    { id: "exp-4", beneficiaryId: "mohamed_galal", amount: 19303.5, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
-    { id: "exp-5", beneficiaryId: "kardousha", amount: 9481, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
-    { id: "exp-6", beneficiaryId: "eng_ibrahim", amount: 11386, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 },
-    { id: "exp-7", beneficiaryId: "abdulrahman", amount: 3272, note: "مرحل بتاريخ 13/11/2025", date: "2025-11-13", row: 108 }
-  ],
-  engIbrahimExtraExpenses: [
-    { id: "ib-1", amount: 40, note: "ف بنزين 27/12", formula: null, date: "2025-12-27", category: "وقود وبنزين" },
-    { id: "ib-2", amount: 36, note: "ف قص نعله سراميك", formula: null, date: "2025-12-28", category: "أعمال موقع وسيراميك" },
-    { id: "ib-3", amount: 33, note: "غداء 11/12", formula: null, date: "2025-12-11", category: "إعاشة وضيافة" },
-    { id: "ib-4", amount: 20, note: "غداء 15/12", formula: null, date: "2025-12-15", category: "إعاشة وضيافة" },
-    { id: "ib-5", amount: 7, note: "مياه 21/12", formula: null, date: "2025-12-21", category: "إعاشة وضيافة" },
-    { id: "ib-6", amount: 34, note: "ف غداء ومشروبات 22/12", formula: "25+9", date: "2025-12-22", category: "إعاشة وضيافة" },
-    { id: "ib-7", amount: 49, note: "ف غداء ومشروبات 23/12", formula: "16+16+17", date: "2025-12-23", category: "إعاشة وضيافة" },
-    { id: "ib-8", amount: 37, note: "ف مشروبات 24/12", formula: null, date: "2025-12-24", category: "إعاشة وضيافة" },
-    { id: "ib-9", amount: 58, note: "ف غداء ومشروبات 25/12", formula: null, date: "2025-12-25", category: "إعاشة وضيافة" },
-    { id: "ib-10", amount: 10, note: "ف بنزين 25/12", formula: null, date: "2025-12-25", category: "وقود وبنزين" }
-  ]
+  receipts: [],
+  expenses: [],
+  engIbrahimExtraExpenses: []
 };
 
 
@@ -1978,24 +1950,24 @@ class CustodyApp {
   }
 
   resetToDefaults() {
-    if (confirm("هل أنت متأكد من استعادة بيانات الإكسل الأصلية؟ ستفقد أي مراحل أو قيود مضافة يدوياً.")) {
+    if (confirm("هل أنت متأكد من تصفير البيانات والبدء بعهدة جديدة؟ سيتم تفريغ كافة القيود الحالية.")) {
       const def = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
-      def.id = 'custody_3';
-      def.name = 'العهدة 3';
+      def.id = 'custody_1';
+      def.name = 'العهدة 1';
       def.badge = 'النشطة';
-      def.period = 'بدءاً من 13/11/2025';
+      def.period = 'العهدة الحالية';
 
       this.state = {
-        activeCustodyId: 'custody_3',
-        custodyOrder: ['custody_3'],
+        activeCustodyId: 'custody_1',
+        custodyOrder: ['custody_1'],
         custodies: {
-          custody_3: def
+          custody_1: def
         }
       };
       this.syncActiveCustodyPointers();
       this.saveState();
       this.render();
-      alert("تمت استعادة بيانات الإكسل الأصلية بنجاح 🎯");
+      alert("تم تصفير البيانات بنجاح والبدء بعهدة نظيفة جديدة 🎯");
     }
   }
 
