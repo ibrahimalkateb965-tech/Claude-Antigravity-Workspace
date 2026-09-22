@@ -210,17 +210,28 @@ header.app-header {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* تبديل العهد التاريخية */
+/* محدد وتبديل المراحل والعهد */
+.custody-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 .custody-selector {
   display: flex;
+  align-items: center;
+  gap: 0.35rem;
   background: rgba(255, 255, 255, 0.04);
   padding: 0.25rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .custody-tab {
-  padding: 0.45rem 0.9rem;
+  padding: 0.45rem 0.85rem;
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 600;
@@ -229,12 +240,69 @@ header.app-header {
   border: none;
   background: transparent;
   transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.custody-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .custody-tab.active {
   background: rgba(0, 242, 254, 0.18);
   color: var(--accent-cyan);
   border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+.custody-tab .custody-badge {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--accent-emerald);
+  font-weight: 700;
+}
+
+.custody-tab .custody-delete-btn {
+  opacity: 0.4;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.25rem;
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+}
+
+.custody-tab .custody-delete-btn:hover {
+  opacity: 1;
+  background: rgba(244, 63, 94, 0.2);
+  color: var(--accent-rose);
+}
+
+.btn-add-custody {
+  padding: 0.42rem 0.85rem;
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px dashed rgba(0, 242, 254, 0.4);
+  color: var(--accent-cyan);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-add-custody:hover {
+  background: rgba(0, 242, 254, 0.18);
+  border-color: var(--accent-cyan);
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.2);
 }
 
 /* الحاوية الرئيسية للمحتوى */
@@ -989,11 +1057,15 @@ footer.app-footer {
         </div>
       </div>
 
-      <!-- محدد فترات العهد التاريخية -->
-      <div class="custody-selector">
-        <button class="custody-tab" title="22/10/2024 إلى 30/01/2025">العهدة 1 (مرحلة)</button>
-        <button class="custody-tab" title="30/01/2025 إلى 13/11/2025">العهدة 2 (مرحلة)</button>
-        <button class="custody-tab active" title="بدءاً من 13/11/2025">العهدة 3 (الحالية النشطة)</button>
+      <!-- محدد وتبديل فترات المراحل والعهد -->
+      <div class="custody-selector-wrapper">
+        <div class="custody-selector" id="custodyTabsContainer">
+          <!-- يتم توليد أزرار العهد والمراحل برمجياً عبر app.js -->
+        </div>
+        <button class="btn-add-custody" id="btnAddCustodyPhase" title="إضافة مرحلة / عهدة محاسبية جديدة">
+          <span>➕</span>
+          <span>إضافة مرحلة</span>
+        </button>
       </div>
 
       <!-- أزرار الإجراءات السريعة -->
@@ -1414,6 +1486,81 @@ footer.app-footer {
     </div>
   </div>
 
+  <!-- نافذة منبثقة: إضافة مرحلة / عهدة جديدة (Modal Add Custody Phase) -->
+  <div class="modal-overlay" id="modalAddCustody">
+    <div class="modal-content" style="max-width: 620px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h4 style="color: #fff; font-size: 1.15rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+            <span>📑</span>
+            <span>إضافة مرحلة / عهدة محاسبية جديدة</span>
+          </h4>
+        </div>
+        <button class="modal-close" id="btnCloseModalCustody">&times;</button>
+      </div>
+      <form id="formAddCustody">
+        <div class="form-group">
+          <label>اسم المرحلة / العهدة *</label>
+          <input type="text" class="form-control" id="custodyName" placeholder="مثال: العهدة 4 (أعمال الموقع)" required>
+        </div>
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>تاريخ البدء *</label>
+            <input type="date" class="form-control" id="custodyStartDate" required>
+          </div>
+          <div class="form-group">
+            <label>أمين العهدة المسؤول *</label>
+            <select class="form-control" id="custodyKeeper">
+              <option value="abdullah" selected>عبدالله (أمين العهدة الرئيسي)</option>
+              <option value="eng_ibrahim">مهندس ابراهيم</option>
+              <option value="abu_yassin">ابو ياسين</option>
+              <option value="al_sayed">السيد</option>
+              <option value="mohamed_galal">محمد جلال ابوعبده</option>
+              <option value="kardousha">ابومحمد كردوشه</option>
+              <option value="abdulrahman">عبدالرحمن</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>مبلغ الدفعة النقدية المستلمة (ر.س):</label>
+          <input type="number" class="form-control" id="custodyOpeningAmount" placeholder="0.00" step="0.01" min="0">
+          <div class="form-hint">أدخل المبلغ في حال تم استلام دفعة نقدية جديدة لبدء هذه المرحلة.</div>
+        </div>
+
+        <div class="form-group" style="background: rgba(255, 255, 255, 0.03); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-top: 0.5rem;">
+          <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; color: var(--text-primary); font-size: 0.88rem; margin: 0;">
+            <input type="checkbox" id="custodyCarryoverCash" checked style="width: 1.1rem; height: 1.1rem; accent-color: var(--accent-cyan);">
+            <span>ترحيل صافي رصيد النقدية من العهدة السابقة (<span id="carryoverCashPreview" style="color: var(--accent-cyan); font-weight: 700;">-638.00 ر.س</span>)</span>
+          </label>
+          <div class="form-hint" style="margin-right: 1.7rem; margin-top: 0.25rem;">إدراج قيد افتتاحي بمبلغ النقدية الفعلي بذمة أمين العهدة لضمان تواصل الأرصدة.</div>
+        </div>
+
+        <div class="form-group" style="background: rgba(255, 255, 255, 0.03); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-top: 0.5rem;">
+          <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; color: var(--text-primary); font-size: 0.88rem; margin: 0;">
+            <input type="checkbox" id="custodyCarryoverSub" checked style="width: 1.1rem; height: 1.1rem; accent-color: var(--accent-purple);">
+            <span>ترحيل أرصدة العهد الفرعية ومسؤولي الموقع (<span id="carryoverSubPreview" style="color: var(--accent-purple); font-weight: 700;">-996.00 ر.س</span>)</span>
+          </label>
+          <div class="form-hint" style="margin-right: 1.7rem; margin-top: 0.25rem;">ترحيل مستحقات المهندسين والفنيين المسجلة في العهدة السابقة كذمم مستمرة.</div>
+        </div>
+
+        <div class="form-group">
+          <label>ملاحظات ونطاق عمل المرحلة:</label>
+          <input type="text" class="form-control" id="custodyNotes" placeholder="ملاحظات توثيقية حول هذه المرحلة أو المشروع...">
+        </div>
+
+        <div class="modal-actions" style="margin-top: 1.5rem;">
+          <button type="button" class="btn btn-outline modal-cancel" id="btnCancelModalCustody">إلغاء</button>
+          <button type="submit" class="btn btn-primary">
+            <span>💾</span>
+            <span>إنشاء وبدء المرحلة الجديدة</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
 // === CUSTODY PRO STANDALONE JAVASCRIPT ===
 
@@ -1425,9 +1572,7 @@ const INITIAL_CUSTODY_DATA = {
   startDate: "13/11/2025",
   currency: "ر.س",
   history: [
-    { id: "custody_1", name: "العهدة 1", period: "من 22/10/2024 إلى 30/01/2025", status: "مغلقة / مرحلة" },
-    { id: "custody_2", name: "العهدة 2", period: "من 30/01/2025 إلى 13/11/2025", status: "مغلقة / مرحلة" },
-    { id: "custody_3", name: "العهدة 3", period: "من 13/11/2025 إلى الآن", status: "نشطة" }
+    { id: "custody_3", name: "العهدة 3", period: "بدءاً من 13/11/2025", status: "نشطة" }
   ],
   mainCustodyKeeper: "abdullah",
   beneficiaries: [
@@ -1651,8 +1796,9 @@ function calculateAccountingMetrics(state) {
 
 class CustodyApp {
   constructor() {
-    this.storageKey = 'autovem_custody_pro_v1';
+    this.storageKey = 'autovem_custody_pro_v2';
     this.state = this.loadState();
+    this.syncActiveCustodyPointers();
     this.currentTab = 'dashboard';
     this.filterType = 'all';
     this.filterBeneficiary = 'all';
@@ -1668,14 +1814,81 @@ class CustodyApp {
       const saved = localStorage.getItem(this.storageKey);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && parsed.receipts && parsed.expenses) {
+        if (parsed.custodies && parsed.activeCustodyId) {
+          if (!parsed.custodyOrder) {
+            parsed.custodyOrder = Object.keys(parsed.custodies);
+          }
           return parsed;
+        }
+        // Migration from legacy flat single-custody format
+        if (parsed.receipts && parsed.expenses) {
+          const custody3 = {
+            id: 'custody_3',
+            name: 'العهدة 3',
+            badge: 'النشطة',
+            startDate: parsed.startDate || '13/11/2025',
+            period: 'بدءاً من 13/11/2025',
+            title: parsed.title || 'العهدة 3 بدءا من 13/11/2025',
+            currency: parsed.currency || 'ر.س',
+            mainCustodyKeeper: parsed.mainCustodyKeeper || 'abdullah',
+            receipts: parsed.receipts,
+            expenses: parsed.expenses,
+            beneficiaries: parsed.beneficiaries || INITIAL_CUSTODY_DATA.beneficiaries,
+            engIbrahimExtraExpenses: parsed.engIbrahimExtraExpenses || INITIAL_CUSTODY_DATA.engIbrahimExtraExpenses
+          };
+          return {
+            activeCustodyId: 'custody_3',
+            custodyOrder: ['custody_3'],
+            custodies: {
+              custody_3: custody3
+            }
+          };
         }
       }
     } catch (e) {
       console.warn("Failed to parse saved state, using defaults", e);
     }
-    return JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+
+    // Default multi-custody initial state
+    const defaultCustody3 = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+    defaultCustody3.id = 'custody_3';
+    defaultCustody3.name = 'العهدة 3';
+    defaultCustody3.badge = 'النشطة';
+    defaultCustody3.period = 'بدءاً من 13/11/2025';
+
+    return {
+      activeCustodyId: 'custody_3',
+      custodyOrder: ['custody_3'],
+      custodies: {
+        custody_3: defaultCustody3
+      }
+    };
+  }
+
+  getActiveCustody() {
+    if (!this.state.custodies || Object.keys(this.state.custodies).length === 0) {
+      const def = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+      def.id = 'custody_3';
+      def.name = 'العهدة 3';
+      def.badge = 'النشطة';
+      this.state.custodies = { custody_3: def };
+      this.state.custodyOrder = ['custody_3'];
+      this.state.activeCustodyId = 'custody_3';
+    }
+    if (!this.state.custodies[this.state.activeCustodyId]) {
+      this.state.activeCustodyId = (this.state.custodyOrder && this.state.custodyOrder[0]) || Object.keys(this.state.custodies)[0];
+    }
+    return this.state.custodies[this.state.activeCustodyId];
+  }
+
+  syncActiveCustodyPointers() {
+    const active = this.getActiveCustody();
+    this.state.receipts = active.receipts;
+    this.state.expenses = active.expenses;
+    this.state.beneficiaries = active.beneficiaries;
+    this.state.engIbrahimExtraExpenses = active.engIbrahimExtraExpenses;
+    this.state.title = active.title || active.name;
+    this.state.startDate = active.startDate || '';
   }
 
   saveState() {
@@ -1687,8 +1900,21 @@ class CustodyApp {
   }
 
   resetToDefaults() {
-    if (confirm("هل أنت متأكد من استعادة بيانات الإكسل الأصلية؟ ستفقد أي قيود مضافة يدوياً.")) {
-      this.state = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+    if (confirm("هل أنت متأكد من استعادة بيانات الإكسل الأصلية؟ ستفقد أي مراحل أو قيود مضافة يدوياً.")) {
+      const def = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+      def.id = 'custody_3';
+      def.name = 'العهدة 3';
+      def.badge = 'النشطة';
+      def.period = 'بدءاً من 13/11/2025';
+
+      this.state = {
+        activeCustodyId: 'custody_3',
+        custodyOrder: ['custody_3'],
+        custodies: {
+          custody_3: def
+        }
+      };
+      this.syncActiveCustodyPointers();
       this.saveState();
       this.render();
       alert("تمت استعادة بيانات الإكسل الأصلية بنجاح 🎯");
@@ -1696,6 +1922,16 @@ class CustodyApp {
   }
 
   initElements() {
+    // Custody Selector & Add Stage
+    this.custodyTabsContainer = document.getElementById('custodyTabsContainer');
+    this.btnAddCustodyPhase = document.getElementById('btnAddCustodyPhase');
+    this.modalAddCustody = document.getElementById('modalAddCustody');
+    this.formAddCustody = document.getElementById('formAddCustody');
+    this.btnCloseModalCustody = document.getElementById('btnCloseModalCustody');
+    this.btnCancelModalCustody = document.getElementById('btnCancelModalCustody');
+    this.carryoverCashPreview = document.getElementById('carryoverCashPreview');
+    this.carryoverSubPreview = document.getElementById('carryoverSubPreview');
+
     // Buttons
     this.btnAddTransaction = document.getElementById('btnAddTransaction');
     this.btnAddIbrahimExpense = document.getElementById('btnAddIbrahimExpense');
@@ -1724,6 +1960,14 @@ class CustodyApp {
   }
 
   initEvents() {
+    // Stage / Custody Add Modal Triggers
+    if (this.btnAddCustodyPhase) {
+      this.btnAddCustodyPhase.addEventListener('click', () => this.openAddCustodyModal());
+    }
+    if (this.formAddCustody) {
+      this.formAddCustody.addEventListener('submit', (e) => this.handleAddCustodySubmit(e));
+    }
+
     // Navigation tabs
     this.tabs.forEach(tab => {
       tab.addEventListener('click', (e) => {
@@ -1800,6 +2044,223 @@ class CustodyApp {
       this.btnRestore.addEventListener('click', () => this.fileRestore.click());
       this.fileRestore.addEventListener('change', (e) => this.restoreJSON(e));
     }
+  }
+
+  renderCustodyTabs() {
+    if (!this.custodyTabsContainer) return;
+    this.custodyTabsContainer.innerHTML = '';
+
+    const order = this.state.custodyOrder || Object.keys(this.state.custodies);
+    order.forEach(id => {
+      const c = this.state.custodies[id];
+      if (!c) return;
+
+      const btn = document.createElement('button');
+      btn.className = `custody-tab ${id === this.state.activeCustodyId ? 'active' : ''}`;
+      btn.title = c.period || c.startDate || '';
+
+      const isProtected = id === 'custody_3';
+      const badgeText = id === this.state.activeCustodyId ? 'النشطة' : 'مرحلة';
+
+      btn.innerHTML = `
+        <span>${c.name || 'عهدة'}</span>
+        ${badgeText ? `<span class="custody-badge">${badgeText}</span>` : ''}
+        ${!isProtected ? `<span class="custody-delete-btn" title="حذف هذه المرحلة">✕</span>` : ''}
+      `;
+
+      btn.addEventListener('click', (e) => {
+        if (e.target.classList.contains('custody-delete-btn')) {
+          e.stopPropagation();
+          this.deleteCustody(id);
+          return;
+        }
+        this.switchCustody(id);
+      });
+
+      this.custodyTabsContainer.appendChild(btn);
+    });
+  }
+
+  switchCustody(id) {
+    if (!this.state.custodies[id]) return;
+    this.state.activeCustodyId = id;
+    this.syncActiveCustodyPointers();
+    this.saveState();
+    this.render();
+  }
+
+  deleteCustody(id) {
+    if (id === 'custody_3') {
+      alert("لا يمكن حذف العهدة 3 الأصلية المعتمدة.");
+      return;
+    }
+    const c = this.state.custodies[id];
+    const name = c ? c.name : id;
+    if (confirm(`هل أنت متأكد من حذف مرحلة (${name}) نهائياً؟ ستفقد كافة القيود المسجلة فيها.`)) {
+      delete this.state.custodies[id];
+      this.state.custodyOrder = (this.state.custodyOrder || []).filter(item => item !== id);
+      if (this.state.activeCustodyId === id) {
+        this.state.activeCustodyId = 'custody_3';
+      }
+      this.syncActiveCustodyPointers();
+      this.saveState();
+      this.render();
+      alert(`تم حذف (${name}) بنجاح ✅`);
+    }
+  }
+
+  openAddCustodyModal() {
+    if (!this.modalAddCustody) return;
+
+    // Pre-calculate metrics of current custody for carryover preview
+    const active = this.getActiveCustody();
+    const metrics = calculateAccountingMetrics(active);
+
+    if (this.carryoverCashPreview) {
+      this.carryoverCashPreview.textContent = formatCurrency(metrics.cashInHandMainKeeper);
+      this.carryoverCashPreview.className = metrics.cashInHandMainKeeper < 0 ? 'text-rose' : 'text-emerald';
+    }
+    if (this.carryoverSubPreview) {
+      this.carryoverSubPreview.textContent = formatCurrency(metrics.subKeepersNetBalance);
+      this.carryoverSubPreview.className = metrics.subKeepersNetBalance < 0 ? 'text-rose' : 'text-emerald';
+    }
+
+    // Pre-fill inputs
+    const nameInput = document.getElementById('custodyName');
+    const dateInput = document.getElementById('custodyStartDate');
+    const amountInput = document.getElementById('custodyOpeningAmount');
+    const notesInput = document.getElementById('custodyNotes');
+
+    const nextNumber = (this.state.custodyOrder || []).length + 3;
+    if (nameInput) nameInput.value = `العهدة ${nextNumber}`;
+    if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+    if (amountInput) amountInput.value = '';
+    if (notesInput) notesInput.value = '';
+
+    this.modalAddCustody.classList.add('active');
+  }
+
+  handleAddCustodySubmit(e) {
+    e.preventDefault();
+    const nameInput = document.getElementById('custodyName');
+    const dateInput = document.getElementById('custodyStartDate');
+    const keeperSelect = document.getElementById('custodyKeeper');
+    const amountInput = document.getElementById('custodyOpeningAmount');
+    const carryCashCheck = document.getElementById('custodyCarryoverCash');
+    const carrySubCheck = document.getElementById('custodyCarryoverSub');
+    const notesInput = document.getElementById('custodyNotes');
+
+    const name = nameInput ? nameInput.value.trim() : 'عهدة جديدة';
+    const startDate = dateInput && dateInput.value ? dateInput.value : new Date().toISOString().split('T')[0];
+    const keeper = keeperSelect ? keeperSelect.value : 'abdullah';
+    const openingAmount = amountInput && amountInput.value ? parseFloat(amountInput.value) : 0;
+    const carryCash = carryCashCheck ? carryCashCheck.checked : false;
+    const carrySub = carrySubCheck ? carrySubCheck.checked : false;
+    const notes = notesInput ? notesInput.value.trim() : '';
+
+    const newId = `custody_${Date.now()}`;
+    const newReceipts = [];
+    const newExpenses = [];
+
+    // 1. New Cash Received from Management
+    if (openingAmount > 0) {
+      newReceipts.push({
+        id: `rec-${Date.now()}-1`,
+        beneficiaryId: keeper,
+        amount: openingAmount,
+        note: `دفعة استلام نقدية لبدء (${name})`,
+        date: startDate,
+        row: 1
+      });
+    }
+
+    // 2. Carryover from previous custody
+    const prevCustody = this.getActiveCustody();
+    const prevMetrics = calculateAccountingMetrics(prevCustody);
+
+    if (carryCash && prevMetrics.cashInHandMainKeeper !== 0) {
+      if (prevMetrics.cashInHandMainKeeper > 0) {
+        newReceipts.push({
+          id: `rec-${Date.now()}-carry`,
+          beneficiaryId: keeper,
+          amount: prevMetrics.cashInHandMainKeeper,
+          note: `رصيد نقدية مرحل من العهدة السابقة (${prevCustody.name})`,
+          date: startDate,
+          row: newReceipts.length + 1
+        });
+      } else {
+        newExpenses.push({
+          id: `exp-${Date.now()}-carry`,
+          beneficiaryId: keeper,
+          amount: Math.abs(prevMetrics.cashInHandMainKeeper),
+          category: 'رصيد مرحل',
+          note: `عجز نقدي مرحل من العهدة السابقة (${prevCustody.name}) - مستحق لأمين العهدة`,
+          date: startDate,
+          row: newExpenses.length + 1
+        });
+      }
+    }
+
+    // 3. Sub-keepers carryover
+    if (carrySub && prevMetrics.summaries) {
+      prevMetrics.summaries.forEach(bm => {
+        if (!bm.isMain && bm.id !== 'salaries' && bm.netBalance !== 0) {
+          if (bm.netBalance > 0) {
+            newReceipts.push({
+              id: `rec-${Date.now()}-sub-${bm.id}`,
+              beneficiaryId: bm.id,
+              amount: bm.netBalance,
+              note: `رصيد عهدة متبقي مرحل من (${prevCustody.name})`,
+              date: startDate,
+              row: newReceipts.length + 1
+            });
+          } else {
+            newExpenses.push({
+              id: `exp-${Date.now()}-sub-${bm.id}`,
+              beneficiaryId: bm.id,
+              amount: Math.abs(bm.netBalance),
+              category: 'رصيد مرحل',
+              note: `مستحقات مرحلة من (${prevCustody.name}) لدى الصندوق`,
+              date: startDate,
+              row: newExpenses.length + 1
+            });
+          }
+        }
+      });
+    }
+
+    const newCustody = {
+      id: newId,
+      name: name,
+      badge: 'النشطة',
+      period: `بدءاً من ${startDate}`,
+      startDate: startDate,
+      title: `${name} بدءا من ${startDate}`,
+      currency: 'ر.س',
+      mainCustodyKeeper: keeper,
+      notes: notes,
+      beneficiaries: JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA.beneficiaries)),
+      receipts: newReceipts,
+      expenses: newExpenses,
+      ibrahimExpenses: [],
+      engIbrahimExtraExpenses: []
+    };
+
+    if (prevCustody) {
+      prevCustody.badge = 'مرحلة';
+    }
+
+    this.state.custodies[newId] = newCustody;
+    if (!this.state.custodyOrder) this.state.custodyOrder = ['custody_3'];
+    this.state.custodyOrder.push(newId);
+    this.state.activeCustodyId = newId;
+
+    this.syncActiveCustodyPointers();
+    this.saveState();
+    this.closeAllModals();
+    this.render();
+
+    alert(`تم إنشاء (${name}) بنجاح وبدء المرحلة المحاسبية الجديدة 🚀`);
   }
 
   switchTab(tabTarget) {
@@ -1914,6 +2375,15 @@ class CustodyApp {
   }
 
   render() {
+    this.syncActiveCustodyPointers();
+    this.renderCustodyTabs();
+
+    const active = this.getActiveCustody();
+    const brandTitleP = document.querySelector('.brand-title p');
+    if (brandTitleP && active) {
+      brandTitleP.textContent = `${active.name} (${active.period || active.startDate || ''}) • إدارة العهد النثرية ومحرك المطابقة المزدوجة`;
+    }
+
     const metrics = calculateAccountingMetrics(this.state);
     this.renderKPIs(metrics);
     this.renderReconciliation(metrics);
