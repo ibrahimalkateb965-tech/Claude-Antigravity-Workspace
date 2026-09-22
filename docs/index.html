@@ -1792,9 +1792,27 @@ function calculateAccountingMetrics(state) {
 
 
 // 3. Application Controller
-// app.js - متحكم واجهة المستخدم والتفاعل والتخزين
 
 
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeCsv(val) {
+  if (val === null || val === undefined) return '""';
+  let str = String(val);
+  if (/^[=+\-@\t\r]/.test(str)) {
+    str = "'" + str;
+  }
+  return `"${str.replace(/"/g, '""')}"`;
+}
 
 class CustodyApp {
   constructor() {
@@ -2095,8 +2113,8 @@ class CustodyApp {
       const badgeText = id === this.state.activeCustodyId ? 'النشطة' : 'مرحلة';
 
       btn.innerHTML = `
-        <span>${c.name || 'عهدة'}</span>
-        ${badgeText ? `<span class="custody-badge">${badgeText}</span>` : ''}
+        <span>${escapeHtml(c.name || 'عهدة')}</span>
+        ${badgeText ? `<span class="custody-badge">${escapeHtml(badgeText)}</span>` : ''}
         ${!isProtected ? `<span class="custody-delete-btn" title="حذف هذه المرحلة">✕</span>` : ''}
       `;
 
@@ -2316,7 +2334,7 @@ class CustodyApp {
   openTransactionModal() {
     const select = document.getElementById('txBeneficiary');
     select.innerHTML = this.state.beneficiaries.map(b => 
-      `<option value="${b.id}">${b.name} (${b.role})</option>`
+      `<option value="${escapeHtml(b.id)}">${escapeHtml(b.name)} (${escapeHtml(b.role)})</option>`
     ).join('');
     
     document.getElementById('txDate').value = new Date().toISOString().split('T')[0];
@@ -2524,12 +2542,12 @@ class CustodyApp {
       if (b.status === 'deficit') badgeClass = 'deficit';
 
       return `
-        <div class="beneficiary-card" onclick="app.openBeneficiaryLedger('${b.id}')">
+        <div class="beneficiary-card" onclick="app.openBeneficiaryLedger('${escapeHtml(b.id)}')">
           <div class="beneficiary-header">
-            <div class="beneficiary-avatar">${b.avatar || '👤'}</div>
+            <div class="beneficiary-avatar">${escapeHtml(b.avatar || '👤')}</div>
             <div class="beneficiary-info">
-              <h4>${b.name}</h4>
-              <p>${b.role}</p>
+              <h4>${escapeHtml(b.name)}</h4>
+              <p>${escapeHtml(b.role)}</p>
             </div>
           </div>
           <div class="beneficiary-metrics">
@@ -2555,7 +2573,7 @@ class CustodyApp {
                 ${formatCurrency(b.balance)}
               </div>
             </div>
-            <span class="status-tag ${badgeClass}">${b.statusText}</span>
+            <span class="status-tag ${badgeClass}">${escapeHtml(b.statusText)}</span>
           </div>
         </div>
       `;
@@ -2630,19 +2648,19 @@ class CustodyApp {
     tbody.innerHTML = items.map((item, idx) => `
       <tr>
         <td class="num" style="color: var(--text-muted);">${idx + 1}</td>
-        <td class="date-display">${item.date}</td>
+        <td class="date-display">${escapeHtml(item.date)}</td>
         <td>
-          <span class="badge-type ${item.type}">
-            ${item.type === 'receipt' ? '📥' : '📤'} ${item.typeLabel}
+          <span class="badge-type ${escapeHtml(item.type)}">
+            ${item.type === 'receipt' ? '📥' : '📤'} ${escapeHtml(item.typeLabel)}
           </span>
         </td>
-        <td style="font-weight: 600;">${item.beneficiaryName}</td>
+        <td style="font-weight: 600;">${escapeHtml(item.beneficiaryName)}</td>
         <td class="amount ${item.type === 'receipt' ? 'text-emerald' : 'text-rose'}" style="font-weight: 700;">
           ${item.type === 'receipt' ? '+' : '-'}${formatCurrency(item.amount)}
         </td>
-        <td style="color: var(--text-secondary); max-width: 250px;">${item.note || '—'}</td>
+        <td style="color: var(--text-secondary); max-width: 250px;">${escapeHtml(item.note) || '—'}</td>
         <td style="text-align: left;">
-          <button class="btn btn-outline" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${item.id}', '${item.type}')">
+          <button class="btn btn-outline" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${escapeHtml(item.id)}', '${escapeHtml(item.type)}')">
             🗑️ حذف
           </button>
         </td>
@@ -2667,19 +2685,19 @@ class CustodyApp {
     tbody.innerHTML = items.map((item, idx) => `
       <tr>
         <td class="num">${idx + 1}</td>
-        <td class="date-display">${item.date || '—'}</td>
+        <td class="date-display">${escapeHtml(item.date || '—')}</td>
         <td>
-          <span class="badge-tag">${item.category || 'نثريات'}</span>
+          <span class="badge-tag">${escapeHtml(item.category || 'نثريات')}</span>
         </td>
         <td>
           <span class="amount" style="font-weight:700; color:var(--accent-amber);">
             ${formatCurrency(safeEvaluate(item.amount))}
           </span>
-          ${item.formula ? `<span style="font-size:0.75rem; color:var(--text-muted); margin-right:6px;">(${item.formula})</span>` : ''}
+          ${item.formula ? `<span style="font-size:0.75rem; color:var(--text-muted); margin-right:6px;">(${escapeHtml(item.formula)})</span>` : ''}
         </td>
-        <td style="color:var(--text-secondary);">${item.note}</td>
+        <td style="color:var(--text-secondary);">${escapeHtml(item.note)}</td>
         <td style="text-align: left;">
-          <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${item.id}', 'ibrahim')">
+          <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${escapeHtml(item.id)}', 'ibrahim')">
             🗑️ حذف
           </button>
         </td>
@@ -2692,7 +2710,7 @@ class CustodyApp {
     const current = this.filterBeneficiarySelect.value;
     this.filterBeneficiarySelect.innerHTML = `
       <option value="all">جميع الأشخاص / البنود</option>
-      ${this.state.beneficiaries.map(b => `<option value="${b.id}" ${b.id === current ? 'selected' : ''}>${b.name}</option>`).join('')}
+      ${this.state.beneficiaries.map(b => `<option value="${escapeHtml(b.id)}" ${b.id === current ? 'selected' : ''}>${escapeHtml(b.name)}</option>`).join('')}
     `;
   }
 
@@ -2715,7 +2733,7 @@ class CustodyApp {
     const titleEl = document.getElementById('benModalTitle');
     const bodyEl = document.getElementById('benModalBody');
 
-    titleEl.innerHTML = `كشف حساب تفصيلي: ${ben.name} (${ben.role})`;
+    titleEl.innerHTML = `كشف حساب تفصيلي: ${escapeHtml(ben.name)} (${escapeHtml(ben.role)})`;
 
     bodyEl.innerHTML = `
       <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; background: rgba(0,0,0,0.3); padding:1rem; border-radius:var(--radius-md); margin-bottom: 1.5rem;">
@@ -2748,25 +2766,25 @@ class CustodyApp {
             ${receipts.map(r => `
               <tr>
                 <td><span class="badge-type receipt">قبض</span></td>
-                <td class="date-display">${r.date || '2025-11-13'}</td>
+                <td class="date-display">${escapeHtml(r.date || '2025-11-13')}</td>
                 <td class="amount text-emerald">+${formatCurrency(safeEvaluate(r.amount))}</td>
-                <td>${r.note}</td>
+                <td>${escapeHtml(r.note)}</td>
               </tr>
             `).join('')}
             ${expenses.map(e => `
               <tr>
                 <td><span class="badge-type expense">صرف</span></td>
-                <td class="date-display">${e.date || '2025-11-13'}</td>
+                <td class="date-display">${escapeHtml(e.date || '2025-11-13')}</td>
                 <td class="amount text-rose">-${formatCurrency(safeEvaluate(e.amount))}</td>
-                <td>${e.note}</td>
+                <td>${escapeHtml(e.note)}</td>
               </tr>
             `).join('')}
             ${extra.map(x => `
               <tr>
                 <td><span class="badge-type extra">نثريات</span></td>
-                <td class="date-display">${x.date || '—'}</td>
+                <td class="date-display">${escapeHtml(x.date || '—')}</td>
                 <td class="amount text-rose">-${formatCurrency(safeEvaluate(x.amount))}</td>
-                <td>${x.note} (${x.category})</td>
+                <td>${escapeHtml(x.note)}${x.category ? ` (${escapeHtml(x.category)})` : ''}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -2924,7 +2942,7 @@ class CustodyApp {
       csvContent += `=== كشف أرصدة أصحاب العهد ===\n`;
       csvContent += `الاسم,الصفة,إجمالي المقبوض,إجمالي المصروف,الرصيد المتبقي,الحالة\n`;
       m.summaries.forEach(s => {
-        csvContent += `"${s.name}","${s.role}",${s.totalReceipts},${s.totalExpenses},${s.balance},"${s.statusText}"\n`;
+        csvContent += `${escapeCsv(s.name)},${escapeCsv(s.role)},${s.totalReceipts},${s.totalExpenses},${s.balance},${escapeCsv(s.statusText)}\n`;
       });
 
       csvContent += `\n=== سجل العمليات والقيود التفصيلي ===\n`;
@@ -2933,16 +2951,17 @@ class CustodyApp {
       let rowIdx = 1;
       this.state.receipts.forEach(r => {
         const ben = this.state.beneficiaries.find(b => b.id === r.beneficiaryId) || { name: r.beneficiaryId };
-        csvContent += `${rowIdx++},قبض,${r.date || '2025-11-13'},"${ben.name}",${r.amount},"${r.note || ''}"\n`;
+        csvContent += `${rowIdx++},قبض,${r.date || '2025-11-13'},${escapeCsv(ben.name)},${r.amount},${escapeCsv(r.note || '')}\n`;
       });
 
       this.state.expenses.forEach(e => {
         const ben = this.state.beneficiaries.find(b => b.id === e.beneficiaryId) || { name: e.beneficiaryId };
-        csvContent += `${rowIdx++},صرف,${e.date || '2025-11-13'},"${ben.name}",${e.amount},"${e.note || ''}"\n`;
+        csvContent += `${rowIdx++},صرف,${e.date || '2025-11-13'},${escapeCsv(ben.name)},${e.amount},${escapeCsv(e.note || '')}\n`;
       });
 
       this.state.engIbrahimExtraExpenses.forEach(i => {
-        csvContent += `${rowIdx++},نثريات م. إبراهيم,${i.date || '2025-12-25'},"مهندس ابراهيم",${safeEvaluate(i.amount)},"${i.note || ''} (${i.category || ''})"\n`;
+        const noteWithCat = (i.note || '') + (i.category ? ` (${i.category})` : '');
+        csvContent += `${rowIdx++},نثريات م. إبراهيم,${i.date || '2025-12-25'},"مهندس ابراهيم",${safeEvaluate(i.amount)},${escapeCsv(noteWithCat)}\n`;
       });
 
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
