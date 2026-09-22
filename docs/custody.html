@@ -1777,7 +1777,8 @@ function calculateAccountingMetrics(state) {
     totalCustodyPool,
     totalDisbursedToSubKeepers,
     totalSalariesDisbursed,
-    abdullahDirectExpenses,
+    mainKeeperDirectExpenses,
+    abdullahDirectExpenses: mainKeeperDirectExpenses,
     subKeepersTotalExpenses,
     extraIbrahimTotal,
     grandTotalOutflows,
@@ -2236,9 +2237,10 @@ class CustodyApp {
 
     // 3. Sub-keepers carryover
     if (carrySub && prevMetrics.summaries) {
+      const prevKeeper = prevCustody.mainCustodyKeeper || 'abdullah';
       prevMetrics.summaries.forEach(bm => {
         const bal = (bm.balance !== undefined ? bm.balance : (bm.netBalance !== undefined ? bm.netBalance : 0));
-        if (!bm.isMain && bm.id !== 'salaries' && Math.abs(bal) > 0.005) {
+        if (bm.id !== prevKeeper && bm.id !== 'salaries' && Math.abs(bal) > 0.005) {
           if (bal > 0.005) {
             newReceipts.push({
               id: `rec-${Date.now()}-sub-${bm.id}`,
