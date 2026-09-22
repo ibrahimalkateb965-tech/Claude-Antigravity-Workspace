@@ -1814,6 +1814,8 @@ function escapeCsv(val) {
   return `"${str.replace(/"/g, '""')}"`;
 }
 
+const DEFAULT_TX_DATE = '2025-11-13';
+
 class CustodyApp {
   constructor() {
     this.storageKey = 'autovem_custody_pro_v2';
@@ -1850,6 +1852,19 @@ class CustodyApp {
         if (!Array.isArray(c.beneficiaries)) c.beneficiaries = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA.beneficiaries));
         if (!Array.isArray(c.engIbrahimExtraExpenses)) c.engIbrahimExtraExpenses = [];
         if (!c.mainCustodyKeeper) c.mainCustodyKeeper = 'abdullah';
+
+        // Sanitize transaction IDs against injection
+        c.receipts.forEach(r => {
+          if (r.id) r.id = String(r.id).replace(/[^a-zA-Z0-9_-]/g, '');
+          if (r.beneficiaryId) r.beneficiaryId = String(r.beneficiaryId).replace(/[^a-zA-Z0-9_-]/g, '');
+        });
+        c.expenses.forEach(e => {
+          if (e.id) e.id = String(e.id).replace(/[^a-zA-Z0-9_-]/g, '');
+          if (e.beneficiaryId) e.beneficiaryId = String(e.beneficiaryId).replace(/[^a-zA-Z0-9_-]/g, '');
+        });
+        c.engIbrahimExtraExpenses.forEach(x => {
+          if (x.id) x.id = String(x.id).replace(/[^a-zA-Z0-9_-]/g, '');
+        });
       });
 
       return {
@@ -1878,13 +1893,26 @@ class CustodyApp {
       return {
         activeCustodyId: 'custody_3',
         custodyOrder: ['custody_3'],
-        custodies: {
-          custody_3: custody3
-        }
+        custodies: { custody_3 }
       };
     }
 
     return null;
+  }
+
+  getBeneficiary(id) {
+    return this.state.beneficiaries.find(b => b.id === id) || { id, name: id, role: 'مستفيد' };
+  }
+
+  downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   loadState() {
@@ -2093,6 +2121,37 @@ class CustodyApp {
     if (this.btnRestore && this.fileRestore) {
       this.btnRestore.addEventListener('click', () => this.fileRestore.click());
       this.fileRestore.addEventListener('change', (e) => this.restoreJSON(e));
+    }
+
+    // Delegated click handlers (Finding S-1: XSS Context Defense)
+    const benGrid = document.getElementById('beneficiariesGrid');
+    if (benGrid) {
+      benGrid.addEventListener('click', (e) => {
+        const card = e.target.closest('.beneficiary-card');
+        if (card && card.dataset.benId) {
+          this.openBeneficiaryLedger(card.dataset.benId);
+        }
+      });
+    }
+
+    const txTbody = document.getElementById('transactionsTableBody');
+    if (txTbody) {
+      txTbody.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-delete-tx');
+        if (btn && btn.dataset.id && btn.dataset.type) {
+          this.deleteTransaction(btn.dataset.id, btn.dataset.type);
+        }
+      });
+    }
+
+    const ibTbody = document.getElementById('ibrahimTableBody');
+    if (ibTbody) {
+      ibTbody.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-delete-ib');
+        if (btn && btn.dataset.id) {
+          this.deleteTransaction(btn.dataset.id, 'ibrahim');
+        }
+      });
     }
   }
 
@@ -2542,7 +2601,7 @@ class CustodyApp {
       if (b.status === 'deficit') badgeClass = 'deficit';
 
       return `
-        <div class="beneficiary-card" onclick="app.openBeneficiaryLedger('${escapeHtml(b.id)}')">
+        <div class="beneficiary-card" data-ben-id="${escapeHtml(b.id)}">
           <div class="beneficiary-header">
             <div class="beneficiary-avatar">${escapeHtml(b.avatar || '👤')}</div>
             <div class="beneficiary-info">
@@ -2588,7 +2647,7 @@ class CustodyApp {
 
     // Receipts
     this.state.receipts.forEach(r => {
-      const ben = this.state.beneficiaries.find(b => b.id === r.beneficiaryId) || { name: r.beneficiaryId };
+      const ben = this.getBeneficiary(r.beneficiaryId);
       items.push({
         id: r.id,
         type: 'receipt',
@@ -2597,13 +2656,13 @@ class CustodyApp {
         beneficiaryName: ben.name,
         amount: safeEvaluate(r.amount),
         note: r.note,
-        date: r.date || '2025-11-13'
+        date: r.date || DEFAULT_TX_DATE
       });
     });
 
     // Expenses
     this.state.expenses.forEach(e => {
-      const ben = this.state.beneficiaries.find(b => b.id === e.beneficiaryId) || { name: e.beneficiaryId };
+      const ben = this.getBeneficiary(e.beneficiaryId);
       items.push({
         id: e.id,
         type: 'expense',
@@ -2612,7 +2671,7 @@ class CustodyApp {
         beneficiaryName: ben.name,
         amount: safeEvaluate(e.amount),
         note: e.note,
-        date: e.date || '2025-11-13'
+        date: e.date || DEFAULT_TX_DATE
       });
     });
 
@@ -2660,7 +2719,7 @@ class CustodyApp {
         </td>
         <td style="color: var(--text-secondary); max-width: 250px;">${escapeHtml(item.note) || '—'}</td>
         <td style="text-align: left;">
-          <button class="btn btn-outline" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${escapeHtml(item.id)}', '${escapeHtml(item.type)}')">
+          <button class="btn btn-outline btn-delete-tx" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;" data-id="${escapeHtml(item.id)}" data-type="${escapeHtml(item.type)}">
             🗑️ حذف
           </button>
         </td>
@@ -2697,7 +2756,7 @@ class CustodyApp {
         </td>
         <td style="color:var(--text-secondary);">${escapeHtml(item.note)}</td>
         <td style="text-align: left;">
-          <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="app.deleteTransaction('${escapeHtml(item.id)}', 'ibrahim')">
+          <button class="btn btn-outline btn-delete-ib" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" data-id="${escapeHtml(item.id)}">
             🗑️ حذف
           </button>
         </td>
@@ -2715,7 +2774,7 @@ class CustodyApp {
   }
 
   openBeneficiaryLedger(beneficiaryId) {
-    const ben = this.state.beneficiaries.find(b => b.id === beneficiaryId);
+    const ben = this.getBeneficiary(beneficiaryId);
     if (!ben) return;
 
     const receipts = this.state.receipts.filter(r => r.beneficiaryId === beneficiaryId);
@@ -2950,29 +3009,22 @@ class CustodyApp {
       
       let rowIdx = 1;
       this.state.receipts.forEach(r => {
-        const ben = this.state.beneficiaries.find(b => b.id === r.beneficiaryId) || { name: r.beneficiaryId };
-        csvContent += `${rowIdx++},قبض,${r.date || '2025-11-13'},${escapeCsv(ben.name)},${r.amount},${escapeCsv(r.note || '')}\n`;
+        const ben = this.getBeneficiary(r.beneficiaryId);
+        csvContent += `${rowIdx++},قبض,${escapeCsv(r.date || DEFAULT_TX_DATE)},${escapeCsv(ben.name)},${safeEvaluate(r.amount)},${escapeCsv(r.note || '')}\n`;
       });
 
       this.state.expenses.forEach(e => {
-        const ben = this.state.beneficiaries.find(b => b.id === e.beneficiaryId) || { name: e.beneficiaryId };
-        csvContent += `${rowIdx++},صرف,${e.date || '2025-11-13'},${escapeCsv(ben.name)},${e.amount},${escapeCsv(e.note || '')}\n`;
+        const ben = this.getBeneficiary(e.beneficiaryId);
+        csvContent += `${rowIdx++},صرف,${escapeCsv(e.date || DEFAULT_TX_DATE)},${escapeCsv(ben.name)},${safeEvaluate(e.amount)},${escapeCsv(e.note || '')}\n`;
       });
 
       this.state.engIbrahimExtraExpenses.forEach(i => {
         const noteWithCat = (i.note || '') + (i.category ? ` (${i.category})` : '');
-        csvContent += `${rowIdx++},نثريات م. إبراهيم,${i.date || '2025-12-25'},"مهندس ابراهيم",${safeEvaluate(i.amount)},${escapeCsv(noteWithCat)}\n`;
+        csvContent += `${rowIdx++},نثريات م. إبراهيم,${escapeCsv(i.date || '2025-12-25')},"مهندس ابراهيم",${safeEvaluate(i.amount)},${escapeCsv(noteWithCat)}\n`;
       });
 
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `تقرير_تصفية_العهدة_3_${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      this.downloadBlob(blob, `تقرير_تصفية_العهدة_3_${new Date().toISOString().split('T')[0]}.csv`);
     } catch (e) {
       alert("حدث خطأ أثناء تصدير الملف: " + e.message);
     }
@@ -2983,14 +3035,7 @@ class CustodyApp {
     const safeName = (active ? active.name : 'العهدة').replace(/[\s\/\\:*?"<>|]/g, '_');
     const jsonStr = JSON.stringify(this.state, null, 2);
     const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `نسخة_احتياطية_${safeName}_${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    this.downloadBlob(blob, `نسخة_احتياطية_${safeName}_${new Date().toISOString().split('T')[0]}.json`);
   }
 
   restoreJSON(e) {
