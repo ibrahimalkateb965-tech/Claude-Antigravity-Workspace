@@ -1628,26 +1628,28 @@ const INITIAL_CUSTODY_DATA = {
  * @returns {number}
  */
 function safeEvaluate(expr) {
-  if (typeof expr === 'number') return isNaN(expr) ? 0 : expr;
-  if (!expr) return 0;
+  if (expr === null || expr === undefined) return 0;
+  if (typeof expr === 'number') return Number.isFinite(expr) ? expr : 0;
   
-  const clean = String(expr).trim().replace(/^=/, '');
+  let clean = String(expr).trim().replace(/^=/, '');
   if (!clean) return 0;
+
+  // تحويل الأرقام المشرقية (٠-٩) إلى أرقام إنجليزية (0-9) طبقاً للقيد 50
+  clean = clean.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+
+  // معالجة المسافات بين الأرقام مثل "50 000"
+  clean = clean.replace(/(\d)\s+(\d)/g, '$1$2');
   
   // التحقق من أن التعبير يحتوي فقط على أرقام وعمليات حسابية أساسية
   if (!/^[0-9+\-*/.()\s]+$/.test(clean)) {
-    const num = parseFloat(clean);
-    return isNaN(num) ? 0 : num;
+    return 0;
   }
   
   try {
-    // محلل بسيط وآمن بدون eval
-    // استخدام دالة Function مع بيئة معزولة صارمة خالية من أي سياق خارجي
     const result = new Function(`"use strict"; return (${clean});`)();
-    return typeof result === 'number' && !isNaN(result) ? Math.round(result * 100) / 100 : 0;
+    return typeof result === 'number' && Number.isFinite(result) ? Math.round(result * 100) / 100 : 0;
   } catch (e) {
-    const num = parseFloat(clean);
-    return isNaN(num) ? 0 : num;
+    return 0;
   }
 }
 
@@ -1669,31 +1671,30 @@ function formatCurrency(amount, includeUnit = true) {
 }
 
 /**
- * الحسابات التفصيلية لكل طرف / بند عهدة
+ * حساب تفاصيل كل مستفيد (المقبوضات، المنصرفات، الرصيد، الحالة)
  * @param {object} state 
  * @returns {Array}
  */
 function calculateBeneficiarySummaries(state) {
-  const { beneficiaries, receipts, expenses, engIbrahimExtraExpenses } = state;
-  
-  const extraIbrahimTotal = (engIbrahimExtraExpenses || []).reduce((sum, item) => {
-    return sum + (safeEvaluate(item.amount) || 0);
-  }, 0);
+  const beneficiaries = state.beneficiaries || [];
+  const receipts = state.receipts || [];
+  const expenses = state.expenses || [];
+  const engIbrahimExtraExpenses = state.engIbrahimExtraExpenses || [];
 
   return beneficiaries.map(b => {
-    // إجمالي المقبوضات
-    const userReceipts = (receipts || []).filter(r => r.beneficiaryId === b.id);
-    const totalReceipts = userReceipts.reduce((sum, r) => sum + (safeEvaluate(r.amount) || 0), 0);
+    const userReceipts = receipts.filter(r => r.beneficiaryId === b.id);
+    const userExpenses = expenses.filter(e => e.beneficiaryId === b.id);
     
-    // إجمالي المصروفات
-    const userExpenses = (expenses || []).filter(e => e.beneficiaryId === b.id);
+    const totalReceipts = userReceipts.reduce((sum, r) => sum + (safeEvaluate(r.amount) || 0), 0);
     let totalExpenses = userExpenses.reduce((sum, e) => sum + (safeEvaluate(e.amount) || 0), 0);
     
-    // إضافة فواتير م. إبراهيم النثرية إذا كان الطرف هو م. إبراهيم
+    // إضافة نثريات م. إبراهيم المباشرة (الصف 246)
+    let extraIbrahimTotal = 0;
     if (b.id === 'eng_ibrahim') {
+      extraIbrahimTotal = engIbrahimExtraExpenses.reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
       totalExpenses += extraIbrahimTotal;
     }
-    
+
     const balance = totalReceipts - totalExpenses;
     
     let status = 'settled';
@@ -1712,6 +1713,7 @@ function calculateBeneficiarySummaries(state) {
       totalExpenses,
       extraExpenses: b.id === 'eng_ibrahim' ? extraIbrahimTotal : 0,
       balance,
+      netBalance: balance,
       status,
       statusText,
       receiptsCount: userReceipts.length,
@@ -1727,13 +1729,14 @@ function calculateBeneficiarySummaries(state) {
  */
 function calculateAccountingMetrics(state) {
   const summaries = calculateBeneficiarySummaries(state);
+  const mainKeeperId = state.mainCustodyKeeper || 'abdullah';
   
-  const mainKeeper = summaries.find(s => s.id === 'abdullah') || { totalReceipts: 0, totalExpenses: 0, balance: 0 };
+  const mainKeeper = summaries.find(s => s.id === mainKeeperId) || { totalReceipts: 0, totalExpenses: 0, balance: 0 };
   const salaries = summaries.find(s => s.id === 'salaries') || { totalReceipts: 0, totalExpenses: 0 };
   
-  const subKeepers = summaries.filter(s => s.id !== 'abdullah' && s.id !== 'salaries');
+  const subKeepers = summaries.filter(s => s.id !== mainKeeperId && s.id !== 'salaries');
   
-  // 1. إجمالي العهدة المودعة لدى أمين الصندوق المركزي (عبدالله - C92)
+  // 1. إجمالي العهدة المودعة لدى أمين الصندوق المركزي (C92)
   const totalCustodyPool = mainKeeper.totalReceipts;
   
   // 2. إجمالي المبالغ المسلمة لأصحاب العهد الفرعية (E92 + G92 + I92 + K92 + M92 + O92)
@@ -1742,8 +1745,8 @@ function calculateAccountingMetrics(state) {
   // 3. إجمالي بند الرواتب والاوفرتايم (Q92)
   const totalSalariesDisbursed = salaries.totalReceipts;
   
-  // 4. المصروفات المباشرة لأمين العهدة عبدالله (C242)
-  const abdullahDirectExpenses = mainKeeper.totalExpenses;
+  // 4. المصروفات المباشرة لأمين العهدة
+  const mainKeeperDirectExpenses = mainKeeper.totalExpenses;
   
   // 5. مصروفات أصحاب العهد الفرعية
   const subKeepersTotalExpenses = subKeepers.reduce((acc, s) => acc + s.totalExpenses, 0);
@@ -1752,22 +1755,20 @@ function calculateAccountingMetrics(state) {
   const extraIbrahimTotal = (state.engIbrahimExtraExpenses || []).reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
   
   // 7. إجمالي المنصرفات الفعلية الكلية للمشروع
-  // = مصروفات عبدالله + مصروفات العهد الفرعية + الرواتب
-  const grandTotalOutflows = abdullahDirectExpenses + subKeepersTotalExpenses + totalSalariesDisbursed;
+  // = مصروفات أمين العهدة + مصروفات العهد الفرعية + الرواتب
+  const grandTotalOutflows = mainKeeperDirectExpenses + subKeepersTotalExpenses + totalSalariesDisbursed;
   
   // 8. عجز / فائض الصندوق الكلي (معادلة الصف 94 في الإكسل)
-  // C94 = C92 - All Expenses - Q92 - C246
   const overallFundDeficit = totalCustodyPool - grandTotalOutflows;
   
-  // 9. صافي النقدية المتوفرة فعلياً بيد أمين العهدة عبدالله (معادلة الصف 96 والصف 99 في الإكسل)
-  // Row 99 = C92 - Disbursed to others - Q92 - Abdullah Expenses
-  const cashInHandMainKeeper = totalCustodyPool - totalDisbursedToSubKeepers - totalSalariesDisbursed - abdullahDirectExpenses;
+  // 9. صافي النقدية المتوفرة فعلياً بيد أمين العهدة
+  const cashInHandMainKeeper = totalCustodyPool - totalDisbursedToSubKeepers - totalSalariesDisbursed - mainKeeperDirectExpenses;
   
   // 10. صافي أرصدة العهد الفرعية لدى المستلمين (مجموع ما لديهم أو مستحق لهم)
   const subKeepersNetBalance = subKeepers.reduce((acc, s) => acc + s.balance, 0);
   
   // 11. التحقق من صحة المطابقة المزدوجة (Reconciliation Equation)
-  // النقدية بيد عبدالله + صافي أرصدة العهد الفرعية = العجز الكلي للصندوق
+  // النقدية بيد أمين العهدة + صافي أرصدة العهد الفرعية = العجز الكلي للصندوق
   const computedDeficitCheck = cashInHandMainKeeper + subKeepersNetBalance;
   const isReconciled = Math.abs(computedDeficitCheck - overallFundDeficit) < 0.01;
 
@@ -1809,41 +1810,71 @@ class CustodyApp {
     this.render();
   }
 
+  normalizeState(parsed) {
+    if (!parsed) return null;
+
+    // Multi-custody v2 format
+    if (parsed.custodies && typeof parsed.custodies === 'object' && Object.keys(parsed.custodies).length > 0) {
+      const custodyOrder = Array.isArray(parsed.custodyOrder) && parsed.custodyOrder.length > 0
+        ? parsed.custodyOrder
+        : Object.keys(parsed.custodies);
+
+      const activeCustodyId = parsed.activeCustodyId && parsed.custodies[parsed.activeCustodyId]
+        ? parsed.activeCustodyId
+        : custodyOrder[0];
+
+      // Sanitize each custody
+      Object.keys(parsed.custodies).forEach(id => {
+        const c = parsed.custodies[id];
+        if (!Array.isArray(c.receipts)) c.receipts = [];
+        if (!Array.isArray(c.expenses)) c.expenses = [];
+        if (!Array.isArray(c.beneficiaries)) c.beneficiaries = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA.beneficiaries));
+        if (!Array.isArray(c.engIbrahimExtraExpenses)) c.engIbrahimExtraExpenses = [];
+        if (!c.mainCustodyKeeper) c.mainCustodyKeeper = 'abdullah';
+      });
+
+      return {
+        activeCustodyId,
+        custodyOrder,
+        custodies: parsed.custodies
+      };
+    }
+
+    // Legacy v1 single-custody format
+    if (Array.isArray(parsed.receipts) && Array.isArray(parsed.expenses)) {
+      const custody3 = {
+        id: 'custody_3',
+        name: 'العهدة 3',
+        badge: 'النشطة',
+        startDate: parsed.startDate || '13/11/2025',
+        period: parsed.period || 'بدءاً من 13/11/2025',
+        title: parsed.title || 'العهدة 3 بدءا من 13/11/2025',
+        currency: parsed.currency || 'ر.س',
+        mainCustodyKeeper: parsed.mainCustodyKeeper || 'abdullah',
+        receipts: parsed.receipts,
+        expenses: parsed.expenses,
+        beneficiaries: parsed.beneficiaries || JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA.beneficiaries)),
+        engIbrahimExtraExpenses: parsed.engIbrahimExtraExpenses || []
+      };
+      return {
+        activeCustodyId: 'custody_3',
+        custodyOrder: ['custody_3'],
+        custodies: {
+          custody_3: custody3
+        }
+      };
+    }
+
+    return null;
+  }
+
   loadState() {
     try {
       const saved = localStorage.getItem(this.storageKey);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.custodies && parsed.activeCustodyId) {
-          if (!parsed.custodyOrder) {
-            parsed.custodyOrder = Object.keys(parsed.custodies);
-          }
-          return parsed;
-        }
-        // Migration from legacy flat single-custody format
-        if (parsed.receipts && parsed.expenses) {
-          const custody3 = {
-            id: 'custody_3',
-            name: 'العهدة 3',
-            badge: 'النشطة',
-            startDate: parsed.startDate || '13/11/2025',
-            period: 'بدءاً من 13/11/2025',
-            title: parsed.title || 'العهدة 3 بدءا من 13/11/2025',
-            currency: parsed.currency || 'ر.س',
-            mainCustodyKeeper: parsed.mainCustodyKeeper || 'abdullah',
-            receipts: parsed.receipts,
-            expenses: parsed.expenses,
-            beneficiaries: parsed.beneficiaries || INITIAL_CUSTODY_DATA.beneficiaries,
-            engIbrahimExtraExpenses: parsed.engIbrahimExtraExpenses || INITIAL_CUSTODY_DATA.engIbrahimExtraExpenses
-          };
-          return {
-            activeCustodyId: 'custody_3',
-            custodyOrder: ['custody_3'],
-            custodies: {
-              custody_3: custody3
-            }
-          };
-        }
+        const normalized = this.normalizeState(parsed);
+        if (normalized) return normalized;
       }
     } catch (e) {
       console.warn("Failed to parse saved state, using defaults", e);
@@ -2175,15 +2206,17 @@ class CustodyApp {
     }
 
     // 2. Carryover from previous custody
-    const prevCustody = this.getActiveCustody();
+    const order = this.state.custodyOrder || Object.keys(this.state.custodies);
+    const lastId = order.length > 0 ? order[order.length - 1] : (this.state.activeCustodyId || 'custody_3');
+    const prevCustody = this.state.custodies[lastId] || this.getActiveCustody();
     const prevMetrics = calculateAccountingMetrics(prevCustody);
 
-    if (carryCash && prevMetrics.cashInHandMainKeeper !== 0) {
+    if (carryCash && Math.abs(prevMetrics.cashInHandMainKeeper) > 0.005) {
       if (prevMetrics.cashInHandMainKeeper > 0) {
         newReceipts.push({
           id: `rec-${Date.now()}-carry`,
           beneficiaryId: keeper,
-          amount: prevMetrics.cashInHandMainKeeper,
+          amount: Math.round(prevMetrics.cashInHandMainKeeper * 100) / 100,
           note: `رصيد نقدية مرحل من العهدة السابقة (${prevCustody.name})`,
           date: startDate,
           row: newReceipts.length + 1
@@ -2192,7 +2225,7 @@ class CustodyApp {
         newExpenses.push({
           id: `exp-${Date.now()}-carry`,
           beneficiaryId: keeper,
-          amount: Math.abs(prevMetrics.cashInHandMainKeeper),
+          amount: Math.round(Math.abs(prevMetrics.cashInHandMainKeeper) * 100) / 100,
           category: 'رصيد مرحل',
           note: `عجز نقدي مرحل من العهدة السابقة (${prevCustody.name}) - مستحق لأمين العهدة`,
           date: startDate,
@@ -2204,12 +2237,13 @@ class CustodyApp {
     // 3. Sub-keepers carryover
     if (carrySub && prevMetrics.summaries) {
       prevMetrics.summaries.forEach(bm => {
-        if (!bm.isMain && bm.id !== 'salaries' && bm.netBalance !== 0) {
-          if (bm.netBalance > 0) {
+        const bal = (bm.balance !== undefined ? bm.balance : (bm.netBalance !== undefined ? bm.netBalance : 0));
+        if (!bm.isMain && bm.id !== 'salaries' && Math.abs(bal) > 0.005) {
+          if (bal > 0.005) {
             newReceipts.push({
               id: `rec-${Date.now()}-sub-${bm.id}`,
               beneficiaryId: bm.id,
-              amount: bm.netBalance,
+              amount: Math.round(bal * 100) / 100,
               note: `رصيد عهدة متبقي مرحل من (${prevCustody.name})`,
               date: startDate,
               row: newReceipts.length + 1
@@ -2218,7 +2252,7 @@ class CustodyApp {
             newExpenses.push({
               id: `exp-${Date.now()}-sub-${bm.id}`,
               beneficiaryId: bm.id,
-              amount: Math.abs(bm.netBalance),
+              amount: Math.round(Math.abs(bal) * 100) / 100,
               category: 'رصيد مرحل',
               note: `مستحقات مرحلة من (${prevCustody.name}) لدى الصندوق`,
               date: startDate,
@@ -2320,12 +2354,18 @@ class CustodyApp {
       row: null
     };
 
+    const active = this.getActiveCustody();
+    if (!active) return;
+    if (!Array.isArray(active.receipts)) active.receipts = [];
+    if (!Array.isArray(active.expenses)) active.expenses = [];
+
     if (type === 'receipt') {
-      this.state.receipts.push(item);
+      active.receipts.push(item);
     } else {
-      this.state.expenses.push(item);
+      active.expenses.push(item);
     }
 
+    this.syncActiveCustodyPointers();
     this.saveState();
     this.closeAllModals();
     this.render();
@@ -2353,7 +2393,12 @@ class CustodyApp {
       date
     };
 
-    this.state.engIbrahimExtraExpenses.push(item);
+    const active = this.getActiveCustody();
+    if (!active) return;
+    if (!Array.isArray(active.engIbrahimExtraExpenses)) active.engIbrahimExtraExpenses = [];
+    active.engIbrahimExtraExpenses.push(item);
+
+    this.syncActiveCustodyPointers();
     this.saveState();
     this.closeAllModals();
     this.render();
@@ -2362,14 +2407,18 @@ class CustodyApp {
   deleteTransaction(id, type) {
     if (!confirm("هل أنت متأكد من حذف هذه المعاملة؟")) return;
     
+    const active = this.getActiveCustody();
+    if (!active) return;
+
     if (type === 'receipt') {
-      this.state.receipts = this.state.receipts.filter(r => r.id !== id);
+      active.receipts = (active.receipts || []).filter(r => r.id !== id);
     } else if (type === 'expense') {
-      this.state.expenses = this.state.expenses.filter(e => e.id !== id);
+      active.expenses = (active.expenses || []).filter(e => e.id !== id);
     } else if (type === 'ibrahim') {
-      this.state.engIbrahimExtraExpenses = this.state.engIbrahimExtraExpenses.filter(i => i.id !== id);
+      active.engIbrahimExtraExpenses = (active.engIbrahimExtraExpenses || []).filter(i => i.id !== id);
     }
 
+    this.syncActiveCustodyPointers();
     this.saveState();
     this.render();
   }
@@ -2909,12 +2958,14 @@ class CustodyApp {
   }
 
   backupJSON() {
+    const active = this.getActiveCustody();
+    const safeName = (active ? active.name : 'العهدة').replace(/[\s\/\\:*?"<>|]/g, '_');
     const jsonStr = JSON.stringify(this.state, null, 2);
     const blob = new Blob([jsonStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `نسخة_احتياطية_العهدة_3_${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `نسخة_احتياطية_${safeName}_${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -2922,15 +2973,22 @@ class CustodyApp {
   }
 
   restoreJSON(e) {
-    const file = e.target.files[0];
+    const file = e.target.files && e.target.files[0];
     if (!file) return;
+
+    if (!confirm("هل أنت متأكد من استرجاع البيانات من الملف؟ سيتم استبدال البيانات الحالية بالكامل.")) {
+      if (this.fileRestore) this.fileRestore.value = '';
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
         const parsed = JSON.parse(event.target.result);
-        if (parsed && parsed.receipts && parsed.expenses) {
-          this.state = parsed;
+        const normalized = this.normalizeState(parsed);
+        if (normalized) {
+          this.state = normalized;
+          this.syncActiveCustodyPointers();
           this.saveState();
           this.render();
           alert("تم استرجاع النسخة الاحتياطية بنجاح ✅");
@@ -2939,6 +2997,8 @@ class CustodyApp {
         }
       } catch (err) {
         alert("فشل قراءة ملف النسخة الاحتياطية: " + err.message);
+      } finally {
+        if (this.fileRestore) this.fileRestore.value = '';
       }
     };
     reader.readAsText(file);
