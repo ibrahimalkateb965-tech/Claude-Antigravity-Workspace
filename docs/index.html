@@ -739,7 +739,7 @@ table.data-table tr:hover td {
   color: var(--accent-amber);
 }
 
-/* قسم الفواتير النثرية لمهندس إبراهيم */
+/* قسم الفواتير والمصروفات النثرية الميدانية */
 .extra-expenses-section {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -1038,9 +1038,9 @@ footer.app-footer {
 
   <!-- ترويسة الطباعة الرسمية المعتمدة (تظهر فقط عند الطباعة) -->
   <div class="print-only-header">
-    <h2 style="font-size: 16pt; font-weight: 800; margin-bottom: 4px;">مؤسسة إعمار الفرعة للمقاولات العامة</h2>
-    <h3 style="font-size: 13pt; font-weight: 700; color: #334155;">محضر تسوية وتصفية العهدة رقم 3 (بدءاً من 13/11/2025)</h3>
-    <p style="font-size: 9pt; color: #64748b;">تاريخ استخراج التقرير: <span class="date-display" id="printDate">2025-11-13</span> | أمين العهدة: عبدالله</p>
+    <h2 style="font-size: 16pt; font-weight: 800; margin-bottom: 4px;">إدارة الشؤون المالية والمشاريع</h2>
+    <h3 style="font-size: 13pt; font-weight: 700; color: #334155;">محضر تسوية وتصفية العهدة المالية المعتمد</h3>
+    <p style="font-size: 9pt; color: #64748b;">تاريخ استخراج التقرير: <span class="date-display" id="printDate"></span> | منظومة Autovem Custody Pro</p>
   </div>
 
   <!-- الترويسة الرئيسية للتطبيق -->
@@ -1082,9 +1082,9 @@ footer.app-footer {
           <span>🖨️</span>
           <span>طباعة المحضر</span>
         </button>
-        <button class="btn btn-outline" id="btnReset" title="استعادة أرقام الإكسل الأصلية">
+        <button class="btn btn-outline" id="btnReset" title="تصفير البيانات والبدء بعهدة جديدة">
           <span>🔄</span>
-          <span>استعادة الأصل</span>
+          <span>تصفير العهدة</span>
         </button>
         <button class="btn btn-outline" id="btnBackup" title="تنزيل نسخة احتياطية من البيانات">
           <span>💾</span>
@@ -1106,12 +1106,12 @@ footer.app-footer {
     <div class="kpi-grid">
       <div class="kpi-card cyan">
         <div class="kpi-header">
-          <span class="kpi-title">إجمالي المقبوضات (المستلم من العهدة)</span>
+          <span class="kpi-title">رصيد تمويل الصندوق (إجمالي المقبوضات)</span>
           <div class="kpi-icon">📥</div>
         </div>
-        <div class="kpi-value" id="kpiTotalCustody">172,621.00 ر.س</div>
+        <div class="kpi-value" id="kpiTotalCustody">0.00 ر.س</div>
         <div class="kpi-subtext">
-          <span>مطابق لخلية إجمالي المقبوضات بالصف 92 (C92)</span>
+          <span>إجمالي تمويل الصندوق المعتمد والمستلم</span>
         </div>
       </div>
 
@@ -1120,42 +1120,42 @@ footer.app-footer {
           <span class="kpi-title">إجمالي المنصرفات الفعلية الكلية</span>
           <div class="kpi-icon">📤</div>
         </div>
-        <div class="kpi-value" id="kpiTotalOutflows">174,255.00 ر.س</div>
+        <div class="kpi-value" id="kpiTotalOutflows">0.00 ر.س</div>
         <div class="kpi-subtext">
-          <span>مصروفات عبدالله + العهد الفرعية + الرواتب + نثريات إبراهيم</span>
+          <span>المصروفات المباشرة + العهد الفرعية + الرواتب + النثريات</span>
         </div>
       </div>
 
       <div class="kpi-card amber">
         <div class="kpi-header">
-          <span class="kpi-title">عجز الصندوق الإجمالي للمشروع</span>
+          <span class="kpi-title">عجز / فائض الصندوق الإجمالي</span>
           <div class="kpi-icon">⚖️</div>
         </div>
-        <div class="kpi-value" id="kpiOverallDeficit">-1,634.00 ر.س</div>
+        <div class="kpi-value" id="kpiOverallDeficit">0.00 ر.س</div>
         <div class="kpi-subtext">
-          <span>معادلة العجز الكلي بالصف 94 (C94)</span>
+          <span>الفارق المالي بين المقبوضات وكافة المنصرفات</span>
         </div>
       </div>
 
       <div class="kpi-card emerald">
         <div class="kpi-header">
-          <span class="kpi-title">صافي النقدية المتوفرة بيد عبدالله</span>
+          <span class="kpi-title">صافي النقدية المتوفرة في الصندوق</span>
           <div class="kpi-icon">💵</div>
         </div>
-        <div class="kpi-value" id="kpiCashInHand">-638.00 ر.س</div>
+        <div class="kpi-value" id="kpiCashInHand">0.00 ر.س</div>
         <div class="kpi-subtext">
-          <span>معادلة الصف 96 والصف 99 في الإكسل (مطابقة تامة)</span>
+          <span>الرصيد الفعلي المتبقي في الصندوق النقدي</span>
         </div>
       </div>
 
       <div class="kpi-card purple">
         <div class="kpi-header">
-          <span class="kpi-title">صافي أرصدة العهد الفرعية (الموقع)</span>
+          <span class="kpi-title">صافي أرصدة ذمم العهد الفرعية</span>
           <div class="kpi-icon">👥</div>
         </div>
-        <div class="kpi-value" id="kpiSubBalance">-996.00 ر.س</div>
+        <div class="kpi-value" id="kpiSubBalance">0.00 ر.س</div>
         <div class="kpi-subtext">
-          <span>مجموع أرصدة المستفيدين الستة (مستحق لهم من الصندوق)</span>
+          <span>مجموع أرصدة مسؤولي المواقع والمستلمين</span>
         </div>
       </div>
     </div>
@@ -1180,8 +1180,8 @@ footer.app-footer {
         <span>سجل العمليات والقيود التفصيلي</span>
       </button>
       <button class="main-tab" data-tab="ibrahim">
-        <span>📐</span>
-        <span>فواتير ونثريات م. إبراهيم (324 ر.س)</span>
+        <span>📋</span>
+        <span>المصروفات النثرية والفواتير الميدانية</span>
       </button>
       <button class="main-tab" data-tab="formulas">
         <span>🔍</span>
@@ -1263,18 +1263,18 @@ footer.app-footer {
       </div>
     </div>
 
-    <!-- تبويب 4: نثريات مهندس إبراهيم -->
+    <!-- تبويب 4: المصروفات النثرية والفواتير الميدانية -->
     <div class="tab-pane" id="tab-ibrahim">
       <div class="extra-expenses-section">
         <div class="extra-header">
           <div>
-            <h3 style="font-size: 1.2rem; font-weight: 800; color: #fff;">تفصيل فواتير ومصروفات مهندس إبراهيم النثرية</h3>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">مطابقة لبيانات الصف 245 إلى 268 في ملف الإكسل (إجمالي المعادلة = 324.00 ر.س)</p>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #fff;">سجل المصروفات والفواتير النثرية التشغيلية</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">سجل الفواتير والمصروفات النثرية والتشغيلية المباشرة للموقع</p>
           </div>
           <div style="display: flex; align-items: center; gap: 1rem;">
             <div style="background: rgba(0,0,0,0.3); padding: 0.6rem 1.2rem; border-radius: var(--radius-md); border: 1px solid rgba(245, 158, 11, 0.3);">
-              <span style="font-size: 0.78rem; color: var(--text-muted); display: block;">إجمالي النثريات (C246):</span>
-              <span id="ibrahimTotalAmount" style="font-size: 1.3rem; font-weight: 800; color: var(--accent-amber);">324.00 ر.س</span>
+              <span style="font-size: 0.78rem; color: var(--text-muted); display: block;">إجمالي النثريات:</span>
+              <span id="ibrahimTotalAmount" style="font-size: 1.3rem; font-weight: 800; color: var(--accent-amber);">0.00 ر.س</span>
             </div>
             <button class="btn btn-primary" id="btnAddIbrahimExpense">
               <span>➕</span>
@@ -1283,19 +1283,8 @@ footer.app-footer {
           </div>
         </div>
 
-        <div class="extra-tags-summary">
-          <div class="extra-tag-pill">
-            <span>⛽</span>
-            <span>بنزين ووقود: <strong class="num" style="color:var(--accent-cyan);">50.00 ر.س</strong></span>
-          </div>
-          <div class="extra-tag-pill">
-            <span>🧱</span>
-            <span>قص نعله سيراميك: <strong class="num" style="color:var(--accent-cyan);">36.00 ر.س</strong></span>
-          </div>
-          <div class="extra-tag-pill">
-            <span>🍽️</span>
-            <span>غداء، مياه ومشروبات الموقع: <strong class="num" style="color:var(--accent-cyan);">238.00 ر.س</strong></span>
-          </div>
+        <div class="extra-tags-summary" id="extraTagsSummary">
+          <!-- ملؤها ديناميكياً عبر JS -->
         </div>
 
         <div class="data-table-wrapper">
@@ -1321,33 +1310,36 @@ footer.app-footer {
     <!-- تبويب 5: دليل وشرح المطابقة المحاسبية -->
     <div class="tab-pane" id="tab-formulas">
       <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem;">
-        <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">شرح الهيكل المحاسبي ومعادلات الإكسل الأصلية</h3>
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">الهيكل المحاسبي وقواعد الرقابة والمطابقة المزدوجة</h3>
         
         <div style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 0.92rem; color: var(--text-secondary);">
           <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-cyan);">
-            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">1. طبيعة العهدة المركزية والعهد الفرعية:</h4>
-            <p>أمين العهدة الرئيسي هو <strong>عبدالله</strong>؛ تم إيداع كامل مبلغ العهدة المرحل (<span class="num">172,621.00</span> ر.س) في حسابه كصندوق مركزي (الصف 92 - العمود C). قام بعد ذلك بتسليم دفعات نقدية كـ "عهد فرعية" لباقي المهندسين والفنيين لمباشرة الأعمال، وصرف بند الرواتب والاوفرتايم (<span class="num">51,500.00</span> ر.س)، وصرف مصروفات مباشرة من قبله بمبلغ (<span class="num">28,181.50</span> ر.س).</p>
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">1. طبيعة الصندوق الرئيسي والعهد الفرعية:</h4>
+            <p>يتم إيداع كامل مبالغ تمويل العهدة في حساب الصندوق الرئيسي تحت إدارة أمين العهدة المعتمد. يقوم أمين العهدة بتسليم دفعات نقدية كـ "عهد فرعية" لمسؤولي المواقع والمشرفين لمباشرة الأعمال، وصرف بنود الرواتب والتشغيل، والمصروفات المباشرة بموجب سندات رسمية.</p>
           </div>
 
           <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-rose);">
-            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">2. معادلة عجز الصندوق الإجمالي (الصف 94 - خلية C94):</h4>
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">2. معادلة عجز / فائض الصندوق الإجمالي:</h4>
             <code style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 4px; color: var(--accent-cyan); display: block; margin-bottom: 0.5rem;">
-              = C92 - (C242 + E242 + G242 + I242 + K242 + M242 + O242) - Q92 - C246
+              عجز الصندوق = إجمالي المقبوضات - مجموع كافة المنصرفات الفعلية (المباشرة + العهد الفرعية + الرواتب + النثريات)
             </code>
-            <p>تمثل الفارق بين إجمالي ما تم استلامه من الإدارة (<span class="num">172,621.00</span> ر.س) ومجموع كافة المنصرفات الفعلية لكافة الأطراف (<span class="num">174,255.00</span> ر.س). الناتج = <strong class="num text-rose">-1,634.00 ر.س</strong>، وهو ما يعني أن المشروع تجاوز العهدة المودعة بعجز قدره 1,634 ريال.</p>
+            <p>تمثل الفارق الحسابي الدقيق بين إجمالي المبالغ المستلمة من إدارة المشروع ومجموع كافة النفقات والمصروفات الموثقة لكافة البنود والأطراف.</p>
           </div>
 
           <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-emerald);">
-            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">3. معادلة صافي النقدية المتوفرة بيد أمين العهدة (الصف 96 والصف 99):</h4>
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">3. معادلة صافي النقدية المتبقية في الصندوق:</h4>
             <code style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 4px; color: var(--accent-cyan); display: block; margin-bottom: 0.5rem;">
-              الصف 99: = C92 - E92 - G92 - I92 - K92 - M92 - O92 - Q92 - C242
+              نقدية الصندوق = إجمالي المقبوضات - المبالغ المسلمة للعهد الفرعية - مصروفات الرواتب - المصروفات المباشرة لأمين الصندوق
             </code>
-            <p>تحسب بالضبط كم تبقى نقدياً مع عبد الله في يده بعد أن أخرج العهد الفرعية للأشخاص والرواتب ومصروفاته المباشرة. الناتج = <strong class="num text-rose">-638.00 ر.س</strong> (قام عبدالله بدفعها مؤقتاً لتغطية التحويلات النقدية).</p>
+            <p>تحسب السيولة النقدية الفعلية المتبقية في يد أمين الصندوق بعد استبعاد التحويلات النقدية للعهد الفرعية والمصروفات المباشرة.</p>
           </div>
 
           <div style="background: rgba(0,0,0,0.3); padding: 1.25rem; border-radius: var(--radius-md); border-right: 4px solid var(--accent-amber);">
-            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">4. التحقق والربط الرياضي (The Reconciliation Proof):</h4>
-            <p>صافي النقدية بيد عبد الله (<span class="num">-638.00</span> ر.س) + صافي ما يتبقى أو يستحق لأصحاب العهد الفرعية الستة (<span class="num">-996.00</span> ر.س) = <strong class="num text-rose">-1,634.00 ر.س</strong> (عجز الصندوق الكلي). هذه المطابقة المزدوجة هي الضمان المحاسبي لسلامة الدفاتر.</p>
+            <h4 style="color: #fff; font-size: 1.05rem; margin-bottom: 0.5rem;">4. التحقق والربط الرياضي المزدوج (The Double-Entry Proof):</h4>
+            <code style="background: rgba(255,255,255,0.06); padding: 0.3rem 0.6rem; border-radius: 4px; color: var(--accent-amber); display: block; margin-bottom: 0.5rem;">
+              صافي النقدية بالصندوق + مجموع صافي أرصدة العهد الفرعية = عجز / فائض الصندوق الكلي
+            </code>
+            <p>هذه المعادلة المحاسبية المزدوجة هي صمام الأمان والرقابة المالية الآلية؛ حيث تضمن التوازن الرياضي التام وتمنع أي خطأ أو تضارب في تسجيل القيود وذمم المستلمين.</p>
           </div>
         </div>
       </div>
@@ -1358,19 +1350,19 @@ footer.app-footer {
   <!-- تواقيع الاعتماد الرسمية عند الطباعة -->
   <div class="print-signatures">
     <div class="sig-block">
-      <strong>أمين العهدة والمصروفات</strong>
+      <strong>أمين الصندوق والعهدة</strong>
       <div class="sig-line"></div>
-      <span>عبدالله</span>
+      <span>الاسم والتوقيع</span>
     </div>
     <div class="sig-block">
       <strong>مهندس الموقع المسؤول</strong>
       <div class="sig-line"></div>
-      <span>مهندس إبراهيم</span>
+      <span>الاسم والتوقيع</span>
     </div>
     <div class="sig-block">
-      <strong>اعتماد الإدارة المالية</strong>
+      <strong>المدير المالي والاعتماد</strong>
       <div class="sig-line"></div>
-      <span>المدير المالي</span>
+      <span>الاسم والتوقيع والختم</span>
     </div>
   </div>
 
@@ -1426,20 +1418,20 @@ footer.app-footer {
     </div>
   </div>
 
-  <!-- نافذة إضافة فاتورة نثرية لمهندس إبراهيم (Modal Ibrahim) -->
+  <!-- نافذة إضافة فاتورة نثرية للمصروفات الميدانية (Modal Ibrahim) -->
   <div class="modal-overlay" id="modalIbrahim">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 style="color: #fff; font-size: 1.15rem; font-weight: 700;">إضافة فاتورة نثرية لمصروفات م. إبراهيم</h4>
+        <h4 style="color: #fff; font-size: 1.15rem; font-weight: 700;">إضافة فاتورة نثرية للمصروفات الميدانية</h4>
         <button class="modal-close">&times;</button>
       </div>
       <form id="formIbrahim">
         <div class="form-group">
           <label>تصنيف المصروف:</label>
           <select class="form-control" id="ibCategory" required>
-            <option value="وقود وبنزين">⛽ وقود وبنزين</option>
-            <option value="أعمال موقع وسيراميك">🧱 أعمال موقع وسيراميك</option>
-            <option value="إعاشة وضيافة">🍽️ إعاشة، غداء ومشروبات</option>
+            <option value="وقود ونقليات">⛽ وقود ونقليات</option>
+            <option value="أعمال ومواد تشغيلية">🧱 أعمال ومواد تشغيلية</option>
+            <option value="إعاشة وضيافة ميدانية">🍽️ إعاشة وضيافة ميدانية</option>
             <option value="مواد صيانة طارئة">🔧 مواد صيانة طارئة</option>
             <option value="أخرى">📦 أخرى</option>
           </select>
@@ -1448,7 +1440,7 @@ footer.app-footer {
         <div class="form-group">
           <label>المبلغ (يدعم تعابير مثل 25+9):</label>
           <input type="text" class="form-control" id="ibAmount" placeholder="مثال: 58 أو 16+16+17" required>
-          <div class="form-hint">سيتم احتساب القيمة الإجمالية تلقائياً وإضافتها لمعادلة C246</div>
+          <div class="form-hint">سيتم احتساب القيمة الإجمالية تلقائياً وإدراجها ضمن المطابقة المالية المباشرة.</div>
         </div>
 
         <div class="form-group">
@@ -1512,13 +1504,12 @@ footer.app-footer {
           <div class="form-group">
             <label>أمين العهدة المسؤول *</label>
             <select class="form-control" id="custodyKeeper">
-              <option value="abdullah" selected>عبدالله (أمين العهدة الرئيسي)</option>
-              <option value="eng_ibrahim">مهندس ابراهيم</option>
-              <option value="abu_yassin">ابو ياسين</option>
-              <option value="al_sayed">السيد</option>
-              <option value="mohamed_galal">محمد جلال ابوعبده</option>
-              <option value="kardousha">ابومحمد كردوشه</option>
-              <option value="abdulrahman">عبدالرحمن</option>
+              <option value="treasurer" selected>أمين الصندوق والعهدة (الرئيسي)</option>
+              <option value="site_engineer">مهندس الموقع</option>
+              <option value="procurement">مسؤول المشتريات والتوريدات</option>
+              <option value="site_supervisor">مشرف العمليات الميدانية</option>
+              <option value="subcontractor">مقاول تنفيذ الأعمال</option>
+              <option value="site_technician">فني الصيانة والتشغيل</option>
             </select>
           </div>
         </div>
@@ -1532,7 +1523,7 @@ footer.app-footer {
         <div class="form-group" style="background: rgba(255, 255, 255, 0.03); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-top: 0.5rem;">
           <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; color: var(--text-primary); font-size: 0.88rem; margin: 0;">
             <input type="checkbox" id="custodyCarryoverCash" checked style="width: 1.1rem; height: 1.1rem; accent-color: var(--accent-cyan);">
-            <span>ترحيل صافي رصيد النقدية من العهدة السابقة (<span id="carryoverCashPreview" style="color: var(--accent-cyan); font-weight: 700;">-638.00 ر.س</span>)</span>
+            <span>ترحيل صافي رصيد النقدية من العهدة السابقة (<span id="carryoverCashPreview" style="color: var(--accent-cyan); font-weight: 700;">0.00 ر.س</span>)</span>
           </label>
           <div class="form-hint" style="margin-right: 1.7rem; margin-top: 0.25rem;">إدراج قيد افتتاحي بمبلغ النقدية الفعلي بذمة أمين العهدة لضمان تواصل الأرصدة.</div>
         </div>
@@ -1540,7 +1531,7 @@ footer.app-footer {
         <div class="form-group" style="background: rgba(255, 255, 255, 0.03); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-top: 0.5rem;">
           <label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; color: var(--text-primary); font-size: 0.88rem; margin: 0;">
             <input type="checkbox" id="custodyCarryoverSub" checked style="width: 1.1rem; height: 1.1rem; accent-color: var(--accent-purple);">
-            <span>ترحيل أرصدة العهد الفرعية ومسؤولي الموقع (<span id="carryoverSubPreview" style="color: var(--accent-purple); font-weight: 700;">-996.00 ر.س</span>)</span>
+            <span>ترحيل أرصدة العهد الفرعية ومسؤولي الموقع (<span id="carryoverSubPreview" style="color: var(--accent-purple); font-weight: 700;">0.00 ر.س</span>)</span>
           </label>
           <div class="form-hint" style="margin-right: 1.7rem; margin-top: 0.25rem;">ترحيل مستحقات المهندسين والفنيين المسجلة في العهدة السابقة كذمم مستمرة.</div>
         </div>
@@ -1565,25 +1556,24 @@ footer.app-footer {
 // === CUSTODY PRO STANDALONE JAVASCRIPT ===
 
 // 1. Initial Data
-// initialData.js - قالب العهدة المصفّر (نسخة الإنتاج النظيفة الخالية من أي معاملات سابقة)
+// initialData.js - قالب العهدة المالي العام والمصفّر (خالٍ تماماً من أي أسماء شخصية أو بيانات سابقة)
 const INITIAL_CUSTODY_DATA = {
-  title: "منظومة إدارة العهدة",
+  title: "منظومة إدارة العهد المالية",
   activeCustodyId: "custody_1",
   startDate: "2026-09-22",
   currency: "ر.س",
   history: [
-    { id: "custody_1", name: "العهدة 1", period: "العهدة الحالية", status: "نشطة" }
+    { id: "custody_1", name: "العهدة 1", period: "العهدة التشغيلية", status: "نشطة" }
   ],
-  mainCustodyKeeper: "abdullah",
+  mainCustodyKeeper: "treasurer",
   beneficiaries: [
-    { id: "abdullah", name: "عبدالله", role: "أمين العهدة الرئيسي ومسؤول المصروفات المباشرة", isMain: true, avatar: "👨‍💼" },
-    { id: "abu_yassin", name: "ابو ياسين", role: "مسؤول موقع / عهدة فرعية", isMain: false, avatar: "👷‍♂️" },
-    { id: "al_sayed", name: "السيد", role: "مسؤول مشتريات / عهدة فرعية", isMain: false, avatar: "📦" },
-    { id: "mohamed_galal", name: "محمد جلال ابوعبده", role: "فني ومشرف موقع / عهدة فرعية", isMain: false, avatar: "🔧" },
-    { id: "kardousha", name: "ابومحمد كردوشه", role: "مقاول باطن / عهدة فرعية", isMain: false, avatar: "🏗️" },
-    { id: "eng_ibrahim", name: "مهندس ابراهيم", role: "مهندس الموقع والمصروفات النثرية", isMain: false, avatar: "📐" },
-    { id: "abdulrahman", name: "عبدالرحمن", role: "فني موقع / عهدة فرعية", isMain: false, avatar: "🔨" },
-    { id: "salaries", name: "الرواتب و الاوفرتايم و السلف", role: "بند مالي مركزي من العهدة", isMain: false, avatar: "💰" }
+    { id: "treasurer", name: "أمين الصندوق والعهدة", role: "أمين الصندوق والعهدة الرئيسي ومسؤول الصرف المركزي", isMain: true, avatar: "👨‍💼" },
+    { id: "site_engineer", name: "مهندس الموقع", role: "مهندس الموقع والمصروفات الفنية الميدانية", isMain: false, avatar: "📐" },
+    { id: "procurement", name: "مسؤول المشتريات والتوريدات", role: "مسؤول المشتريات وتوريد المواد للموقع", isMain: false, avatar: "📦" },
+    { id: "site_supervisor", name: "مشرف العمليات الميدانية", role: "مشرف العمليات وفرق العمل بالموقع", isMain: false, avatar: "👷‍♂️" },
+    { id: "subcontractor", name: "مقاول تنفيذ الأعمال", role: "مقاول باطن / أعمال تنفيذية تخصصية", isMain: false, avatar: "🏗️" },
+    { id: "site_technician", name: "فني الصيانة والتشغيل", role: "فني ومسؤول الورش والصيانة الدورية", isMain: false, avatar: "🔧" },
+    { id: "salaries", name: "الرواتب والتشغيل", role: "بند مالي مركزي (رواتب وعمالة وتشغيل)", isMain: false, avatar: "💰" }
   ],
   receipts: [],
   expenses: [],
@@ -1651,7 +1641,7 @@ function calculateBeneficiarySummaries(state) {
   const beneficiaries = state.beneficiaries || [];
   const receipts = state.receipts || [];
   const expenses = state.expenses || [];
-  const engIbrahimExtraExpenses = state.engIbrahimExtraExpenses || [];
+  const extraExpensesList = state.supplementaryExpenses || state.engIbrahimExtraExpenses || [];
 
   return beneficiaries.map(b => {
     const userReceipts = receipts.filter(r => r.beneficiaryId === b.id);
@@ -1660,10 +1650,11 @@ function calculateBeneficiarySummaries(state) {
     const totalReceipts = userReceipts.reduce((sum, r) => sum + (safeEvaluate(r.amount) || 0), 0);
     let totalExpenses = userExpenses.reduce((sum, e) => sum + (safeEvaluate(e.amount) || 0), 0);
     
-    // إضافة نثريات م. إبراهيم المباشرة (الصف 246)
+    // إضافة نثريات الموقع المباشرة الموثقة
     let extraIbrahimTotal = 0;
-    if (b.id === 'eng_ibrahim') {
-      extraIbrahimTotal = engIbrahimExtraExpenses.reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
+    const isEngineer = b.id === 'site_engineer' || b.id === 'eng_ibrahim';
+    if (isEngineer) {
+      extraIbrahimTotal = extraExpensesList.reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
       totalExpenses += extraIbrahimTotal;
     }
 
@@ -1683,13 +1674,13 @@ function calculateBeneficiarySummaries(state) {
       ...b,
       totalReceipts,
       totalExpenses,
-      extraExpenses: b.id === 'eng_ibrahim' ? extraIbrahimTotal : 0,
+      extraExpenses: isEngineer ? extraIbrahimTotal : 0,
       balance,
       netBalance: balance,
       status,
       statusText,
       receiptsCount: userReceipts.length,
-      expensesCount: userExpenses.length + (b.id === 'eng_ibrahim' ? engIbrahimExtraExpenses.length : 0)
+      expensesCount: userExpenses.length + (isEngineer ? extraExpensesList.length : 0)
     };
   });
 }
@@ -1701,20 +1692,20 @@ function calculateBeneficiarySummaries(state) {
  */
 function calculateAccountingMetrics(state) {
   const summaries = calculateBeneficiarySummaries(state);
-  const mainKeeperId = state.mainCustodyKeeper || 'abdullah';
+  const mainKeeperId = state.mainCustodyKeeper || (summaries.find(s => s.id === 'treasurer') ? 'treasurer' : 'abdullah');
   
   const mainKeeper = summaries.find(s => s.id === mainKeeperId) || { totalReceipts: 0, totalExpenses: 0, balance: 0 };
   const salaries = summaries.find(s => s.id === 'salaries') || { totalReceipts: 0, totalExpenses: 0 };
   
   const subKeepers = summaries.filter(s => s.id !== mainKeeperId && s.id !== 'salaries');
   
-  // 1. إجمالي العهدة المودعة لدى أمين الصندوق المركزي (C92)
+  // 1. إجمالي تمويل الصندوق المعتمد والمودع لدى أمين العهدة
   const totalCustodyPool = mainKeeper.totalReceipts;
   
-  // 2. إجمالي المبالغ المسلمة لأصحاب العهد الفرعية (E92 + G92 + I92 + K92 + M92 + O92)
+  // 2. إجمالي المبالغ المسلمة لأصحاب العهد الفرعية
   const totalDisbursedToSubKeepers = subKeepers.reduce((acc, s) => acc + s.totalReceipts, 0);
   
-  // 3. إجمالي بند الرواتب والاوفرتايم (Q92)
+  // 3. إجمالي بند الرواتب والبدلات والتشغيل
   const totalSalariesDisbursed = salaries.totalReceipts;
   
   // 4. المصروفات المباشرة لأمين العهدة
@@ -1723,14 +1714,14 @@ function calculateAccountingMetrics(state) {
   // 5. مصروفات أصحاب العهد الفرعية
   const subKeepersTotalExpenses = subKeepers.reduce((acc, s) => acc + s.totalExpenses, 0);
   
-  // 6. فواتير م. إبراهيم الإضافية (C246)
-  const extraIbrahimTotal = (state.engIbrahimExtraExpenses || []).reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
+  // 6. إجمالي الفواتير والمصروفات النثرية الإضافية
+  const extraIbrahimTotal = (state.supplementaryExpenses || state.engIbrahimExtraExpenses || []).reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
   
   // 7. إجمالي المنصرفات الفعلية الكلية للمشروع
   // = مصروفات أمين العهدة + مصروفات العهد الفرعية + الرواتب
   const grandTotalOutflows = mainKeeperDirectExpenses + subKeepersTotalExpenses + totalSalariesDisbursed;
   
-  // 8. عجز / فائض الصندوق الكلي (معادلة الصف 94 في الإكسل)
+  // 8. عجز / فائض الصندوق الكلي
   const overallFundDeficit = totalCustodyPool - grandTotalOutflows;
   
   // 9. صافي النقدية المتوفرة فعلياً بيد أمين العهدة
@@ -1848,24 +1839,24 @@ class CustodyApp {
 
     // Legacy v1 single-custody format
     if (Array.isArray(parsed.receipts) && Array.isArray(parsed.expenses)) {
-      const custody3 = {
-        id: 'custody_3',
-        name: 'العهدة 3',
+      const defaultCustody = {
+        id: 'custody_1',
+        name: parsed.name || 'العهدة 1',
         badge: 'النشطة',
-        startDate: parsed.startDate || '13/11/2025',
-        period: parsed.period || 'بدءاً من 13/11/2025',
-        title: parsed.title || 'العهدة 3 بدءا من 13/11/2025',
+        startDate: parsed.startDate || DEFAULT_TX_DATE,
+        period: parsed.period || 'العهدة التشغيلية',
+        title: parsed.title || 'منظومة إدارة العهدة',
         currency: parsed.currency || 'ر.س',
-        mainCustodyKeeper: parsed.mainCustodyKeeper || 'abdullah',
+        mainCustodyKeeper: parsed.mainCustodyKeeper || 'treasurer',
         receipts: parsed.receipts,
         expenses: parsed.expenses,
         beneficiaries: parsed.beneficiaries || JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA.beneficiaries)),
         engIbrahimExtraExpenses: parsed.engIbrahimExtraExpenses || []
       };
       return {
-        activeCustodyId: 'custody_3',
-        custodyOrder: ['custody_3'],
-        custodies: { custody_3 }
+        activeCustodyId: 'custody_1',
+        custodyOrder: ['custody_1'],
+        custodies: { custody_1: defaultCustody }
       };
     }
 
@@ -1900,17 +1891,17 @@ class CustodyApp {
     }
 
     // Default multi-custody initial state
-    const defaultCustody3 = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
-    defaultCustody3.id = 'custody_3';
-    defaultCustody3.name = 'العهدة 3';
-    defaultCustody3.badge = 'النشطة';
-    defaultCustody3.period = 'بدءاً من 13/11/2025';
+    const defaultCustody1 = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
+    defaultCustody1.id = 'custody_1';
+    defaultCustody1.name = 'العهدة 1';
+    defaultCustody1.badge = 'النشطة';
+    defaultCustody1.period = 'العهدة التشغيلية';
 
     return {
-      activeCustodyId: 'custody_3',
-      custodyOrder: ['custody_3'],
+      activeCustodyId: 'custody_1',
+      custodyOrder: ['custody_1'],
       custodies: {
-        custody_3: defaultCustody3
+        custody_1: defaultCustody1
       }
     };
   }
@@ -1918,12 +1909,12 @@ class CustodyApp {
   getActiveCustody() {
     if (!this.state.custodies || Object.keys(this.state.custodies).length === 0) {
       const def = JSON.parse(JSON.stringify(INITIAL_CUSTODY_DATA));
-      def.id = 'custody_3';
-      def.name = 'العهدة 3';
+      def.id = 'custody_1';
+      def.name = 'العهدة 1';
       def.badge = 'النشطة';
-      this.state.custodies = { custody_3: def };
-      this.state.custodyOrder = ['custody_3'];
-      this.state.activeCustodyId = 'custody_3';
+      this.state.custodies = { custody_1: def };
+      this.state.custodyOrder = ['custody_1'];
+      this.state.activeCustodyId = 'custody_1';
     }
     if (!this.state.custodies[this.state.activeCustodyId]) {
       this.state.activeCustodyId = (this.state.custodyOrder && this.state.custodyOrder[0]) || Object.keys(this.state.custodies)[0];
@@ -2140,7 +2131,7 @@ class CustodyApp {
       btn.className = `custody-tab ${id === this.state.activeCustodyId ? 'active' : ''}`;
       btn.title = c.period || c.startDate || '';
 
-      const isProtected = id === 'custody_3';
+      const isProtected = id === ((this.state.custodyOrder && this.state.custodyOrder[0]) || 'custody_1');
       const badgeText = id === this.state.activeCustodyId ? 'النشطة' : 'مرحلة';
 
       btn.innerHTML = `
@@ -2171,8 +2162,9 @@ class CustodyApp {
   }
 
   deleteCustody(id) {
-    if (id === 'custody_3') {
-      alert("لا يمكن حذف العهدة 3 الأصلية المعتمدة.");
+    const firstId = (this.state.custodyOrder && this.state.custodyOrder[0]) || 'custody_1';
+    if (id === firstId) {
+      alert("لا يمكن حذف العهدة النشطة الأساسية.");
       return;
     }
     const c = this.state.custodies[id];
@@ -2181,7 +2173,7 @@ class CustodyApp {
       delete this.state.custodies[id];
       this.state.custodyOrder = (this.state.custodyOrder || []).filter(item => item !== id);
       if (this.state.activeCustodyId === id) {
-        this.state.activeCustodyId = 'custody_3';
+        this.state.activeCustodyId = this.state.custodyOrder[0] || 'custody_1';
       }
       this.syncActiveCustodyPointers();
       this.saveState();
@@ -2708,8 +2700,27 @@ class CustodyApp {
     const total = items.reduce((sum, item) => sum + (safeEvaluate(item.amount) || 0), 0);
     totalEl.innerHTML = `<span class="amount">${formatCurrency(total)}</span>`;
 
+    const tagsContainer = document.getElementById('extraTagsSummary');
+    if (tagsContainer) {
+      if (items.length === 0) {
+        tagsContainer.innerHTML = '';
+      } else {
+        const catMap = {};
+        items.forEach(i => {
+          const cat = i.category || 'نثريات عامة';
+          catMap[cat] = (catMap[cat] || 0) + (safeEvaluate(i.amount) || 0);
+        });
+        tagsContainer.innerHTML = Object.entries(catMap).map(([cat, amount]) => `
+          <div class="extra-tag-pill">
+            <span>🏷️</span>
+            <span>${escapeHtml(cat)}: <strong class="num" style="color:var(--accent-cyan);">${formatCurrency(amount)}</strong></span>
+          </div>
+        `).join('');
+      }
+    }
+
     if (items.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">لا توجد مصروفات نثرية مسجلة</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-muted);">لا توجد مصروفات نثرية مسجلة</td></tr>`;
       return;
     }
 
@@ -2959,16 +2970,16 @@ class CustodyApp {
     try {
       // Build a pure CSV / HTML Table data format that opens natively in Microsoft Excel with Arabic UTF-8 BOM
       let csvContent = "\uFEFF"; // UTF-8 BOM
-      csvContent += `العهدة 3 بدءا من 13/11/2025 - تقرير تصفية العهدة\n`;
+      csvContent += `منظومة إدارة العهد المالية - تقرير التصفية والمطابقة\n`;
       csvContent += `تاريخ التصدير: ${new Date().toLocaleDateString('en-GB')}\n\n`;
 
-      csvContent += `=== ملخص الصندوق والمطابقة ===\n`;
+      csvContent += `=== ملخص الصندوق والرقابة المزدوجة ===\n`;
       const m = calculateAccountingMetrics(this.state);
-      csvContent += `إجمالي مقبوضات العهدة (C92),${m.totalCustodyPool}\n`;
+      csvContent += `إجمالي تمويل الصندوق المعتمد,${m.totalCustodyPool}\n`;
       csvContent += `إجمالي المنصرفات الكلية,${m.grandTotalOutflows}\n`;
-      csvContent += `عجز الصندوق الإجمالي (صف 94),${m.overallFundDeficit}\n`;
-      csvContent += `صافي النقدية المتوفرة بيد عبدالله (صف 96 و 99),${m.cashInHandMainKeeper}\n`;
-      csvContent += `صافي أرصدة العهد الفرعية لدى المستلمين,${m.subKeepersNetBalance}\n\n`;
+      csvContent += `عجز الصندوق الإجمالي,${m.overallFundDeficit}\n`;
+      csvContent += `صافي النقدية المتوفرة في الصندوق,${m.cashInHandMainKeeper}\n`;
+      csvContent += `صافي أرصدة ذمم العهد الفرعية,${m.subKeepersNetBalance}\n\n`;
 
       csvContent += `=== كشف أرصدة أصحاب العهد ===\n`;
       csvContent += `الاسم,الصفة,إجمالي المقبوض,إجمالي المصروف,الرصيد المتبقي,الحالة\n`;
@@ -2990,13 +3001,14 @@ class CustodyApp {
         csvContent += `${rowIdx++},صرف,${escapeCsv(e.date || DEFAULT_TX_DATE)},${escapeCsv(ben.name)},${safeEvaluate(e.amount)},${escapeCsv(e.note || '')}\n`;
       });
 
-      this.state.engIbrahimExtraExpenses.forEach(i => {
+      (this.state.engIbrahimExtraExpenses || []).forEach(i => {
         const noteWithCat = (i.note || '') + (i.category ? ` (${i.category})` : '');
-        csvContent += `${rowIdx++},نثريات م. إبراهيم,${escapeCsv(i.date || '2025-12-25')},"مهندس ابراهيم",${safeEvaluate(i.amount)},${escapeCsv(noteWithCat)}\n`;
+        const ben = this.getBeneficiary('site_engineer') || this.getBeneficiary('eng_ibrahim') || { name: 'المصروفات النثرية الميدانية' };
+        csvContent += `${rowIdx++},نثريات ميدانية,${escapeCsv(i.date || DEFAULT_TX_DATE)},${escapeCsv(ben.name)},${safeEvaluate(i.amount)},${escapeCsv(noteWithCat)}\n`;
       });
 
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      this.downloadBlob(blob, `تقرير_تصفية_العهدة_3_${new Date().toISOString().split('T')[0]}.csv`);
+      this.downloadBlob(blob, `تقرير_تصفية_العهدة_${new Date().toISOString().split('T')[0]}.csv`);
     } catch (e) {
       alert("حدث خطأ أثناء تصدير الملف: " + e.message);
     }
