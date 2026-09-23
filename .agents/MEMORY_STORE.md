@@ -937,3 +937,67 @@
   tags: [meigen-ai, hook-20, hook-26, prompt-curator, photorealism, cinematic-prompts, excel-sync, custom-skills]
   status: active
 
+
+- id: MEM-2026-09-17-070
+  type: decision
+  timestamp: "2026-09-17T01:10:00+03:00"
+  agents: [devops-deployer, security-guardian, master-orchestrator]
+  context: "حزمة نشر EduTrack Pro على Hostinger VPS كنسخة نظيفة 100% بدون ترحيل بيانات قديمة (تأكيد العميل 2026-09-16)"
+  content: "تم إقرار طوبولوجيا النشر لنظام <bdi>EduTrack Pro</bdi> (مركز غراس): <bdi>Caddy</bdi> المضيف يخدم النطاق العام ويمرر <bdi>/api/*</bdi> إلى حاوية <bdi>uvicorn</bdi> على <bdi>127.0.0.1:8000</bdi> ويخدم الملفات الثابتة من <bdi>/opt/edutrack</bdi> بقائمة سماح صارمة (<bdi>/web/*</bdi> و <bdi>/assets/*</bdi> فقط؛ كل ما عداها 404 بما فيها <bdi>db/</bdi> و <bdi>server/</bdi> و <bdi>deploy/</bdi> وملفات <bdi>*.md</bdi>). قاعدة <bdi>PostgreSQL 16</bdi> بلا منفذ منشور، وتتصل الواجهة البرمجية حصراً بدور <bdi>gheras_app</bdi> المقيد (بدون <bdi>superuser</bdi>) — تم إثبات ذلك بتشغيل حزمة الاختبارات كاملة (19/19) بهذا الدور. الأسرار تُولَّد على الخادم في <bdi>deploy/.env</bdi> (600) ولا تُزامَن ولا تُرفع أبداً. البذرة الإدارية النظيفة: صف <bdi>admin</bdi> من الهجرة 003 بتجزئة مؤقتة غير قابلة للاستخدام، ثم <bdi>--set-admin-password</bdi> غير تفاعلي عبر متغير <bdi>EDUTRACK_ADMIN_PASSWORD</bdi>. فحص صحة القاعدة عبر <bdi>TCP</bdi> عمداً لأن فحص المقبس المحلي يعلن الجاهزية أثناء تنفيذ سكربتات <bdi>initdb</bdi>. عائقان يحتاجان إبراهيم قبل التنفيذ الفعلي: مفتاح <bdi>SSH</bdi> غير مسجل على الخادم (رفض بالمفتاحين المحليين)، وسجل <bdi>DNS</bdi> للاسم العام غير موجود بعد مع تعذر الاتصال بالمنفذ 443 من الخارج."
+  tags: [edutrack-pro, gheras, deployment, hostinger-vps, caddy, docker-compose, least-privilege, clean-instance, no-legacy-import, ssh-blocker, autovem, global]
+  status: active
+
+- id: MEM-2026-09-17-071
+  type: decision
+  timestamp: "2026-09-17T12:55:00+03:00"
+  agents: [frontend-design-builder, code-architect, devops-deployer, persistent-memory-engine]
+  context: "المرحلة 3 لمنظومة EduTrack Pro — اكتمال لوحة الإدارة وديناميكية الأدوات الـ 24 ونشرها بنجاح على Hostinger VPS"
+  content: "اكتمال هندسة ونشر المرحلة 3 لمنظومة EduTrack Pro (مركز غراس): 1) تحويل لوحة الإدارة (home.js) إلى شبكة تفاعلية CSS Grid تضم كافة الأدوات الـ 24 مع ربطها بمؤشرات reports/daily الحقيقية واستبعاد أي بيانات وهمية. 2) الالتزام بمعايير A11y (role=button, tabindex=0, enter/space listeners) وعزل الجلسة مركزياً في app.js عبر حدث gheras:logout. 3) معالجة انحراف التوقيت العربي للتواريخ بإلحاق T00:00:00. 4) حل معوقات نشر ويندوز (أمر export في PowerShell وتشويه مسار مفتاح ssh في MSYS). 5) اكتمال النشر على الخادم (srv1810150.hstgr.cloud - IP: 187.55.226.225) واجتياز فحص الـ Smoke Test بنجاح (HTTP 200 للـ API واللوحة، وحجب المسارات الحساسة) والرابط الحي: https://gheras.autovem.tech/web/dashboard/."
+
+- id: MEM-2026-09-17-072
+  type: decision
+  timestamp: "2026-09-17T15:42:00+03:00"
+  agents: [backend-architect, frontend-design-builder, code-reviewer-quality, persistent-memory-engine]
+  context: "استكمال وتفعيل شبكة أدوات EduTrack Pro، إزالة ازدواجية بوابات الدخول، وبناء قسم الإعدادات وتغيير كلمة المرور للأدمن"
+  content: "استجابة لتوجيهات المطور: 1) بناء نقطة نهاية POST /api/v1/auth/change-password مع التحقق بمشفر Argon2id، فحص قوة كلمة المرور (>=8)، وتدوين الحدث في audit_log دون كشف كلمات المرور. 2) إضافة نقطة POST /api/v1/auth/reset-password/{user_id} للمدير العام لإعادة تعيين كلمات مرور المستخدمين الآخرين. 3) إنشاء صفحة settings.js متكاملة (تغيير كلمة المرور، إدارة مستخدمي النظام، بيانات المركز، والنسخ الاحتياطي التلقائي) وربطها بالقائمة الجانبية والشريط العلوي في index.html ومصفوفة ROUTES في app.js. 4) القضاء التام على أزرار الأدوات المعطلة (الـ 14 زراً التي كانت تعطي 'قريباً...') بربطها بمصادرها الحقيقية وتفعيل نوافذ التواصل عبر واتساب والنسخ الاحتياطي ومركز الإشعارات. 5) إزالة التكرار: حذف زر تسجيل الخروج المكرر من شبكة الأدوات، وإخفاء بوابة الدخول المكررة passwordGate في تطبيق غراس.html لتوحيد تدفق المصادقة في خطوة واحدة نظيفة. 6) كتابة حزمة اختبارات شاملة test_change_password.py وتأكيد مطابقة Rule 50 وخلو الكود من أي أخطاء بنية."
+
+- id: MEM-2026-09-17-073
+  type: decision
+  timestamp: "2026-09-17T16:08:00+03:00"
+  agents: [performance-optimizer, context-governor, master-orchestrator, persistent-memory-engine]
+  context: "دروس قياس الاستهلاك الحقيقي لـ Claude Code CLI (قاعدة الـ 150k، ترشيد الوكلاء الفرعيين، وتحجيم المهارات الثقيلة)"
+  content: "بناءً على التليمتري والبيانات الحية المباشرة من لوحة تحكم Claude Code CLI (قسم Usage): 1) **تأكيد قاعدة جدار الـ 150k توكن رسميّاً:** أظهرت التليمتري أن 60% من استهلاك الكوتا والحدود يحدث عندما يتجاوز السياق 150k توكن؛ لأن تكلفة قراءة وكتابة الكاش تتصاعد تربيعياً O(N^2). هذا يؤكد صحة معيار المعايرة الحصري لـ Claude Code على 150k توكن ووجوب تنفيذ /compact في منتصف المهام و /clear عند التبديل بين المهام. 2) **ترشيد استدعاء الوكلاء الفرعيين (Subagents Overhead):** أظهرت التليمتري أن 10% من الاستهلاك سببه الجلسات كثيفة الوكلاء الفرعيين حيث ينشئ كل وكيل طلباته الخاصة بسياقه الكامل؛ لذا يجب تقنين توليد الوكلاء الفرعيين وتفويض المهام الروتينية لـ OpenCode CLI (Flash & Muse). 3) **تحجيم استهلاك المهارات الثقيلة (Heavy Skills Optimization):** تبين أن مهارة /remote-futrx وحدها استهلكت 15% من الحصة و /code-review استهلكت 7%؛ لذا يجب تقليص نصوص المهارات الثقيلة وتحديد نماذج أخف (cheaper models) في ترويسة YAML للمهارة (frontmatter). 4) **تنبيه انتهاء الجلسة الأمني:** رصد إشعار انتهاء صلاحية تسجيل الدخول (Your login expires in 3 days) مما يفرض تجديد الجلسة عبر /login قبل انقضائها لتفادي تعطل الاستدعاء المباشر في الطرفية."
+  tags: [claude-code, usage-telemetry, 150k-wall, subagents-cost, heavy-skills, remote-futrx, context-governance, login-renewal, autovem, global]
+
+- id: MEM-2026-09-17-074
+  type: decision
+  timestamp: "2026-09-17T16:22:00+03:00"
+  agents: [backend-architect, frontend-design-builder, test-automator, master-orchestrator, persistent-memory-engine]
+  context: "اكتمال وتفعيل منظومة المستندات والتقارير الـ 11 القابلة للطباعة في EduTrack Pro واعتماد Claude Code CLI الكامل [APPROVED]"
+  content: "اكتمال تفعيل منظومة التقارير والمستندات الـ 11 في تطبيق EduTrack Pro (مركز غراس): 1) بناء المحرك الشامل print_engine.js مع دعم حلقات Mustache التكرارية، الكتل المعكوسة، حماية XSS عبر الهروب التلقائي escapeHtml لكافة الوسوم النصية، وتوليد شريط أدوات طباعة زجاجي عائم يختفي تلقائياً في @media print. 2) ربط كافة قوالب الطباعة الـ 11 بقاعدة البيانات الحية وإلغاء تمرير التوكن في الـ Query Strings لمنع تسربه في سجلات Caddy. 3) حل مشكلة تحويل Decimal في Pydantic v2 بتغليف مخرجات مسارات print.py بدالة _resp(_convert(...)) لتحويل القيم النقدية إلى أرقام Float مدورة. 4) اجتياز كامل حزمة الاختبارات بنجاح بنسبة 100% (36/36 اختباراً أخضر: 14 print + 19 existing + 3 change_password) بحسب تدقيق واعتماد Claude Code CLI الصارم [APPROVED]. 5) تثبيت هوية العامل الثاني Worker B في OpenCode CLI كـ Meta Muse Spark 1.3 المتخصص في قواعد البيانات والبيانات، وتأكيد قاعدة حظر فتح أكثر من نسخة متزامنة لـ GLM 5.3 Flash لتفادي تجاوز حد التوازي."
+  tags: [edutrack-pro, print-system, 11-templates, xss-protection, decimal-serialization, pydantic-v2, claude-code-approved, 36-tests-green, worker-b, muse-spark, autovem, global]
+  status: active
+
+- id: MEM-2026-09-17-075
+  type: decision
+  timestamp: "2026-09-17T18:30:00+03:00"
+  agents: [master-orchestrator, backend-architect, frontend-design-builder, security-guardian, persistent-memory-engine]
+  context: "تفعيل أزرار لوحة EduTrack Pro، معمارية الصلاحيات الجزئية للمشرفين، وهجرة الجنس"
+  content: "اكتمال تفعيل كافة الأدوات المعلقة في EduTrack Pro (طلاب الإنجليزي أولاد/بنات، غياب الموظفين والخصم، التقييم اليومي، المعلمون والمشرفون). هندسة الصلاحيات الجزئية للمشرفين (students, attendance, daily_evaluation, monthly_evaluation, finance) مع حظر التعديل على users للمشرفين (403) والسماح بالقراءة، حجب الرواتب عن غير الماليين، وحماية نقاط الطباعة والتقارير الشهرية. إنشاء هجرة 004_phase3.sql لإضافة عمود gender، وتفعيل بروتوكول التراجع الذاتي لقيادة الأسطول عبر Antigravity IDE عند نفاد كوتا Claude Code دون توقف العمل."
+  tags: [edutrack-pro, supervisor-permissions, rbac, gender-migration, fleet-failover, phase-3, gheras, autovem, global]
+  status: active
+
+---
+
+## [milestone] هندسة وتثبيت ميثاق حارس النطاق والحد الأدنى الكافي (Scope Guard Directive - Hook 5 & Hook 26)
+- **التاريخ:** 2026-09-23
+- **الوكلاء المساهمون:** prompt-engineer (هندسة وتفكيك الأوامر)، code-architect (التصميم المعماري وتدقيق محامي الشيطان)، Antigravity IDE (Gemini 3.8 Flash High - قيادة الأسطول والتنفيذ المباشر).
+- **المنجزات الفنية والهندسية والقرارات:**
+  1. **التشريح الهندسي وتدقيق محامي الشيطان الصارم (Constraint 17):**
+     - معالجة مخاطرة الترقيع السطحي (Superficial Band-aids) بالتأكيد على استئصال المشكلة من جذرها البرمجي (Root-Cause Invariant).
+     - مواءمة ميثاق الاختبارات مع احتكار Claude Code CLI الحصري للفحص التلقائي، وقصر مهام باقي الوكلاء على الفحص الساكن والبصري.
+     - ترشيد الاستكشاف البرمجي عبر أدوات lean-ctx وحظر قراءة الملفات الكاملة mode='full' لحماية نافذة السياق (Hook 27).
+  2. **التثبيت الدستوري في وثيقة المشروع (AGENTS.md):**
+     - إدراج القسم السادس المكتمل: \## 6. Scope Guard & Minimal Sufficient Change Directive\ بستة بنود تفصيلية تشمل ضوابط ما قبل التعديل، تسلسل الحلول البرمجية، بوابات طلب الإذن، فحص الأسطول، قاطع تضخم النطاق، ومعايير الإنجاز (Definition of Done).
+  3. **الأرشفة في مكتبة الأوامر المركزية (Hook 26):**
+     - إدراج الأمر التنفيذي المهندس برمجياً في مصنف الإكسيل \مكتبة الأوامر.xlsx\ تحت تبويب \Gates_Hooks.Claude\ (الصف #16، الرقم 15).
