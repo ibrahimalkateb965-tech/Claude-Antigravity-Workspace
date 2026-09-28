@@ -46,3 +46,12 @@ Every feature phase follows a 4-step quality cycle:
 5. **Session-Wide Fleet Mode Transformation (Hook 22 Activation):** When Hook 22 is invoked (triggers: "أسطول الـ CLIs", "تشغيل الأسطول", "تنسيق الأسطول", "fleet orchestrator", "multi cli fleet", "إدارة الأسطول"), all subsequent instructions in the conversation automatically transition into structured Multi-CLI fleet delegation prompts (Templates 02 & 03) in English without requiring re-triggering.
 6. **Quota Failover Protocol:** If one CLI hits rate limits, other CLIs seamlessly assume acting leadership using `MEMORY_STORE.md` snapshots.
 7. **Hardware Concurrency & Storage Guard:** On constrained local hardware (e.g. <= 4GB VRAM), execute models in `sequential_role_switching` mode to prevent memory thrashing, and enforce Directory Junctions (`mklink /J`) for local model caches to protect the OS root disk.
+8. **Autonomous Master-to-Worker Delegation Standard (Claude Code ➔ OpenCode GLM 5.3 Flash):**
+   - **Order Specification Artifact:** Antigravity IDE defines the task order in `fleet_orders/ORDER_<FEATURE>.md` specifying objectives, file paths, and testing criteria.
+   - **Headless Orchestration Dispatch:** Launch Claude Code CLI non-interactively via:
+     `claude -p "Read and strictly execute fleet order in 'fleet_orders/ORDER_<FEATURE>.md'. Delegate implementation tasks to OpenCode CLI..." --dangerously-skip-permissions`
+   - **OpenCode Worker Flag (`--auto`):** Claude Code CLI delegates routine code writing and terminal plumbing to OpenCode CLI using:
+     `opencode run -m opencode-go/glm-5.3-flash --auto "<prompt>"`
+     *Failure to provide `--auto` causes OpenCode to block waiting for interactive TTY stdin input.*
+   - **4-File Batch Sizing:** GLM task assignments must be partitioned into batches of <= 4 files per run to avoid context exhaustion or truncation.
+   - **Intervention & Self-Correction:** Claude Code reviews worker diffs, corrects compile errors or broken imports before tests, executes all automated unit/integration tests exclusively, builds packages (`& .\gradlew.bat assembleDebug`), and deploys directly to connected mobile devices via ADB.

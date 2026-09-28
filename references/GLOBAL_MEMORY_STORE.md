@@ -1483,6 +1483,20 @@
   tags: [graft, context-engine, token-conservation, claude-code, fleet, tree-sitter, global]
   status: active
 
+- id: MEM-2026-09-17-071
+  type: decision
+  timestamp: "2026-09-17T12:55:00+03:00"
+  agents: [frontend-design-builder, code-architect, devops-deployer, persistent-memory-engine]
+  context: "المرحلة 3 لمنظومة EduTrack Pro — اكتمال لوحة الإدارة وديناميكية الأدوات الـ 24 ونشرها بنجاح على Hostinger VPS"
+  content: "اكتمال هندسة ونشر المرحلة 3 لمنظومة EduTrack Pro (مركز غراس): 1) تحويل لوحة الإدارة (home.js) إلى شبكة تفاعلية CSS Grid تضم كافة الأدوات الـ 24 مع ربطها بمؤشرات reports/daily الحقيقية واستبعاد أي بيانات وهمية. 2) الالتزام بمعايير A11y (role=button, tabindex=0, enter/space listeners) وعزل الجلسة مركزياً في app.js عبر حدث gheras:logout. 3) معالجة انحراف التوقيت العربي للتواريخ بإلحاق T00:00:00. 4) حل معوقات نشر ويندوز (أمر export في PowerShell وتشويه مسار مفتاح ssh في MSYS). 5) اكتمال النشر على الخادم (srv1810150.hstgr.cloud - IP: 187.55.226.225) واجتياز فحص الـ Smoke Test بنجاح (HTTP 200 للـ API واللوحة، وحجب المسارات الحساسة) والرابط الحي: https://gheras.autovem.tech/web/dashboard/."
+
+- id: MEM-2026-09-17-072
+  type: decision
+  timestamp: "2026-09-17T15:42:00+03:00"
+  agents: [backend-architect, frontend-design-builder, code-reviewer-quality, persistent-memory-engine]
+  context: "استكمال وتفعيل شبكة أدوات EduTrack Pro، إزالة ازدواجية بوابات الدخول، وبناء قسم الإعدادات وتغيير كلمة المرور للأدمن"
+  content: "استجابة لتوجيهات المطور: 1) بناء نقطة نهاية POST /api/v1/auth/change-password مع التحقق بمشفر Argon2id، فحص قوة كلمة المرور (>=8)، وتدوين الحدث في audit_log دون كشف كلمات المرور. 2) إضافة نقطة POST /api/v1/auth/reset-password/{user_id} للمدير العام لإعادة تعيين كلمات مرور المستخدمين الآخرين. 3) إنشاء صفحة settings.js متكاملة (تغيير كلمة المرور، إدارة مستخدمي النظام، بيانات المركز، والنسخ الاحتياطي التلقائي) وربطها بالقائمة الجانبية والشريط العلوي في index.html ومصفوفة ROUTES في app.js. 4) القضاء التام على أزرار الأدوات المعطلة (الـ 14 زراً التي كانت تعطي 'قريباً...') بربطها بمصادرها الحقيقية وتفعيل نوافذ التواصل عبر واتساب والنسخ الاحتياطي ومركز الإشعارات. 5) إزالة التكرار: حذف زر تسجيل الخروج المكرر من شبكة الأدوات، وإخفاء بوابة الدخول المكررة passwordGate في تطبيق غراس.html لتوحيد تدفق المصادقة في خطوة واحدة نظيفة. 6) كتابة حزمة اختبارات شاملة test_change_password.py وتأكيد مطابقة Rule 50 وخلو الكود من أي أخطاء بنية."
+
 - id: MEM-2026-09-23-073
   type: decision
   timestamp: "2026-09-23T10:30:00+03:00"
@@ -1499,4 +1513,32 @@
   context: "اعتماد القيد 73: معيار التوجيه الإلزامي لعمليات Git Commit للمستودع المركزي في مهام حوكمة الذكاء الاصطناعي"
   content: "بناءً على تفعيل /learn وتصحيح المستخدم الصارم: حظر عمل أي git commit يمس أدوات ودساتير وذاكرة الذكاء الاصطناعي في مستودعات التطبيقات الفردية؛ وتوجيه الحفظ والالتزام والرفع السحابي ذاتياً وتلقائياً إلى المستودع المركزي F:\AI PROJECTS\Claude+Antigravity (Claude-Antigravity-Workspace على GitHub). تم توثيق المبدأ كـ القيد 73 في ACTIVE_CONTEXT_INJECTION.md وتثبيت المخرجات السحابية بنجاح."
   tags: [central-repo-commit, ai-governance, learn-protocol, git-routing, global]
+  status: active
+
+- id: MEM-2026-09-19-080
+  type: decision
+  timestamp: "2026-09-19T23:55:00+03:00"
+  agents: [master-orchestrator, frontend-design-builder, devops-deployer, persistent-memory-engine]
+  context: "تطوير ودمج مركز التواصل المتطور وإزالة ملخص اليوم من تبويب التقارير في EduTrack Pro"
+  content: "1) إزالة ملخص اليوم (reports/daily) نهائياً من تبويب التقارير (reports.js) وحصره حصرياً على لوحة القيادة (home.js)، واقتصار التقارير على بطاقات مستندات الطباعة الـ 11 وسجل العمليات. 2) تطوير ودمج مركز التواصل (communication.js) المستوحى من تطبيق غراس القديم: إضافة حساب الرسوم المتبقية ديناميكياً وإدراجها في رسائل التذكير، بطاقة سياق الطالب الأكاديمي والمالي، قوالب ذكية متكاملة، وسوم إدراج سريعة، سجل الرسائل وإعادة الإرسال عبر واتساب، ودليل هواتف أولياء الأمور. 3) ربط المراسلة السريعة عبر الشاشات (زر مراسلة في جدول الطلاب، وزر إشعار غياب تلقائي للطالب الغائب في جدول الحضور). 4) ترقية نسخة الكاش في index.html و app.js إلى v=2.6 لضمان التحديث الفوري على أجهزة العميل."
+  tags: [edutrack-pro, communication-center, whatsapp-integration, reports-cleanup, cache-busting, student-context, gheras, autovem, global]
+  status: active
+
+- id: MEM-2026-09-26-001
+  type: system-optimization-and-tooling
+  timestamp: "2026-09-26T02:40:00+03:00"
+  agents: [windows-c-drive-optimizer, windows-file-organizer, persistent-memory-engine]
+  context: "ترقية الخطاف 16 (رتب جهازي) ودمج أداتي Deep_Clean_C_Drive و Relocate_Claude_VM_Bundles في tools المركزية"
+  content: "1. تحرير أكثر من 5.6 GB من قرص C: فوراً عبر uv cache clean (تحرير 7.2 GB) وحذف browser_recordings (1.75 GB) وتفريغ Temp (1.57 GB).\n2. اكتشاف تضخم كاش Claude Desktop VM Bundles بمقدار 10.36 GB وإنشاء أداة ترحيله D:\\DevCache\\Claude_vm_bundles بنقرة واحدة عبر Directory Junction (mklink /J).\n3. فرز وتنظيم كافة الملفات الإنشائية ومشاريع المونتاج والتسجيلات السائبة على الأقراص F: و G: إلى مجلداتها المصنفة.\n4. حفظ نسختين مركزيتين للأداتين في C:\\Users\\Kt\\.gemini\\config\\tools\\ (Deep_Clean_C_Drive.ps1 و Relocate_Claude_VM_Bundles.ps1) وتحديث الخطاف رقم 16 في HOOKS_GUIDE.md ومهارة windows-c-drive-optimizer."
+  tags: [hook-16, drive-c-optimization, uv-cache, claude-vm-bundles, junction-devcache, loose-files-sorting, global-tools, memory-store, global]
+  status: active
+
+- id: GLB-2026-09-27-001
+  type: strategy-and-governance
+  timestamp: "2026-09-27T09:20:00+03:00"
+  scope: global-system
+  agents: [code-architect, clean-code-guard, test-guard, persistent-memory-engine]
+  context: "اعتماد الحوكمة الخماسية للوكلاء الفرعيين وترشيد استهلاك التوكنز"
+  content: "1. تعميم استراتيجية حوكمة الوكلاء الفرعيين عالمياً ومحلياً (Anti-Swarm, Progressive Disclosure, Model Cost Routing, Pruning, Artifact Handoff).\n2. تحديث المهارة المركزية context-governance وإلزام قراءة التوقيعات بدلاً من الملفات الكاملة وحظر قراءة الملفات الكاملة (حصر الفحص العميق في نطاق أسطر <= 50 سطراً).\n3. بناء أداة الاسترجاع اللحظي restore_skill.py لحماية نافذة السياق دون كسر سير العمل.\n4. توثيق المعيار في AGENTS.md (البند 19) و ACTIVE_CONTEXT_INJECTION.md (القيد 76)."
+  tags: [subagents, token-conservation, progressive-disclosure, context-governance, global-standard, global]
   status: active
