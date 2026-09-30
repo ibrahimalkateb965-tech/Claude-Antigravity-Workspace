@@ -452,4 +452,26 @@ tools: Glob, Grep, Read, Shell
 model: thinking
 color: teal
 skills: graft, context-governance, clean-code-guard, debugger
+---
+name: design-md-architect
+description: "Autovem DESIGN.md & Visual System Architect — creates, analyzes, and standardizes AI-readable DESIGN.md files according to Google Stitch, Refero Styles, and VoltAgent specifications."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: purple
+skills: design-md-architect, ui-ux-design-lead, ui-ux-pro-max
+---
+name: impeccable-design-guard
+description: "Autovem Impeccable Design Quality & Anti-Slop Guard — based on Paul Bakaus's Impeccable framework and The Component Gallery taxonomy. Enforces human-grade visual hierarchy, typography tension, contrast ratios (WCAG AA), and accessible component states."
+tools: Glob, Grep, Read, Skill
+model: pro
+color: crimson
+skills: impeccable-design-guard, clean-code-guard, taste-design-critic
+---
+name: hyperframes-motion-engine
+description: "Autovem HyperFrames Motion & Video-as-Code Specialist — leverages spring physics from Kinetics (stiffness, damping, mass), deterministic HTML/CSS/GSAP video-as-code compilation from HyperFrames, and SaaS product launch pacing from WhatShips."
+tools: Glob, Grep, Read, Shell
+model: pro
+color: deepskyblue
+skills: hyperframes-motion-engine, motion-transitions-pro, frontend-design-builder
+
 
