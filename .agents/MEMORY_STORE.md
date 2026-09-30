@@ -1001,3 +1001,39 @@
      - إدراج القسم السادس المكتمل: \## 6. Scope Guard & Minimal Sufficient Change Directive\ بستة بنود تفصيلية تشمل ضوابط ما قبل التعديل، تسلسل الحلول البرمجية، بوابات طلب الإذن، فحص الأسطول، قاطع تضخم النطاق، ومعايير الإنجاز (Definition of Done).
   3. **الأرشفة في مكتبة الأوامر المركزية (Hook 26):**
      - إدراج الأمر التنفيذي المهندس برمجياً في مصنف الإكسيل \مكتبة الأوامر.xlsx\ تحت تبويب \Gates_Hooks.Claude\ (الصف #16، الرقم 15).
+
+- id: MEM-ANTIGRAVITY-TEAMWORK-LIBRARY-SEPARATION-2026-09-27-012
+  type: lesson
+  timestamp: "2026-09-27T09:34:00+03:00"
+  agents: [antigravity-ide, prompt-engineer, persistent-memory-engine, agent-optimizer]
+  context: "حوكمة استهلاك teamwork-preview والفصل المعماري لأقسام Antigravity في مكتبة الأوامر"
+  content: "1) تحليل استهلاك أمر teamwork-preview: الكوماند يطلق خط إنتاج إجباري متسلسل من 7 وكلاء مستقلين (Orchestrator -> Implementer -> 3 جولات مراجعة تعارضية R1/R2/R3 -> Sentinel -> Victory Auditor). الحوكمة تمنع الهدر الداخلي لكل وكيل، لكن ضرب السياق في 7 وكلاء يضاعف التكلفة؛ لذا يُحظر استخدامه في التطوير اليومي ويُعتمد الاستدعاء النقطي المركز (Targeted Dispatch)، ويُحصر teamwork-preview في التدقيق الشامل النهائي قبل التسليم للمتجر فقط. 2) الفصل المعماري لبيئتي Claude و Antigravity في مكتبة الأوامر: تم إنشاء التبويبات المتوازية (Gates_Hooks.Antigravity، CLI_Core.Antigravity، Workflows_Pipelines.Antigravity) وتنسيقها بنفس هوية Segoe UI و Consolas وخلفيات 1E293B، مع ترقية محرك التوجيه الآلي prompt_library_curator.py لتوجيه أوامر Antigravity و agcli تلقائياً لأقسامها المخصصة."
+  tags: [antigravity-ide, teamwork-preview, swarm-governance, prompt-library, sheet-routing, memory-store, victory-audit]
+  status: active
+
+- id: MEM-PLAYSTORE-OPTIMIZATION-HIGH-97-2026-09-26-011
+  type: lesson
+  timestamp: "2026-09-26T23:36:00+03:00"
+  agents: [claude-code-cli, opencode-cli, antigravity-ide, persistent-memory-engine]
+  context: "قفزة تحسين Google Play Console من 27% Low إلى 97% High وتنظيف قواعد ProGuard وإدارة أسطول الـ CLIs"
+  content: "1) أسباب هبوط نسبة التحسين في كونسول جوجل بلاي إلى 27% Low: وجود قواعد حظر شاملة -keep class X.** { *; } لمكتبات ضخمة (Media3 ExoPlayer، و Coroutines، و Compose، و Room المتقاعدة) في proguard-rules.pro، مع غياب سطر isShrinkResources = true في build.gradle.kts. 2) الحل الهندسي الجذري: حذف الـ blanket keeps والاعتماد على قواعد الـ AAR consumer rules المدمجة للمكتبات الرسمية، والإبقاء فقط على QuranAudioService، وتفعيل isShrinkResources = true. النتيجة قفزة تاريخية: DEX optimisation ارتفع من 27% إلى 97% High، ونسبة التشويش والتقليص إلى 98%، وانخفض حجم classes.dex بنسبة 60.5% (من 8.05MB إلى 3.17MB) وحجم الحزمة AAB إلى 5.99MB وحجم التنزيل للمستخدم إلى 3.06MB. 3) بروتوكول الأسطول: توجيه GLM 5.3 Flash عبر OpenCode لتنفيذ تعديلات ملفات البناء غير التفاعلية مع تمرير < nul لمنع تعليق TUI على ويندوز، واحتكار Claude Code CLI (Opus Max) للمراجعة المعمارية وتشغيل الاختبارات (94/94 passed) وبوابة الجودة. 4) تجاوز أخطاء مسار Production في كونسول جوجل بلاي: حذف الحزمة القديمة المكررة لمنع خطأ Shadowed APK، وتفعيل الـ 177 دولة من تبويب Countries/regions، واعتبار رسالة Native Debug Symbols تحذيراً غير حاجب للنشر."
+  tags: [play-store, r8, proguard, shrink-resources, optimization-97, fleet-orchestration, glm-5-3-flash, claude-opus-max, production-release]
+  status: active
+
+- id: MEM-FLEET-MEMORY-CONCURRENT-WRITE-2026-09-23-010
+  type: lesson
+  timestamp: "2026-09-23T19:30:00+03:00"
+  agents: [fleet-orchestrator, persistent-memory-engine, claude-code-cli]
+  context: "الكتابة المتزامنة على MEMORY_STORE.md من أكثر من وكيل خلال الجلسة الواحدة"
+  content: "1) أثناء تنفيذ Hook 25 (strategic-clear) في جلسة 15، وجد Claude Code CLI أن درس الـ TalkBack nunation مسجّل بالفعل تحت MEM-A11Y-TALKBACK-ARABIC-TTS-2026-09-23-009 قبل دقائق من وصوله للخطوة 2، مع أنه لم يكتبه: الـ mtime كان Sep 13 16:49 عند بدء الأمر، ثم ظهر إدخال بتوقيت 19:20. أي أن وكيلاً آخر (Antigravity IDE أو خطّاف) يكتب على نفس الملف بالتوازي. 2) القاعدة المعتمدة: قبل أي append على MEMORY_STORE.md يجب إعادة قراءة ذيل الملف لحظياً (tail / grep على الـ id) وعدم الاعتماد على نسخة مقروءة سابقاً في السياق، وإلا تنشأ إدخالات مكررة أو تضارب في ترقيم MEM-ids. 3) هناك نسختان من الملف: .agents/MEMORY_STORE.md (81 KB، هو النشط) و MEMORY_STORE.md في الجذر (57 KB) — الكتابة تتم في .agents/ حصراً مثلما تم مع MEM-2026-09-13-001..004."
+  tags: [memory-store, concurrency, fleet-coordination, hook-25, strategic-clear, duplicate-prevention]
+  status: active
+
+- id: MEM-A11Y-TALKBACK-ARABIC-TTS-2026-09-23-009
+  type: lesson
+  timestamp: "2026-09-23T19:20:00+03:00"
+  agents: [android-kotlin-pro, jetpack-compose-ui, code-reviewer-quality, test-automator, persistent-memory-engine]
+  context: "منع تنوين الضم في تسميات وإعلانات TalkBack للمكفوفين وعزل نصوص Compose متعددة الأسطر"
+  content: "1) في Jetpack Compose، عند استخدام نصوص بصرية متعددة الأسطر (\\n) داخل أزرار الواجهة المخصصة للمكفوفين (مثل HeaderAccessibleButton)، إذا لم يُربط contentDescription في الـ Semantics، تسقط إمكانية الوصول على الـ child Text فيعامل محرك الـ TTS العربي الكلمة المنتهية بسطر جديد كاسم مفرد منعزل ويولد تنوين ضم افتراضي ('اختيارٌ السورة'). 2) الحل الجذري: ربط contentDescription صراحة على حاوية الزر بـ Modifier.semantics(mergeDescendants = true) { this.contentDescription = ... } مع تفريغ دلالات النص البصري بـ Modifier.clearAndSetSemantics {} لمنع وصول \\n لمحرك النطق. 3) الضبط الإعرابي الصريح: وضع ضمة صريحة ('اختيارُ') وكسرة للمجرور ('لاختيارِ') في كافة نصوص contentDescription والإعلانات الصوتية يحسم دقة النطق الصوتي 100% ويمنع اجتهادات الـ TTS الخاطئة. تم التطبيق على 5 ملفات تحت :app واعتمادها بالكوميت 14df900 بعد اجتياز 40 اختبار وحدة."
+  tags: [talkback, accessibility, arabic-tts, nunation-fix, jetpack-compose, semantics, player-header-bar, dual-mode-architecture]
+  status: active

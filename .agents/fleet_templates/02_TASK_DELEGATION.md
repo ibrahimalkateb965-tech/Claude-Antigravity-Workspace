@@ -5,7 +5,7 @@
 ```markdown
 # 🤖 DELEGATE SKILLS PROTOCOL: Task Assignment
 
-**Target CLI Agent:** [OpenCode CLI | Antigravity CLI | Antigravity IDE]  
+**Target CLI Agent:** [OpenCode CLI (Worker A/B) | Cline CLI (Worker C/D) | Antigravity CLI | Codex CLI]
 **Assigned Skill Roles:** [e.g. [offline-sync-db], [flutter-ui-pro], [domain-contracts]]  
 **Exclusive Tree Ownership:** `[e.g. lib/core/remote/]`  
 **Governing Blueprints:** `fleet_config.json`, project blueprints, and `PROJECT_CONTEXT.md`

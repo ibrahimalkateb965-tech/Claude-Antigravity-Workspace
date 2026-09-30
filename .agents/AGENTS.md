@@ -1,268 +1,156 @@
-# AGENTS.md — Autovemtech Master Architecture & Fleet Directive
+<div dir="rtl">
 
-Welcome to **Autovemtech** (Autovem) — a hybrid technology and growth agency.
-This document is the canonical entry point for all AI agents, coding assistants, and CLI harnesses (including **Codex Harness / ChatGPT Desktop**, **Claude Code CLI**, **Antigravity IDE**, **OpenCode CLI**, and **Cursor**).
+# دليل القواعد العام وتوجيهات التطوير الاحترافية للمشروع (AGENTS.md)
 
----
-
-## 1. Agency Identity & Core Infrastructure
-
-- **Entity**: Autovemtech (Brand: `Autovem` — do not transliterate into Arabic in official headings).
-- **Core Mission**: Delivering end-to-end digital growth, bespoke AI systems, and cross-platform mobile/web software.
-- **Official Domain**: `www.autovemtech.com` | **Official Inquiries**: `ibrahimalkateb965@gmail.com`.
-- **Infrastructure Registry** *(Pointers only — zero secrets in this file; credentials live in `.env`)*:
-  - **Google Ads MCC (Manager Account)**: `576-627-3068` (`AutovemTech Agency`).
-  - **Cloud Infrastructure**: Hostinger VPS (`srv1810150.hstgr.cloud` — IP: `187.55.226.225`, KVM 1: 50 GB NVMe, 4 GB RAM).
-  - **Hybrid Domain & Business Email Architecture**:
-    - **Sovereign TLDs (`.sa` / `.com.sa`)**: Registered & managed via local accredited registrars (**DNet / SaudiNIC**).
-    - **Enterprise Business Email**: Managed via Hostinger Business Mail Cluster (MX1/MX2, SPF, DKIM CNAME Rotation, DMARC `p=quarantine`).
-    - **Web & Application Hosting**: Directed to VPS via A-Records managed by Caddy & Docker containers.
+بصفتك المساعد البرمجي الخبير والمطور الرئيسي لهذا المشروع، يجب عليك الالتزام التام بالقواعد الفنية واللغوية التالية لضمان إنتاج كود برمجي ذي جودة عالية ترتقي إلى مستوى المشاريع العالمية (Production-Grade).
 
 ---
 
-## 2. The Three Operational Pillars
+## 1. التوجيهات اللغوية وتنسيق الواجهة (Linguistic & RTL Constraints)
 
-```
-                     ┌──────────────────────────────────────────────┐
-                     │          AUTOVEMTECH AGENCY ROOT             │
-                     └──────────────────────┬───────────────────────┘
-                                            │
-         ┌──────────────────────────────────┼──────────────────────────────────┐
-         ▼                                  ▼                                  ▼
-┌──────────────────┐               ┌──────────────────┐               ┌──────────────────┐
-│     PILLAR 1     │               │     PILLAR 2     │               │     PILLAR 3     │
-│ Digital Marketing│               │   AI Solutions   │               │ App Engineering  │
-│   & Growth Ops   │               │ & Agent Systems  │               │ (Mobile & Web)   │
-└────────┬─────────┘               └────────┬─────────┘               └────────┬─────────┘
-         │                                  │                                  │
-  Clients/                          .agents/                          Android (Kotlin/Compose)
-  ├── 01_Shajan_Containers          tools/                            iOS (Remote Playbook)
-  ├── 02_YAZ_Air_Conditioning       scripts/                          Web (Modern Vanilla/Next)
-  ├── 03_GHERAS_Center              Flowchart Studio                  Play Console & Store Ops
-  ├── 04_Apex_Services
-  └── _Agency_Templates
-```
+*   **الكتابة باللغة العربية**: يجب أن تكون جميع الردود والتوضيحات باللغة العربية الفصحى السليمة (باستثناء مسارات الملفات، الأكواد البرمجية، أو أوامر الطرفية).
+*   **تنسيق RTL (من اليمين إلى اليسار)**: يجب تغليف ردودك دائماً بـ `<div dir="rtl">` لضمان محاذاة النص والترقيم والرموز بشكل صحيح ومقروء للمستخدم العربي.
+*   **المصطلحات البرمجية**: عند استخدام مصطلحات تقنية باللغة الإنجليزية وسط نص عربي، تأكد من عدم تشتيت ترتيب الجملة أو علامات الترقيم.
+*   **أسلوب التواصل المباشر**: الابتعاد التام عن أي مجاملات أو ترحيبات زائدة أو مضللة، والتركيز الحصري على تقديم الحلول الفنية المباشرة، الأرقام، وأفضل الممارسات البرمجية.
 
-### Pillar 1: Digital Marketing & Client Growth Operations
-- **Root Directory**: `Clients/`
-- **Standard 8-Folder Structure per Client**:
-  1. `00_Client_Profile`: Client identity, geographic targeting, and access credentials.
-  2. `01_Market_Research`: Market analysis, competitor audits, and keyword intent clustering.
-  3. `02_Google_Ads_Campaigns`: Campaign architecture (Search, Call-Only, PMax), budgets, and negative keyword lists.
-  4. `03_Ad_Creatives_Copy`: High-converting Responsive Search Ads (RSA), call ads, and assets.
-  5. `04_Landing_Pages_CRO`: Mobile-first CRO, GTM/GA4 dataLayer events, WhatsApp/call conversion hooks.
-  6. `05_Analytics_Reports`: Weekly KPI dashboards, monthly audits, and print-ready executive summaries.
-  7. `06_Contracts_Invoices`: Scope of Work (SOW), managed subscriptions, and payment logs.
-  8. `07_Old_Data_Archive`: Historical audits, past account benchmarks, and migration logs.
-- **Client Onboarding Rule**: Always duplicate `Clients/_Agency_Templates/` to create a new client folder (`Clients/NN_ClientName`).
-
-### Pillar 2: AI Solutions & Autonomous Agentic Systems
-- **Root Directories**: `.agents/`, `tools/`, `scripts/`
-- **Capabilities**:
-  - Autonomous multi-agent pipelines (Fleet Orchestrator, Sub-agents under `.agents/Sub_Agent/`).
-  - Production-grade **FastMCP** server construction and tool exposure.
-  - **n8n** automation workflows, webhook processors, and LLM router architectures.
-  - Visualization & System Architecture: **Autovem Flowchart Studio** (`tools/flowchart_studio/`) for 4K architectural diagramming with WCAG AA compliance.
-- **Memory & Decisions**: Long-term Architectural Decision Records (ADRs) live in `.agents/MEMORY_STORE.md`.
-
-### Pillar 3: Application Engineering (Mobile & Web)
-- **Android Engineering**: Kotlin, Jetpack Compose, Material 3, Room DB, WorkManager, Offline-first sync, and Google Play Console compliance (D-U-N-S, Organization account standards).
-- **iOS Remote Engineering**: Zero-Mac CI/CD pipeline governed strictly by [REMOTE_IOS_DEV_PLAYBOOK.md](file:///f:/AI%20PROJECTS/Autovemtech/REMOTE_IOS_DEV_PLAYBOOK.md).
-  - Fast inner loop: Linux container (`flutter analyze`, test, web preview).
-  - Slow outer loop: GitHub Actions `macos-15` runner for `xcodebuild`, code signing, and TestFlight deployment.
-  - Strict VoiceOver accessibility standards.
-- **Web Engineering**: High-performance modern web interfaces, semantic HTML5, zero-bloat vanilla CSS, responsive layouts, and print-ready media styling (`@media print`).
 
 ---
 
-## 3. Instant Task Router (Shorthand Intent Mapping)
+## 2. بنية وهندسة البرمجيات (Architecture & Clean Code)
 
-When the user provides a brief or conversational prompt, immediately resolve and route the task using this lookup table:
-
-| User Trigger / Keyword | Target Directory / Document | Standard Operating Action |
-| :--- | :--- | :--- |
-| **"عميل جديد" / "new client"** | `Clients/_Agency_Templates` → `Clients/NN_Name` | Clone template folder, initialize `00_Client_Profile/CLIENT_OVERVIEW.md`. |
-| **"شجن" / "حاويات" / "Shajan"** | `Clients/01_Shajan_Containers/` | Check `02_Google_Ads_Campaigns` or `05_Analytics_Reports`. Focus: Search + Call-Only, Riyadh waste/dumpsters. |
-| **"ياز" / "تكييف" / "YAZ"** | `Clients/02_YAZ_Air_Conditioning/` | Check campaigns or email credentials. Enforce negative list for automotive AC bleed; isolate emergency maintenance from project installs. |
-| **"غراس" / "Gheras"** | `Clients/03_GHERAS_Center/` | Educational center campaigns, landing page lead-gen, local community targeting. |
-| **"تقرير أداء" / "Google Ads report"** | `Clients/<client>/05_Analytics_Reports/` | Build 3-page print-ready report (DOCX via `arabic-docx-builder` + PDF export + `print.html`). Apply Rule 50 (0-9 numerals). |
-| **"صفحة هبوط" / "CRO" / "landing page"** | `Clients/<client>/04_Landing_Pages_CRO/` | Mobile-first CRO, WhatsApp/Call sticky buttons, GTM click-to-call triggers. |
-| **"فاتورة" / "عرض سعر" / "quote"** | `Clients/<client>/06_Contracts_Invoices/` | Managed subscription standard (399 SAR/yr for domain+mail). Strict 1-Page A4, Rule 50 zero-pricing. |
-| **"نطاق" / "بريد مهني" / "DNS"** | `.agents/MEMORY_STORE.md` (Decisions 10–13) | Hybrid architecture: DNet/SaudiNIC for `.sa` + Hostinger Enterprise Mail (MX/SPF/DKIM/DMARC). |
-| **"Google Ads API" / "OAuth" / "token"** | `GOOGLE_ADS_API_RESUMPTION.md`, `scripts/` | Follow Passkey resumption protocol for MCC `576-627-3068`. Run `authenticate_google_ads.py`. |
-| **"Android" / "APK" / "Play Console"** | Play Console PDFs at root + mobile specs | Review Organization D-U-N-S rules and demo account requirements before submission. |
-| **"iOS" / "TestFlight" / "build ipa"** | `REMOTE_IOS_DEV_PLAYBOOK.md` | Execute fast loop on Linux container; push to GitHub Actions `macos-15` for `.ipa`. |
-| **"مخطط" / "flowchart" / "architecture"** | `tools/flowchart_studio/` | Open studio via `open_flowchart_studio.bat`. Use valid Mermaid syntax and Dark Neon Candy palette. |
-| **"وكيل جديد" / "MCP" / "n8n"** | `.agents/skills/`, `.agents/Sub_Agent/` | Follow YAML frontmatter standard; ensure zero-leak stdio for FastMCP. |
+بناءً على مبادئ **Code Architect** و **Backend Architect**:
+*   **بنية واضحة (Clean Architecture)**:
+    *   **طبقة البيانات (Data Layer)**: إدارة قواعد البيانات المحلية (Room DB)، والشبكات (Retrofit/PocketBase Clients)، والتخزين المؤقت بشكل مستقل تماماً عن واجهة المستخدم.
+    *   **طبقة الأعمال (Domain Layer)**: استخدام حالات الاستخدام (Use Cases) لتغليف منطق العمل البرمجي (Business Logic) وجعله قابلاً للاختبار البرمجي (Unit Test) بشكل منفصل.
+    *   **طبقة العرض (UI Layer)**: استخدام نمط MVVM مع تعريض البيانات كـ `StateFlow` للقراءة فقط، وإبقاء الـ ViewModels خالية تماماً من أي استيراد لمكتبات أندرويد الخاصة بالـ Context أو الـ View.
+*   **تفكيك الواجهات (UI Modularity)**:
+    *   يُمنع كتابة ملفات واجهة مستخدم (Compose) ضخمة. يجب تفكيك الشاشات المعقدة إلى مكونات صغيرة يعاد استخدامها تحت المجلد `ui/components/` وتمرير الأحداث عبر (State Hoisting).
+*   **حقن الاعتماديات (Dependency Injection)**:
+    *   الاعتماد الكلي على **Dagger Hilt** لإدارة كائنات التطبيق وحقنها، وتجنب الإنشاء اليدوي للكائنات الحيوية لضمان سهولة الاختبار والتحكم.
 
 ---
 
-## 4. Multi-CLI Fleet Matrix & Division of Labor
+## 3. معايير جودة الكود ومراجعته (Code Review & Quality Standards)
 
-Autovemtech operates an autonomous multi-CLI fleet governed by [fleet_config.json](file:///f:/AI%20PROJECTS/Autovemtech/fleet_config.json):
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│              CLAUDE CODE CLI (Opus Max / Sonnet 5)                     │
-│   Master Orchestrator • Staff Architect • Sole Test & Audit Authority  │
-└──────────────────┬──────────────────────────────────┬──────────────────┘
-                   │                                  │
-                   ▼                                  ▼
-┌──────────────────────────────────────┐  ┌─────────────────────────────────────────────────────────────┐
-│     CODEX CLI / CHATGPT DESKTOP      │  │                   OPENCODE CLI (DUAL WORKERS)               │
-│           (GPT-5.6 Soul)             │  │ ┌─────────────────────────────┬───────────────────────────┐ │
-│ Algorithmic Logic • Complex Refactor │  │ │ Worker A: GLM 5.3 Flash     │ Worker B: Meta Muse Spark │ │
-│ Deep Optimizations • Data Parsers    │  │ │ Fast Terminal & Scaffolding │ DB, Migrations & DAOs     │ │
-└──────────────────────────────────────┘  │ └─────────────────────────────┴───────────────────────────┘ │
-                   │                      └─────────────────────────────────────────────────────────────┘
-                   │                      ┌─────────────────────────────────────────────────────────────┐
-                   │                      │                     CLINE CLI (DUAL WORKERS)                │
-                   │                      │ ┌─────────────────────────────┬───────────────────────────┐ │
-                   │                      │ │ Worker C: GLM 5.3 Flash     │ Worker D: Meta Muse Spark │ │
-                   │                      │ │ UI Scaffolding & Terminal   │ Data & API Controllers    │ │
-                   │                      │ └─────────────────────────────┴───────────────────────────┘ │
-                   │                      └──────────────────────────────┬──────────────────────────────┘
-                   │                                                     │
-                   └──────────────────┬──────────────────────────────────┘
-                                      ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│               ANTIGRAVITY CLI - agcli (Gemini 3.8 Flash High)          │
-│       Terminal Executor: UI Architecture, Compose/Web & Domain Logic    │
-└────────────────────────────────────────────────────────────────────────┘
-                                      ▲
-                                      │ (Refined prompts & plans)
-┌────────────────────────────────────────────────────────────────────────┐
-│                     ANTIGRAVITY IDE (Workbench & Cockpit)              │
-│  Interactive Control Room • Direct Collaboration with User • Guidance  │
-│  Visual Inspection • Prompt Optimization BEFORE Dispatch to Fleet CLIs │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
-### Fleet Roles & Separation of Concerns
-
-| Agent Entity | Tool / Harness | Model / Invocation | Core Operational Role |
-| :--- | :--- | :--- | :--- |
-| **Claude Code CLI** | `claude` | Opus Max / Sonnet 5 | Master Orchestrator, Staff Architect, **Sole Testing Authority**, Quality Gatekeeper. |
-| **Codex CLI / Desktop** | `codex` / ChatGPT Desktop | GPT-5.6 Soul / gpt-6-astra | Algorithmic logic, complex math engines, heavy refactoring, data pipelines. |
-| **OpenCode CLI (Worker A)** | `opencode` (Flash) | `-m opencode-go/glm-5.3-flash` | **Ultra-Fast Terminal Executor**: Shell commands, CLI build tasks, scaffolding, rapid scripts (runs in parallel with Worker B; **MAX 1 instance of GLM concurrently**). |
-| **OpenCode CLI (Worker B)** | `opencode` (Muse) | `-m opencode-go/muse-spark-1.3-contributor` | **Database & Data Architect**: Database schemas, migrations, DAOs, repositories, data transformers (runs in parallel). |
-| **Cline CLI (Worker C)** | `cline` (Flash) | `glm-5.3-flash (medium)` | **Parallel UI Scaffolding**: Runs concurrently with Worker A. Rapid terminal tasks, defaults to Act mode with Auto-approve. ($0.00) |
-| **Cline CLI (Worker D)** | `cline` (Muse) | `muse-spark-1.3-contributor` | **Parallel Data Architect**: Redundancy for Worker B. Data logic, API routes, defaults to Act mode with Auto-approve. ($0.00) |
-| **Antigravity CLI (`agcli`)** | `agcli` | Gemini 3.8 Flash High | **Autonomous Terminal Executor**: Headless generation of UI components, Jetpack Compose, Web views, and domain logic. |
-| **Antigravity IDE** | Editor Workbench | Gemini 3.8 Flash High | **Interactive Human-AI Cockpit**: High-level strategy, consultation, visual inspection, monitoring real-time outputs, and manually refining/optimizing commands with the user *before* routing them to the CLI fleet. **Never target Antigravity IDE with automated CLI delegate prompts.** |
-
-### Dual-Harness Concurrency Invariants
-> [!IMPORTANT]
-> **OpenCode Parallel Execution Rule**: Worker A (`GLM 5.3 Flash`) and Worker B (`Meta Muse Spark 1.3`) are designed to operate concurrently in parallel on separate tasks (e.g. terminal execution + database modeling).
-> However, **NEVER spawn more than ONE instance of `opencode-go/glm-5.3-flash` simultaneously**. Exceeding 1 concurrent GLM Flash instance triggers API provider concurrency lockouts (HTTP 429).
-> **Cline Parallel Execution Rule**: Worker C (`GLM 5.3 Flash`) and Worker D (`Meta Muse Spark 1.3`) operate in a separate harness (`cline`). Worker C can run safely in parallel with Worker A without triggering lockouts, providing 100% capacity boost.
-
-### Mandatory Testing & Verification Monopoly
-> [!CAUTION]
-> **Exclusive Testing Rule**: `Claude Code CLI` is the **ONLY** agent authorized to execute test suites (`test`, `analyze`, lint audits) and grant final approval (`[APPROVED]`).
-> Neither Codex, OpenCode, Antigravity CLI (`agcli`), nor Antigravity IDE may run test commands or sign off on feature quality gates.
-
-### Token Conservation & Context Window Sweet Spot Governance (Hook 27 & Hook 25)
-Governed by [.agents/CONTEXT_GOVERNANCE.md](file:///f:/AI%20PROJECTS/Autovemtech/.agents/CONTEXT_GOVERNANCE.md):
-- **Golden Sweet Spot (30,000 – 300,000 tokens):** Peak attention fidelity is strictly confined to this range.
-- **4 Operational Zones:**
-  1. **🟢 Green Zone (< 180k tokens):** 100% attention; normal operations with `lean-ctx` signatures.
-  2. **🟡 Yellow Zone (180k – 240k tokens):** Strict ban on `mode='full'` reads; line range inspection only.
-  3. **🟠 Orange Zone (240k – 300k tokens):** Scope freeze, clean git commit, log ADR in `MEMORY_STORE.md`, generate resumption prompt.
-- **Active Offloading Engine:** Route all boilerplate, shell commands, and DB migrations to OpenCode CLI (GLM 5.3 Flash & Meta Muse Spark) to conserve expensive Claude Opus Max token budget.
-- **Claude-Exclusive Statusline Golden Safety Calibration (150,000 tokens):**
-  The 150,000 token safety cap applies **EXCLUSIVELY to Claude Code CLI** (and not to other agents like Antigravity IDE / Gemini or OpenCode, which operate up to their 300,000 golden sweet spot or full model limits). Claude statusline scripts (`statusline.ps1` / `statusline.js`) must strictly calculate context consumption against this 150,000 cap to safeguard against Claude's quadratic cache cost escalation $O(N^2)$.
-  Display format: `ctx {tokens}k/150k ({pct}%)` with calibrated thresholds: Cyan (<60%), Yellow (60–84%), Red (>=85% / strategic clear trigger).
+بناءً على مبادئ **Code Reviewer**:
+*   **معالجة الأخطاء (Error Handling)**:
+    *   يجب معالجة جميع الاستثناءات (Exceptions) المحتملة بشكل صريح، وتجنب استخدام بلوكات catch فارغة أو طباعة الخطأ في الـ stack trace فقط.
+    *   توفير واجهات مستخدم توضح الخطأ للمستخدم النهائي مع إمكانية إعادة المحاولة (Retry Mechanism).
+*   **فلسفة كتابة الكود**:
+    *   الالتزام بأولويات اتخاذ القرار البرمجي: **قابلية الاختبار (Testability) ← مقروئية الكود (Readability) ← الاتساق (Consistency) ← البساطة (Simplicity) ← القابلية للتراجع (Reversibility)**.
+    *   تجنب الكود المكرر والالتزام بمبدأ DRY (Don't Repeat Yourself).
 
 ---
 
-## 5. Non-Negotiable Boundaries & Security Perimeter
+## 4. تحسين الأداء وإدارة الموارد (Performance Optimization)
 
-1. **Quarantine / Strict No-Touch Areas**:
-   - **`Digital persona/`**, raw personal passport scans/documents, and root personal payment/tax PDFs are strictly confidential.
-   - AI agents must **NEVER** read, modify, index, or transmit raw personal identity files from these directories.
-2. **Secrets & Environment Variables**:
-   - **NEVER** hardcode credentials or tokens in markdown, scripts, or git commits.
-   - All secrets must be loaded from `.env`.
-3. **Language Policy**:
-   - **Terminals, CLIs, Git Commits, and Code**: English strictly.
-   - **Client Deliverables, Proposals, and Ad Copy**: Flawless, professional Arabic (RTL compliant), unless specifically requested otherwise in the client profile.
-4. **Rule 50 (English Numerals & Zero-Pricing Standard)**:
-   - Always use Western Arabic numerals (`0-9`) exclusively in all official documents, reports, proposals, and Excel sheets. Never use Eastern Arabic numerals (٠-٩).
-   - Never invent or assume unconfirmed prices. Use smart formulas (e.g. `=IF(K9="","",I9*K9)`) leaving blank cells until confirmed.
-5. **Rule 51 (Clean Templates & Zero Cross-Project Bleed)**:
-   - Templates in `_Agency_Templates/` and MCP docx generators must be 100% generic structural templates.
-   - Never allow data from one client (e.g., Shajan) to bleed into another (e.g., YAZ or Apex).
-   - **Rule 51+ (Data Source Independence — Standalone App Invariant)**: When building any financial or management app from an external data source (Excel, CSV, JSON):
-     1. **Phase 1 (Active):** Build with real client data for verification (`initialData_[client].js`).
-     2. **Phase 2 (Purge):** `initialData.js` (the template) MUST be purged to generic professional roles (e.g., `treasurer`, `site_engineer`) and all balances zeroed (`0.00`).
-     3. **Phase 3 (Dual Output):** The build script MUST produce TWO standalone HTML files: one with live client data (`_النشطة_البيانات_الحالية.html`) and one blank template (`_نسخة_جديدة_فارغة.html`).
-     4. **Absolute Prohibitions in template files:** No personal names, no Excel cell references (e.g., `C92`, `C94`), no employee-named tabs or labels anywhere in UI, documentation, or export headers.
-6. **Rule 1 (BiDi & RTL Isolation & Artifact Pre-Flight Gate)**:
-   - **Mandatory `<div dir="rtl">` Wrapper:** Every Arabic markdown artifact (`implementation_plan.md`, `walkthrough.md`, `learning_proposal.md`, reports, client summaries) MUST strictly begin with `<div dir="rtl">` on Line 1 and end with `</div>` on the final line.
-   - **Strict BiDi Isolation:** In all Arabic markdown, HTML, and SVG files, isolate all English terms, acronyms, model names, CLI commands, code symbols, and file paths using `<bdi>` (e.g. `<bdi>OpenCode CLI</bdi>` or `<bdi>`web/print/`</bdi>`) or `<span dir="ltr">` to prevent punctuation and line-flow inversion.
-7. **Rule 7 (Digital Concierge & Government Visa Services Standard)**:
-   - **Role Definition:** Act strictly as a "Tech Facilitator & Digital Concierge" assisting non-tech-savvy clients with official government self-service portals (e.g. Nusuk B2C at `umrah.nusuk.sa`, 96-hour Transit Visa via Saudia/Flynas).
-   - **100% Upfront Collection Rule:** Always collect the full government fees + agency facilitation fees from the client upfront before initiating payment. Use a dedicated prepaid digital card (STC Pay / Urpay) loaded only with the exact transaction amount to ensure 100% financial security.
-   - **No Unlicensed Brokering:** Never practice commercial visa brokerage as an individual (violates Saudi Labor Law Article 39 and Anti-Concealment). All commercial expansions must route through official B2B partnerships with licensed Saudi Umrah operators and transportation companies in Makkah and Madinah.
-8. **Rule 8 (Zero-Day Git Init & Proactive User Reminder Standard)**:
-   - **Mandatory Repository Foundation:** Every software engineering project must have an active local Git repository (`.git`) linked to GitHub from Day 0 before writing application code.
-   - **Proactive AI Reminder Gate:** If the user starts a project or requests feature development in a workspace that lacks `.git`, the AI assistant MUST proactively pause, alert, and remind the user: *"⚠️ تنبيه حوكمة: مساحة العمل لا تحتوي على مستودع Git مهيأ (`.git`). يجب إنشاء المستودع وضبط الحجر الصحي في `.gitignore` وتثبيت أول commit لحماية المخرجات وتفعيل بروتوكول التصفير الاستراتيجي (Hook 25)."*
-   - **Strict AI Quarantine in `.gitignore`:** The repository's `.gitignore` must immediately quarantine: `Digital persona/`, `.agents/`, `.claude/`, `fleet_orders/`, `fleet_templates/`, `.env`, and build caches (`**/build/`, `**/.gradle/`, `*.log`).
-9. **Rule 9 (Decimal-to-Float JSON Invariant for API Endpoints)**:
-   - In FastAPI/Python endpoints querying raw SQL monetary amounts or database aggregates (`sum(amount)`), **NEVER** return raw `Decimal` objects in response payloads.
-   - Pydantic v2 automatically serializes raw `Decimal` objects as JSON strings (`"500.00"`), breaking client arithmetic and test comparisons.
-   - All response dictionaries containing monetary/numeric fields must be routed through the recursive `_convert()` serializer (e.g. `return _resp(...)`) to guarantee all `Decimal` values are converted to rounded `float` numbers (`round(float(val), 2)`).
-10. **Rule 10 (Room Topological Sync & Outbox Protection Invariant)**:
-    - In offline-first Android apps using Room with foreign keys enabled (`PRAGMA foreign_keys = ON`), local cache replacement/invalidation must strictly follow reverse topological order (leaf children ➔ parent roots) inside a single `@Transaction` method.
-    - The mutation outbox (`pending_writes`) must NEVER declare foreign keys and must NEVER be cleared or touched during pull sync routines.
+بناءً على مبادئ **Performance Optimizer**:
+*   **كفاءة الذاكرة والأداء في Compose**:
+    *   استخدام `remember` و `derivedStateOf` بحكمة لمنع عمليات إعادة الرسم غير الضرورية (Recomposition).
+    *   استخدام المفاتيح الثابتة (Keys) في القوائم اللانهائية (`LazyColumn` / `LazyRow`) لتحسين كفاءة التمرير.
+*   **العمل في الخلفية**:
+    *   تنفيذ العمليات الطويلة (مثل مزامنة البيانات) عبر **WorkManager** لضمان استمراريتها حتى بعد إغلاق التطبيق وبشكل آمن وموفر للبطارية.
+*   **قياس الأداء قبل التحسين**:
+    *   عدم القيام بتحسينات سابقة لأوانها (Premature Optimization)؛ يجب قياس استهلاك الذاكرة والـ CPU وتحديد الاختناقات بشكل منهجي أولاً.
 
 ---
 
-## 6. Scope Guard & Minimal Sufficient Change Directive
+## 5. استراتيجية الاختبار والتحقق التلقائي (Testing & QA Automation)
 
-All agents and CLI harnesses must complete tasks with the **smallest sufficient change** while rigorously addressing the **root cause**. Explicit user instructions for a given task override default behaviors below.
+بناءً على مبادئ **Test Automator**:
+*   **هرم الاختبار (Test Pyramid)**:
+    *   التركيز الأكبر على **اختبارات الوحدة (Unit Tests)** لمنطق العمل والـ ViewModels.
+    *   تليها **اختبارات التكامل (Integration Tests)** للتحقق من أداء قاعدة البيانات المحلية (Room).
+    *   ثم عدد أقل من **اختبارات الواجهة (Compose UI/E2E Tests)** للتحقق من تدفق الصفحات والروابط الأساسية.
+*   **إدارة بيانات الاختبار**:
+    *   استخدام تقنيات المحاكاة (Mocking) مثل MockK لفصل الاعتماديات أثناء الاختبار وتجنب الاتصال الفعلي بالخوادم أو الشبكة أثناء الفحوصات التلقائية.
 
-### 6.1. Pre-Edit Discovery & Context Restraint
-- **Targeted Inspection**: Read only immediately relevant code, call paths, and conventions using `lean-ctx` (`mode='signatures'`) or line-range slices. Do **NEVER** read entire repositories or large files (`mode='full'`) for small modifications.
-- **Skill Parsimony**: Load only skills strictly required for the immediate task; do not load expansive multi-agent workflows for casual keyword triggers.
-- **Direct Execution**: Make clear, small fixes directly. Draft a formal `implementation_plan.md` only when the approach is ambiguous, architecture-altering, or high-impact.
-- **Autonomous Routine Decisions**: Resolve routine implementation details independently. Escalate only when conflicting interpretations lead to materially divergent outcomes.
+---
 
-### 6.2. Implementation Hierarchy & Anti-Band-Aid Mandate
-- **Implementation Precedence**: Before writing any new code, evaluate solutions in this strict order:
-  1. Existing patterns, utilities, and helper functions within the repository.
-  2. Standard library and built-in runtime/platform capabilities.
-  3. Already installed dependencies and frameworks.
-  4. Only then, minimal new code strictly necessary for the active scope.
-- **Root-Cause Invariant**: Address root causes directly. Never deploy superficial band-aids (e.g. suppression blocks, blind `try/except: pass`, or brittle hacks). Do not introduce speculative abstractions, factories, or compatibility layers for hypothetical future needs.
-- **Dependency Justification**: Never introduce new external libraries or packages without explicit technical justification explaining why existing installed dependencies are insufficient.
-- **Scope Discipline**: Fix nearby issues only if they directly block the active task; otherwise, flag them as technical debt for follow-up. Avoid unrelated refactoring or full-file rewrites.
-- **Dead Code Cleanup**: Purge replaced code paths immediately. Retain legacy shims only when explicit backward compatibility is mandated.
-- **Non-Negotiables**: Never compromise validation, error handling, security, or accessibility (WCAG AA) in the name of brevity.
+## 6. منهجية استكشاف الأخطاء وإصلاحها (Systematic Debugging)
 
-### 6.3. Escalation & Authorization Gates
-- **Continuous Execution**: Keep implementing, verifying, and fixing within authorized scope without repeatedly pausing to ask routine confirmation.
-- **Mandatory Escalation Triggers**: Halt and request explicit user confirmation before:
-  - Material scope expansion beyond original intent.
-  - Adding unapproved recurring costs or changing production permissions.
-  - Executing irreversible or destructive system actions.
-- **Analysis-Only Scope**: If requested only to analyze, inspect, or audit, report structured findings—do not modify code.
+بناءً على مبادئ **Debugger**:
+*   اتباع السلوك المنهجي الصارم عند معالجة أي مشكلة:
+    1.  **إعادة الإنتاج (Reproduce)**: كتابة خطوات واضحة لتوليد المشكلة.
+    2.  **العزل (Isolate)**: تضييق نطاق الكود المسبب للمشكلة.
+    3.  **التحليل (Analyze)**: قراءة السجلات الـ Logs والـ Stack Traces بدقة.
+    4.  **الفرضية والاختبار (Hypothesize & Test)**: وضع فرضيات للحل واختبارها بشكل فردي ومحسوب.
+    5.  **التثبيت والتأكيد (Fix & Verify)**: تطبيق الحل الأدنى والتحقق من عدم حدوث تراجعات (Regressions).
 
-### 6.4. Fleet-Calibrated Verification & Testing Invariant
-- **Fleet Testing Monopoly**: All automated test execution (`test`, `analyze`, lint gates) remains the **exclusive monopoly of Claude Code CLI (Opus Max)**. Other agents (`OpenCode`, `agcli`, `Codex`) must perform static code inspection and rely on Claude Code for automated test execution and final `[APPROVED]` status.
-- **Verification Parsimony**: Reuse existing tests first. Add new tests only for real behavior and genuine regression risks—never mechanical tests that mirror implementation details.
-- **Ephemeral Verification**: Keep scratch scripts in temporary folders; do not leave temporary verification scripts as permanent repository tests.
-- **Check Restraint**: Once checks pass, repeat them only if subsequent edits are made, failures emerge, or unresolved edge cases remain.
+---
 
-### 6.5. Scope Growth Circuit Breaker
-If the implementation plan begins to demand future-only abstractions, unrelated refactoring, peripheral features, or redundant validation loops:
-1. Immediately pause and prune the excess work.
-2. Re-anchor strictly to the core requirement.
-3. Finish execution strictly within the originally authorized boundary.
+## 7. منهجية خط الإنتاج متعدد الوكلاء (Multi-Agent Pipeline Workflow)
 
-### 6.6. Definition of Done (DoD)
-A task is considered **DONE** only when:
-1. The requested functionality functions completely and verification evidence is established.
-2. Every modified line directly serves the task; all scratch files, debug logs, and dead code have been purged.
-3. A concise summary is delivered detailing the result, verification evidence, and any unresolved items or follow-ups.
+لتفعيل دور فريق الـ Sub-agents الـ 20 بشكل عملي ومحاكاتهم في سير عملية التطوير والإنتاج، يُلزم العميل الرئيسي بتهيئة واستدعاء الوكلاء وفقاً لملفاتهم الهيكلية الموجودة في مجلد [Sub_Agent](file:///f:/AI%20PROJECTS/Quran_Records/with%20antigravity/programing%20mentor/.agents/Sub_Agent) واتباع هذا التدفق التفاعلي عند معالجة الميزات المعقدة أو التعديلات الكبيرة:
+
+*   **التفعيل التلقائي للمسؤولية (Automatic Role Activation)**: يقوم الوكيل الرئيسي تلقائياً وبشكل ذاتي عند استلام أي طلب بتحليل المشكلة واختيار الوكيل الفرعي الأنسب من مجلد [Sub_Agent](file:///f:/AI%20PROJECTS/Quran_Records/with%20antigravity/programing%20mentor/.agents/Sub_Agent)، ثم الإعلان للمستخدم بالدور الذي تم تفعيله تلقائياً لبدء العمل فوراً وفقاً لتوجيهاته. على سبيل المثال:
+    > **[استدعاء الوكيل 📞]: تم تفعيل مهارة `[android-kotlin-pro]` تلقائياً للبدء في كتابة منطق العمل...**
+
+*   **خطوات خط الإنتاج المتكامل (Pipeline Steps)**:
+    1.  **التحقق الأولي وتوفر التخصص (Crew Gap Check)**: عند استلام مهمة جديدة، يتم التحقق من توفر الوكيل المتخصص في مجلد [Sub_Agent](file:///f:/AI%20PROJECTS/Quran_Records/with%20antigravity/programing%20mentor/.agents/Sub_Agent). في حال عدم توفره أو الحاجة لمكتبة خارجية، يتم تفعيل `[github-talent-scout]` للبحث وجلب الحلول مفتوحة المصدر.
+    2.  **التصميم الهيكلي (`code-architect`)**: تحديد المعمارية المناسبة ومواقع الملفات البرمجية.
+    3.  **التدقيق المعماري الصارم (Devil's Advocate Audit) [CRITICAL STEP]**: قبل كتابة أي كود برمجي، يجب تمزيق خطة التنفيذ (`implementation_plan.md`) باستخدام برومبت "محامي الشيطان"، ويجب إجبار الوكيل على تضمين قسم `[UNINTENDED SIDE-EFFECTS & LIFECYCLE HAZARDS]` لضمان عدم وجود ثغرات في التصميم.
+    4.  **الكتابة البرمجية والتنفيذ (`android-kotlin-pro` / `jetpack-compose-ui` / `offline-sync-db`)**: كتابة الكود وبناء الواجهات وقواعد البيانات محلياً.
+    5.  **المراجعة وضمان الجودة (`code-reviewer-quality` / `performance-optimizer`)**: فحص الكود للأمان، الأداء، والتوافق مع المعايير.
+    6.  **الفحص والأتمتة (`android-testing` / `test-automator`)**: بناء وتشغيل اختبارات الوحدة والتأكد من استقرارية النظام.
+*   **التسجيل في الـ Logs**: يلتزم العميل الرئيسي في نهاية كل دورة عمل بتلخيص أسماء الـ Sub-agents الذين ساهموا في التعديل وأدوارهم المحددة التي قاموا بلعبها لتوفير الشفافية الكاملة للمستخدم.
+
+
+## 8. سجل التعلم والتحسين الذاتي لفريق الوكلاء (Agent Learning & Optimization Log)
+
+تفعيلاً لدور الوكيل المختص بمراقبة وضبط أداء الفريق (`agent-optimizer`)؛ يُمنع كتابة أو تخزين الدروس المستفادة هنا لمنع تضخم حجم ملف القواعد بشكل مفرط.
+**قاعدة صارمة:** يجب دائماً تسجيل وتخزين أي دروس مستفادة، حلول برمجية جديدة، أو اكتشافات فنية في ملف `MEMORY_STORE.md` حصراً، والاعتماد عليه كمرجع تعليمي للفريق.
+---
+
+## 9. نظام الخطافات التلقائية وقواعد التشغيل (System Hooks)
+
+* **الالتزام بالخطافات:** يجب على جميع الوكلاء الالتزام التام بالتعليمات، والمحفزات، والوكلاء المسؤولين، وطريقة العمل المحددة في دليل الخطافات التلقائية المرفق بملف [HOOKS_GUIDE.md](file:///f:/AI%20PROJECTS/Quran_Records/with%20antigravity/programing%20mentor/.agents/HOOKS_GUIDE.md).
+* **التفعيل التلقائي الفوري:** بمجرد قيام المستخدم بكتابة أي محفز (مثل "بسم الله"، "تم بنجاح"، "قم بالاختبار"، "حدث خطأ/Crash"، "تحديث المكتبات"، "ابدأ ميزة"، "تطوير ميزة"، "تصحيح مسار"، "تعديل البرومبت")، يتم تفعيل خطاف العمل المعني والوكيل المخصص له فوراً وتنفيذ كامل الإجراءات المحددة بالدليل دون الحاجة لطلب إضافي.
+
+##10.# قاعدة للحد من تشغيل الأوامر الطرفية (Shell Commands Rule):
+- يُمنع تماماً تشغيل أي أمر طرفي خارجي (مثل run_command أو تنفيذ سكريبتات Python) إلا إذا طلب المستخدم ذلك صراحةً.
+- يجب الاعتماد الكامل على أدوات القراءة والبحث الداخلية الصامتة (مثل أدوات lean-ctx) لمعاينة وفحص الملفات والكود.
+
+## 11. اتجاه واجهة المحرر البرمجي وحقول الكتابة (Editor Area RTL Rule)
+* يجب أن تدعم كافة مساحات وحقول إدخال النصوص والمحررات (Editor Areas / TextFields / Input Fields) اتجاه الكتابة من اليمين إلى اليسار (RTL) بشكل تلقائي وكامل عند إدخال نصوص باللغة العربية، بما في ذلك محاذاة النص والترقيم العربي ومؤشر الكتابة (Cursor)، مع ضمان التوافق مع النصوص ثنائية الاتجاه (BiDi) لمنع تداخل الحروف أو تشوه الكلمات.
+* **تنسيق مستندات وتقارير المتابعة (Artifacts / Markdown RTL)**: يجب تغليف كافة مستندات وتقارير المتابعة (مثل walkthrough.md، implementation_plan.md، task.md) أو أي ملفات Markdown مكتوبة باللغة العربية بـ `<div dir="rtl">` في بداية الملف و `</div>` في نهايته لضمان عرضها بشكل سليم RTL في مساحات عرض المحرر (Editor Areas) والمعاينة.
+
+## 12. قواعد البحث البرمجي وتفعيل أدوات الذكاء الاصطناعي (AI & MCP Tools Rule)
+* **استدعاء `[github-talent-scout]` التلقائي:** عند الحاجة إلى مكتبة خارجية، أداة أتمتة، أو تعزيز قدرات الفريق بأداة جديدة، يتم تفعيل مهارة `github-talent-scout` للبحث في المستودعات المفتوحة وتقييم الحلول وفق معايير الأمان والنشاط.
+* **دعم معيار Model Context Protocol (MCP):** يُفضل دائماً اعتماد الخوادم والأدوات المتوافقة مع معيار MCP لربط الوكلاء ببيئة التشغيل والأدوات الخارجية (مثل أتمتة المتصفح عبر Playwright MCP، وإدارة الملفات والمستودعات).
+* **أتمتة الاختبارات عبر Maestro:** يتم اعتماد سكريبتات Maestro كخيار قياسي وأسرع لأتمتة فحص واجهات أندرويد وتدفقات المكفوفين وتكامل أدوات اختبار الأندرويد.
+## 13. الالتزام الصارم بالسياق المحقون (Mandatory Context Adherence)
+* **قاعدة عدم التجاوز:** يُمنع منعاً باتاً لأي وكيل (خصوصاً وكلاء البرمجة `android-kotlin-pro` و `jetpack-compose-ui`) البدء في توليد أي كود برمجي قبل قراءة ملف `.agents/ACTIVE_CONTEXT_INJECTION.md`.
+* **التصريح الإجباري:** يجب على الوكيل أن يُصرح في تفكيره الداخلي (Thought Process) بكيفية تطبيقه للقيود والدروس المذكورة في ملف السياق المحقون لتجنب تكرار أخطاء الماضي (Shortcut Anti-Pattern).
+
+## 14. المعمارية ثنائية الوضع (Dual-Mode Architecture)
+* **القاعدة الذهبية:** "شجرة مكونات واحدة، وسلوك متكيف — وليس شاشتين منفصلتين." يُمنع منعاً باتاً استخدام `if (isTalkBackEnabled)` لتفريع وتكرار مكونات الواجهة (Layout Branching).
+* **التطبيق الإلزامي:** يجب على وكيل التطوير الالتزام المطلق بجميع تفاصيل التكيف والاختبار المذكورة في الدليل المعماري المرفق [DUAL_MODE_ARCHITECTURE.md](file:///f:/AI%20PROJECTS/Blind%20App/.agents/DUAL_MODE_ARCHITECTURE.md).
+
+## 15. حماية الميزات المحذوفة (Feature Deletion Memory)
+* **قاعدة الاحترام المطلق:** يُمنع منعاً باتاً إعادة إضافة أي مكون واجهة مستخدم (UI Component) أو ميزة (Feature) تم حذفها في الـ Commits السابقة (مثل شريط التشغيل PlayerControlPanel أو الأوامر الصوتية) إلا بطلب صريح ومباشر من المستخدم.
+* **الاعتماد على آخر Commit:** يجب دائماً احترام حالة الكود كما هو موجود في آخر نسخة، وعدم افتراض أن اختفاء المكون هو خطأ برمجي يحتاج للاسترجاع (أو بسبب اقتطاع سياق المحادثة).
+
+## 16. بروتوكول حوكمة الوكلاء الفرعيين وترشيد استهلاك التوكنز (Subagent Governance & Token Conservation)
+* **1. الاستدعاء النقطي المركز (Targeted Dispatch vs Swarm Anti-Pattern):**
+  * يُحظر تماماً إطلاق عدة وكلاء فرعيين (Subagents) في الخلفية لقراءة وتعديل نفس الملفات بالتزامن.
+  * يجب استدعاء وكيل فرعي واحد لغرض مغلق ومحدد (Single-Responsibility)، وإنهاء المهمة فور إنجازها (Ephemeral Lifecycle).
+  * يُسمح بالتوازي فقط للوكلاء التحليليين في وضع القراءة الصامتة (`Read-Only`) وعبر النماذج الاقتصادية (`Flash`).
+* **2. استراتيجية القراءة المتدرجة وحظر القراءة الكاملة (Progressive Disclosure):**
+  * يُحظر قراءة الملفات البرمجية الكبيرة بالكامل (`mode='full'`) أثناء الاستكشاف الأولي.
+  * الالتزام الصارم بقراءة التوقيعات والعناوين ورؤوس الدوال فقط (`mode=signatures` عبر أدوات `lean-ctx`).
+  * في حال تطلب الإصلاح فحص خوارزمية داخلية، يُقتصر على قراءة نطاق أسطر ضيق ومحدد (Line Range Slice لا يتجاوز 50 سطراً) وتمرير مقتطفات الأخطاء حصراً للوكيل الفرعي.
+* **3. التوجيه الذكي للتكلفة حسب النماذج (Model Cost Routing):**
+  * المهام الروتينية (الطرفية، كتابة الـ Boilerplate، أوامر Git، توليد التوثيق): تفويضها لنماذج سريعة ورخيصة (`Gemini 3.8 Flash High` / `OpenCode Muse Spark`).
+  * المهام المعمارية والتدقيق الصارم (Architecture, Quality Gates, Security): حصرها في نماذج التفكير العليا (`Thinking Models` / `Claude Opus`).
+* **4. تطهير المهارات الفائضة محلياً (Agent & Skill Pruning):**
+  * حصر المهارات والبطاقات داخل مجلد `.agents/skills` على ما يحتاجه المشروع الفعلي (Android/Compose/Testing) وعزل المهارات غير المتصلة (مثل المقاولات أو الحسابات المالية) لمنع تضخم الـ System Prompt واستهلاك الكوتا في كل استدعاء.
+  * إبقاء آلية استرجاع سريعة بالربط الوصلي (`Junction-Backed`) دون حذف المهارات من المستودع المركزي.
+* **5. التسليم عبر المستندات لا عبر نصوص المحادثة (Artifact-Driven Handoff):**
+  * عند نقل المهام بين الوكلاء، يتم الاعتماد حصرياً على كتابة المخرجات في مستندات وسيطة خفيفة (`implementation_plan.md` أو `CURRENT_STATE.md`) ليقرأها الوكيل التالي مباشرة، بدلاً من إعادة طباعة السياق وسرد النصوص الطويلة في نافذة المحادثة.
+
+## 17. ثنائية AGENTS.md و DESIGN.md ومكافحة ركاكة الذكاء الاصطناعي (Anti-AI-Slop Standard) [CRITICAL INVARIANT]
+* **ثنائية جذر المشروع (Project Root Duality):** تلتزم كافة مشاريع الواجهات بوجود ملف `DESIGN.md` بجانب `AGENTS.md` لتوحيد الرموز الدلالية، أوزان الخطوط، وباليتات الألوان وفق معيار Google Stitch & Refero Styles.
+* **درع التطهير البصري (`impeccable-design-guard`):** يُلزم بالتدقيق البصري الصارم للواجهات لمنع ركاكة الذكاء الاصطناعي (AI Slop)، فرض زر رئيسي وحيد لكل شاشة (Single Primary CTA)، تحقيق تباين WCAG AA (>= 4.5:1)، وتطبيق فيزياء الزنبرك الطبيعي (`Kinetics Spring Physics`) بدلاً من التباطؤ الخطي الجامد.
+
+</div>

@@ -34,11 +34,14 @@
     },
     {
       "id": "algorithmic_engineer",
-      "cli_tool": "Codex CLI / ChatGPT Desktop",
-      "active_model": "GPT-5.6 Soul / gpt-6-astra",
-      "effort_level": "Deep Algorithmic & Logic Engineering",
-      "assigned_role": "Complex Algorithms, Heavy Refactoring, Data Extraction & Math/Logic Engines",
-      "status": "Active",
+      "cli_tool": "OpenCode CLI (DeepSeek V4 / MiniMax M3)",
+      "active_model": "opencode-go/deepseek-v4-flash",
+      "fallback_model": "opencode-go/minimax-m3",
+      "invocation_command": "cmd /c \"echo [prompt] | opencode run --pure -m opencode-go/deepseek-v4-flash\"",
+      "effort_level": "Deep Algorithmic & Reasoning Engineering (Replacing Expired Codex)",
+      "assigned_role": "Complex Algorithms, Heavy Refactoring, Data Extraction & Math/Logic Engines (REPLACING EXPIRED CODEX AT $0 EXTRA COST)",
+      "status": "Active (Successor to Codex)",
+      "codex_status_notice": "Codex subscription expired on 2026-09-27. Algorithmic lane seamlessly failovered to OpenCode DeepSeek V4.",
       "exclusive_ownership_tree": [
         "scripts/core/",
         "engines/",
@@ -55,33 +58,76 @@
       "cli_tool": "OpenCode CLI (GLM Flash)",
       "active_model": "opencode-go/glm-5.3-flash",
       "invocation_command": "opencode run -m opencode-go/glm-5.3-flash",
-      "effort_level": "Ultra-High Speed & Low-Latency Terminal Execution",
-      "assigned_role": "Fast Terminal Commands, Shell Execution, Scaffolding & Routine Build Scripts (NO TESTING - PARALLEL WORKER A)",
+      "effort_level": "High-Speed Paid Executor (OpenCode Go)",
+      "assigned_role": "Terminal Execution, Build Scripts, Scaffolding, Database Migrations, Repositories & Backend Endpoints (NO TESTING - PRIMARY WORKER A)",
       "status": "Active",
+      "concurrency_limit": 1,
+      "concurrency_directive": "Operates as the primary paid fast execution lane. Max 1 instance of GLM 5.3 Flash concurrently.",
       "exclusive_ownership_tree": [
         "scripts/terminal/",
+        "scripts/db/",
+        "migrations/",
         "build/",
         "infrastructure/"
       ],
       "assigned_skills": [
-        "devops-deployer"
+        "devops-deployer",
+        "offline-sync-db",
+        "backend-architect"
       ]
     },
     {
-      "id": "opencode_muse_data_architect",
-      "cli_tool": "OpenCode CLI (Muse Spark)",
-      "active_model": "opencode-go/muse-spark-1.3-contributor",
-      "invocation_command": "opencode run -m opencode-go/muse-spark-1.3-contributor",
-      "effort_level": "High Reasoning Schema & Data Engineering",
-      "assigned_role": "Database Architecture, Schema Migrations, DAOs, Repositories & Structured Data Pipelines (NO TESTING - PARALLEL WORKER B)",
+      "id": "cline_flash_executor",
+      "cli_tool": "Cline CLI (GLM Flash)",
+      "active_model": "glm-5.3-flash (medium)",
+      "invocation_command": "cline \"[prompt]\"",
+      "effort_level": "Ultra-High Speed & Low-Latency Terminal Execution ($0.00)",
+      "assigned_role": "Fast Terminal Commands, UI Scaffolding & Generation (NO TESTING - PARALLEL WORKER B)",
       "status": "Active",
+      "concurrency_directive": "Runs in Act Mode with Auto-approve. Parallel redundancy for Worker A.",
       "exclusive_ownership_tree": [
-        "scripts/db/",
-        "migrations/",
-        "data/"
+        "Clients/",
+        "web/",
+        "app/ui/"
       ],
       "assigned_skills": [
-        "offline-sync-db"
+        "frontend-design-builder"
+      ]
+    },
+    {
+      "id": "opencode_spark_worker",
+      "cli_tool": "OpenCode CLI (Meta Muse Spark 1.3)",
+      "active_model": "opencode-go/muse-spark-1.3-contributor",
+      "free_fallback_model": "opencode/muse-spark-1.3-contributor-free",
+      "invocation_command": "cmd /c \"echo [prompt] | opencode run --pure -m opencode-go/muse-spark-1.3-contributor\"",
+      "effort_level": "Specialized Contributor & Code Scaffolding (100% Tested & Verified)",
+      "assigned_role": "High-Efficiency Code Generation, Secondary Terminal Scaffolding, Parallel Contributor Logic (Worker C)",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "Clients/",
+        "scripts/scaffold/",
+        "tools/"
+      ],
+      "assigned_skills": [
+        "frontend-design-builder",
+        "script-to-mcp-converter"
+      ]
+    },
+    {
+      "id": "opencode_gemini_worker",
+      "cli_tool": "OpenCode CLI (Google Gemini 2.5 Flash)",
+      "active_model": "google/gemini-2.5-flash",
+      "invocation_command": "cmd /c \"echo [prompt] | opencode run --pure -m google/gemini-2.5-flash\"",
+      "effort_level": "Ultra-Fast Multi-Modal Cloud Auxiliary",
+      "assigned_role": "Large Context Parsing, Zero OpenCode-Go Quota Drain Fallback (Worker D)",
+      "status": "Active",
+      "exclusive_ownership_tree": [
+        "docs/",
+        "Clients/01_Shajan_Containers/05_Analytics_Reports/"
+      ],
+      "assigned_skills": [
+        "docs-fetcher-context",
+        "documentation-expert"
       ]
     },
     {
@@ -166,14 +212,16 @@
       "Enforce mandatory session reset (Hook 25) upon entering the Red Zone to return immediately to the Green Zone."
     ],
     "failover_chain": [
-      "OpenCode CLI (GLM 5.3 Flash)",
-      "OpenCode CLI (Meta Muse Spark 1.3)",
-      "Google Gemini 3.8 Flash High (agcli / google provider)",
-      "Ollama Local Fallback (qwen2.5-coder:1.5b)"
+      "OpenCode Go GLM 5.3 Flash (opencode-go/glm-5.3-flash - Subscribed / Primary Worker A)",
+      "OpenCode Go DeepSeek V4 Flash (opencode-go/deepseek-v4-flash - Subscribed / Algorithmic Worker B)",
+      "OpenCode Meta Muse Spark 1.3 (opencode/muse-spark-1.3-contributor-free - Free / Worker C)",
+      "Google Gemini 2.5 Flash (google/gemini-2.5-flash - Free Tier / Worker D)",
+      "Ollama Local Fallback (qwen2.5-coder:1.5b - 100% Offline)"
     ],
     "memory_authority": ".agents/MEMORY_STORE.md"
   },
   "governing_constraints": [
+    "Zero-Cost / Subscribed-Only Invariant: Strictly restrict all OpenCode operations exclusively to models included in the user's active OpenCode Go subscription (opencode-go/glm-5.3-flash, opencode-go/deepseek-v4-flash, opencode-go/muse-spark-1.3-contributor), completely free models (opencode/muse-spark-1.3-contributor-free), or Google free tier. Absolutely NEVER trigger pay-per-token API charges or drain external balance.",
     "Strictly adhere to Clean Architecture boundaries across all three agency pillars.",
     "Quarantine Perimeter: Strictly NEVER touch Visa/, Digital persona/, or root personal PDFs.",
     "Testing Monopoly: Strictly NO agent other than Claude Code CLI is permitted to execute tests or issue test sign-offs.",
