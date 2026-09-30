@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل المعماري للمهارات الذكية للتصميم والحركة والفيديو بالكود | Autovem Design & Motion Suite</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== EXACT NEON CANDY PALETTE ===== */
+        :root {
+            --bg: #0a0a14;
+            --bg-cover: #070612;
+            --surface: #121024;
+            --surface-card: #181530;
+            --surface-hover: #221c44;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(168, 85, 247, 0.35);
+
+            /* Neon Accents */
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
+            --neon-cyan: #06b6d4;
+            --neon-green: #22c55e;
+            --neon-orange: #f97316;
+            --neon-yellow: #eab308;
+
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.45;
+            font-size: 10.5px;
+            direction: rtl;
+            text-align: right;
+            padding: 0;
+            margin: 0;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 8mm 9mm 8mm 9mm;
+        }
+
+        .document-wrapper {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: var(--bg);
+        }
+
+        .page {
+            page-break-after: always;
+            break-after: page;
+            height: 280mm;
+            max-height: 280mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            padding-bottom: 2px;
+            overflow: hidden;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+            break-after: auto;
+        }
+
+        /* ===== COVER PAGE STYLES ===== */
+        .cover-page {
+            background: radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 60%),
+                        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 60%),
+                        var(--bg-cover);
+            padding: 24px 24px 16px 24px;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            position: relative;
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.8);
+        }
+
+        .cover-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(168, 85, 247, 0.12);
+            border: 1px solid var(--neon-purple);
+            color: var(--neon-purple);
+            padding: 5px 14px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-stamp {
+            font-family: 'Fira Code', monospace;
+            font-size: 9.5px;
+            color: var(--text-muted);
+            direction: ltr;
+        }
+
+        .cover-hero {
+            text-align: center;
+            margin: 22px 0;
+        }
+
+        .cover-title {
+            font-size: 26px;
+            font-weight: 900;
+            line-height: 1.25;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff 30%, var(--neon-purple) 70%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cover-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .hero-tags {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .hero-tag {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 9.5px;
+            color: var(--neon-cyan);
+            font-weight: 600;
+        }
+
+        .grid-3col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .skill-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .card-purple::before { background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink)); }
+        .card-cyan::before { background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green)); }
+        .card-orange::before { background: linear-gradient(90deg, var(--neon-orange), var(--neon-yellow)); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .card-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .icon-purple { background: rgba(168, 85, 247, 0.2); color: var(--neon-purple); }
+        .icon-cyan { background: rgba(6, 182, 212, 0.2); color: var(--neon-cyan); }
+        .icon-orange { background: rgba(249, 115, 22, 0.2); color: var(--neon-orange); }
+
+        .card-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .card-sub {
+            font-size: 8.5px;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+            text-align: right;
+        }
+
+        .card-desc {
+            font-size: 9.5px;
+            color: var(--text-secondary);
+            line-height: 1.45;
+            margin-bottom: 8px;
+        }
+
+        .card-sources {
+            background: rgba(0,0,0,0.3);
+            border-radius: var(--radius-sm);
+            padding: 5px 7px;
+            font-size: 8.5px;
+            color: var(--text-muted);
+            border: 1px dashed var(--border);
+        }
+
+        .card-sources span {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ===== COMMON INNER PAGE LAYOUT ===== */
+        .inner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .header-title-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .header-subtitle {
+            font-size: 9px;
+            color: var(--text-muted);
+            font-family: 'Fira Code', monospace;
+            direction: ltr;
+        }
+
+        .header-badge {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            border: 1px solid currentColor;
+        }
+
+        .badge-purple { color: var(--neon-purple); background: rgba(168, 85, 247, 0.1); }
+        .badge-cyan { color: var(--neon-cyan); background: rgba(6, 182, 212, 0.1); }
+        .badge-orange { color: var(--neon-orange); background: rgba(249, 115, 22, 0.1); }
+        .badge-green { color: var(--neon-green); background: rgba(34, 197, 94, 0.1); }
+
+        /* Content Sections */
+        .section-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+
+        .section-box-title {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-box-title i {
+            color: var(--neon-purple);
+            font-size: 11px;
+        }
+
+        /* Scenarios Grid */
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .scenario-item {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 8px 10px;
+        }
+
+        .scenario-badge {
+            display: inline-block;
+            font-size: 8px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            background: rgba(255,255,255,0.06);
+            color: var(--neon-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .scenario-name {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+
+        .scenario-desc {
+            font-size: 9px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Code & Prompts Blocks */
+        .code-block {
+            background: #06050b;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            padding: 8px 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 9px;
+            color: #a5f3fc;
+            direction: ltr;
+            text-align: left;
+            margin: 6px 0;
+            overflow-x: auto;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .prompt-shortcut {
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: var(--radius-md);
+            padding: 8px 10px;
+            margin: 6px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .prompt-badge {
+            background: var(--neon-purple);
+            color: #000;
+            font-size: 8px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .prompt-text {
+            font-family: 'Fira Code', 'Tajawal', monospace;
+            font-size: 9.5px;
+            color: #f1f5f9;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Feature Matrix Table */
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9px;
+            margin: 6px 0;
+        }
+
+        .feature-table th {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            font-weight: 700;
+            padding: 5px 8px;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .feature-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .feature-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-table td strong {
+            color: #ffffff;
+        }
+
+        /* Page Footer */
+        .page-footer {
+            border-top: 1px solid var(--border);
+            padding-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8.5px;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-brand span {
+            color: var(--neon-purple);
+            font-weight: 700;
+        }
+
+        .page-number {
+            font-family: 'Fira Code', monospace;
+            color: var(--neon-cyan);
+            font-weight: 600;
+        }
+
+        .alert-box {
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: var(--radius-md);
+            padding: 6px 10px;
+            font-size: 9px;
+            color: #bbf7d0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .alert-box i {
+            color: var(--neon-green);
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-wrapper">
+
+    <!-- =================================================================================== -->
+    <!-- PAGE 1: EXECUTIVE COVER & ARCHITECTURAL OVERVIEW -->
+    <!-- =================================================================================== -->
+    <div class="page cover-page">
+        <div>
+            <!-- Header Stamp -->
+            <div class="cover-header">
+                <div class="brand-badge">
+                    <i class="fa-solid fa-shapes"></i> AUTOVEM MASTER FLEET • DESIGN SUITE
+                </div>
+                <div class="meta-stamp">
+                    HOOK-20 • VERSION 2.0 • 2026-09-30
+                </div>
+            </div>
+
+            <!-- Hero Section -->
+            <div class="cover-hero">
+                <h1 class="cover-title">الدليل المعماري للمهارات الذكية للتصميم والحركة والفيديو بالكود</h1>
+                <p class="cover-subtitle">
+                    المرجع الشامل للسيناريوهات والطرق المثلى لاستدعاء وتفعيل مهارات <bdi>design-md-architect</bdi>، <bdi>impeccable-design-guard</bdi>، و <bdi>hyperframes-motion-engine</bdi> وسد فجوات الركاكة البصرية ومكافحة <bdi>AI Slop</bdi> أثناء العمل اليومي السريع.
+                </p>
+                <div class="hero-tags">
+                    <span class="hero-tag"><i class="fa-brands fa-google"></i> Google Stitch Standard</span>
+                    <span class="hero-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> Anti-AI-Slop Rubric</span>
+                    <span class="hero-tag"><i class="fa-solid fa-atom"></i> Spring Physics Kinetics</span>
+                    <span class="hero-tag"><i class="fa-solid fa-video"></i> Video-as-Code Engine</span>
+                    <span class="hero-tag"><i class="fa-solid fa-shield-halved"></i> WCAG AA Accessible</span>
+                </div>
+            </div>
+
+            <!-- 3 Core Skills Overview -->
+            <div class="grid-3col">
+                <div class="skill-card card-purple">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon icon-purple"><i class="fa-solid fa-palette"></i></div>
+                            <div>
+                                <div class="card-title">معمارية الـ DESIGN.md</div>
+                                <div class="card-sub">design-md-architect</div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            توحيد وتوليد ملفات <bdi>DESIGN.md</bdi> المرجعية المقروءة للذكاء الاصطناعي لضبط باليتات الألوان، أوزان الخطوط، ومقاييس التباعد وفق معيار <bdi>Google Stitch</bdi>.
+                        </p>
+                    </div>
+                    <div class="card-sources">
+                        المراجع: <span>Refero Styles (2,000+ موقع)</span> و <span>Awesome DESIGN.md</span>
+                    </div>
+                </div>
+
+                <div class="skill-card card-cyan">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon icon-cyan"><i class="fa-solid fa-shield-virus"></i></div>
+                            <div>
+                                <div class="card-title">درع التطهير البصري</div>
+                                <div class="card-sub">impeccable-design-guard</div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            مكافحة الركاكة والتصميم الرمادي الممل (<bdi>Anti AI Slop</bdi>)، تدقيق التباين اللوني، موازنة التسلسل الهرمي للأزرار، وفحص سهولة الوصول <bdi>WCAG AA</bdi>.
+                        </p>
+                    </div>
+                    <div class="card-sources">
+                        المراجع: <span>Impeccable (Paul Bakaus)</span> و <span>The Component Gallery</span>
+                    </div>
+                </div>
+
+                <div class="skill-card card-orange">
+                    <div>
+                        <div class="card-header">
+                            <div class="card-icon icon-orange"><i class="fa-solid fa-film"></i></div>
+                            <div>
+                                <div class="card-title">محرك الحركة والفيديو</div>
+                                <div class="card-sub">hyperframes-motion-engine</div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            فيزياء الزنبرك الطبيعي (<bdi>Spring Physics</bdi>) بدلاً من التباطؤ الخطي، وتوليد الفيديوهات الترويجية والعروض برمجياً بالكود (<bdi>HTML/GSAP -> MP4</bdi>).
+                        </p>
+                    </div>
+                    <div class="card-sources">
+                        المراجع: <span>Kinetics Colorion</span>، <span>HyperFrames</span>، و <span>WhatShips</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architectural Invariant Alert -->
+            <div class="alert-box">
+                <i class="fa-solid fa-circle-check"></i>
+                <span><strong>قاعدة ذهبية معمارية:</strong> ملف <bdi>AGENTS.md</bdi> يحدد لوكلاء البرمجة <em>كيف يُبنى الكود</em>، بينما ملف <bdi>DESIGN.md</bdi> يحدد لوكلاء الواجهات <em>كيف تنبض الواجهة بالحياة جمالياً</em>. احتكار الاختبارات يظل حصرياً لـ <bdi>Claude Code CLI</bdi>.</span>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div class="footer-brand">
+                <span>AUTOVEM FLEET</span> • نظام حوكمة التصميم والحركة الذكية
+            </div>
+            <div class="page-number">01 / 05</div>
+        </div>
+    </div>
+
+    <!-- =================================================================================== -->
+    <!-- PAGE 2: SKILL 1 — DESIGN-MD-ARCHITECT -->
+    <!-- =================================================================================== -->
+    <div class="page" style="padding: 16px 20px;">
+        <div>
+            <!-- Header -->
+            <div class="inner-header">
+                <div class="header-title-box">
+                    <div class="header-icon icon-purple"><i class="fa-solid fa-palette"></i></div>
+                    <div>
+                        <div class="header-title">المهارة الأولى: معمارية وتوحيد مواصفات DESIGN.md</div>
+                        <div class="header-subtitle">SKILL: design-md-architect • Hook 20 Subagent</div>
+                    </div>
+                </div>
+                <div class="header-badge badge-purple">معيار Google Stitch المعتمد</div>
+            </div>
+
+            <!-- Conceptual Overview -->
+            <div class="section-box">
+                <div class="section-box-title"><i class="fa-solid fa-compass-drafting"></i> المفهوم المعماري والقيمة التشغيلية</div>
+                <p style="font-size: 9.5px; color: var(--text-secondary); line-height: 1.5;">
+                    ملف <bdi>DESIGN.md</bdi> هو وثيقة نظام التصميم المكتوبة بصيغة Markdown الصريحة والموضوعة في جذر المشروع. تمكن وكلاء الذكاء الاصطناعي (<bdi>Claude Code, Cursor, Codex, Gemini, Antigravity</bdi>) من قراءة وفهم الرموز الدلالية (<bdi>Semantic Tokens</bdi>)، تدرجات الألوان، ومقاييس الخطوط والتباعد فوراً دون الحاجة لملفات Figma أو قوالب معقدة.
+                </p>
+            </div>
+
+            <!-- 4 Core Scenarios -->
+            <div class="section-box-title" style="margin-top: 6px;"><i class="fa-solid fa-list-check"></i> السيناريوهات الأربعة المثلى للاستخدام</div>
+            <div class="scenarios-grid">
+                <div class="scenario-item">
+                    <span class="scenario-badge">سيناريو 1 • Zero-Day Init</span>
+                    <div class="scenario-name">تأسيس الهوية لمشروع جديد من الصفر</div>
+                    <div class="scenario-desc">
+                        عند بدء أي تطبيق ويب أو موبايل جديد، يُستدعى الوكيل لتوليد هيكل <bdi>DESIGN.md</bdi> قياسي يحدد ألوان السطوح، ألوان التمييز، وشبكة المسافات (4px/8px) لمنع العشوائية.
+                    </div>
+                </div>
+
+                <div class="scenario-item">
+                    <span class="scenario-badge">سيناريو 2 • Brand Extraction</span>
+                    <div class="scenario-name">استلهام نظام تصميم من موقع عالمي</div>
+                    <div class="scenario-desc">
+                        استخراج وتكييف نمط مواقع عالمية من مكتبة <bdi>Refero Styles</bdi> أو <bdi>Awesome DESIGN.md</bdi> (مثل: أسلوب Vercel المونوكروم، أو أناقة Apple، أو ألوان ElevenLabs التحريرية).
+                    </div>
+                </div>
+
+                <div class="scenario-item">
+                    <span class="scenario-badge">سيناريو 3 • Teamwork Token Sync</span>
+                    <div class="scenario-name">توحيد الرموز عبر أسطول الوكلاء</div>
+                    <div class="scenario-desc">
+                        عند عمل عدة وكلاء بالتزامن، يضمن ملف <bdi>DESIGN.md</bdi> استخدام الجميع لنفس متغيرات CSS المتسقة (<bdi>`var(--bg-canvas)`</bdi>، <bdi>`var(--accent-primary)`</bdi>) دون تشتت الألوان.
+                    </div>
+                </div>
+
+                <div class="scenario-item">
+                    <span class="scenario-badge">سيناريو 4 • Arabic & RTL Invariant</span>
+                    <div class="scenario-name">ضبط توأمة الخطوط وقواعد الـ BiDi</div>
+                    <div class="scenario-desc">
+                        إلزام الوكلاء بربط الخطوط العربية المناسبة (Cairo / Tajawal / IBM Plex Sans Arabic) وتطبيق الخصائص المنطقية (<bdi>`margin-inline-start/end`</bdi>) والأرقام الإنجليزية (0-9).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Tokens Structure -->
+            <div class="section-box">
+                <div class="section-box-title"><i class="fa-solid fa-code"></i> نموذج الرموز الدلالية القياسية لملف DESIGN.md</div>
+                <div class="code-block">
+:root {
+  /* Surfaces & Canvas */
+  --bg-canvas: #090a0f;    --bg-surface: #12141c;    --bg-elevated: #1a1d29;
+  --border-subtle: rgba(255, 255, 255, 0.08);       --border-active: rgba(255, 255, 255, 0.18);
+  /* Brand & Accents */
+  --accent-primary: #6366f1;   --accent-glow: rgba(99, 102, 241, 0.25);
+  /* Typography Scale */
+  --font-heading: 'Cairo', 'Outfit', sans-serif;    --font-body: 'Tajawal', sans-serif;
+  --text-primary: #f8fafc;     --text-secondary: #94a3b8;   --text-muted: #64748b;
+}
+                </div>
+            </div>
+
+            <!-- Fast Invocation Prompts -->
+            <div class="section-box-title" style="margin-top: 6px;"><i class="fa-solid fa-bolt-lightning"></i> كبسولة الاستدعاء السريع (One-Click Prompts)</div>
+            <div class="prompt-shortcut">
+                <span class="prompt-badge">استدعاء 1</span>
+                <span class="prompt-text">"أنشئ لي ملف DESIGN.md متكامل وفق مواصفات Google Stitch بنمط دارك مطورين شبيه بـ Linear مع دعم خطوط Tajawal و Cairo."</span>
+            </div>
+            <div class="prompt-shortcut">
+                <span class="prompt-badge">استدعاء 2</span>
+                <span class="prompt-text">"استخرج لي باليت الألوان ورموز التباعد من نمط Vercel في Refero Styles واحقنها في DESIGN.md الخاص بالمشروع."</span>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div class="footer-brand">
+                <span>AUTOVEM FLEET</span> • المهارة 1: design-md-architect
+            </div>
+            <div class="page-number">02 / 05</div>
+        </div>
+    </div>
+
+    <!-- =================================================================================== -->
+    <!-- PAGE 3: SKILL 2 — IMPECCABLE-DESIGN-GUARD -->
+    <!-- =================================================================================== -->
+    <div class="page" style="padding: 16px 20px;">
+        <div>
+            <!-- Header -->
+            <div class="inner-header">
+                <div class="header-title-box">
+                    <div class="header-icon icon-cyan"><i class="fa-solid fa-shield-virus"></i></div>
+                    <div>
+                        <div class="header-title">المهارة الثانية: درع التطهير البصري ومكافحة AI Slop</div>
+                        <div class="header-subtitle">SKILL: impeccable-design-guard • Hook 20 Subagent</div>
+                    </div>
+                </div>
+                <div class="header-badge badge-cyan">ميثاق Paul Bakaus (64k★)</div>
+            </div>
+
+            <!-- Conceptual Overview -->
+            <div class="section-box">
+                <div class="section-box-title"><i class="fa-solid fa-virus-slash"></i> تشريح واستئصال ركاكة الذكاء الاصطناعي (What is AI Slop?)</div>
+                <p style="font-size: 9.5px; color: var(--text-secondary); line-height: 1.5;">
+                    تمتلك نماذج الذكاء الاصطناعي عيوباً بصرية متكررة تسمى <strong>AI Slop</strong>: استخدام رماديات باهتة بلا روح، تسطيح التسلسل الهرمي (جعل كل الأزرار ملونة وبارزة بنفس الدرجة)، حشو البطاقات داخل بطاقات بلا داعٍ، والغياب التام لحالات التفاعل الدقيقة. مهارة <bdi>impeccable-design-guard</bdi> تفرض تدقيقاً صارماً مستمداً من موسوعة <bdi>The Component Gallery</bdi>.
+                </p>
+            </div>
+
+            <!-- The 4-Step Auditing Protocol -->
+            <div class="section-box-title" style="margin-top: 6px;"><i class="fa-solid fa-stethoscope"></i> بروتوكول التدقيق الرباعي القياسي (/impeccable)</div>
+            <div class="scenarios-grid">
+                <div class="scenario-item">
+                    <span class="scenario-badge">المرحلة 1 • /impeccable init</span>
+                    <div class="scenario-name">تحديد زاوية الرؤية (Point of View)</div>
+                    <div class="scenario-desc">
+                        تحديد هوية الواجهة بوضوح (مثلاً: أداة هندسية دقيقة مقابل تطبيق ترفيهي بسيط)، وفرض فكرة بصرية رئيسية واحدة (توهج زجاجي، حواف حادة، أو شبكة خطية).
+                    </div>
+                </div>
+
+                <div class="scenario-item">
+                    <span class="scenario-badge">المرحلة 2 • /impeccable audit</span>
+                    <div class="scenario-name">فحص التباين والوصولية WCAG AA</div>
+                    <div class="scenario-desc">
+                        التحقق الصارم من نسبة تباين النصوص (لا تقل عن 4.5:1)، التأكد من وجود زر رئيسي (Primary CTA) وحيد في الشاشة، وتوفير ملصقات واضحة لجميع الحقول.
+                    </div>
+                </div>
+
+                <div class="scenario-item">
+                    <span class="scenario-badge">المرحلة 3 • /impeccable critique</span>
+                    <div class="scenario-name">نقد التسلسل الهرمي والطباعة</div>
+                    <div class="scenario-desc">
+                        مراجعة التباين بين أحجام العناوين والنصوص، تقييد طول السطر بين 50 إلى 75 حرفاً (<bdi>`max-width: 65ch`</bdi>) لراحة القراءة، ومطابقة التناظر البصري في RTL.
+                    </div>
+                </div>
+
+                <div class="scenario-item">
+                    <span class="scenario-badge">المرحلة 4 • /impeccable polish</span>
+                    <div class="scenario-name">الصقل وإضافة اللمسات الفاخرة</div>
+                    <div class="scenario-desc">
+                        إضافة إضاءة الحواف الداخلية (<bdi>inner borders</bdi>)، انتقالات الزنبرك الطبيعية، حلقات التركيز البصري (<bdi>focus rings</bdi>)، واستجابة الضغط الفيزيائية للأزرار.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Component Gallery Standards Table -->
+            <div class="section-box">
+                <div class="section-box-title"><i class="fa-solid fa-table-list"></i> معايير المكونات وفق The Component Gallery</div>
+                <table class="feature-table">
+                    <thead>
+                        <tr>
+                            <th>المكون</th>
+                            <th>الركاكة الشائعة (AI Slop)</th>
+                            <th>المعيار الاحترافي المعتمد (Impeccable Standard)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>الأزرار (Buttons)</strong></td>
+                            <td>3 أزرار ملونة متجاورة بنفس الوزن واللون</td>
+                            <td>زر أساسي وحيد (Primary Solid)، والبقية أزرار ثانوية شفافة (Ghost / Outlined).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>النوافذ (Modals)</strong></td>
+                            <td>نافذة بيضاء ساطعة مفاجئة بدون عزل</td>
+                            <td>تعتيم زجاجي بالخلفية (<bdi>backdrop-blur</bdi>)، قفل التركيز (Focus Trap)، وإغلاق بـ ESC.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>مسار التتبع (Breadcrumbs)</strong></td>
+                            <td>فواصل نصية صلبة معكوسة تشوه الـ RTL</td>
+                            <td>عنصر دلالي `<nav>` مع فواصل مخفية عن قارئات الشاشة ومعكوسة منطقياً في العربية.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>جداول البيانات (Tables)</strong></td>
+                            <td>نصوص وأرقام مكدسة بلا محاذاة عمودية</td>
+                            <td>الأرقام محاذاة لليمين/اليسار طبقاً للغة، رؤوس أعمدة مثبتة (<bdi>Sticky</bdi>)، وصفوف مقلمة خفيفة.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Fast Invocation Prompts -->
+            <div class="section-box-title" style="margin-top: 6px;"><i class="fa-solid fa-bolt-lightning"></i> كبسولة الاستدعاء السريع (One-Click Prompts)</div>
+            <div class="prompt-shortcut">
+                <span class="prompt-badge">استدعاء 1</span>
+                <span class="prompt-text">"نفذ فحص /impeccable audit على صفحة الهبوط الحالية، واكشف مواضع ضعف التباين والـ AI Slop وقدم حلولاً برمجية مباشرة."</span>
+            </div>
+            <div class="prompt-shortcut">
+                <span class="prompt-badge">استدعاء 2</span>
+                <span class="prompt-text">"طهر مكونات البطاقات والأزرار وفق معايير Component Gallery واجعل هناك زراً رئيسياً وحيداً مع إضافة inner border highlight."</span>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div class="footer-brand">
+                <span>AUTOVEM FLEET</span> • المهارة 2: impeccable-design-guard
+            </div>
+            <div class="page-number">03 / 05</div>
+        </div>
+    </div>
+
+    <!-- =================================================================================== -->
+    <!-- PAGE 4: SKILL 3 — HYPERFRAMES-MOTION-ENGINE -->
+    <!-- =================================================================================== -->
+    <div class="page" style="padding: 16px 20px;">
+        <div>
+            <!-- Header -->
+            <div class="inner-header">
+                <div class="header-title-box">
+                    <div class="header-icon icon-orange"><i class="fa-solid fa-film"></i></div>
+                    <div>
+                        <div class="header-title">المهارة الثالثة: فيزياء الزنبرك وتوليد الفيديو بالكود</div>
+                        <div class="header-subtitle">SKILL: hyperframes-motion-engine • Hook 20 Subagent</div>
+                    </div>
+                </div>
+                <div class="header-badge badge-orange">Video-as-Code & Kinetics Physics</div>
+            </div>
+
+            <!-- Conceptual Overview -->
+            <div class="section-box">
+                <div class="section-box-title"><i class="fa-solid fa-wave-square"></i> وداعاً للتباطؤ الخطي: فيزياء الحركة الطبيعية (Spring Physics)</div>
+                <p style="font-size: 9.5px; color: var(--text-secondary); line-height: 1.5;">
+                    الانتقالات القديمة عبر منحنيات <bdi>ease-in-out</bdi> تعطي شعوراً بالتصنع والجمود. فيزياء الزنبرك (<bdi>Kinetics</bdi>) تعتمد على المتغيرات الحقيقية: <strong>الصلابة (Stiffness)</strong>، <strong>التخميد (Damping)</strong>، و <strong>الكتلة (Mass)</strong>. تدمج هذه المهارة حركات الزنبرك مع محرك <bdi>HyperFrames</bdi> لكتابة الفيديوهات التسويقية بالكود (<bdi>HTML/CSS/GSAP</bdi>) وتصديرها كـ <bdi>MP4</bdi> تلقائياً.
+                </p>
+            </div>
+
+            <!-- The 3 Calibrated Spring Profiles -->
+            <div class="section-box-title" style="margin-top: 6px;"><i class="fa-solid fa-sliders"></i> البروفايلات الثلاثة المعتمدة لفيزياء الحركة في الويب</div>
+            <div class="grid-3col" style="margin: 6px 0;">
+                <div class="scenario-item" style="border-top: 2px solid var(--neon-cyan);">
+                    <div class="scenario-name"><i class="fa-solid fa-bolt"></i> الخاطف السريع (Snappy)</div>
+                    <div class="scenario-desc">
+                        للأزرار، القواطع (Toggles)، ومؤشرات التحويم. استجابة فورية بدون اهتزاز مفرط.<br>
+                        <code style="font-family:'Fira Code'; font-size:8px; color:var(--neon-cyan);">Mass: 1 | Stiffness: 300 | Damp: 24</code>
+                    </div>
+                </div>
+
+                <div class="scenario-item" style="border-top: 2px solid var(--neon-purple);">
+                    <div class="scenario-name"><i class="fa-solid fa-expand"></i> الانسيابي الناعم (Smooth)</div>
+                    <div class="scenario-desc">
+                        لفتح النوافذ، القوائم المنسدلة، وبطاقات التوسع. حركة أنيقة متزنة عالية الفخامة.<br>
+                        <code style="font-family:'Fira Code'; font-size:8px; color:var(--neon-purple);">Mass: 1 | Stiffness: 180 | Damp: 22</code>
+                    </div>
+                </div>
+
+                <div class="scenario-item" style="border-top: 2px solid var(--neon-orange);">
+                    <div class="scenario-name"><i class="fa-solid fa-water"></i> الهادئ العائم (Gentle)</div>
+                    <div class="scenario-desc">
+                        لانتقالات الصفحات الكاملة، تأثيرات الـ Parallax، وخلفيات المشاهد السينمائية.<br>
+                        <code style="font-family:'Fira Code'; font-size:8px; color:var(--neon-orange);">Mass: 1.2 | Stiffness: 100 | Damp: 26</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WhatShips 4-Beat Video Structure -->
+            <div class="section-box">
+                <div class="section-box-title"><i class="fa-solid fa-clapperboard"></i> الإيقاع الرباعي القياسي لفيديوهات إطلاق المنتجات (WhatShips Rubric)</div>
+                <table class="feature-table">
+                    <thead>
+                        <tr>
+                            <th>النبضة (Beat)</th>
+                            <th>التوقيت</th>
+                            <th>الهدف البصري والسردي</th>
+                            <th>آلية التنفيذ البرمجي بالكود (GSAP / CSS)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. الصدمة (The Hook)</strong></td>
+                            <td>0.0ث – 2.5ث</td>
+                            <td>طرح ألم العميل القاتل في أقل من 8 كلمات</td>
+                            <td>تكبير درامي للنص (<bdi>rapid scale-in</bdi>) مع خلفية داكنة متوهجة وشعار البراند.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. التحول (The Shift)</strong></td>
+                            <td>2.5ث – 5.0ث</td>
+                            <td>إبراز الواجهة بحركة فيزيائية واقعية متسارعة</td>
+                            <td>إمالة بطاقة ثلاثية الأبعاد (<bdi>3D Card Tilt</bdi>) بزنبرك ناعم ومؤشر ماوس متحرك.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. السحر (The Crux)</strong></td>
+                            <td>5.0ث – 12.0ث</td>
+                            <td>استعراض لحظة الإنجاز الفعلي للميزة الرئيسية</td>
+                            <td>تسريع زمني لشريط التقدم وتحول حي للبيانات دون شاشات انتظار مملة.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. الحصاد (The Payoff)</strong></td>
+                            <td>12.0ث – 15.0ث</td>
+                            <td>دعوة صريحة ومباشرة لاتخاذ القرار (CTA)</td>
+                            <td>ظهور زر التفعيل بنبضة زنبركية (<bdi>spring pulse</bdi>) ورابط المنصة بوضوح.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Fast Invocation Prompts -->
+            <div class="section-box-title" style="margin-top: 6px;"><i class="fa-solid fa-bolt-lightning"></i> كبسولة الاستدعاء السريع (One-Click Prompts)</div>
+            <div class="prompt-shortcut">
+                <span class="prompt-badge">استدعاء 1</span>
+                <span class="prompt-text">"طبق فيزياء الزنبرك Snappy Spring على أزرار التفاعل وبطاقات القائمة باستخدام منحنيات Kinetics linear()."</span>
+            </div>
+            <div class="prompt-shortcut">
+                <span class="prompt-badge">استدعاء 2</span>
+                <span class="prompt-text">"أنشئ تركيبة فيديو بالكود عبر HyperFrames مدتها 15 ثانية تعرض الميزة الجديدة بإيقاع WhatShips وتصدر كـ MP4."</span>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div class="footer-brand">
+                <span>AUTOVEM FLEET</span> • المهارة 3: hyperframes-motion-engine
+            </div>
+            <div class="page-number">04 / 05</div>
+        </div>
+    </div>
+
+    <!-- =================================================================================== -->
+    <!-- PAGE 5: FLEET SYNERGY & MASTER CHEATSHEET -->
+    <!-- =================================================================================== -->
+    <div class="page" style="padding: 16px 20px;">
+        <div>
+            <!-- Header -->
+            <div class="inner-header">
+                <div class="header-title-box">
+                    <div class="header-icon" style="background: rgba(34, 197, 94, 0.2); color: var(--neon-green);"><i class="fa-solid fa-network-wired"></i></div>
+                    <div>
+                        <div class="header-title">تكامل الأسطول وجدول الاستدعاء السريع للمطور</div>
+                        <div class="header-subtitle">MULTI-CLI FLEET ORCHESTRATION & RAPID CHEATSHEET</div>
+                    </div>
+                </div>
+                <div class="header-badge badge-green">سير العمل التكاملي الكامل</div>
+            </div>
+
+            <!-- End-to-End Workflow Pipeline -->
+            <div class="section-box">
+                <div class="section-box-title"><i class="fa-solid fa-diagram-project"></i> التدفق التكاملي للإنتاج البصري الكامل (Full Production Lifecycle)</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 4px; margin: 8px 0; text-align: center;">
+                    <div style="flex:1; background: var(--surface-card); padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <div style="color:var(--neon-purple); font-weight:800; font-size:10px;">1. التأسيس</div>
+                        <div style="font-size:8px; color:var(--text-muted);">design-md-architect</div>
+                        <div style="font-size:7.5px; color:var(--text-secondary); margin-top:2px;">توليد DESIGN.md</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left" style="color:var(--text-muted); font-size:9px;"></i>
+                    <div style="flex:1; background: var(--surface-card); padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <div style="color:var(--neon-cyan); font-weight:800; font-size:10px;">2. البناء البرمجي</div>
+                        <div style="font-size:8px; color:var(--text-muted);">agcli / OpenCode</div>
+                        <div style="font-size:7.5px; color:var(--text-secondary); margin-top:2px;">تكوين الواجهات</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left" style="color:var(--text-muted); font-size:9px;"></i>
+                    <div style="flex:1; background: var(--surface-card); padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <div style="color:var(--neon-orange); font-weight:800; font-size:10px;">3. ضخ الحركة</div>
+                        <div style="font-size:8px; color:var(--text-muted);">hyperframes-motion</div>
+                        <div style="font-size:7.5px; color:var(--text-secondary); margin-top:2px;">فيزياء الزنبرك</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left" style="color:var(--text-muted); font-size:9px;"></i>
+                    <div style="flex:1; background: var(--surface-card); padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <div style="color:var(--neon-pink); font-weight:800; font-size:10px;">4. التطهير</div>
+                        <div style="font-size:8px; color:var(--text-muted);">impeccable-guard</div>
+                        <div style="font-size:7.5px; color:var(--text-secondary); margin-top:2px;">إزالة AI Slop</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-left" style="color:var(--text-muted); font-size:9px;"></i>
+                    <div style="flex:1; background: var(--surface-card); padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                        <div style="color:var(--neon-green); font-weight:800; font-size:10px;">5. الاعتماد</div>
+                        <div style="font-size:8px; color:var(--text-muted);">Claude Code CLI</div>
+                        <div style="font-size:7.5px; color:var(--text-secondary); margin-top:2px;">فحص نهائي [APPROVED]</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Master Cheatsheet Table -->
+            <div class="section-box-title" style="margin-top: 6px;"><i class="fa-solid fa-keyboard"></i> جدول الغش السريع: الأوامر البرمجية المباشرة (Rapid Invocation Table)</div>
+            <table class="feature-table" style="font-size: 8.5px;">
+                <thead>
+                    <tr>
+                        <th style="width: 22%;">الهدف / المهمة</th>
+                        <th style="width: 20%;">الوكيل المستهدف</th>
+                        <th style="width: 46%;">الأمر المباشر السريع (Copy & Paste)</th>
+                        <th style="width: 12%;">النموذج</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>تأسيس هوية مشروع جديد</strong></td>
+                        <td>`design-md-architect`</td>
+                        <td>`"design-md-architect: أنشئ DESIGN.md كامل للمشروع بباليت ألوان داكنة وأوزان خطوط Tajawal."`</td>
+                        <td>Flash / Pro</td>
+                    </tr>
+                    <tr>
+                        <td><strong>محاكاة موقع عالمي</strong></td>
+                        <td>`design-md-architect`</td>
+                        <td>`"استخرج مواصفات تصميم Vercel من Refero Styles واحقنها كرموز دلالية بملف DESIGN.md."`</td>
+                        <td>Flash / Pro</td>
+                    </tr>
+                    <tr>
+                        <td><strong>تطهير واجهة من الـ Slop</strong></td>
+                        <td>`impeccable-design-guard`</td>
+                        <td>`"impeccable-design-guard: نفذ /impeccable audit واضبط تباين الألوان والتسلسل الهرمي."`</td>
+                        <td>Claude Pro</td>
+                    </tr>
+                    <tr>
+                        <td><strong>صقل الأزرار والمكونات</strong></td>
+                        <td>`impeccable-design-guard`</td>
+                        <td>`"طبق معايير Component Gallery على القوائم والنوافذ المنبثقة واجعل هناك زراً رئيسياً وحيداً."`</td>
+                        <td>Claude Pro</td>
+                    </tr>
+                    <tr>
+                        <td><strong>إضافة حركة زنبركية للويب</strong></td>
+                        <td>`hyperframes-motion-engine`</td>
+                        <td>`"استبدل منحنيات CSS بفيزياء الزنبرك Snappy Spring من Kinetics لجميع أزرار التفاعل."`</td>
+                        <td>Codex / Pro</td>
+                    </tr>
+                    <tr>
+                        <td><strong>توليد فيديو استعراضي بالكود</strong></td>
+                        <td>`hyperframes-motion-engine`</td>
+                        <td>`"ولد تركيبة فيديو 15 ثانية للميزة الجديدة عبر HyperFrames بإيقاع WhatShips وصدرها MP4."`</td>
+                        <td>Codex / Pro</td>
+                    </tr>
+                    <tr>
+                        <td><strong>المزامنة مع تطبيق الويب HTML</strong></td>
+                        <td>`OpenCode CLI`</td>
+                        <td>`opencode run --auto "python update_html.py && python convert_hooks_to_sheets.py"`</td>
+                        <td>GLM 5.3 Flash</td>
+                    </tr>
+                    <tr>
+                        <td><strong>الفحص المعماري والاعتماد</strong></td>
+                        <td>`Claude Code CLI`</td>
+                        <td>`claude -p "Review visual hierarchy, accessibility, and code quality. Do not run unit tests."`</td>
+                        <td>Opus Max</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Context Golden Rule Alert -->
+            <div class="alert-box" style="margin-top: 8px;">
+                <i class="fa-solid fa-lightbulb"></i>
+                <span><strong>قاعدة النطاق الذهبي للإنتاجية (30k - 300k):</strong> استخدام استدعاءات نقطية محددة لكل مهارة بدلاً من إطلاق عدة وكلاء في الخلفية بالتزامن؛ تجنب قراءة الملفات الكاملة (<bdi>`mode='full'`</bdi>)، واعتمد على فحص العناوين (<bdi>`mode=signatures`</bdi>) لتوفير استهلاك التوكنز والحفاظ على دقة التركيز بنسبة 100%.</span>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <div class="footer-brand">
+                <span>AUTOVEM FLEET</span> • جدول الاستدعاء السريع وتكامل الأسطول
+            </div>
+            <div class="page-number">05 / 05</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
