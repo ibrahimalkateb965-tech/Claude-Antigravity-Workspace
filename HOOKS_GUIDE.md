@@ -11,7 +11,7 @@
 | **5. خطاف خط الإنتاج البرمجي** | `[code-architect]`, `[ui-ux-pro-max]`, `[clean-code-guard]`, `[test-guard]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"ابدأ ميزة"`, `"تطوير ميزة"`, `"اصنع ميزة"`, `"إصلاح ميزة"` | تنفيذ دورة التطوير الكاملة (المعمارية، الذكاء التصميمي، البرمجة، حراسة الكود النظيف، والفحص والاختبار). |
 | **6. خطاف التكامل الفني** | `[devops-deployer]`, `[backend-architect]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"ربط API"`, `"تكامل خارجي"` | ربط وتكامل الخدمات الخارجية بعد مراجعة وثائقها الرسمية وتأمين المتغيرات. |
 | **7. خطاف تدقيق الصيانة** | `[code-reviewer-quality]`, `[clean-code-guard]`, `[performance-optimizer]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"تدقيق صيانة"`, `"مراجعة DRY"`, `"كود نظيف"` | مراجعة الكود البرمجي بانتظام لمنع التكرار وتراكم الديون التقنية وتطبيق معايير الكود النظيف. |
-| **8. خطاف الفحص الأمني** | `[security-auditor]`, `[code-reviewer-quality]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"فحص أمني"`, `"مراجعة أمان"` | مراجعة ثغرات الأمان والتحقق من صحة المدخلات وتشفير البيانات وتأمين الوصول. |
+| **8. خطاف الفحص الأمني ودرع Vibe Coding** | `[security-auditor]`, `[vibe-coding-security-shield]`, `[code-reviewer-quality]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"فحص أمني"`, `"مراجعة أمان"`, `"درع الأمان"`, `"vibe security"`, `"فحص الثغرات"` | مراجعة ثغرات الأمان عبر الدرع السداسي (Semgrep, Gitleaks, Trivy, ZAP, Checkov, Renovate) وتأمين الأكواد والمفاتيح والتبعيات قبل الإنتاج. |
 | **9. خطاف مراجعة وتحديث المكتبات والنماذج** | `[github-talent-scout]`, `[code-architect]`, `[agent-optimizer]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Gemini 3.6 Flash (Medium)` | `"تحديث الاعتماديات"`, `"تحديث المكتبات"`, `"تحديث النماذج"`, `"معايرة النماذج"`, `"update models"` | فحص ملفات Gradle وتحديث المكتبات، والتحقق التلقائي عبر الإنترنت (antigravity.google) لتحديث مصفوفة النماذج ودليل hooks_user_guide.md دون لقطات شاشة. |
 | **10. خطاف الفحص والاختبار التلقائي** | `[android-testing]`, `[test-guard]`, `[code-reviewer-quality]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"قم بالاختبار"`, `"جاهز للتجربة"` | تشغيل اختبارات الوحدة وفحص جودة الكود واختبار السلوك الفعلي بدون Mock مفرط. |
 | **11. خطاف معالجة الأخطاء والأعطال** | `[debugger]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"حدث خطأ"`, `"التطبيق توقف"`, `"Crash"` | تحليل سجلات الأخطاء والـ Stack Trace وعزل الكود المسبب للمشكلة وإصلاحه. |
@@ -22,16 +22,17 @@
 | **16. خطاف تنظيم وترتيب الأجهزة الشامل** | `[windows-c-drive-optimizer]`, `[windows-file-organizer]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Gemini 3.6 Flash (Medium)` | `"رتب جهازى"`, `"فرز الملفات"`, `"ترتيب ملفات"` | ترتيب ملفات جذور الأقراص بالكامل مع تنظيف وتحسين مساحة قرص الـ C بآن واحد. |
 | **17. خطاف ترتيب الملفات لمسار محدد** | `[windows-file-organizer]` | الأساسي: `Gemini 3.6 Flash (Medium)` <br> البديل: `Gemini 3.5 Flash (Medium)` | `"رتب المسار"`, `"نظم المجلد"`, `"ترتيب مسار"` | تنظيم وفرز الملفات داخل مجلد أو مسار مخصص يحدده المستخدم بذكاء ودقة. |
 | **18. خطاف إدارة تليجرام** | `[devops-deployer]`, `[persistent-memory-engine]` | الأساسي: `Gemini 3.5 Flash (Medium)` <br> البديل: `Gemini 3.1 Pro (Low)` | `"شغل البوت"`, `"تفعيل تليجرام"`, `"Telegram Bot"` | تشغيل بوت تليجرام في الخلفية بنمط الاستماع للطلبات عن بعد دون تعارض. |
-| **19. خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]`, `[docs-guard]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"حراسة الجودة"`, `"clean code audit"` | تفعيل بوابات الحماية الثلاث لفحص الكود النظيف، سلامة الاختبارات، ومطابقة التوثيق. |
-| **20. خطاف استكشاف وتكامل الموارد العالمية** | `[resource-scout-integrator]`, `[ui-ux-pro-max]`, `[github-talent-scout]`, `[skill-forge-builder]`, `[agent-optimizer]`, `[frontend-design-builder]`, `[git-github-manager]`, `[powershell-runtime-pro]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"استكشف المورد"`, `"حلل المستودع"`, `"تكامل المورد"`, `"scout resource"`, `"integrate repo"` | تحليل المستودعات الخارجية واستيراد المهارات وتعميمها وتحديث الخطافات والإكسيل وتطبيق مكتبة الأوامر ودليل hooks_user_guide.md ومزامنة المنظومة. |
+| **19. خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]`, `[docs-guard]`, `[wp-guard]`, `[woo-guard]`, `[debate-review]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Claude Opus 4.6 (Thinking)` | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"حراسة الجودة"`, `"clean code audit"`, `"wp guard"`, `"woo guard"`, `"debate review"` | تفعيل بوابات الحماية الشاملة للكود النظيف، سلامة الاختبارات، مطابقة التوثيق، حراسة ووردبريس وووكومرس، والمناظرة التنافسية للـ PRs. |
+| **20. خطاف استكشاف وتكامل الموارد العالمية** | `[resource-scout-integrator]`, `[duckai-research-bridge]`, `[graft]`, `[ui-ux-pro-max]`, `[github-talent-scout]`, `[skill-forge-builder]`, `[agent-optimizer]`, `[frontend-design-builder]`, `[git-github-manager]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"استكشف المورد"`, `"حلل المستودع"`, `"تكامل المورد"`, `"scout resource"`, `"integrate repo"`, `"duckai bridge"`, `"تحديث صفحة HTML"`, `"update html"` | تحليل المستودعات الخارجية واستيراد وتعميم المهارات، وتحديث الخطافات والإكسيل والتحديث الآلي لصفحات HTML لمكتبة الأوامر التفاعلية ومزامنة المنظومة. |
 | **21. خطاف المزامنة السحابية والمساهمة المجتمعية** | `[git-github-manager]`, `[persistent-memory-engine]`, `[agent-optimizer]`, `[docs-guard]` | الأساسي: `Gemini 3.7 Flash (High)` <br> البديل: `Claude Sonnet 4.6 (Thinking)` | `"مزامنة المنظومة"`, `"sync ecosystem"`, `"ارسل pull request"`, `"مساهمة في المستودع"`, `"create PR"`, `"contribute repo"` | للمطور المالك: مطابقة ومزامنة كافة الإضافات والمهارات وتطبيق الأوامر مع GitHub. للمساهمين والمجتمع: تجهيز فرع الميزة وإنشاء وتوجيه Pull Request للمستودع المركزي للمشاركة. |
-| **22. خطاف قيادة وإدارة الأسطول التشاركي** | `[fleet-orchestrator]`, `[code-architect]`, `[agent-optimizer]`, `[persistent-memory-engine]` | الأساسي: `Claude Opus 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"أسطول الـ CLIs"`, `"تشغيل الأسطول"`, `"تنسيق الأسطول"`, `"fleet orchestrator"`, `"multi cli fleet"`, `"إدارة الأسطول"` | تفعيل وضبط أسطول الوكلاء المتعدد، إدارة وتنسيق التكليف بين CLIs، حوكمة بوابات مراجعة الأكواد، وترشيد التوكنز. |
+| **22. خطاف قيادة وإدارة الأسطول التشاركي** | `[fleet-orchestrator]`, `[graft]`, `[code-architect]`, `[agent-optimizer]`, `[persistent-memory-engine]` | الأساسي: `Claude Opus 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"أسطول الـ CLIs"`, `"تشغيل الأسطول"`, `"تنسيق الأسطول"`, `"fleet orchestrator"`, `"multi cli fleet"`, `"إدارة الأسطول"` | تفعيل وضبط أسطول الوكلاء المتعدد، إدارة وتنسيق التكليف بين CLIs، حوكمة بوابات مراجعة الأكواد، وترشيد التوكنز. |
 | **23. خطاف تحويل وأتمتة سكربتات المشاريع إلى MCP** | `[mcp-tool-builder]`, `[script-to-mcp-converter]`, `[code-architect]`, `[agent-optimizer]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"حول إلى MCP"`, `"تحويل سكربتات لـ MCP"`, `"بناء أدوات MCP"`, `"convert scripts to mcp"`, `"scripts to mcp"`, `"ترقية السكربتات"` | مسح سكربتات بايثون المبعثرة في مسار المشروع، تجريد منطق العمل وبناء دوال FastMCP ونماذج Pydantic، تسجيل الخادم، وأرشفة السكربتات في القرص الثانوي (G:) وحماية قرص C:. |
 | **24. خطاف أتمتة مسارات العمل ووكلاء n8n الذكية** | `[n8n-ai-agent-architect]`, `[mcp-tool-builder]`, `[backend-architect]`, `[agent-optimizer]` | الأساسي: `Claude Sonnet 4.6 (Thinking)` <br> البديل: `Gemini 3.7 Flash (High)` | `"ابني مسار n8n"`, `"أتمتة n8n"`, `"وكيل n8n"`, `"n8n ai agent"`, `"n8n workflow"`, `"تصميم ورك فلو"` | تصميم وبناء مسارات عمل ذكية مؤتمتة على n8n، ربط الوكلاء المتعددين (Multi-Agent Sub-workflows)، تتبع التحويلات وتأهيل العملاء، وربط خوادم MCP وقواعد البيانات الموجهة بالذكاء الاصطناعي. |
 | **25. خطاف التصفير الاستراتيجي وتسليم الجلسة** | `[fleet-orchestrator]`, `[persistent-memory-engine]`, `[git-github-manager]` | الأساسي: `Claude Opus 5 (Thinking)` <br> البديل: `Claude Sonnet 5` | `"التصفير الاستراتيجي"`, `"strategic clear"`, `"استعد للتصفير"`, `"تجهيز clear"`, `"تجميد الجلسة"`, `"pre-clear handoff"`, `"freeze session"` | تقييم وإنهاء أي مهام عالقة أو ذات أولوية عاجلة لتأمين استقرار الكود، ثم تجميد وتوثيق الحالة في CURRENT_STATE.md وتوليد برومبت الاستئناف الفوري قبل تنفيذ /clear أو /compact عند امتلاء الجلسة (session:90%+). |
 | **26. خطاف إدارة وتحديث مكتبة الأوامر الذكية** | `[prompt-engineer]`, `[agent-optimizer]`, `[code-architect]` | الأساسي: `Gemini 3.8 Flash (High)` <br> البديل: `Claude Sonnet 5` | `"أضف لمكتبة الأوامر"`, `"وثق في مكتبة الأوامر"`, `"أضف برومبت للإكسيل"`, `"تحديث مكتبة الأوامر"`, `"حفظ في مكتبة الأوامر"`, `"add prompt to library"`, `"curate prompt"` | تحويل الأفكار والحلول البرمجية لبرومبتات مهندسة جاهزة للاستخدام، وإدراجها آلياً في التبويب المناسب داخل ملف "مكتبة الأوامر.xlsx" مع الحفاظ على التنسيق والخطوط وإبلاغ المستخدم بموقع ورقم الصف المضاف. |
-| **27. خطاف الاستشارة الاستراتيجية لإدارة نافذة السياق** | `[prompt-engineer]`, `[agent-optimizer]`, `[code-architect]` | الأساسي: `Gemini 3.8 Flash (High)` <br> البديل: `Claude Sonnet 5` | `"مستشار السياق"`, `"إدارة السياق"`, `"مستشار التوكنز"`, `"ترشيد السياق"`, `"فحص نافذة السياق"`, `"context advisor"`, `"manage context"`, `"agy context advice"`, `"قرارات السياق"` | تحليل لحظي ودقيق لاستهلاك السياق والتوكنز في Antigravity IDE/agcli، تصنيف الجلسة ضمن 4 مناطق أمان (خضراء، صفراء، برتقالية، حمراء)، وتوجيه المطور للقرار المعماري الأنسب (استمرار، ترشيد، ضغط، أو تصفير استراتيجي وتسليم). |
+| **27. خطاف الاستشارة الاستراتيجية لإدارة نافذة السياق** | `[context-governance]`, `[graft]`, `[prompt-engineer]`, `[agent-optimizer]`, `[code-architect]` | الأساسي: `Gemini 3.8 Flash (High)` <br> البديل: `Claude Sonnet 5` | `"مستشار السياق"`, `"إدارة السياق"`, `"مستشار التوكنز"`, `"ترشيد السياق"`, `"فحص نافذة السياق"`, `"context advisor"`, `"manage context"`, `"agy context advice"`, `"قرارات السياق"` | تحليل لحظي ودقيق لاستهلاك السياق والتوكنز في Antigravity IDE/agcli، تصنيف الجلسة ضمن 4 مناطق أمان (خضراء، صفراء، برتقالية، حمراء)، وتوجيه المطور للقرار المعماري الأنسب (استمرار، ترشيد، ضغط، أو تصفير استراتيجي وتسليم). |
 | **28. خطاف ترحيل وتطهير أدوات المحرر والذكاء الاصطناعي** | `[devops-deployer]`, `[agent-optimizer]`, `[code-architect]` | الأساسي: `Gemini 3.8 Flash (High)` <br> البديل: `Claude Sonnet 5` | `"تطهير المحرر"`, `"نقل أدوات المحرر"`, `"ترحيل أدوات المحرر"`, `"تطهير المشروع"`, `"evacuate editor tools"`, `"clean workspace tooling"`, `"evacuate-tools"` | فحص ومزامنة أدوات المحرر في الإعدادات العالمية (~/.gemini/config)، ونقل كافة الأدلة والمستندات والسكربتات إلى المستودع المركزي (Claude+Antigravity) بعد التحقق التشفيري الإلزامي (SHA-256) قبل الحذف، وتنظيف مخلفات الذاكرة وحطام JVM لضمان نقاء بيئة المشاريع البرمجية. |
+| **29. خطاف ترقية ومعايرة مصفوفة نماذج أسطول الـ CLIs** | `[fleet-orchestrator]`, `[agent-optimizer]`, `[code-architect]`, `[prompt-engineer]`, `[persistent-memory-engine]` | الأساسي: `Claude Opus 5.5 / Opus Max (Thinking)` <br> البديل: `Gemini 3.8 Flash (High)` | `"تحديث نماذج الأسطول"`, `"ترقية نماذج الأسطول"`, `"معايرة نماذج الأسطول"`, `"ترقية النماذج"`, `"تحديث مصفوفة النماذج"`, `"upgrade fleet models"`, `"calibrate fleet models"`, `"fleet model update"`, `"update fleet models"` | ترقية ومعايرة مصفوفة نماذج أسطول الوكلاء المتعدد لاعتماد أحدث أجيال الذكاء الاصطناعي (Claude Opus 5.5 Max و Sonnet 5.5 و Gemini 3.8 Flash High و GLM 5.3 Flash و Codex GPT-5.6 Soul)، وتحديث قيود [C-11] و [C-21] و [C-38]، وتحديث ملفات fleet_config.json وقوالب التفويض، وتطبيق الويب التفاعلي ومكتبة الأوامر. |
 
 
 ---
@@ -83,10 +84,17 @@
   1. **فحص الكود النظيف والمكرر:** استدعاء الوكيل `[code-reviewer-quality]` و `[clean-code-guard]` لمسح الملفات والتحقق من عدم وجود دوال مكررة (تطبيق DRY/KISS/YAGNI).
   2. **فحص Recomposition والأداء:** قياس كفاءة الرسم وإعاقات الأداء في Compose بواسطة `[performance-optimizer]`.
 
-### 8. خطاف الفحص الأمني (Security Audit Hook)
+### 8. خطاف الفحص الأمني ودرع Vibe Coding (Security Audit & Vibe Coding Shield Hook)
 * **طريقة العمل والإجراءات:**
-  1. **مصفوفة الثغرات الصارمة (VULNERABILITY MATRIX):** مسح إجباري لـ AndroidManifest والمكونات المكشوفة وتسريب البيانات.
-  2. **التحقق من صحة المدخلات وتشفير البيانات:** فحص تشفير البيانات الحساسة والجلسات وتأمين الوصول محلياً وسحابياً.
+  1. **تفعيل الركائز الست لدرع الأمان (`vibe-coding-security-shield`):**
+     - **Semgrep (SAST):** فحص المنطق والأكواد المولدة بالذكاء الاصطناعي لمنع الحقن (Injection) والثغرات الإنشائية.
+     - **Gitleaks:** التحقق الصارم من انعدام تسريب المفاتيح ورموز الوصول السرية في الـ Staging وتاريخ الـ Git.
+     - **Trivy:** فحص التبعيات وصور Docker وكشف ثغرات CVEs وتوليد الـ SBOM.
+     - **OWASP ZAP (DAST):** الفحص الديناميكي للواجهات ونقاط الـ API بعد تشغيل التطبيق في بيئة الاختبار.
+     - **Checkov:** فحص أخطاء البنية التحتية والـ Misconfigurations في Dockerfile و Terraform.
+     - **Renovate:** أتمتة تحديثات التبعيات وسد الثغرات الأمنية دورياً عبر الـ PRs.
+  2. **مصفوفة الثغرات الصارمة (VULNERABILITY MATRIX):** مسح إجباري لـ AndroidManifest والمكونات المكشوفة وتسريب البيانات.
+  3. **التحقق من صحة المدخلات وتشفير البيانات:** فحص تشفير البيانات الحساسة والجلسات وتأمين الوصول محلياً وسحابياً.
 
 ### 9. خطاف مراجعة وتحديث المكتبات والنماذج (Dependency & AI Model Matrix Update Hook)
 * **طريقة العمل والإجراءات:**
@@ -143,11 +151,30 @@
 
 ### 19. خطاف التدقيق البرمجي الشامل وحراسة الجودة (Code Quality & Guard Audit Hook)
 * **طريقة العمل والإجراءات:**
-  1. **تفعيل بوابات الحماية الثلاث:** فحص الكود النظيف (`clean-code-guard`)، سلامة الاختبارات (`test-guard`)، ومطابقة التوثيق (`docs-guard`).
+  1. **بوابات الحماية العامة للنواة (Core Guard Gates):**
+     - **الكود النظيف (`clean-code-guard`):** فحص الديف ومطابقة القواعد الـ 24 لمنع بلع الأخطاء والتعقيد الزائد والدوال الوهمية مع المراجع التخصصية.
+     - **سلامة الاختبارات (`test-guard`):** حراسة كود الاختبارات ومنع إساءة الـ Mocks وتأكيد فحص السلوك الحقيقي عبر مراجع pytest و jest و llm-app-testing.
+     - **مطابقة التوثيق (`docs-guard`):** منع الهلوسة في أسماء الدوال ومطابقة ملفات التوثيق و README مع الكود الحي.
+  2. **بوابات حراسة المنصات والتجارة الإلكترونية (Platform & E-Commerce Guards):**
+     - **حراسة ووردبريس (`wp-guard`):** فحص الإضافات والقوالب، فرض التعقيم والهروب (Sanitization & Escaping)، الـ Nonces، وصلاحيات المستخدم، وتأمين الاستعلامات.
+     - **حراسة ووكومرس (`woo-guard`):** حراسة العمليات المالية، منع الالتفاف على كائنات HPOS CRUD، وتأمين الـ Checkout ومطابقة معايير الدفع.
+  3. **المناظرة البرمجية التنافسية للـ Pull Requests (`debate-review`):**
+     - تشغيل مناظرة ثنائية بين نموذجين مختلفين (Main Reviewer vs Debate Reviewer) لفحص التفرعات والـ PRs وإصدار تعليقات سطرية دقيقة P0/P1/P2 خالية من النقاط العمياء.
 
 ### 20. خطاف استكشاف وتكامل الموارد العالمية (Global Resource Scouting & Ecosystem Integration Hook)
 * **طريقة العمل والإجراءات:**
   1. **استيراد وتعميم المهارات العالمية:** تحليل المستودعات الخارجية وبناء مهارات `SKILL.md` ونشرها عالمياً وتحديث المنظومة.
+  2. **الحزم والموارد المعتمدة والمدمجة:**
+     - **حزمة بوابات الحراسة الشاملة (`guard-skills`):** تضم `clean-code-guard`, `test-guard`, `docs-guard`, `wp-guard`, `woo-guard` بكامل مراجعها التخصصية وموجهات OpenAI/Claude.
+     - **حزمة المراجعة التنافسية ومتابعة الـ PRs (`review-skills`):** تضم `debate-review` للمناظرة الثنائية المستقلة و `babysit-pr` للمتابعة الدورية الآلية وحل الملاحظات حتى الوصول لبوابة الدمج.
+     - **درع Vibe Coding السداسي (`vibe-coding-security-shield`):** حزم فحص Semgrep, Gitleaks, Trivy, OWASP ZAP, Checkov, Renovate لحماية الأكواد المولدة بالذكاء الاصطناعي.
+     - **مستشار هورموزي لنمو الأعمال (`hormozi-growth-advisor`):** أطر $100M Offers، معادلة القيمة، مصفوفة التوسع عبر 10 مراحل، والـ 12 Playbook.
+     - **نظام ThreeUI ثلاثي الأبعاد (`threeui-design-system`):** واجهات الويب ثلاثية الأبعاد، إضاءات الشيدر المتوهجة، ومكونات الـ 3D التفاعلية مع منع تسريب الذاكرة.
+     - **محرك سياق وخريطة الأكواد المعرفية Graft (`graft`):** بناء خرائط معرفية محلية ومستدامة عبر Tree-sitter AST لتقليل استهلاك التوكنز بنسبة 42% واستدعاءات الأدوات بنسبة 46% وتسريع استجابة Claude Code والأسطول بنسبة 60% وزيادة دقة الحلول +12 نقطة.
+     - **جسر أبحاث الذكاء الاصطناعي المجاني Duck.ai (`duckai-research-bridge`):** ربط أبحاث الويب ونماذج الاستدلال الخفيفة والمجانية (GPT-4o-mini, Claude 3 Haiku, Llama 3.3) للبحث الاستكشافي، واجهات الـ Dev/Staging لعملاء n8n و FastMCP، وحماية كوتا النماذج التجارية المدفوعة لوكالة Autovem.
+  3. **التحديث التلقائي الشامل لصفحة مكتبة الأوامر HTML (Smart Prompt Library Web View Sync):**
+     - عند استكشاف، اعتماد، أو تعديل أي خطافات جديدة في المنظومة، يُلزم الخطاف بتشغيل محرك تحديث صفحة الـ HTML (`python update_html.py`) فوراً وبشكل تلقائي.
+     - يقوم المحرك بتحليل `HOOKS_GUIDE.md` وحقن بيانات الخطافات المعتمدة (الرقم، الاسم، المحفزات، الأهداف، مستويات النماذج، الوكلاء المسؤولون، والتفاصيل الكاملة) مباشرة داخل مصفوفة `libraryData` في كافة صفحات تطبيق الويب التفاعلي لمكتبة الأوامر الذكية (`03_Dynamic_Prompt_Library/index.html`)، مع استدعاء `convert_hooks_to_sheets.py` لتحديث مصنف `HOOKS_GUIDE.xlsx`، وتوثيق الأوامر المهندسة في `مكتبة الأوامر.xlsx`.
 
 ### 21. خطاف المزامنة السحابية والمساهمة المجتمعية (Ecosystem Cloud Sync & Pull Request Contribution Hook)
 * **طريقة العمل والإجراءات:**
@@ -280,5 +307,25 @@
      - يُحظر حذف أي ملف محلي إلا بعد حساب بصمة SHA-256 للمصدر والوجهة والتأكد من التطابق التام 100%. وفي حال وجود نسخة أحدث في المركز، تُحفظ كنسخة أرشيفية.
   4. **التطهير الآمن للمشروع المحلي (Clean Workspace Guarantee):**
      - حذف الأدوات المنقولة، وإزالة مجلد `tools/` بعد فراغه، وتنظيف مخلفات JVM (`hs_err_*.log`, `replay_*.log`) وأقفال Word المؤقتة، واستعادة الشجرة النظيفة الخالية من أي Untracked files.
+
+
+### 29. خطاف ترقية ومعايرة مصفوفة نماذج أسطول الـ CLIs (Fleet Multi-CLI Model Matrix Upgrade & Calibration Hook)
+* **طريقة العمل والإجراءات:**
+  1. **المعايرة والترقية الشاملة لمصفوفة النماذج (Model Matrix Calibration):**
+     - ترقية نموذج القيادة المعمارية والفحص الحصري للاختبارات إلى: `Claude Opus 5.5 / Opus Max (Thinking)`.
+     - ترقية نموذج التطوير البرمجي اليومي وصناعة الميزات إلى: `Claude Sonnet 5.5`.
+     - تثبيت وتأكيد نماذج الطرفية وترشيد الكوتا: `OpenCode CLI` بنموذجي `GLM 5.3 Flash` و `Meta Muse Spark 1.3`.
+     - تثبيت منفذ واجهات Antigravity CLI / IDE: `Gemini 3.8 Flash (High Reasoning)`.
+     - تثبيت متخصص الخوارزميات والمعالجة العميقة: `Codex CLI (GPT-5.6 Soul)`.
+  2. **تحديث القيود التقنية الإلزامية (Invariants Update):**
+     - تحديث بنود [C-11] و [C-21] و [C-38] في ملف سياق الحقن الإلزامي `ACTIVE_CONTEXT_INJECTION.md`.
+  3. **المزامنة البرمجية لملفات تهيئة الأسطول (`fleet_config.json`):**
+     - فحص وتحديث حقول `active_model` في كافة ملفات `fleet_config.json` عبر المشاريع لاعتماد الجيل 5.5.
+  4. **تحديث تطبيق الويب التفاعلي والإكسيل ومكتبة الأوامر:**
+     - استدعاء `update_html.py` لتحديث مصفوفة بيانات `03_Dynamic_Prompt_Library/index.html` (29 خطافاً).
+     - استدعاء `convert_hooks_to_sheets.py` لتحديث مصنف `HOOKS_GUIDE.xlsx`.
+     - إدراج الأمر الموجه في مصنف `مكتبة الأوامر.xlsx` تحت تبويب `CLI_Core.Claude`.
+  5. **توثيق الذاكرة المستدامة (Memory Invariant):**
+     - تسجيل قرار ترقية المعمارية (ADR) في `MEMORY_STORE.md` محلياً وعالمياً.
 
 </div>

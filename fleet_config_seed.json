@@ -13,7 +13,7 @@
     {
       "id": "orchestrator",
       "cli_tool": "Claude Code CLI",
-      "active_model": "Claude 5 Opus (Opus Max) / Sonnet 5",
+      "active_model": "Claude 5.5 Opus (Opus Max) / Sonnet 5.5",
       "effort_level": "Max Reasoning",
       "assigned_role": "Master Orchestrator, Staff Architect, Sole Test Authority & Senior Code Reviewer",
       "status": "Active",
