@@ -99,6 +99,17 @@
   1. **إلزامية علم `--auto`:** يجب دائماً تضمين `--auto` للسماح التلقائي بالصلاحيات غير المحظورة؛ تشغيل الأمر بدونها يتسبب في تعليق الطرفية لانتظار إدخال TTY تفاعلي.
   2. **قاعدة الدُفعات الرباعية (Max 4 Files Per Batch):** يُحظر تكليف GLM أو OpenCode بتعديل أكثر من 4 ملفات في جلسة `opencode run` واحدة لتفادي انقطاع السياق أو اقتطاع الكود، مع تجزئة المهام الكبيرة لدُفعات متتابعة.
   3. **أمر بناء Gradle في ويندوز:** في بيئة PowerShell على Windows، يُنفذ أمر البناء بالصيغة: `& .\gradlew.bat assembleDebug` وتجنب استدعاء `cmd /c "gradlew.bat"` العاري لتفادي أخطاء مسار العمل.
+  4. **التفويض المتوازي الإلزامي لعمال GLM 5.3 Flash (Multi-Worker Parallel Execution - 2 to 4 Workers):** يُلزم `Claude Code CLI` بإطلاق 2 إلى 4 عمال GLM 5.3 Flash بالتوازي في الخلفية فور إمكانية تجزئة المهام إلى مسارات مستقلة (Worker A عبر `opencode-go/glm-5.3-flash --auto` للمهام الطرفية وقواعد البيانات، و Worker B عبر `cline` أو `opencode` موازٍ لواجهات المستخدم والبويلربليت)، وحظر التشغيل التسلسلي للمهام القابلة للتوازي لترشيد التوكنز وتعظيم سرعة الإنجاز.
+
+### [C-81] Cline CLI Hub Daemon Lifecycle, Diagnostic & Concurrency Standard (معيار تشغيل ديمون Cline Hub ومنع تعارض الجلسات)
+- **معمارية خادم الـ Hub:** يعتمد `Cline CLI` في تنفيذ الأوامر على ديمون مقبس محلي (`ws://127.0.0.1:25463/hub`). عند استدعاء `cline` في الوضع غير التفاعلي وتعليق الطرفية، يُمنع الانتظار اللانهائي ويجب اتباع ثلاثية التشخيص:
+  1. **التشخيص (`cline doctor`):** التحقق من قيمة `hub healthy` ورقم المعرف `pid`.
+  2. **التطهير السريع (`cline doctor fix`):** في حال كانت الحالة `no` أو وجود أقفال عالقة، يتم تنظيف سجلات الاكتشاف وقتل العمليات القديمة.
+  3. **إعادة التنشيط (`cline -i`):** إطلاق جلسة تفاعلية سريعة أو مطالبة المستخدم بتنشيط الطرفية لبدء الـ Hub بنجاح (`hub healthy yes`).
+- **حظر التضارب المتزامن (Concurrency Collision Guard):** عند وجود جلسة تفاعلية نشطة للمستخدم قيد التشغيل في الطرفية (`cline running in terminal`)، يُحظر تماماً على الوكلاء التنفيذيين إطلاق أوامر `cline` في الخلفية لتفادي أخطاء قفل المقبس وفساد الجلسات.
+- **حوكمة العامل Meta Muse Spark 1.3:** يُعتمد النموذج كعامل تخصصي مجاني وسريع في مسارين:
+  - مسار `OpenCode CLI` (`opencode-go/muse-spark-1.3-contributor` / `opencode/muse-spark-1.3-contributor-free`) كمهندس للمخططات وقواعد البيانات (Worker B).
+  - مسار `Cline CLI` (`cline-free/muse-spark-1.3-contributor`) كعامل موازٍ للبيانات وواجهات المستخدم (Worker D).
 
 ---
 
@@ -255,6 +266,10 @@
   2. **قبول رمز التجاوز الموحد (`1234`):** يجب أن تقبل نقطة النهاية `/auth/verify-otp` الرمز `1234` في وضع المحاكاة مع استمرار تطبيق كافة قيود الجلسة (الصلاحية، عدد المحاولات، عدم الاستخدام المسبق) لضمان عدم تعليق عمليات الفحص والتسليم.
   3. **التعبئة التلقائية الآمنة:** في تطبيقات الهاتف، يُلتقط `sandbox_code` تلقائياً لتعبئة حقل الرمز مع عرض إشعار تنبيهي لطيف يتيح الدخول بنقرة واحدة.
 
+### [C-82] Standalone Client-Delivery Web Apps & Smart CDN Fallback Standard (معيار استقلالية تطبيقات الويب المسلمة للعميل والتحميل الهجين)
+- عند بناء أو تسليم تطبيقات الويب ولوحات البيانات المستقلة (Single-File SPAs) للعملاء، يُحظر الاعتماد الحصري على مسارات السكربتات النسبية دون حماية.
+- يجب دائماً تضمين معالج الخطأ التلقائي `onerror` في وسوم `<script>` للتبديل الهجين إلى شبكات CDN موثوقة (jsDelivr / cdnjs) فور غياب الملف المحلي، مع ضبط مسارات الـ Web Workers ديناميكياً لضمان عدم تعطل ميزات الاستيراد أو القراءة عند فتح ملف HTML منفرداً.
+
 ---
 
 ## 🎨 DOMAIN 5: UI/UX, RTL/BIDI, TYPOGRAPHY & DOCUMENT ENGINES
@@ -302,6 +317,15 @@
 ### [C-75] Industrial Quotations & Full-Page Density Standard (عروض الأسعار الصناعية)
 - Use official 300 DPI high-res letterhead for Creative Metal Platform Factory (unified no. 7038153537) as page underlay.
 - Zero-terms policy: place overall total table, Saudi Building Code declaration, and stamp immediately after final item. Zero blank pages; auto-sync copies to Google Drive (`H:\My Drive\اعمار الفرعة`).
+
+### [C-83] Edge Headless High-Fidelity Arabic PDF Generation Standard (معيار توليد مستندات PDF العربية عالية الدقة عبر Edge Headless)
+- يُعتمد محرك `Microsoft Edge Headless` (`msedge.exe --headless --disable-gpu --no-pdf-header-footer --run-all-compositor-stages-before-draw --print-to-pdf=...`) كمعيار أساسي سريع وموثوق في بيئة ويندوز لتوليد أدلة التشغيل وعروض الأسعار والتقارير التنفيذية من قوالب HTML الطباعية.
+- يجب فرض فواصل الصفحات الصريحة (`page-break-before: always;`) وموازنة توزيع المحتوى لضمان استقرار الصفحات وخلو الوثيقة من أي صفحات بيضاء أو اقتطاعات بصرية، مع الالتزام بالخطوط القياسية (Cairo / Tajawal / JetBrains Mono) والقاعدة 50 للأرقام (0-9).
+
+### [C-81] Universal Windows File Explorer Discovery & Desktop Output Hub Standard (المعيار العالمي لإظهار وتصدير الملفات المولدة)
+- **حظر المسارات المنعزلة (No Raw /mnt/ Paths):** يُحظر تماماً على أي وكيل في Antigravity أو الأسطول تقديم روابط أو مسارات ملفات مولدة تبدأ بـ `/mnt/...` دون ترجمتها الصريحة لمسار ويندوز المقابل (`D:\...` أو `C:\...`).
+- **التصدير التلقائي لسطح المكتب (Mandatory Desktop Output Hub):** فور توليد أي ملف مخرج نهائي (PDF, DOCX, XLSX, HTML, Zip), يجب نسخه تلقائياً إلى مجلد مخرجات سطح المكتب الموحد: `C:\Users\Kt\Desktop\المستندات_المولدة\`.
+- **الإظهار الفوري التلقائي (Automatic Explorer Reveal):** يجب على كل سكربت أو أداة توليد استدعاء `file_explorer_bridge.process_generated_file(path)` أو أمر `reveal "<file>"` مباشرة وبشكل غير تزامني (Detached `explorer.exe /select,"<win_path>"` بـ `start_new_session=True`) لفتح مستكشف ملفات ويندوز وتحديد الملف فورياً أمام المستخدم دون انتظار.
 
 ---
 
