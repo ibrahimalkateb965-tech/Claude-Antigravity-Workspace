@@ -1,383 +1,396 @@
-<!-- markdownlint-disable MD033 MD041 -->
-<div dir="rtl">
+# 🛡️ GLOBAL ACTIVE CONTEXT INJECTION (MANDATORY TECHNICAL INVARIANTS)
+> **STEP ZERO PROTOCOL:** Every agent MUST read this file at Step Zero before writing any code or plans.
+> All 82 architectural decisions, past incident post-mortems, and engineering constraints are organized by functional domain.
+
+---
+
+## 🏛️ DOMAIN 1: MULTI-CLI FLEET, SUBAGENTS & CONTEXT GOVERNANCE
+
+### [C-11] Model Tiering Matrix (استراتيجية النماذج)
+- **Flash (`Gemini 3.8 Flash High` / `OpenCode Muse Spark`):** Routine scripting, terminals, boilerplate, content, data layers, Git commands.
+- **Pro (`Claude Sonnet 5.5`):** General programming, feature development, component refactoring.
+- **Thinking (`Claude Opus 5.5` - High Effort):** Architecture planning, Devil's Advocate audits, invariant verification (strictly capped to High reasoning effort to prevent excessive token burn).
+
+### [C-12] System Autonomy (استقلالية النظام)
+- Systems and skills must remain 100% model-agnostic and neutral, free from hardcoded vendor-specific lock-in.
+
+### [C-19] Smart Agent Tailoring & Pruning (التخصيص والتصدير الذكي)
+- Use Hook 3 (`project_agent_tailor.py`) to analyze `PROJECT_CONTEXT.md` and export only required domain agents to `.agents/skills`.
+- Prune all unused skills to eliminate system prompt token bloat by 60%+. Generate `sync_local_agents.py` for project sync.
+
+### [C-21] Collaborative Multi-CLI Fleet Architecture (معمارية أسطول الـ CLIs)
+- **Roles:**
+  - `Claude Code CLI (Opus 5.5 - High Effort)`: Master Orchestrator, architectural auditing, and **EXCLUSIVE TESTING MONOPOLY** (Effort strictly capped to High).
+  - `OpenCode CLI`: Headless terminal executor, database migrations, DAOs, and data plumbing. Models: **GLM 5.3 Flash** (`-m opencode-go/glm-5.3-flash`) and **Meta Muse Spark 1.3** (`-m opencode/muse-spark-1.3-contributor`).
+  - `Antigravity CLI (agcli)`: Headless terminal executor for UI/domain contracts (`agcli run`).
+  - `Codex CLI`: Algorithmic translations, complex data transforms, and deep refactoring.
+  - `Antigravity IDE`: Visual Cockpit & Workbench for the developer. **NEVER delegate automated background tasks to the IDE.**
+- **Standards:** Central `fleet_config.json`; all CLI communications in English; Phase Code Review Gate before transitioning phases.
+
+### [C-25] Autonomous Direct Dispatch & Consult-and-Execute Loop (بروتوكول التفويض المباشر والاستشارة التلقائية)
+- **NEVER** ask the user to manually copy/paste prompts between CLIs. Dispatch commands directly via headless flags (`claude -p "..."`, `opencode run "..."`, `agcli run "..."`).
+- **Autonomous Consult-and-Execute Pipeline (الاستشارة التلقائية):** يتولى `Antigravity IDE` القيادة التنفيذية الميدانية للواجهات والمتصفح والتعديلات المباشرة، ويستشير `Claude Code CLI` برمجياً في الخلفية (`claude -p "..."`) للقرارات المعمارية واعتماد الاختبارات الحصري، مما يوفر أكثر من 80% من استهلاك التوكنز ويقضي على تجمد المتصفح.
+
+### [C-31] Active OpenCode Token Conservation (تفعيل أوبن كود لترشيد التوكنز)
+- Offload routine CLI tasks, boilerplate, and database migrations to OpenCode CLI (`GLM 5.3 Flash` / `Muse Spark 1.3`) to preserve Opus Max quota.
+
+### [C-32] Dynamic Multi-Provider Cascading Failover (استراتيجية التراجع الديناميكي)
+- When a model service fails (500/503/rate-limit), cascade dynamically:
+  1. **Tier 1 (OpenCode Go):** `opencode-go/glm-5.3-flash` & `opencode-go/muse-spark-1.3-contributor`.
+  2. **Tier 2 (Cloud Fast):** `google/gemini-2.5-flash` or `deepseek/deepseek-chat` (never prefix with `gemini/`, use `google/`).
+  3. **Tier 3 (OpenRouter Free):** `openrouter/meta-llama/llama-3.3-70b-instruct:free` -> `openrouter/qwen/qwen-2.5-coder-32b-instruct:free`.
+  4. **Tier 4 (Offline Fallback):** `ollama/qwen2.5-coder:1.5b`.
+
+### [C-33] AI Model Directory Junctions & VRAM Protection (حماية مسارات نماذج Ollama)
+- Create hard Directory Junction: `cmd /c mklink /J "C:\Users\<User>\.ollama\models" "<Secondary_Drive>\Ollama\models"`.
+- On 4GB VRAM GPUs (GTX 1650), run models sequentially (`sequential_role_switching`) to prevent VRAM allocation crashes.
+
+### [C-34] Local Ollama Hardware Matrix (مصفوفة نماذج Ollama)
+- **4GB VRAM:** Default to `qwen2.5-coder:1.5b` (100% GPU VRAM allocation, 0 RAM spillover).
+- **8GB+ VRAM:** Use `qwen2.5-coder:7b` (code), `deepseek-r1:7b` (reasoning), `hermes3:8b` (agents).
+- Await `success` digest checksum verification before triggering API calls.
+
+### [C-35] System-Installed Claude Code CLI Baseline (اعتماد كلود كود المثبت)
+- `Claude Code CLI` is system-installed and ready on `PATH`. Never attempt reinstallation; invoke directly (`claude -p`).
+
+### [C-36] Claude Code Extension Webview Recovery (استكشاف أخطاء واجهة كلود كود)
+- On `Error loading webview: Could not register service worker`:
+  1. Run `Developer: Reload Webviews` / `Developer: Reload Window`.
+  2. Toggle `Claude Code: Use Terminal` in settings.
+  3. Rollback via extension gear ⚙️ -> `Install Another Version`.
+
+### [C-38] Claude 5.5 Generation Baseline (اعتماد الجيل 5.5 لكلود)
+- Reference active 5.5 gen matrix: `Claude Opus 5.5 / Opus Max` (audits & tests), `Claude Sonnet 5.5` (daily dev), `Claude Fable 5` (long-horizon agents), `Claude Haiku 4.5` (micro-tasks).
+
+### [C-45] Fleet Quota Limit Failover (التراجع الذاتي لقيادة الأسطول)
+- If `Claude Code CLI` session quota is exhausted: `Antigravity IDE (Gemini 3.8 Flash High)` immediately assumes fleet leadership, code edits, and quality gates. Routine tasks continue on `OpenCode CLI`. Claude resumes test monopoly once quota resets.
+
+### [C-60] Strategic Clear & Headless agcli Delegation (التصفير الاستراتيجي وعزل agcli)
+- Apply 3-stage Strategic Clear: (1) Green build & clean Git commit, (2) Snapshot to `CURRENT_STATE.md` and `MEMORY_STORE.md`, (3) Resume prompt generation before `/clear`.
+- Headless code generation targets `agcli run`, never `Antigravity IDE`.
+
+### [C-62] Golden Productivity & Context Governance (النطاق الذهبي للإنتاجية 30k-300k)
+- Gauge context telemetry via `ag-context` or `context-advisor` (SQLite WAL telemetry).
+- **Sweet Spot Zones (30,000 - 300,000 tokens):**
+  - **Green (< 180k | < 60%):** 100% attention fidelity. Standard progressive disclosure (`mode=signatures`).
+  - **Yellow (180k - 240k | 60-80%):** Early warning. Ban full file reads (`mode='full'`); slice line ranges <= 50 lines.
+  - **Orange (240k - 300k | 80-100%):** Pre-handoff planning. Finalize active micro-task, clean `git commit`, save lessons to `MEMORY_STORE.md`.
+  - **Red (> 300k | > 100%):** Attention degradation. Block new tasks; execute Hook 25 (Strategic Clear), generate resume prompt, and run `/clear`.
+
+### [C-64] IDE vs CLI & Subscription-Aware Fleet Routing (التوجيه المدرك للاشتراكات)
+- Never target `Antigravity IDE` with background automated task dispatches. Failover UI tasks to `OpenCode GLM 5.3 Flash`.
+- Route only to user-active subscriptions (Claude Code for tests, OpenCode Go for terminal/plumbing, Codex for algorithms).
+
+### [C-67] Claude Code 150k Ceiling Calibration (معايرة شريط حالة كلود على 150k)
+- The 150k token ceiling applies **EXCLUSIVELY to Claude Code CLI** to avoid quadratic $O(N^2)$ cache costs (67% of cost waste happens >150k).
+- Calibrate statusline (`statusline.ps1` / `statusline.js`) against 150,000 tokens: `ctx {k}/150k ({pct}%)`.
+
+### [C-76] Subagent Governance & Progressive Disclosure (حوكمة الوكلاء وترشيد التوكنز)
+- **Targeted Dispatch vs Swarm Anti-Pattern:** Ban concurrent multi-agent background swarms reading same files. Dispatch single-responsibility ephemeral agents. Parallelism allowed only for read-only analytical agents on Flash models.
+- **Progressive Disclosure:** Ban reading full files (`mode='full'`). Read headers/signatures (`mode=signatures` via lean-ctx). When inspecting logic, restrict slice to <= 50 lines.
+- **Artifact-Driven Handoff:** Transfer context via lightweight intermediate files (`implementation_plan.md`, `CURRENT_STATE.md`), never verbose chat dumps.
+
+### [C-77] Teamwork-Preview Governance & Sheet Separation (حوكمة teamwork-preview)
+- **DO NOT** use `teamwork-preview` for daily/routine tasks; it spawns 7 cascade agents (Orchestrator -> Implementer -> R1/R2/R3 Reviewers -> Sentinel -> Victory Auditor), multiplying token burn 7x. Use single-agent Targeted Dispatch.
+- Restrict `teamwork-preview` strictly to comprehensive pre-release audits before app store submissions.
+- Isolate Antigravity/Gemini commands in dedicated `.Antigravity` sheets in `مكتبة الأوامر.xlsx`.
+
+### [C-78] OpenCode CLI Headless Automation & Batch Sizing Standard (معيار تشغيل أوبن كود غير التفاعلي)
+- عند تشغيل `opencode run` في الخلفية أو عبر أوامر برمجية (مثل تفويض Claude Code لـ GLM):
+  1. **إلزامية علم `--auto`:** يجب دائماً تضمين `--auto` للسماح التلقائي بالصلاحيات غير المحظورة؛ تشغيل الأمر بدونها يتسبب في تعليق الطرفية لانتظار إدخال TTY تفاعلي.
+  2. **قاعدة الدُفعات الرباعية (Max 4 Files Per Batch):** يُحظر تكليف GLM أو OpenCode بتعديل أكثر من 4 ملفات في جلسة `opencode run` واحدة لتفادي انقطاع السياق أو اقتطاع الكود، مع تجزئة المهام الكبيرة لدُفعات متتابعة.
+  3. **أمر بناء Gradle في ويندوز:** في بيئة PowerShell على Windows، يُنفذ أمر البناء بالصيغة: `& .\gradlew.bat assembleDebug` وتجنب استدعاء `cmd /c "gradlew.bat"` العاري لتفادي أخطاء مسار العمل.
+  4. **التفويض المتوازي الإلزامي لعمال GLM 5.3 Flash (Multi-Worker Parallel Execution - 2 to 4 Workers):** يُلزم `Claude Code CLI` بإطلاق 2 إلى 4 عمال GLM 5.3 Flash بالتوازي في الخلفية فور إمكانية تجزئة المهام إلى مسارات مستقلة (Worker A عبر `opencode-go/glm-5.3-flash --auto` للمهام الطرفية وقواعد البيانات، و Worker B عبر `cline` أو `opencode` موازٍ لواجهات المستخدم والبويلربليت)، وحظر التشغيل التسلسلي للمهام القابلة للتوازي لترشيد التوكنز وتعظيم سرعة الإنجاز.
+
+### [C-81] Cline CLI Hub Daemon Lifecycle, Diagnostic & Concurrency Standard (معيار تشغيل ديمون Cline Hub ومنع تعارض الجلسات)
+- **معمارية خادم الـ Hub:** يعتمد `Cline CLI` في تنفيذ الأوامر على ديمون مقبس محلي (`ws://127.0.0.1:25463/hub`). عند استدعاء `cline` في الوضع غير التفاعلي وتعليق الطرفية، يُمنع الانتظار اللانهائي ويجب اتباع ثلاثية التشخيص:
+  1. **التشخيص (`cline doctor`):** التحقق من قيمة `hub healthy` ورقم المعرف `pid`.
+  2. **التطهير السريع (`cline doctor fix`):** في حال كانت الحالة `no` أو وجود أقفال عالقة، يتم تنظيف سجلات الاكتشاف وقتل العمليات القديمة.
+  3. **إعادة التنشيط (`cline -i`):** إطلاق جلسة تفاعلية سريعة أو مطالبة المستخدم بتنشيط الطرفية لبدء الـ Hub بنجاح (`hub healthy yes`).
+- **حظر التضارب المتزامن (Concurrency Collision Guard):** عند وجود جلسة تفاعلية نشطة للمستخدم قيد التشغيل في الطرفية (`cline running in terminal`)، يُحظر تماماً على الوكلاء التنفيذيين إطلاق أوامر `cline` في الخلفية لتفادي أخطاء قفل المقبس وفساد الجلسات.
+- **حوكمة العامل Meta Muse Spark 1.3:** يُعتمد النموذج كعامل تخصصي مجاني وسريع في مسارين:
+  - مسار `OpenCode CLI` (`opencode-go/muse-spark-1.3-contributor` / `opencode/muse-spark-1.3-contributor-free`) كمهندس للمخططات وقواعد البيانات (Worker B).
+  - مسار `Cline CLI` (`cline-free/muse-spark-1.3-contributor`) كعامل موازٍ للبيانات وواجهات المستخدم (Worker D).
+
+---
+
+## 📦 DOMAIN 2: REPOSITORY, GIT INVARIANTS & CENTRAL WORKSPACE
+
+### [C-04] GitHub Pages Markdown Rendering (.nojekyll)
+- Always place an empty `.nojekyll` file in repo root to disable Jekyll processing and allow direct raw Markdown rendering.
 
-# 🛡️ سياق الحقن الإجباري (Mandatory Context Injection)
+### [C-13] Monorepo & Multi-Project Memory Architecture (هيكلية الذاكرة اللامركزية)
+- Maintain decentralized memory: Each project must have its own `.agents/` directory containing local `MEMORY_STORE.md` and `PROJECT_CONTEXT.md` to prevent cross-context bleed.
 
-> **يجب قراءة هذه القيود والالتزام التام بها قبل كتابة أي سطر كود.**
+### [C-14] Legacy Project Backward Compatibility (توافقية المشاريع القديمة)
+- In legacy projects with existing `.agents` and `AGENTS.md`, apply **add-only** policy. Inject `MEMORY_STORE.md` and `PROJECT_CONTEXT.md` without replacing existing rules.
+
+### [C-16] Watchdog Session Hook (الخطاف الحارس لمنع فقدان الذاكرة)
+- Auto-extract git diffs and persist lessons to `MEMORY_STORE.md` prior to closing sessions, without waiting for manual user trigger.
+
+### [C-59] Universal Project-to-Central AI Tooling Export (التصدير الإلزامي للمستودع المركزي)
+- Because individual project `.gitignore` files quarantine AI configs, all AI tools, skills, rules, and memory updates MUST be exported to the central repo:
+  - Local Path: `F:\AI PROJECTS\Claude+Antigravity`
+  - Command: `python .agents/sync_local_agents.py --export` or `& "F:\AI PROJECTS\Claude+Antigravity\export_ai_tools.ps1"`.
 
-## القيد 1: تأسيس نظام Autovem وبناء 37 مهارة جديدة
+### [C-63] Workspace Tooling Evacuation & Sanitization (تطهير أدوات المحرر - Hook 28)
+- Central tooling lives exclusively in `F:\AI PROJECTS\Claude+Antigravity`.
+- **SHA-256 Verified Transfer:** Never delete a local tool file until SHA-256 hashes match 100% with the central destination.
+- Purge JVM crash dumps (`hs_err_*.log`, `replay_*.log`) and Word lockfiles to maintain a pristine Git working tree.
 
-**القرار/الدرس:** عند بناء مهارات جديدة، يجب دائماً اتباع هيكل YAML frontmatter موحد (name + description) والتأكد من تسجيل كل مهارة في sub_agents.yaml
+### [C-66] Mandatory Zero-Day Git Init (التهيئة الإلزامية لمستودع Git)
+- Every coding project MUST have a local Git repo initialized (`git init`) before writing code.
+- Strict `.gitignore` quarantine for: `Digital persona/`, `.agents/`, `.claude/`, `fleet_orders/`, `fleet_templates/`, `.env`, `**/build/`, `*.log`.
+- **Proactive Reminder Gate:** If user starts coding in an uninitialized directory, immediately halt and prompt Git initialization.
 
-## القيد 2: تحسين محركات البحث التوليدية GEO
+### [C-73] Central Repo AI Commit Invariant (التوجيه الإلزامي لعمليات Git Commit)
+- **NEVER** commit AI governance files (`AGENTS.md`, `HOOKS_GUIDE.md`, `MEMORY_STORE.md`, skills, prompt libraries) inside individual app repos.
+- Always commit AI governance changes exclusively to:
+  - Path: `F:\AI PROJECTS\Claude+Antigravity`
+  - Remote: `https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace`.
 
-**القرار/الدرس:** تحسين المحتوى للظهور في محركات بحث الذكاء الاصطناعي (Perplexity, SearchGPT, Gemini) يتطلب زيادة كثافة الحقائق، الاعتماد على نبرة الخبير، وتقسيم المحتوى لفقرات مستقلة قابلة للاقتباس والاسترجاع عبر RAG.
+---
 
-## القيد 3: تحميل الملفات الكبيرة برمجياً عبر PowerShell
+## 📱 DOMAIN 3: ANDROID, FLUTTER, AUDIO & MOBILE RUNTIME
 
-**القرار/الدرس:** عند أتمتة تحميل الملفات الكبيرة (مثل MSI) من GitHub، استخدام Invoke-WebRequest قد يؤدي إلى انقطاع الاتصال (Connection Forcibly Closed). الحل المستقر هو تفعيل TLS 1.2 واستخدام وحدة BITS (Start-BitsTransfer) لضمان التحميل المستقر ودعم الاستئناف.
+### [C-09] TalkBack Two-Finger Horizontal Pager (السحب الأفقي الصامت)
+- Avoid wrapping Pager in custom blocking containers. Use standard `HorizontalPager` adhering to Dual-Mode Architecture.
+- Provide a silent contentDescription containing a single comma `,` to silence TalkBack chatter during 2-finger page swipes.
 
-## القيد 4: نشر ملفات ماركداون ولوحة التحكم على GitHub Pages
+### [C-10] Feature Deletion Memory (حماية الميزات المحذوفة)
+- **NEVER** re-introduce UI components or features deleted in previous commits (e.g., `PlayerControlPanel`, voice controls) unless explicitly requested.
 
-**القرار/الدرس:** موقع GitHub Pages يبني المواقع بشكل افتراضي باستخدام Jekyll. هذا يمنع قراءة الملفات التي تحتوي على رموز معينة أو ملفات البنية. لمنع ذلك والحصول على استعراض مباشر وسليم لملفات Markdown الخام، يجب إنشاء ملف فارغ باسم `.nojekyll` في الجذر الرئيسي للمستودع.
+### [C-26] Flutter SDK Space Junction Standard (معالجة مسافات مسار Flutter SDK)
+- Spaces in Flutter SDK path break C/C++/SQLite `native-assets` compilation.
+- Create junction without spaces: `cmd /c mklink /J "C:\flutter_sdk" "<Flutter_Path>"`. Execute Flutter commands exclusively through `C:\flutter_sdk`.
 
-## القيد 5: معالجة أخطاء الترميز للمخرجات العربية على ويندوز
+### [C-41] Post-Edit Automatic Device Deployment (التشغيل والتثبيت التلقائي على الهاتف)
+- After completing any feature/fix, auto-install and launch the latest build on connected ADB device:
+  `& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"` or `& "C:\flutter_sdk\bin\flutter.bat" run -d <device_id>`.
+- If device is `unauthorized`, prompt user to accept USB Debugging dialog on phone.
 
-**القرار/الدرس:** تشغيل سكربتات بايثون في الخلفية على ويندوز تطبع نصوصاً باللغة العربية أو رموزاً تعبيرية (Emojis) يسبب توقف السكربت بخطأ UnicodeEncodeError (ترميز cp1252). الحل هو فرض ترميز UTF-8 لمخرجات الكونسول بإضافة `sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())` في بداية السكربت، مع إزالة الرموز غير المدعومة من الطباعة الافتراضية.
+### [C-42] Flutter RTL Visual Overflow Prevention (تحصين واجهات Flutter ضد التجاوز البصري)
+- **NEVER** place long text headers adjacent to action buttons inside an unconstrained `Row`.
+- Wrap headers in `Wrap(alignment: WrapAlignment.spaceBetween, spacing: 8, runSpacing: 8)` or `Expanded(child: Text(..., maxLines: 1, overflow: TextOverflow.ellipsis))` to prevent `RIGHT OVERFLOWED BY X PIXELS` bars.
 
-## القيد 6: حل تعارض عمليات البوت النشطة في الخلفية
+### [C-44] ADB Package Launch Standard (معيار إطلاق تطبيقات Flutter عبر ADB)
+- Extract actual `applicationId` from `build.gradle.kts` (never guess package name).
+- Launch stably via: `& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" shell monkey -p <pkg> -c android.intent.category.LAUNCHER 1` (wake screen with `keyevent 26/82` if sleeping).
 
-**القرار/الدرس:** عند تشغيل بوت تليجرام باستخدام getUpdates، فإن أي نسخة قديمة نشطة في الخلفية ستسبب خطأ Conflict (رمز 409). لحلها يجب تحديد معرّف العملية (PID) لـ pythonw.exe أو python.exe وإنهاؤها قسراً. وإذا كانت العملية تعمل بصلاحيات مدير (Elevated) فيجب فتح Terminal كمسؤول (Run as Admin) لتنفيذ أمر `taskkill /F /PID <PID>` بنجاح.
+### [C-46] MediaButton Event Interception on Call Termination (منع استئناف الصوت بعد المكالمات)
+- In `MediaSessionService` / `ExoPlayer`: Intercept and consume (`return true`) media button events (`ACTION_DOWN` & `ACTION_UP` for `KEYCODE_MEDIA_PLAY`, `KEYCODE_MEDIA_PLAY_PAUSE`, `KEYCODE_HEADSETHOOK`) whenever player is not actively playing (`!player.playWhenReady || STATE_IDLE || STATE_ENDED`).
+- Override and disable `onPlaybackResumption` to prevent Android Bluetooth stack from resuming audio after phone calls.
 
-## القيد 7: التدقيق المعماري الصارم (Devil's Advocate Audit)
+### [C-47] Google Play Release Notes Language Tagging (وسوم لغة ملاحظات الإصدار)
+- Release notes in Google Play Console MUST be wrapped in language tags: `<ar>...</ar>` and `<en-US>...</en-US>`. Bare text triggers `Line 1: text outside language tags` validation error.
 
-**القرار/الدرس:** الاعتماد الأولي على النماذج قد يولد حلولاً سطحية (Band-aids) مثل الاعتماد على taskkill أو التحايل بالبايثون لحل مشاكل PowerShell. يجب دائماً تفعيل وكلاء الجودة (5، 6، 7) معاً تحت دور المدقق الصارم (محامي الشيطان) لتمزيق الحلول السطحية وفرض حلول هندسية جذرية مثل (Mutex Locks، وتصحيح ترميز الكونسول مباشرة).
+### [C-56] Google Play Developer Account Policy (متطلبات حسابات المطورين)
+- Organization account with D-U-N-S number mandatory for financial, health, `VpnService`, and government apps.
+- Provide active demo credentials/QR for Google review teams. Prohibit third-party account leasing; use official app transfer tools.
 
-## القيد 8: تكرار أخطاء مسجلة مسبقاً (استخدام Fully Qualified Names لدوال الامتداد) بسبب تجاهل قراءة الذاكرة
+### [C-72] Room Topological Sync & Outbox Protection (الترتيب الطوبولوجي لمزامنة Room)
+- **Reverse Topological Deletion:** When replacing local Room DB scopes with foreign keys enabled (`PRAGMA foreign_keys = ON`), delete child records before parent records (logs -> reports -> students -> circles) to avoid `SQLiteConstraintException`.
+- **Outbox Invariant:** The `pending_writes` table MUST NOT have foreign keys and MUST NEVER be cleared or wiped during pull sync.
+- Execute delete-and-reinsert atomically inside `@Transaction` on `RoomDatabase` to eliminate UI Flow flickering.
 
-**القرار/الدرس:** مجرد (تسجيل) الذكريات لا يكفي. يقع الوكيل أحياناً في (Shortcut Anti-Pattern) محاولاً اختصار الوقت. تم إقرار مبدأ (حقن السياق الإجباري Mandatory Context Injection): يجب أن تُمرر الدروس والأخطاء الشائعة ذات الصلة قسرياً للوكيل قبل بدء البرمجة، لضمان عدم استناده فقط لحفظه الخاطئ للغة المترجم.
+### [C-74] PowerShell JVM Arguments & gradle.properties Standard (معاملات JVM في PowerShell)
+- Never pass bare `-Dorg.gradle.jvmargs=...` in PowerShell; pwsh parses `-Dorg` as task name.
+- Define JVM heap limits in `gradle.properties` (`org.gradle.jvmargs=-Xmx2048m`). If passed via CLI, wrap in quotes: `"-Dorg.gradle.jvmargs=..."`.
 
-## القيد 9: نجاح السحب الأفقي الصامت بإصبعين باستخدام TalkBack
+### [C-79] Android Room Repository IO Dispatching & Triple-Trigger Auto-Sync (معيار حماية مستودعات Room والمزامنة التلقائية)
+- **عزل خيوط المعالجة في المستودعات (Repository IO Dispatching):**
+  - في طبقة الـ Repository، يجب دائماً تغليف عمليات قاعدة بيانات Room (`upsert`, `replaceScope`, `insert`) بـ `withContext(Dispatchers.IO)`.
+  - عودة استجابات Retrofit إلى خيط المعالجة الرئيسي (Main Thread) تتسبب في انهيار التطبيق بـ `IllegalStateException: Cannot access database on the main thread` فور محاولة الحفظ في Room حتى لو نجح طلب الشبكة (200 OK).
+- **نمط المزامنة التلقائية الثلاثي (Triple-Trigger Auto-Sync Pattern):**
+  1. **المزامنة عند إنشاء النموذج (`ViewModel.init { refresh() }`):** إلزامية إطلاق المزامنة في كتلة `init` لجميع شاشات العرض الرئيسية لضمان تحديث البيانات فور فتح الشاشة دون انتظار سحب الشاشة يدوياً (Pull-to-Refresh).
+  2. **المزامنة عند الرجوع للتطبيق (`LifecycleResumeEffect`):** ربط الشاشة بدورة حياة أندرويد لإعادة المزامنة تلقائياً عند عودة التطبيق من الخلفية.
+  3. **المزامنة الاستباقية عند الإقلاع البارد (`RootNavHost`):** إطلاق `pullSync.requestFull()` في خلفية Coroutine فور استعادة الجلسة النشطة (`SessionState.Active`).
+  4. **حراسة وميض الشاشة الفارغة (Anti-Flash Guard):** في شاشات العرض، يجب ربط حالة `isLoading` بحالة المزامنة السحابية الجارية لمنع ظهور رسائل خلو البيانات (مثل "لا يوجد أبناء") قبل اكتمال وصول بيانات الشبكة.
 
-**القرار/الدرس:** تم بنجاح استعادة ميزة السحب بإصبعين للتنقل بين الصفحات مع تشغيل TalkBack. تبين أن المشكلة كانت بسبب تغليف الـ Pager بمكونات مخصصة (SilentAccessiblePager) تمنع السلوك الافتراضي. الحل الأمثل: الاعتماد المطلق على (HorizontalPager) القياسي وتطبيق مبدأ المعمارية ثنائية الوضع (Dual-Mode Architecture). ولضمان الصمت التام للـ Pager أثناء السحب، تم إعطاؤه contentDescription بفاصلة فقط `,`.
+---
 
-## القيد 10: حماية الميزات المحذوفة مسبقاً بناءً على طلب العميل (Feature Deletion Memory)
+## ⚡ DOMAIN 4: BACKEND, CLOUD, FASTMCP & SCRIPTING
 
-**القرار/الدرس:** ميزة عالمية (Global Rule): يُمنع منعاً باتاً إعادة إضافة أي مكون واجهة مستخدم (UI Component) أو ميزة (Feature) تم حذفها مسبقاً (مثل شريط التشغيل PlayerControlPanel أو الأوامر الصوتية) إلا بطلب صريح ومباشر من المستخدم. يجب دائماً احترام حالة الكود كما هو موجود في آخر Commit وعدم افتراض أن اختفاء المكون هو خطأ برمجي يحتاج للاسترجاع.
+### [C-03] PowerShell Large File Downloads (BITS Transfer)
+- Use TLS 1.2 and BITS transfer (`Start-BitsTransfer`) rather than `Invoke-WebRequest` to prevent connection drops on large binaries.
 
-## القيد 11: اختيار استراتيجية النماذج لنظام Autovem
+### [C-05] Windows UTF-8 Python Console Encoding (ترميز بايثون على ويندوز)
+- Use `sys.stdout.reconfigure(encoding='utf-8')` to prevent `UnicodeEncodeError (cp1252)` on Arabic/emojis in Windows console.
 
-**القرار/الدرس:** تم اعتماد النظام الثلاثي: flash للمحتوى والتسويق والمالية والقانون، pro للبرمجة والمراجعة والبناء، thinking للمعمارية والتخطيط والذاكرة
+### [C-06] Telegram Bot Background Process Conflicts (تعارض عمليات البوت)
+- HTTP 409 Conflict indicates dangling background `python.exe`/`pythonw.exe`. Kill orphan processes via `taskkill /F /PID <PID>` (run shell as Admin if elevated).
 
-## القيد 12: استقلالية نظام Autovem
+### [C-22] DevCache Junctions for C: Drive Space Protection (ترحيل كاش التطوير)
+- Prevent C: drive exhaustion by junctioning heavy caches to secondary disk (`D:\DevCache\`):
+  - `.gradle`, `.cargo`, `.rustup`, Docker disks, and Claude Desktop VM bundles (`AppData\Roaming\Claude\vm_bundles`).
+  - Clean Python uv cache regularly: `uv cache clean`.
 
-**القرار/الدرس:** حذف جميع الإشارات لأنظمة خارجية من ملفات المهارات والوكلاء. النظام مستقل تماماً ومحايد للنماذج (Model-Agnostic)
+### [C-27] PocketBase Schema Migration Dependency Order (ترحيل مخططات PocketBase)
+- PocketBase does not allow mutating `auth` collections to `base` if referenced by foreign keys.
+- Delete conflicting collections in reverse dependency order (children first: `daily_logs` -> `weekly_reports` -> `student` -> `students` -> `teachers` -> `circles` -> `academies`) before re-importing unified schema with `deleteMissing=false`.
 
-## القيد 13: هيكلية الذاكرة للمشاريع المتعددة (Monorepo Workspace)
+### [C-28] Non-Interactive Scripting Standard (إلزامية السكربتات غير التفاعلية)
+- Scripts executed in background/pipes MUST NOT use interactive TTY inputs (`getpass`, `input()`). Accept credentials via CLI flags (`--password`) or environment variables.
 
-**القرار/الدرس:** لمنع تداخل السياق في بيئات العمل متعددة المشاريع، تم اعتماد هيكلية لامركزية للذاكرة عبر تهيئة مجلد `.agents` محلي داخل كل مشروع فرعي يحتوي على ملفات `MEMORY_STORE.md` و `PROJECT_CONTEXT.md` الخاصة به، مع ربطها جميعاً بأدلة الخطافات والمهارات المركزية.
+### [C-29] FastMCP Stdio Buffer Integrity Standard (أمان قنوات FastMCP)
+- In FastMCP / stdio MCP servers: **NEVER** detach or wrap `sys.stdout` with `codecs.getwriter`. FastMCP requires binary `sys.stdout.buffer` for JSON-RPC. Direct all logging and debug statements to `sys.stderr` exclusively.
 
-## القيد 14: توافقية النظام مع المشاريع القديمة (Legacy Support)
+### [C-30] Absolute Path Terminal Command Standard (المسارات المطلقة للأوامر)
+- **NEVER** propose commands with naked relative paths (`cd "dir"` or `./script.ps1`). Always provide full absolute paths wrapped in quotes: `& "<Full_Absolute_Path>"`.
 
-**القرار/الدرس:** لتهيئة مشاريع قديمة تمتلك بالفعل مجلدات `.agents` وقواعد `AGENTS.md` منفصلة، نعتمد قاعدة (الإضافة فقط دون استبدال). نضيف ملفي `MEMORY_STORE.md` و `PROJECT_CONTEXT.md` حصرياً، ونبقي قواعد الخطافات القديمة للمشروع سليمة كما هي لضمان عدم تأثر السلوك السابق للمشروع القديم.
+### [C-37] MCP 64-Character Identifier Limit (قيد طول أسماء أدوات MCP)
+- Tool names `mcp_<server_name>_<tool_name>` must strictly match `^[a-zA-Z0-9_-]{1,64}$`. Names >64 chars crash tool loading in the IDE.
 
-## القيد 15: تخصيص أعمدة لوحة القيادة (Dashboard Columns)
+### [C-40] Cloud Relational Sync & Fallback (ربط العلاقات والمزامنة السحابية)
+- Explicitly pass `teacherId` from active session (`currentUser.id`). Fallback to Auth Store ID in `SyncEngine` to prevent `400 (teacher_id: validation_required)`.
 
-**القرار/الدرس:** لتفعيل دورة إضافات لتطبيق الويب، يجب الالتزام الصارم بتخصيص العمود الثالث ليكون (المحفزات - Triggers فقط) لضمان أن زر النسخ في التطبيق ينسخ المحفز فقط لتشغيل الوكيل، بينما يتم عزل (الوصف والتفاصيل) في عمود مستقل (الأخير) ليتم عرضه للمستخدم كمعلومات دون أن يتداخل مع النص المنسوخ.
+### [C-52] Autovem VPS Mailbox Quota Standard (حصص البريد على VPS)
+- Default professional mailbox quota is **1 GB per mailbox** on 50GB NVMe VPS instances. State in commercial proposals as *"scalable cloud storage"* without contractual over-commitments.
 
-## القيد 16: اعتماد الخطاف الحارس (Watchdog Hook) لمنع فقدان الذاكرة
+### [C-53] Cloud VPS Multi-Agent Container Hosting (منصات حاويات الوكلاء السحابية)
+- Deploy Linux containerized multi-agent engines (LXD / Docker) on Hostinger Ubuntu 24.04 VPS for 24/7 uptime. Windows desktop is reserved for Antigravity IDE and interactive development.
 
-**القرار/الدرس:** اكتشفنا ظاهرة (المشاريع فارغة الذاكرة) في تطبيقي (تاج الوقار) و(تيجان النور) بسبب عدم تفعيل المستخدم لخطاف حفظ الذاكرة في نهاية الجلسة. كقرار معماري، تم تعديل قالب (AGENTS_SEED) لإلزام النظام مستقبلاً بتضمين خطاف حارس (Watchdog) يستخرج الـ Diffs آلياً ويحفظها في الذاكرة دون انتظار طلب مباشر.
+### [C-54] Token Isolation & Real Verification (عزل التوكنز ومنع الفحص الصوري)
+- Store API tokens in `.env` (git-quarantined). Testing scripts must exit with code `sys.exit(1)` on failure. `session:NN%` in Claude statusline denotes active context window (out of 200k), not 5-hour rate limits.
 
-## القيد 17: الفرض الإجباري لبرومبت "محامي الشيطان" (Devil's Advocate Persona)
+### [C-70] SPA Anti-Cache & Non-Hanging Base64 Deploy (منع احتباس الكاش والنشر عبر Base64)
+- In Nginx/Caddy for SPAs, enforce `header Cache-Control "no-cache, must-revalidate"` on static views. Append version query params `?v=X.X` to dynamic view imports.
+- Deploy files via SSH without stdin hangs: `echo '<base64_data>' | base64 -d > '<target_file>'`.
 
-**القرار/الدرس:** لتجنب نسيان حلقة "محامي الشيطان" وتخطيها مستقبلاً (كما حدث في ميزة تمديد التجربة)، **يُفرض قسرياً** على الوكيل عند بدء أي ميزة جديدة أن يتوقف فور إنشاء الخطة المبدئية، ويستدعي شخصية `Devil’s Advocate & Senior Staff Architect`. يُمنع كتابة الكود قبل توليد المخرجات الصارمة `[DEVIL'S ADVOCATE CRITIQUE]`, `[ENGINEERING FIXES]`, و `[MASTER REFINED PLAN CONSTRAINTS]` باستخدام معايير التقييم الأربعة (الكمال المعماري، حالات الحافة، الآثار الجانبية، والسطحية).
+### [C-71] Telegram ACI Mobile Wakeup & Audio Handling (واجهة تليجرام لإيقاظ المحرر)
+- Run listener in one-shot mode (`poll_once.py --takeover`) as a Background Task in Antigravity. When a command arrives, exit cleanly with high priority to wake the IDE.
+- Convert voice notes from OGG to WAV (`pcm_s16le`) via PyAV to bypass MIME type limits. Sanitize bare underscores `_` to prevent `400 Bad Request: can't parse entities`.
 
-## القيد 19: التخصيص والتصدير الذكي لطاقم المشروع والتنظيف التلقائي (Pruning)
+### [C-80] OTP Gateway Graceful Sandbox Fallback Standard (معيار وضع المحاكاة الثنائي لرموز التحقق)
+- عند غياب إعدادات بوابة الإرسال الخارجية (SMS أو WhatsApp) في بيئة الإنتاج أو التطوير (`WHATSAPP_API_URL` و `WHATSAPP_API_TOKEN` غير مضبوطين):
+  1. **إعادة الرمز برمجياً:** يُلزم خادم الـ API بإرجاع حقل `"sandbox_code": code` ضمن استجابة JSON لنقطة النهاية `/auth/request-otp` لإعلام العميل بالرمز دون تسريبه للمستخدمين غير المصرح لهم.
+  2. **قبول رمز التجاوز الموحد (`1234`):** يجب أن تقبل نقطة النهاية `/auth/verify-otp` الرمز `1234` في وضع المحاكاة مع استمرار تطبيق كافة قيود الجلسة (الصلاحية، عدد المحاولات، عدم الاستخدام المسبق) لضمان عدم تعليق عمليات الفحص والتسليم.
+  3. **التعبئة التلقائية الآمنة:** في تطبيقات الهاتف، يُلتقط `sandbox_code` تلقائياً لتعبئة حقل الرمز مع عرض إشعار تنبيهي لطيف يتيح الدخول بنقرة واحدة.
 
-**القرار/الدرس:** لمنع تضخم مجلدات المشاريع المحلية وضياع نافذة السياق (Context Budget Waste)، تم اعتماد الخطاف رقم 3 المستقل (`project_agent_tailor.py`). يقوم الخطاف بعد اعتماد سياق المشروع بتصدير حزمة النواة والحزم التخصصية المطلوبة فقط، ومسح وحذف أي مهارات أو وكلاء فائضين آلياً (Pruning)، مع توليد سكربت المزامنة المحلي `sync_local_agents.py` لترشيد نافذة السياق 100%.
+### [C-82] Standalone Client-Delivery Web Apps & Smart CDN Fallback Standard (معيار استقلالية تطبيقات الويب المسلمة للعميل والتحميل الهجين)
+- عند بناء أو تسليم تطبيقات الويب ولوحات البيانات المستقلة (Single-File SPAs) للعملاء، يُحظر الاعتماد الحصري على مسارات السكربتات النسبية دون حماية.
+- يجب دائماً تضمين معالج الخطأ التلقائي `onerror` في وسوم `<script>` للتبديل الهجين إلى شبكات CDN موثوقة (jsDelivr / cdnjs) فور غياب الملف المحلي، مع ضبط مسارات الـ Web Workers ديناميكياً لضمان عدم تعطل ميزات الاستيراد أو القراءة عند فتح ملف HTML منفرداً.
 
-## القيد 20: معايير تصميم وتوليد الوثائق المكتوبة وملفات PDF (قاعدة عامة لكل المشاريع)
+### [C-88] Elementor Pro Form Tracking, CRO Double-Tagging & Google Ads API v22 FastMCP Standard (معيار تتبع نماذج ووردبريس وخادم FastMCP لإعلانات جوجل)
+- **Elementor AJAX Invariant:** Listen to `submit_success` via jQuery to push `lead_form_submit` into `window.dataLayer`:
+  `<script>jQuery(document).on('submit_success',function(){window.dataLayer=window.dataLayer||[];dataLayer.push({event:'lead_form_submit'});});</script>`. Always map to a GTM `Custom Event` trigger named `lead_form_submit` to avoid "Needs attention" conversion status.
+- **WhatsApp RegEx Link Invariant:** Live website buttons often use `https://wa.me/966...` rather than legacy `api.whatsapp.com/send?phone=`. Always use GTM Click URL `matches RegEx (ignore case)`: `wa\.me|send\?phone=` to eliminate lead loss.
+- **Redundant gtag Purge & Cache-Busting Audit:** Once Google Tag is active inside published GTM, purge hardcoded `gtag.js` snippets from WordPress (YYDevelopment/theme) to prevent double counting conversions. Purge server cache (LiteSpeed/Nginx) and append `?nocache=1` when verifying live GTM/gtag injections.
+- **FastMCP stdio Isolation:** Route all logging to `sys.stderr`; target Google Ads API v22; expose atomic tools (`list_customers`, `get_campaigns`, `run_gaql`).
 
-**القرار/الدرس:** في كافة المشاريع التي تحتوي على وثائق مكتوبة أو ملفات PDF: 1) استخدام نفس لوحة ألوان وهوية تطبيق مكتبة الأوامر التفاعلية (Dark Neon Candy Palette: #0a0a14 مع لمسات Neon Purple, Cyan, Pink, Green وبطاقات زجاجية Glassmorphism). 2) منع المسافات الفارغة الكبيرة والصفحات البيضاء/الفارغة تماماً. 3) ضغط وتنسيق المحتوى ليحتل أقل عدد ممكن من الصفحات مع مراعاة راحة العين البصرية وعدم تكدس الكلام عبر التوزيع الشبكي والخطوط المتناسقة (Tajawal / Outfit / Cairo).
+---
 
-## القيد 21: معمارية أسطول الـ CLIs التشاركي وبوابات المراجعة الإلزامية (Multi-CLI Fleet & Phase Quality Gates)
+## 🎨 DOMAIN 5: UI/UX, RTL/BIDI, TYPOGRAPHY & DOCUMENT ENGINES
 
-**القرار/الدرس:** عند إدارة المشاريع المعقدة عبر سطر الأوامر، يتم اعتماد مصفوفة أسطول الـ CLIs (`Claude Code CLI` كـ Master Orchestrator ومراجع كود والمسؤول الحصري عن الفحص والاختبار بنموذج Opus Max، `OpenCode CLI` كمنفذ طرفي وقواعد بيانات وبناء بنموذج **Meta Muse Spark 1.3** (`opencode/muse-spark-1.3-contributor-free`)، `Antigravity CLI (agcli)` كمنفذ طرفي ذاتي لبناء الـ UI والـ Domain عبر سطر الأوامر بنموذج Gemini 3.8 Flash High دون نسخ ولصق يدوي، و `Antigravity IDE` كحاضنة ومقر التحكم التفاعلي للمطور). ويُفرض إلزامياً: 1) ملف ضبط مركزي `fleet_config.json`. 2) العمل بالإنجليزية حصرياً في الـ CLIs. 3) حظر كتابة البويلربليت على النماذج العليا (Opus Max). 4) إجراء مراجعة كود وتدقيق معماري إلزامي (Mandatory Phase Code Review Gate) في نهاية كل مرحلة برمجية قبل الانتقال للمرحلة التالية. 5) التوليد والتهيئة التلقائية لمجلد `fleet_templates/` وملف `fleet_config.json` في المشروع فور استدعاء الخطاف 22. 6) عند توفر أدوات الـ CLI على مسار النظام (PATH)، يتم تفعيل الاستدعاء المباشر غير التفاعلي (Headless Mode) عبر `claude -p` للمراجعات، `opencode run` للمهام الطرفية، و `agcli run` للواجهات وعقود الـ Domain بشكل مؤتمت. 7) **التحول المستدام لنمط المحادثة (Session-Wide Fleet Transformation):** بمجرد تفعيل الخطاف 22، تتحول كافة الأوامر والطلبات التالية في بقية المحادثة تلقائياً إلى أوامر تفويض مهيكلة موجهة للأسطول (Template 02/03) باللغة الإنجليزية وتوزيعها بدقة بين أعضاء الأسطول دون الحاجة لإعادة تفعيل الخطاف في كل رسالة. 8) **احتكار الفحص والاختبار واعتماد الأكواد لـ Claude Code فقط:** يُحظر تماماً على أي وكيل آخر (`OpenCode` أو `Antigravity`) تشغيل الاختبارات؛ `Claude Code CLI` (Opus Max) وحده هو المخوّل حصرياً بتشغيل كافة الاختبارات التلقائية وفحص واعتماد أي كود يتم كتابته من قِبل باقي الوكلاء.
+### [C-01] Skill Frontmatter Standard (هيكل المهارات الموحد)
+- Every skill (`SKILL.md`) must include valid YAML frontmatter with `name` and `description`, registered in `sub_agents.yaml`.
 
-## القيد 22: معمارية ترحيل كاش التطوير بالروابط الوصلية وحماية قرص النظام (DevCache Junction Architecture)
+### [C-20] PDF & Written Document Design Identity (تصميم وتوليد ملفات PDF)
+- Use Dark Neon Candy palette (#0a0a14 with Neon Purple/Cyan accents). Enforce zero blank pages, balanced grid typography (Tajawal/Outfit/Cairo), and tight visual density.
 
-**القرار/الدرس:** عند امتلاء قرص النظام C: إلى 0 بايت، يتوقف مترجم Dart و Gradle عن العمل تماماً وتفشل الاختبارات التلقائية برسالة (not enough space on the disk, errno=112). الحل المعماري المستقر هو: ترحيل مجلدات كاش التطوير الضخمة (`.gradle`, `.rustup`, `.cargo`) إلى قرص ثانوي (`F:\DevCache\`) وربطها بروابط وصلية (`Directory Junctions` عبر `mklink /J`)، مع تنظيف مخلفات التحديثات وكاش المتصفحات والـ CrashDumps. هذا الإجراء يحرر فوراً أكثر من 13 GB مع بقاء بيئة التطوير سليمة 100% وخلو `flutter analyze` من أي أخطاء.
+### [C-23] TBC Handover Box & Checklist Automation (أتمتة نماذج تسليم TBC)
+- Preserve merged table cell structures. Replace header logo in `word/media/image2.jpg` maintaining aspect ratio. Export to PDF via Word COM Automation.
 
-## القيد 23: أتمتة وتعبئة نماذج تسليم الصندوق وقوائم الاستلام (Handover Box & Checklist Automation)
+### [C-48] Clean PDF Rebuild & Visual Marker Standard (إعادة البناء النظيف لملفات PDF)
+- Re-generate modified PDFs from clean backup (`_backup.pdf`) using single-pass lossless overlay.
+- Auto-decode English-typed Arabic keystrokes (`hvd]` -> `أريد`). Enforce safe print margins (>= 25pt).
 
-**القرار/الدرس:** عند تعبئة نماذج تسليم وثائق المشاريع (مثل Box Label و Handover Check List Form R09 لمشاريع TBC): 1) الحفاظ الصارم على بنية الجداول والخلايا المدمجة (Merged Cells) بقراءة قنوات العناوين وكتابة القيم في خلايا المحتوى المخصصة لها دون مساس بوسوم الرأسية. 2) استبدال الشعار المدمج في حزمة DOCX (`word/media/image2.jpg`) برمجياً مع ضبط نسبة العرض إلى الارتفاع لمنع تشوه الترويسة. 3) الفرز الدقيق لنطاق الأعمال (تمييز الأعمال المنفذة بـ `☑ Y` وتظليها بالأخضر مع ربط أرقام الاعتمادات الرسمية MIR/WIR/MS/AB، وتعيين `☑ N/A` لما هو خارج النطاق). 4) التحويل الفوري إلى PDF عبر COM Automation لضمان إنتاج ملفات جاهزة للتسليم فوراً.
+### [C-49] Multi-Edition PDF Scope Isolation (حماية النسخ المعتمدة)
+- Never overwrite approved master PDFs (e.g. Arabic original). Branch clean English versions to dedicated filenames (`_EN.pdf`). Verify file integrity via `stat/mtime`.
 
-## القيد 25: بروتوكول التفويض والتشغيل المباشر لأسطول الـ CLIs (Autonomous Direct Dispatch)
+### [C-50] Emaar Al-Farah English Numerals & Zero-Pricing (الأرقام الإنجليزية وحظر وضع الأسعار)
+- Enforce standard English numerals (0-9) strictly across all documents; zero Indic digits (`[٠-٩] == 0`).
+- **Strict Zero-Pricing Rule:** Never invent prices/totals unless explicitly supplied. Format blank price slots as `[             ر.س ]` with conditional Excel formulas `=IF(K9="","",I9*K9)`. Single-page A4 invariant.
 
-**القرار/الدرس:** يُحظر تماماً على الوكيل المنسق (Fleet Orchestrator) أو أي وكيل ذكي مطالبة المستخدم بنسخ نصوص البرومبت ولصقها يدوياً في طرفيات الـ CLIs الأخرى (`Claude Code CLI` أو `OpenCode CLI`). يجب دائماً تفويض الأوامر وتشغيلها مباشرة عبر أدوات الطرفية المتاحة (`run_command` أو `manage_task` send_input أو عبر تمرير البرومبت للطرفية مباشرة مثل `claude -p "..."` أو `opencode run "..."`) لضمان انسيابية وأتمتة خط الإنتاج دون الاعتماد على التدخل البشري.
+### [C-51] Clean Template & Zero Cross-Project Bleed (نقاء قوالب التوليد)
+- Templates used in MCP document tools (`arabic-docx-builder`, `boq-generation`) must be pure structural skeletons containing only styles, margins, and `{{CONTENT_HERE}}`. No past client data.
 
-## القيد 26: معيار معالجة المسافات في مسار Flutter SDK (SDK Space Junction Standard)
+### [C-55] Emaar Al-Farah Corporate Profile Standard (ترويسة البروفايل الرسمية)
+- Use full banner header `header_emaar.png`. Restrict corporate headquarters to **«الرياض»** (Riyadh) only; ban previous local addresses. Apply Amiri font family (`Amiri-Bold` / `Amiri-Regular`).
 
-**القرار/الدرس:** وجود مسافات في مسار تثبيت Flutter SDK (مثل `F:\AI PROJECTS\flutter`) يكسر خطافات بناء `native-assets` في حزم C/C++ و SQLite (مثل `sqlite3`, `objective_c`) لأن المشغل يستدعي `dart.exe` بدون علامات تنصيص في `cmd`. الحل المعماري المستقر هو إنشاء Directory Junction بدون مسافات (مثل `cmd /c mklink /J "C:\flutter_sdk" "<Flutter_Path>"`) وتشغيل أوامر Flutter حصرياً عبر هذا المسار الآمن مع بقاء مسار المشروع كما هو.
+### [C-57] Rule 1 BiDi Isolation & Flowchart Studio (عزل BiDi واستوديو المخططات)
+- Isolate Latin technical terms in Arabic text via `<bdi>`, `<span dir="ltr">`, or code blocks.
+- Mermaid diagrams: Use clean Latin node IDs (`node_1`), enclose Arabic labels in quotes `["..."]`. Use `flowchart_studio` for 4K PNG / SVG renders.
 
-## القيد 27: قواعد ترحيل مخططات PocketBase وترتيب تبعيات الحذف (PocketBase Schema Migration & Immutability)
+### [C-58] UI/UX Pro Max Visual Production Standard (معايير التصميم البصري)
+- Enforce WCAG AA contrast (>= 4.5:1). Emphasize central core engine node with color glow. Apply typography pairing (Cairo headers, Tajawal descriptions, Fira Code for symbols).
 
-**القرار/الدرس:** في PocketBase (v0.23+ / v0.39+)، لا يمكن تحويل نوع أي جدول من `auth` إلى `base` مباشرة عبر استيراد المخطط. يفشل الاستيراد أيضاً في حال وجود مراجع ومفاتيح أجنبية (Foreign Keys) تشير إلى الجدول القديم. الحل الصارم: حذف الجداول القديمة المتعارضة بترتيب التبعية العكسي (الأبناء أولاً: `daily_logs` ➔ `weekly_reports` ➔ `student` ➔ `students` ➔ `teachers` ➔ `circles` ➔ `academies`) قبل استيراد المخطط الموحد الجديد مع تفعيل خيار `deleteMissing=false` أو `Merge with existing`.
+### [C-68] Egyptian Phone Number Prefix & Zero Duplication (صياغة أرقام الهواتف)
+- When prefixing Egyptian phone numbers with `+20`, strip the trunk zero: format as `+20 10xxxxxxxx` or `+20 11xxxxxxxx` (never `+20 010...`).
 
-## القيد 28: إلزامية البرمجة غير التفاعلية (Non-Interactive Scripting Standards)
+### [C-69] OpenXML BiDi Paradox & DOCX RTL Standard (مفارقة محاذاة OpenXML في Word)
+- In Word DOCX `<w:bidi/>`, **NEVER** use right alignment `<w:jc w:val="right"/>` (pushes text to extreme visual left). Use `<w:jc w:val="both"/>` or `<w:jc w:val="left"/>` inside `<w:pPr>` to align right visually (`block[2] >= 520 pt`).
+- Inject RLM (`\u200F`) at lines starting with Latin words or numbers. Check PyMuPDF bounding boxes and close PDF locks (`FoxitPDFEditor.exe`) before COM export.
 
-**القرار/الدرس:** في بيئات الأتمتة والخلفية، استخدام مكتبات تطلب إدخالاً تفاعلياً من TTY مثل `getpass` أو `input()` يعلق السكربتات قسرياً عند تشغيلها عبر Background Tasks أو الأنابيب البرمجية (Pipes). يجب أن تقبل كافة سكربتات الترحيل والإدارة المعاملات والتوكنات عبر وسائط سطر الأوامر (CLI Args مثل `--password` أو `--token`) أو متغيرات البيئة (Env Vars) مع توفير استجابة خطأ واضحة دون الدخول في حلقات انتظار مسدودة.
+### [C-75] Industrial Quotations & Full-Page Density Standard (عروض الأسعار الصناعية)
+- Use official 300 DPI high-res letterhead for Creative Metal Platform Factory (unified no. 7038153537) as page underlay.
+- Zero-terms policy: place overall total table, Saudi Building Code declaration, and stamp immediately after final item. Zero blank pages; auto-sync copies to Google Drive (`H:\My Drive\اعمار الفرعة`).
 
-## القيد 29: معيار أمان قنوات خوادم FastMCP وتجنب كسر Stdio (FastMCP Stdio Integrity Standard)
+### [C-83] Edge Headless High-Fidelity Arabic PDF Generation Standard (معيار توليد مستندات PDF العربية عالية الدقة عبر Edge Headless)
+- يُعتمد محرك `Microsoft Edge Headless` (`msedge.exe --headless --disable-gpu --no-pdf-header-footer --run-all-compositor-stages-before-draw --print-to-pdf=...`) كمعيار أساسي سريع وموثوق في بيئة ويندوز لتوليد أدلة التشغيل وعروض الأسعار والتقارير التنفيذية من قوالب HTML الطباعية.
+- يجب فرض فواصل الصفحات الصريحة (`page-break-before: always;`) وموازنة توزيع المحتوى لضمان استقرار الصفحات وخلو الوثيقة من أي صفحات بيضاء أو اقتطاعات بصرية، مع الالتزام بالخطوط القياسية (Cairo / Tajawal / JetBrains Mono) والقاعدة 50 للأرقام (0-9).
 
-**القرار/الدرس:** في خوادم FastMCP و MCP التي تعمل بنمط `stdio`: 1) يُحظر تماماً استدعاء `sys.stdout.detach()` أو إعادة تغليف `sys.stdout` بواسطة `codecs.getwriter`؛ لأن محرك FastMCP يتطلب وجود خاصية `sys.stdout.buffer` للاتصال الثنائي وقنوات JSON-RPC وتعديلها يسبب انهيار `AttributeError: '_io.BufferedWriter' object has no attribute 'buffer'`. 2) يجب توجيه كافة رسائل السجلات والتصحيح (Logging/Debug) إلى `sys.stderr` حصراً لمنع تشويه بروتوكول الاتصال مع المحرر.
+### [C-84] Campaign Performance Report Mathematical & Commercial Integrity Standard (معيار النزاهة الرياضية والتجارية لتقارير الحملات الإعلانية)
+- **Mathematical Pre-Flight Invariant:**
+  - يُحظر تماماً وجود أي تباين رقمي بين بطاقات الأداء العلوية (KPI Tiles) وأعمدة وصفوف جداول التقرير التفصيلية.
+  - جميع الإجماليات والمؤشرات المشتقة (CTR, Conv. Rate, CPA, CPC) يجب أن تُحسب بدقة متناهية من واقع حاصل قسمة الخلايا الفعلية، دون تقريب مضلل أو خلط بين فترات زمنية متباينة.
+- **Conversion Definition Precision:**
+  - عند تغيير أو ترقية أهداف التحويل خلال الشهر (مثل التحول من زيارات الصفحات إلى المكالمات الفعلية أو نقرات واتساب)، يُمنع تعميم الرقم كـ "عملاء فعليين"، ويجب الإفصاح الدقيق عن عدد التحويلات قبل وبعد تاريخ الترقية بحواشٍ تفسيرية واضحة لحماية مصداقية الوكالة أمام سجلات مبيعات العميل.
+- **Accountable Executive Ownership & Zero-Deflection Standard:**
+  - في حال حدوث أي تجاوز لسقف الميزانية أو تطبيق توصية غير معتمدة، يُحظر إلقاء اللوم على "ضغط الخوارزمية" أو تغليف الخطأ كـ "تجربة مدروسة" لأن سجل Change History في Google Ads يكشف الحقيقة.
+  - يجب الإفصاح المباشر بأسلوب استشاري مسؤول بصيغة المتكلم، وتحديد عدد أيام التجاوز، والمبلغ الصافي للصرف الزائد، والتأكيد على حسمه واستيعابه لصالح العميل، وتوثيق ذلك في سجل التغييرات (Change Log).
+- **Template De-Slop & Human Voice Standard:**
+  - إزالة كافة وسوم القوالب الآلية (مثل: "قرار حاسم"، "درس استراتيجي"، "دقة الخوارزمية") والأقواس الإدارية الداخلية لحفظ وقار المستند الاستشاري.
 
-## القيد 30: معيار المسارات المطلقة للأوامر والسكربتات الطرفية (Absolute Path Command Standard)
+### [C-85] Dual-Basis Accounting Standard in Logistics & Rental Systems (معيار المطابقة المزدوجة للتأجير والخدمات)
+- في لوحات تحكم وتطبيقات إدارة التأجير والخدمات اللوجستية (مثل الحاويات، تأجير المعدات، وسيارات الخدمة)، غالباً ما يحدث تباين تقويمي بين **تاريخ الفاتورة (Invoice Date)** و**تاريخ بدء الإيجار/التسليم الميداني (Rental Start Date)** للعمليات الصادرة في نهايات وبدايات الشهور.
+- **القيد المعماري الإلزامي:** يُحظر تماماً فرض معيار فلترة أحادي يجبر المستخدم على التناقض مع كشوفاته الرسمية. يجب بناء **محرك مطابقة مزدوج (Dual-Reconciliation Toggle)** يتيح التبديل بنقرة واحدة بين المعيارين، مع عرض شارة توضيحية صريحة توضح رقم الفاتورة وفارق الرد والمبلغ المحاسبي بدقة تامة.
 
-**القرار/الدرس:** يُحظر تماماً تقديم أوامر طرفية تعتمد على مسارات نسبية عارية مثل `cd "dir"` أو `./script.ps1`؛ لأن مسار عمل الطرفية الحالي (CWD) قد يكون في مسار مختلف (مثل `C:\Users\Kt`). يجب دائماً تقديم الأوامر بالمسار المطلق الكامل بين علامات تنصيص `& "<Full_Absolute_Path>"` أو تضمين أمر الانتقال للمسار الكامل أولاً لضمان التنفيذ الناجح بنقرة واحدة دون أخطاء PathNotFound.
+### [C-86] Theme Cascade Specificity & WCAG AAA Contrast Standard (معيار السيادة الطبقية والتباين البصري)
+- **سيادة الحالات النشطة (State Specificity Invariant):** عند تعريف أنماط الوضع النهاري/الليلي، يُحظر إعطاء الفئة الأساسية (مثل `.chip` أو `.btn`) وسم `!important` للون والخلفية دون تمرير `!important` متطابقة أو ذات سيادة أعلى للفئات النشطة (`.active`, `:focus`)؛ لمنع طمس الحالة النشطة وظهورها بمظهر العناصر غير المحددة.
+- **اعتماد التباين العنبري الفائق (Logistics Amber Contrast):** لتفادي فشل التباين مع النصوص البيضاء (حيث يعطي `#d97706` نسبة 3.19:1 فقط)، يُعتمد اللون العنبري اللوجستي العميق `#92400e` الذي يحقق نسبة تباين **7.09:1** متوافقاً مع معيار **WCAG AAA**.
+- **إلزامية التحقق عبر Computed Styles الحقيقية:** في كافة بوابات تدقيق الواجهات، يجب قياس الألوان عبر استخراج `window.getComputedStyle()` من المتصفح الحقيقي دون الاعتماد على القراءة النصية للـ CSS المجرد، مع تعطيل الـ CSS Transitions أثناء الفحص لضمان استقرار القراءات.
 
-## القيد 31: التفعيل الإلزامي لـ OpenCode CLI لترشيد استهلاك التوكنز (Active OpenCode Token Conservation)
+### [C-87] Pure Client-Delivery Web App Bundles & Neutral Filter Standard (معيار حزم تسليم تطبيقات الويب للعملاء وحيادية الفلترة)
+- **نقاء حزمة التسليم (Pure Web App Bundle):** عند تجهيز حزم التسليم المضغوطة (`.zip`) الخاصة بتطبيقات الويب المستقلة (SPAs) ولوحات التحليلات للعملاء:
+  1. يجب حصر محتويات الحزمة حصرياً في الملفات التشغيلية اللازمة لعمل التطبيق (ملفات HTML التطبيقية، القالب الفارغ الجديد، مكتبات التشغيل الأوفلاين المحلية `xlsx`, `pdf`, `worker`، والأصول البصرية كالشعارات).
+  2. يُحظر حشو الحزمة بتقارير PDF إدارية أو وثائق Word أو كشوفات إكسيل مرجعية غير لازمة للتشغيل، لمنع تشتيت العميل ولتقليص حجم الحزمة إلى الحد الأدنى (< 1 MB).
+- **حيادية الفلاتر الزمنية السريعة (Neutral Filter Default):**
+  1. يجب أن تفتح لوحات البيانات الافتراضية على كامل النطاق الزمني للبيانات المعتمدة (Full Period) دون أي انحياز مسبق لشهر أو فترة منقضية.
+  2. يُحظر تثبيت أزرار فلاتر سريعة بنصوص وأرقام ثابتة (Hardcoded) لشهور محددة قديمة، ويجب أن تُحسب عدادات الفلاتر السريعة ديناميكياً من مصفوفة البيانات الحية.
 
-**القرار/الدرس:** يُلزم الأسطول بتشغيل وتفعيل `OpenCode CLI` (بنموذج Meta Muse Spark 1.3 - `opencode/muse-spark-1.3-contributor-free`) كمنفذ افتراضي ونشط للمهام الطرفية، كتابة طبقات البيانات والـ DAOs، إعداد سكربتات الترحيل، والمهام الروتينية، وحظر تحميل هذه المهام على النماذج المكلفة (Opus Max) لحصر دور الأخيرة في التدقيق المعماري الصارم، تشغيل الاختبارات، والاعتماد النهائي فقط.
+### [C-89] Windows Headless Chrome/Edge PDF Isolated User-Data-Dir Invariant (منع تصادم أقفال ProcessSingleton عند توليد PDF)
+- عند توليد مستندات PDF من قوالب HTML عبر `chrome.exe` أو `msedge.exe` في الوضع غير المرئي (`--headless`) على بيئة ويندوز أثناء فتح المتصفح من قِبل المستخدم، يفشل الأمر فوراً بالرمز 13 نتيجة قفل `ProcessSingleton`.
+- **القيد المعماري الإلزامي:** يجب دائماً تمرير مجلد بيانات مستخدم مؤقت ومعزول عبر `--user-data-dir="C:\Users\<User>\AppData\Local\Temp\chrome_temp_pdf"` مع `--no-sandbox` و `--disable-gpu` و `--no-pdf-header-footer` لضمان إتمام الطباعة فورياً دون أي تصادم مع متصفح المستخدم المفتوح.
 
-## القيد 32: معيار التحديد الإلزامي لنموذج OpenCode CLI واستراتيجية التراجع الديناميكي متعدد المزودات (Dynamic Multi-Provider Failover Standard)
+---
 
-**القرار/الدرس:**
-1) **النموذج الأساسي:** عند استدعاء OpenCode CLI في الأوامر الطرفية (`opencode run "..."`)، يجب دائماً تمرير راية النموذج `-m` صراحة بالنموذج المعتمد: `-m opencode/muse-spark-1.3-contributor-free`. يُحظر استدعاء `opencode run` دون راية `-m` لأن الإسقاط يعيد توجيه الطلب تلقائياً إلى مزود غير نشط (MiniMax) ويفشل بخطأ رصيد (1008). كما يُحظر استخدام بادئة `gemini/` ويُعتمد دائماً `google/`.
-2) **مبدأ التراجع الديناميكي الذكي (Dynamic Cascading Failover):** لا يقتصر التراجع على مزود واحد (مثل OpenRouter)، بل يقوم المبدأ المعماري على **اختيار أفضل البدائل المتوفرة عبر المزودات المتعددة والتبديل بينها ديناميكياً** فور خروج أي نموذج من الخدمة أو حدوث أعطال سحابية (500/503)، طبقاً للتسلسل الهرمي التالي:
-   - **الطبقة الأولى (السحابية السريعة والذكية):** `-m google/gemini-2.5-flash` أو `-m deepseek/deepseek-chat` (اعتماداً على المفاتيح النشطة في `auth.json`).
-   - **الطبقة الثانية (باقة OpenRouter المجانية):** `-m openrouter/meta-llama/llama-3.3-70b-instruct:free` (عائلة Meta) ثم `-m openrouter/qwen/qwen-2.5-coder-32b-instruct:free`.
-   - **الطبقة الثالثة (المحلية المعزولة Offline Fallback):** `-m ollama/qwen2.5-coder:1.5b` (تشغيل محلي كامل عبر Ollama داخل VRAM عند انقطاع الشبكة طبقاً للقيد 34).
-   مع إدراج مصفوفة `fallbacks` داخل ملف `opencode.json` في المشروع لضمان استمرارية خط الإنتاج دون توقف.
+## 📚 DOMAIN 6: PROMPT LIBRARY & SUSTAINED MEMORY ECOSYSTEM
 
-## القيد 33: معيار توجيه وحماية مسارات تخزين نماذج Ollama بالروابط الوصلية (AI Model Junction & Storage Standard)
+### [C-02] Generative Engine Optimization (تحسين محركات البحث التوليدية GEO)
+- Boost fact density, adopt authoritative expert tone, structure content into self-contained quote-friendly paragraphs for AI RAG engines.
 
-**القرار/الدرس:** عند تثبيت واستخدام محركات النماذج المحلية (مثل Ollama / LM Studio): 1) لا يُكتفى بضبط متغير البيئة `OLLAMA_MODELS`؛ بل يجب إلزامياً إنشاء رابط وصلي صلب (`Directory Junction` عبر `cmd /c mklink /J "C:\Users\<User>\.ollama\models" "<Secondary_Drive>\Ollama\models"`) لضمان عدم كتابة أي كتل أو بيانات مؤقتة (blobs) على قرص النظام `C:` وحمايته من الامتلاء إلى 0 بايت وأخطاء `digest mismatch`. 2) على الأجهزة ذات الـ VRAM المحدودة (مثل GTX 1650 4GB)، يُفرض تشغيل النماذج بالنمط التتابعي (`sequential_role_switching`) للوكلاء لتجنب التزاحم وتجميد الذاكرة.
+### [C-07] Mandatory Devil's Advocate Audit (التدقيق المعماري الصارم)
+- Reject superficial band-aid solutions. Activate rigorous adversarial review covering: architectural completeness, edge cases, lifecycle hazards, and non-superficiality.
 
-## القيد 34: مصفوفة نماذج Ollama المحلية وتكامل الأسطول (Local Ollama Fleet Matrix)
+### [C-08] Mandatory Context Injection (السياق المحقون الإجباري)
+- Prevent shortcut anti-patterns by programmatically injecting past failure modes and lessons into the agent's active reasoning before implementation.
 
-**القرار/الدرس:** عند تفعيل الخطاف 22 أو خطافات إدارة الأسطول ("أسطول الـ CLIs", "تشغيل الأسطول", "تنسيق الأسطول", "fleet orchestrator", "multi cli fleet", "إدارة الأسطول")، يتم ضبط التوجيه العتادي بحسب سعة الـ VRAM المتاحة:
+### [C-15] Prompt Library Dashboard Column Separation (تخصيص أعمدة لوحة القيادة)
+- In prompt library spreadsheets, Column 3 is reserved strictly for Command/Trigger text (for one-click copying). Column 4 contains description and notes.
 
-1) **على أجهزة 4GB VRAM (مثل GTX 1650):** يُعتمد `qwen2.5-coder:1.5b` كنموذج طرفي محلي افتراضي للوكلاء و OpenCode لاستقراره بنسبة **`100% GPU`** داخل الـ VRAM بدون استهلاك للـ RAM، مع بقاء النماذج السحابية السريعة (`google/gemini-2.5-flash`) كخيار مكمل للمهام الضخمة.
-2) **على أجهزة 8GB+ VRAM:** يُعتمد `qwen2.5-coder:7b` للبرمجة و `deepseek-r1:7b` للتفكير و `hermes3:8b` للوكلاء.
-3) **بروتوكول فحص التجزئة (Digest Checksum Timing):** عند تحميل النماذج الكبيرة على الأقراص الثانوية، يجب على السكربتات انتظار رسالة `success` قبل بدء استدعاء الـ API لمنع أخطاء تضارب القفل.
+### [C-17] Devil's Advocate Persona Gate (الفرض الإجباري لبرومبت محامي الشيطان)
+- For every new feature, pause before implementation and generate: `[DEVIL'S ADVOCATE CRITIQUE]`, `[ENGINEERING FIXES]`, `[MASTER REFINED PLAN CONSTRAINTS]`, and `[UNINTENDED SIDE-EFFECTS & LIFECYCLE HAZARDS]`.
 
-## القيد 35: جاهزية واعتماد Claude Code CLI المثبت في بيئة النظام
+### [C-39] Upstream Skill Directory Identity Standard (الحفاظ على اسم المنبع للمهارات)
+- Maintain upstream directory names and bundle structures (`bin/`, `scripts/`). Symlink (`mklink /J`) across agent roots (`~/.claude/skills` and `~/.gemini/config/skills`).
 
-**القرار/الدرس:** أداة `Claude Code CLI` مثبتة ومتاحة على مستوى النظام ومسار `PATH` وجاهزة للاستدعاء والتفويض المباشر. يُمنع التشكيك في وجودها أو اقتراح إعادة تثبيتها، ويتم الاعتماد المباشر عليها في كافة مهام المراجعة المعمارية الحصرية والاختبارات التلقائية للأسطول (`claude -p "..."`).
+### [C-43] SaaS Tiering & Free Trial Standard (نموذج اشتراكات SaaS للحلقات)
+- Individual teacher account is 100% free. Academy Tier offers 7-day card-upfront free trial, auto-billing on day 8 with cancellation from settings.
 
-## القيد 36: استكشاف أخطاء واجهة إضافة Claude Code في المحرر (Webview Service Worker Recovery)
+### [C-61] Smart Prompt Library Curator & Automation (أتمتة مكتبة الأوامر الذكية)
+- Capture engineered prompts in three-part format: (1) Emoji + Descriptive Name, (2) Prompt Command, (3) Usage Notes.
+- Auto-route to `مكتبة الأوامر.xlsx` using `prompt_library_curator.py` with Segoe UI and Consolas typography, falling back to Excel COM if locked.
 
-**القرار/الدرس:** عند حدوث خطأ تعليق واجهة إضافة Claude Code في VS Code (`Error loading webview: Could not register service worker`) بعد التحديثات: 1) تنشيط وتفريغ كاش الواجهة عبر `Developer: Reload Webviews` أو `Developer: Reload Window` في `Ctrl+Shift+P`. 2) تفعيل خيار `Claude Code: Use Terminal` في إعدادات الإضافة (Settings). 3) تثبيت الإصدار السابق المستقر (Rollback) عبر زر الترس ⚙️ -> `Install Another Version`. 4) إنهاء أي عمليات معلقة للـ Daemon القديم في الخلفية بإعادة تشغيل المحرر.
-
-## القيد 37: قيد طول أسماء أدوات MCP ومعايير التسمية المقتضبة (MCP 64-Char Identifier Limit)
-
-**القرار/الدرس:** في بروتوكول ومحرر MCP، يخضع اسم الأداة الكامل المولد (`mcp_<server_name>_<tool_name>`) للتحقق الصارم عبر النمط `^[a-zA-Z0-9_-]{1,64}$`. تجاوز الـ 64 حرفاً يعطل الأداة تلقائياً بخطأ Regex Violation. يُلزم المطور ووكيل `mcp-tool-builder` بحساب طول المعرف والتأكد من ألا يتجاوز 64 حرفاً مع اعتماد أسماء مقتضبة ومعبرة للأدوات والسيرفرات لتفادي كسر تحميل الأدوات في واجهة المحرر.
-
-## القيد 38: التحقق الإجباري وتثبيت أحدث أجيال نماذج Claude (Claude 5 Generation Baseline)
-
-**القرار/الدرس:** يُحظر تماماً الإشارة إلى نماذج قديمة سابقة (مثل Claude 3.5 أو 3.7 أو أجيال Claude 4 المتقاعدة) عند مناقشة قدرات وتوزيع أسطول Claude. يجب دائماً تثبيت واعتماد مصفوفة الجيل الأحدث النشط (**Claude 5 Generation**):
-1) **`Claude Opus 5` / `Opus Max`:** لمهام التدقيق المعماري الصارم، المراجعة العميقة، والتنفيذ الحصري لكافة الاختبارات التلقائية.
-2) **`Claude Sonnet 5`:** الموديل اليومي المتوازن عالي الذكاء والسرعة للإنتاجية والتطوير.
-3) **`Claude Fable 5`:** المهام الفائقة وسير عمل الوكلاء المعقد والممتد.
-4) **`Claude Haiku 4.5`:** المهام الخفيفة والسريعة ومنخفضة التكلفة.
-5) **إلزامية البحث والتحقق:** في حال الشك أو طلب استعراض أحدث قدرات النماذج، يجب إجراء فحص وبحث فوري للتأكد من أحدث الإصدارات قبل تقديم أي مقارنة أو نصيحة للمستخدم.
-
-## القيد 39: معيار اعتماد المهارات الخارجية والحفاظ على اسم المنبع (Upstream Skill Identity Standard)
-
-**القرار/الدرس:** عند استيراد واعتماد مهارات خارجية من مستودعات عامة (مثل `archify` من `tt-a1i/archify`): يُحظر تماماً إعادة تسمية المجلد أو فصل ملف `SKILL.md` عن حزمته التنفيذية (`bin/`, `scripts/`) لأن ذلك يكسر التحديثات التلقائية والمسارات النسبية. يجب دائماً التثبيت تحت الاسم الأصلي للمنبع وربطه بروابط وصلية (`mklink /J`) بين جذور الوكلاء (`~/.claude/skills` و `~/.gemini/config/skills`).
-
-## القيد 40: معيار ربط العلاقات والمزامنة السحابية للحلقات والطلاب (Cloud Relational Sync Standard)
-
-**القرار/الدرس:** في تطبيقات المزامنة مع PocketBase:
-1) يُلزم تمرير `teacherId` من جلسة المستخدم الحالي (`currentUser.id`) عند إنشاء أي حلقة محلياً، مع توفير تراجع آمن في محرك المزامنة (`SyncEngine`) إلى `currentUserId` من الـ Auth Store لمنع أخطاء `400 (teacher_id: validation_required)`.
-2) عند إضافة أو نقل الطالب، يجب ربط `circleId` صراحة وملء حقل اسم المعلم تلقائياً من الجلسة الحالية، وتجنب الفلاتر الصارمة التي تحجب السجلات غير المسندة، لضمان ظهور الطلاب فوراً في لوحة التحكم وقوائم الحلقات.
-
-## القيد 41: التشغيل والتثبيت التلقائي للإصدار الجديد على الهاتف بعد كل تعديل (Post-Edit Automatic Device Run & Deployment)
-
-**القرار/الدرس:** تفعيلاً لطلب المستخدم الصريح لجدولة وتشغيل الإصدار الجديد على الهاتف بعد كل تعديل:
-1) بعد إتمام أي تعديل برمجي أو ميزة، يُلزم الفريق بتشغيل أو تثبيت أحدث إصدار على الهاتف المتصل عبر ADB (`& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"` أو `& "C:\flutter_sdk\bin\flutter.bat" run -d <device_id>`).
-2) في حال كانت حالة الجهاز `unauthorized`، يجب تنبيه المستخدم فوراً للموافقة على نافذة تصريح تصحيح أخطاء USB (Allow USB Debugging) على شاشة الهاتف لمتابعة التثبيت.
-
-## القيد 42: تحصين ترويسات وعناصر واجهة المستخدم ضد التجاوز البصري (Flutter RTL Visual Overflow & Responsive Wrap Standard)
-
-**القرار/الدرس:** في واجهات Flutter العربية ثنائية الاتجاه (BiDi / RTL): يُمنع منعاً باتاً وضع النصوص الطويلة أو الترويسات بجانب أزرار الإجراءات داخل كائن `Row` صلب غير محمي، لتفادي خطأ `RIGHT OVERFLOWED BY X PIXELS` (الخط الأصفر والأسود) عند تفعيل الخطوط العربية العريضة أو على الشاشات المتوسطة والصغيرة. الحل المعماري الإلزامي هو استخدام `Wrap(alignment: WrapAlignment.spaceBetween, crossAxisAlignment: WrapCrossAlignment.center, spacing: 8, runSpacing: 8)` أو تغليف العنوان بـ `Expanded(child: Text(..., maxLines: 1, overflow: TextOverflow.ellipsis))` لضمان انسيابية وتجاوب الواجهة تلقائياً.
-
-## القيد 43: نموذج اشتراكات SaaS لتطبيقات الحلقات القرآنية (SaaS Tiering & 7-Day Card-Upfront Free Trial Standard)
-
-**القرار/الدرس:** في معمارية ونموذج أعمال المنصة (Business & Paywall Architecture):
-1) **حساب المعلم الفردي:** مجاني 100% بدون أي قيود على إدارة الحلقات والتسميع والطلاب، لإزالة حواجز الانضمام ونشر التطبيق عالمياً.
-2) **باقة الأكاديميات (Enterprise Tier):** تُتاح بنظام التجربة المجانية لمدة 7 أيام بشرط التسجيل المسبق لبيانات البطاقة والفيزا (Card Upfront) وبدء السحب والتجديد التلقائي في اليوم الثامن بعد انتهاء التجربة، مع إظهار شريط العد التنازلي المتبقي في لوحة التحكم وتوفير خيار إلغاء الاشتراك في أي وقت من الإعدادات.
-
-## القيد 44: معيار إطلاق وتشغيل تطبيقات Flutter عبر سطر أوامر ADB (ADB Package Launch Standard)
-
-**القرار/الدرس:** عند تشغيل التطبيق المثبت على الهاتف بعد البناء والأتمتة عبر ADB:
-1) يجب استخراج المعرف البرمجي الفعلي `applicationId` المحدد في `build.gradle.kts` (`namespace` أو `applicationId` مثل `com.autovem.taj_al_waqar`) وتجنب افتراض اسم المجلد أو المسار لمنع أخطاء `Activity does not exist`.
-2) تشغيل التطبيق بشكل مستقر يتم دائماً عبر الأمر:
-   `& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" shell monkey -p <package_name> -c android.intent.category.LAUNCHER 1` مع إيقاظ الشاشة (`keyevent 26/82`) في حال كان الهاتف في وضع السكون.
-
-## القيد 45: بروتوكول التراجع التلقائي لقيادة الأسطول عند نفاد كوتا Claude Code CLI (Fleet Quota Failover Standard)
-
-**القرار/الدرس:** عند وصول كوتا جلسة `Claude Code CLI` للحد الأقصى (100% quota exhausted / rate-limited):
-1) يتولى وكيل `Antigravity IDE (Gemini 3.8 Flash High)` فوراً قيادة الأسطول وإجراء كافة التعديلات البرمجية وتحديث جداول الإكسيل والاعتماد الهندسي دون أي توقف لخط الإنتاج.
-2) في حال وجود مهام طرفية روتينية، يستمر تفويضها إلى `OpenCode CLI` كالمعتاد.
-3) عند تجدد رصيد/جلسة Claude، تعود مهام المراجعة المعمارية الحصرية والاختبارات التلقائية إليه تلقائياً.
-
-## القيد 46: معيار استهلاك أحداث MediaButton لمنع استئناف الصوت بعد المكالمات (MediaButton Interception on Call Termination Standard)
-
-**القرار/الدرس:** في خدمات تشغيل الصوتيات والوسائط (`MediaSessionService` / `MediaSessionCompat` / `ExoPlayer`):
-1) يجب اعتراض واستهلاك أحداث أزرار الوسائط (`onMediaButtonEvent`) صراحة بإرجاع `true` لكافة أحداث الضغط والرفع (`ACTION_DOWN` و `ACTION_UP`) لمفاتيح التشغيل (`KEYCODE_MEDIA_PLAY`, `KEYCODE_MEDIA_PLAY_PAUSE`, `KEYCODE_HEADSETHOOK`) عندما لا يكون المشغل في حالة تشغيل نشطة (`!player.playWhenReady || STATE_IDLE || STATE_ENDED`). هذا يمنع مكدس الاتصال وسماعات البلوتوث من إيقاظ الصوت فجأة عند إنهاء المكالمات.
-2) تجاوز دالة `onPlaybackResumption` لمنع النظام من فرض استئناف التشغيل التلقائي في الخلفية بدون طلب واعي ومباشر من المستخدم.
-
-## القيد 47: معيار وسوم اللغة الإلزامية لملاحظات الإصدار في Google Play (Play Console Release Notes Language Tagging Standard)
-
-**القرار/الدرس:** عند كتابة أو إعداد ملاحظات الإصدار (Release Notes) للنشر على منصة Google Play Console:
-1) يُحظر تماماً إدخال أو تقديم نصوص مجردة خارج وسوم اللغة؛ لأن محرر الكونسول متعدد اللغات يرفض النص ويُعطل زر المتابعة بخطأ `Line 1: text outside language tags`.
-2) يجب دائماً تغليف ملاحظات الإصدار بالوسم الخاص بلغة العرض بالكامل، مثل:
-```xml
-<ar>
-الإصدار الأول: ميزات وتحسينات جديدة...
-</ar>
-<en-US>
-First release: new features and improvements...
-</en-US>
-```
-
-## القيد 48: معيار إعادة البناء النظيف لملفات PDF وفك شفرة المؤشرات البصرية ولوحة المفاتيح (Clean PDF Rebuild & Visual Marker Standard)
-
-**القرار/الدرس:**
-1) **إعادة البناء النظيف من النسخة الاحتياطية:** عند طلب أي تعديل أو تصحيح مسار لعناصر في ملف PDF معدل مسبقاً (مثل نقل ترقيم أو تعديل تذييل)، يُحظر تماماً وضع أقنعة أو طبقات تغطية إضافية فوق التعديلات السابقة؛ بل يجب دائماً وأبداً إعادة التوليد النقي (Single-Pass Lossless Overlay) مباشرة من النسخة الاحتياطية الأصلية (`_backup.pdf`) لضمان عدم زيادة حجم الملف أو تشويه دقة المتجهات.
-2) **المعالجة الذكية للوحة المفاتيح (Keyboard Mismatch):** عند استلام رسائل تحتوي نصوصاً مكتوبة بحروف إنجليزية ناتجة عن عدم تبديل لوحة المفاتيح للعربية (مثل `hvd]` -> `أريد` أو `td i`h hglsj,n` -> `في هذا المستوى`)، يجب فك تشفيرها تلقائياً وفهم القصد الهندسي ومواصلة العمل دون مطالبة المستخدم بإعادة الكتابة.
-3) **تحويل الرسومات والمؤشرات البصرية لإحداثيات:** عند إرفاق لقطات شاشة تحتوي رسومات أو أسهم أو دوائر مؤشرة، يجب قياس الإحداثيات الهندسية بدقة (محاور X و Y) وربطها بهوامش أمان الطباعة (Safe Print Margins لا تقل عن 25pt من الحواف) وتقديم معاينة بصرية للمقارنة.
-
-## القيد 49: معيار عزل النطاق وحماية النسخ اللغوية المعتمدة في وثائق PDF (Multi-Edition PDF Scope Isolation Standard)
-
-**القرار/الدرس:**
-1) **الحماية المطلقة للنسخ المعتمدة:** عند توليد أو ترقية أو تعديل أي إصدار لغوي لمستند (مثل الكتالوج الإنجليزي أو العرض الفني المترجم)، يُحظر تماماً التعديل على أو الكتابة فوق أي نسخة لغوية معتمدة مسبقاً (مثل النسخة العربية الأصلية المعتمدة).
-2) **التفرع النظيف من الأصل (Clean Master Branching):** يجب أن ينطلق بناء أي إصدار لغوي جديد حصرياً من النسخة الاحتياطية الأصلية النظيفة (`_backup.pdf`) وتوجيه المخرجات لملفات مخصصة تحمل دلالة اللغة صراحة (مثل `_EN.pdf`)، مع منع تشغيل أي سكربتات قديمة كانت تستهدف الملف المعتمد.
-3) **فحص الثبات البرمجي (Integrity Check):** بعد كل عملية معالجة، يجب التحقق برمجياً عبر فحص الحجم والبصمة الزمنية (File Stat / mtime) للنسخ المحمية للتأكد من عدم مساسها بأي شكل.
-
-## القيد 50: معيار الأرقام الإنجليزية المعتمد وحظر وضع الأسعار الافتراضية (EFC English Numerals & Zero-Pricing Standard)
-
-**القرار/الدرس:** في كافة مشاريع ومستندات مؤسسة إعمار الفرعة للمقاولات العامة:
-1) **اعتماد الأرقام الإنجليزية (0-9) حصرياً وبشكل مطلق** في كافة المستندات الرسمية، عروض الأسعار، جداول الكميات (BOQ)، الخطابات، وملفات Excel و Word و PDF، وحظر الأرقام الهندية المشرقية تماماً، مع تطبيق بوابة الفحص الصارمة لانعدام الأرقام الهندية (`len(re.findall(r'[\u0660-\u0669]', text)) == 0`) والحفاظ التام على محاذاة الجداول والعزل ثنائي الاتجاه BiDi/RTL وقيد الصفحة الواحدة (Strict 1-Page A4).
-2) **الحظر الصارم لوضع الأسعار (Strict Zero-Pricing Rule):** يُحظر تماماً على أي وكيل افتراض أو تخمين أي أسعار للمتر أو احتساب مبالغ إجمالية أو ضرائب ما لم يطلب المستخدم ذلك كتابياً، مع إبقاء خانات الأسعار مفرغة `[             ر.س ]` وتضمين شيتات Excel معادلات شرطية ذكية مثل `=IF(K9="","",I9*K9)` لتعمل ديناميكياً فور إدخال السعر يدوياً دون إظهار أصفار مشوهة.
-3) **هوية المقاول المنفذ:** مؤسسة إعمار الفرعة هي المقاول العام المنفذ لأعمال التوريد والتركيب مباشرة لصالح الجهة المالكة/العميل وليست جهة استدراج عروض أسعار من الموردين.
-
-## القيد 51: معيار نظافة قوالب التوليد ومنع تلوث الوثائق العابر للمشاريع (Clean Template & Zero Cross-Project Bleed Standard)
-
-**القرار/الدرس:**
-1) **نقاء القوالب الافتراضية (Pure Structural Templates):** أي قالب افتراضي مستخدم لتوليد الوثائق (DOCX أو XLSX أو PPTX) في أدوات الوكلاء أو خوادم MCP (مثل `arabic-docx-builder` و `boq-generation`) يجب أن يكون قالباً هيكلياً نقياً وخالياً تماماً من أي نصوص أو فقرات أو جداول تعود لمشاريع سابقة، ويقتصر حصرياً على الأنماط، الهوامش، اتجاه الـ RTL، والوسم النائب `{{CONTENT_HERE}}`.
-2) **الحظر الصارم للتلوث العابر (Zero Cross-Project Bleed):** يُحظر تماماً حفظ وثائق مشاريع مكتملة كقوالب افتراضية للأدوات العامة لتجنب تسرب بيانات عملاء أو مشاريع سابقة لمستندات جديدة.
-3) **الفحص والتأكيد الاستباقي قبل التسليم (Integrity Inspection Gate):** قبل تقديم أي وثيقة رسمية مولدة للعميل، يجب على الوكيل فحص نصوص المستند برمجياً والتأكد من عدم احتوائها على أي مصطلحات شاردة من سياقات أو مشاريع أخرى.
-
-## القيد 52: معيار تخصيص حصص البريد وإدارة سعة خوادم الـ VPS لوكالة Autovem (Autovem VPS Mailbox Quota Standard)
-
-**القرار/الدرس:** على خوادم الـ VPS السحابية التابعة لوكالة Autovem (مثل باقة KVM 1 بسعة 50GB NVMe):
-1) **الحصة الافتراضية للبريد:** يتم تعيين وتخصيص حصة التخزين الافتراضية (Mailbox Quota) لحسابات البريد المهني لعملاء الوكالة بـ **1 GB لكل صندوق بريد** (ما لم يطلب العميل ترقية مدفوعة مسبقاً).
-2) **حماية موارد السيرفر:** يُحظر افتراض أو منح مساحات ضخمة غير مدروسة (مثل 10GB أو Unlimited)؛ لحماية مساحة القرص الصلب المحدودة وضمان استيعاب حاويات Docker، والمواقع، وقواعد البيانات، وباقي العملاء بأمان تشغيلي كامل.
-3) **الصياغة العامة الذكية في الوثائق:** كتابة وتوضيح السعة في عروض الأسعار ومستندات العملاء بصيغة: *"سعة تخزينية سحابية مستقلة قابلة للتوسعة"* دون ذكر رقم محدد في العقد لتجنب الالتزامات الصارمة، مع تعيين 1GB داخلياً على لوحة الـ VPS كمعيار تشغيلي آمن ومستقر.
-
-## القيد 53: معيار نشر منصات حاويات الوكلاء السحابية (Cloud VPS Multi-Agent Standard)
-
-**القرار/الدرس:** المنصات الخادومية المعتمدة على محركات حاويات لينكس (مثل LXD / Docker في remote.futrx) تُنشر وتُدار حصرياً على خوادم سحابية مستقلة (Hostinger VPS Ubuntu 24.04) لضمان التشغيل المستمر 24/7 وتوفير العزل الأمني التام، ويبقى حاسوب Windows مخصصاً للواجهات والبرمجة التفاعلية السريعة عبر Antigravity IDE.
-
-## القيد 54: معيار عزل التوكنز ومنع الفحص الصوري للمهارات وتثبيت شريط الحالة (Token Isolation & Real Verification Gate)
-
-**القرار/الدرس:**
-1) **أمان التوكنز:** يُحظر تماماً حفظ توكنز أو مفاتيح API بنص صريح داخل `mcp_config.json`، ويجب عزلها عبر `.env` مع إضافة الملف لـ `.gitignore`.
-2) **حظر الفحص الصوري:** بوابات اختبار جودة المهارات يجب أن تفحص المجلدات الفعلية وتُرجع رمز خطأ `sys.exit(1)` عند أي خلل لتفادي الفحص الصوري غير القابل للفشل.
-3) **شريط الحالة:** النسبة المئوية في شريط حالة Claude Code (`session:NN%`) تعبر حصرياً عن نافذة سياق الجلسة الحالية (Active Session Context Window: Tokens / 200,000) وليست كوتا الـ 5 ساعات.
-
-## القيد 55: معيار ترويسة البروفايل الرسمية واقتصار المقر على الرياض (Corporate Header & Profile Standard)
-
-**القرار/الدرس:** بناءً على ميزات وتوجيهات المستخدم الصريحة لمؤسسة إعمار الفرعة للمقاولات العامة:
-1) **الترويسة الرسمية الكاملة:** اعتماد البانر الرأسي المعتمد للترويسة (`header_emaar.png`) في الترويسات العلوية للبروفايلات، الكتالوجات، الفواصل الإنتاجية، وأغلفة الختام بدلاً من اللوجو المستطيل المعزول.
-2) **اقتصار المقر على الرياض:** يُذكر عنوان ومقر المؤسسة حصرياً بـ **«الرياض»** فقط، مع إزالة وحظر ذكر «شارع الفرعة العام» أو «حوطة بني تميم» في كافة العناوين الرسمية للمؤسسة، وحذف الهاتف الأرضي، وتثبيت البريدين المعتمدين (`emaaralfharah2040@gmail.com` و `engmohamedyones@gmail.com`).
-3) **خط الأميري الملكي:** اعتماد عائلة خطوط الأميري الرسمية (`Amiri-Bold` و `Amiri-Regular`) في العناوين والصفحات الفاصلة وبطاقات الإنجاز لضمان الفخامة البصرية وتفادي الخطوط الافتراضية.
-4) **السرعة التشغيلية وبوابة الأرقام الإنجليزية:** إنجاز عمليات الدمج والتوليد في زمن قياسي (< 5 ثوانٍ) مع الالتزام التام ببوابة الصفر أرقام هندية مشرقية (Zero Indic Digits = 0).
-
-## القيد 56: معيار متطلبات حسابات المطورين ونقل التطبيقات في Google Play (Play Console Policy Standard)
-
-**القرار/الدرس:** استناداً إلى وثيقة وسياسات متطلبات Google Play Console الرسمية:
-1) **إلزامية حساب المنشأة (Organization D-U-N-S):** يُلزم التسجيل كمنظمة مع رقم D-U-N-S متطابق مع Dun & Bradstreet للتطبيقات المالية (بنوك، قروض، تداول، محافظ عملات رقمية)، الصحية/الطبية، تطبيقات فئة `VpnService`، والتطبيقات الحكومية.
-2) **جاهزية الفحص التجريبي (Active Demo Account):** يجب توفير حساب تجريبي فعال وبيانات دخول كاملة أو رمز QR صالح لفريق مراجعة جوجل، مع استيفاء سياسة الخصوصية وقسم أمان البيانات (Data Safety) وتسجيل أسماء الحزم.
-3) **نزاهة نقل الملكية (Authorized Transfers Only):** يُحظر تماماً بيع أو شراء أو تأجير الحسابات عبر أطراف ثالثة، ويقتصر النقل على القنوات الرسمية لجوجل مع إمكانية نقل ملكية التطبيقات الفردية دون نقل الحساب كاملاً.
-
-## القيد 57: معيار الالتزام الصارم بالقاعدة رقم 1 وعزل النصوص ثنائية الاتجاه واستوديو المخططات (Rule 1 BiDi Isolation & Flowchart Studio Standard)
-
-**القرار/الدرس:**
-1) **الالتزام الصارم بالقاعدة رقم 1 وعزل الـ BiDi:** في كافة المخرجات البرمجية، وواجهات الويب، والمخططات الانسيابية، ورسومات SVG: يُلزم العزل التام لكافة المصطلحات الإنجليزية والاختصارات التقنية (مثل `API`, `OAuth`, `PNG`, `SVG`, `MCC`, `Mermaid`) باستخدام وسوم `<bdi>` أو `<span dir="ltr">` أو وضعها في كتل كود مستقلة، لمنع انكسار اتجاه النصوص العربية أو انقلاب الأقواس وعلامات الترقيم أو اختلال المحاذاة في المتصفحات والمحررات.
-2) **معيار كتابة مخططات Mermaid العربية:** يُحظر تماماً كتابة أرقام مجردة بنقاط أو نصوص عربية مباشرة كمعرفات للعقد (مثل `1. حساب المدير["..."]`) لأن ذلك يكسر محرك التصيير؛ بل يجب دائماً اعتماد معرفات لاتينية نظيفة (`node_1`, `MCC`, `Engine`) وحصر النصوص العربية والأوصاف داخل علامات الاقتباس `["..."]` مع استخدام اتجاه صريح.
-3) **تعميم استوديو المخططات المركزي (Global Flowchart Studio):** اعتماد أداة `Autovem Flowchart Studio` كأداة مركزية مستدامة على المسار العالمي `~/.gemini/config/tools/flowchart_studio/` ومحلياً في المشاريع، لتوفير عرض بصري تفاعلي فوري (Pan/Zoom) وتصدير فائق الدقة 4K PNG ومتجهات SVG لكافة المخططات الانسيابية.
-
-## القيد 58: معيار دمج ذكاء التصميم UI/UX Pro Max في إنتاج المخططات والصور (UI/UX Pro Max Visual Production Standard)
-
-**القرار/الدرس:**
-1) **التسلسل الهرمي البصري للمخططات (Visual Hierarchy):** عند توليد أي مخططات انسيابية (Flowcharts) أو رسومات معمارية، يُلزم تطبيق ذكاء `ui-ux-pro-max` بتمييز النواة المركزية (Engine/Core) بالحجم والإشعاع اللوني، وتوحيد فئات العقد (Credentials, Processing, Output/Status)، ومنع التكدس البصري بضبط مسافات التباعد (Density Scales: 60-80px أفقياً و 40px رأسياً).
-2) **التباين اللوني وسهولة الوصول (WCAG AA Contrast 4.5:1+):** يُحظر وضع نصوص داكنة على خلفيات داكنة أو نصوص رمادية على رمادية؛ بل تُعتمد لوحات الألوان المعايرة ذات الدلالة المنطقية (Dark Neon Candy, Midnight Indigo, Obsidian Amber, Executive Light) مع تباين قاطع لا يقل عن 4.5:1 وإرفاق الأيقونات الدلالية بجانب النصوص.
-3) **الهوية الطباعية المتناسقة (Typography Pairings):** الالتزام بتوزيع الخطوط الذكي (Cairo للعناوين، Tajawal للأوصاف، و Fira Code للرموز البرمجية والأكواد مع العزل الصارم BiDi).
-4) **حظر التوليد العشوائي للأصول والصور:** عند إنشاء صور أو أصول إعلانية عبر `generate_image`، يجب هندسة البرومبت وفق لوحات الهوية ونسب العرض المتناسقة ومبادئ التكوين البصري المعتمدة في `ui-ux-pro-max`.
-
-## القيد 59: معيار التصدير والمزامنة الإلزامية لأدوات الذكاء الاصطناعي إلى المستودع المركزي (Universal Project-to-Central AI Export Standard)
-
-**القرار/الدرس:**
-1) **التصدير الإلزامي للمستودع المركزي:** في كافة المشاريع البرمجية، نظراً لعزل أدوات وإعدادات الذكاء الاصطناعي عن مستودعات Git الخاصة بالمشاريع الفردية (حظرها عبر `.gitignore`)؛ **يُلزم وكيل الأوامر وفريق الوكلاء بتصدير ومزامنة أي تحديث أو إضافة تطرأ على أدوات الذكاء الاصطناعي (الوكلاء، المهارات، الذاكرة MEMORY_STORE، سياق الحقن، وقوالب الأسطول) إلى المستودع المركزي:**
-   `F:\AI PROJECTS\Claude+Antigravity`
-2) **أمر التصدير الموحد:** يتم التصدير بنقرة واحدة من داخل أي مشروع عبر الأمر:
-   `python .agents/sync_local_agents.py --export`
-   أو عبر استدعاء المحرك المركزي:
-   `& "F:\AI PROJECTS\Claude+Antigravity\export_ai_tools.ps1"`
-3) **الدمج الذكي للذاكرة:** يقوم المحرك بدمج الدروس المستفادة تلقائياً دون تكرار في `MEMORY_STORE.md` المركزي و `GLOBAL_MEMORY_STORE.md` وتحديث مكتبة الأوامر وملف الإكسيل فورا.
-
-## القيد 60: معيار التصفير الاستراتيجي وعزل تفويض الأسطول الطرفي (Strategic Clear & Headless agcli Delegation Standard)
-
-**القرار/الدرس:**
-1) **بروتوكول التصفير الاستراتيجي (Strategic Clear):** عند بلوغ الجلسة حداً حرجاً من الاستهلاك (مثل `session:90%`) أو طلب تجميد الجلسة، يُحظر تماماً تنفيذ `/clear` أو `/compact` مباشرة. يجب إلزامياً تطبيق مراحل التصفير الاستراتيجي الثلاث: (1) جرد وإنهاء المهام العالقة ذات الأولوية أو تثبيت الكود في حالة قابلة للبناء النظيف (100% Compilable/Green) وعمل Commit نظيف، (2) تجميد وتوثيق الحالة في `CURRENT_STATE.md` و `MEMORY_STORE.md` وتأمين شجرة الـ Git، (3) صياغة برومبت الاستئناف الفوري بنقرة واحدة ومنح الضوء الأخضر للمطور لتنفيذ التصفير بأمان تام.
-2) **عزل أهداف التفويض البرمجي (Headless CLI vs. IDE Workbench):** في كافة قوالب وأوامر أسطول الـ CLIs التشاركي (`Template 02 / 03`)، يجب توجيه أوامر البرمجة وبناء الواجهات الطرفية حصرياً إلى **`Antigravity CLI (agcli)`** عبر الاستدعاء المباشر (`agcli run`) أسوة بـ `opencode run` و `claude -p`. يُحظر تماماً إسناد مهام برمجية آلية إلى `Antigravity IDE` لأن الأخير مخصص كحاضنة تفاعلية ومقر تحكم بصري للمطور (Developer Workbench & Cockpit) وإسناد الأوامر إليه يفرض النسخ واللصق اليدوي ويعطل أتمتة خط الإنتاج.
-## القيد 61: معيار أتمتة وتحديث مكتبة الأوامر الذكية (Smart Prompt Library Curator Standard)
-
-**القرار/الدرس:**
-1) **الالتقاط والهندسة التلقائية:** عند استلام فكرة جديدة أو أمر نوعي أو عند تفعيل الخطاف 26، يتولى `[prompt-engineer]` هندسة البرومبت وصياغته بثلاثية واضحة: (1) اسم الأمر والرمز التعبيري، (2) نص الموجه البرمجي الصريح والمهندس، (3) الوصف وحالات الاستخدام المثلى.
-2) **التوجيه الذكي للتبويبات (Sheet Routing):** يتم فحص ملف `G:\أرشيف_ونسخ_احتياطية\ملفات_مكررة_وعامة\AI\مكتبة الأوامر.xlsx` آلياً، وتوجيه الأمر إلى أحد التبويبات المتخصصة (مثل `CLI_Core.Claude`، `Workflows_Pipelines.Claude`، `Gates_Hooks.Claude`، `Custom_Skills.Claude`، `Config_Environments.Claude`، إلخ) وفق مجاله الفعلي.
-3) **الحصانة والتنسيق الدقيق (openpyxl + COM Fallback):** تُنفذ الإضافة عبر أداة `add-prompt` (`prompt_library_curator.py`). تلتزم الأداة بتنسيق الخلايا الصارم (Segoe UI 10pt، Consolas 10pt Bold للأكواد، Thin Borders) مع دعم الـ Fallback التلقائي إلى Excel COM في حال كان الملف مفتوحاً وقيد التحرير لتفادي أخطاء قفل الملفات (PermissionError).
-## القيد 62: معيار الاستشارة الاستراتيجية وحوكمة النطاق الذهبي للإنتاجية (Golden Productivity & Context Governance Standard)
-
-**القرار/الدرس:**
-1) **المراقبة والاستعلام اللحظي:** الاستعلام المستمر عن استهلاك السياق في Antigravity IDE عبر أداة `ag-context` و `context-advisor` (أو `ag-context -a`) لقراءة التليمتري الحقيقية من قاعدة بيانات SQLite WAL.
-2) **المعايرة الصارمة على النطاق الذهبي للإنتاجية والدقة القصوى (30,000 إلى 300,000 توكن):**
-   يُمنع منعاً باتاً تقييم أمان السياق استناداً إلى سعة العتاد الصلبة (1M/2M)؛ حيث ينحصر التركيز والانتباه الفائق (Peak Attention Fidelity) تجريبياً ومعمارياً في نطاق 30k إلى 300k توكن:
-   - **المنطقة الخضراء (< 180k توكن | < 60%):** أمان وانتباه تام ودقة 100%؛ الاستمرار في التطوير دون أي تدخل مع ترشيد القراءة عبر `lean-ctx` (Signatures).
-   - **المنطقة الصفراء (180k - 240k توكن | 60% - 80%):** تنبيه مبكر واقتراب من حافة النطاق الذهبي؛ حظر قراءة الملفات الكاملة (`mode='full'`) والاعتماد على فحص أجزاء الأسطر لتفادي الخروج من النطاق الأخضر.
-   - **المنطقة البرتقالية (240k - 300k توكن | 80% - 100%):** منطقة التخطيط للتسليم والضغط (Pre-Handoff Planning)؛ إنهاء المهمة الجزئية الحالية فوراً، تثبيت الكود بعمل `git commit` نظيف، حفظ الدروس في `MEMORY_STORE.md`، والتأهب للضغط أو التسليم.
-   - **المنطقة الحمراء (> 300k توكن | تجاوز سقف النطاق الذهبي):** خروج صريح من نطاق الدقة القصوى؛ حظر بدء مهام جديدة، والتفعيل الإلزامي الفوري للخطاف 25 (التصفير الاستراتيجي وتسليم الجلسة) وتوليد برومبت الاستئناف ثم تنفيذ `/clear` للعودة فوراً للنطاق الأخضر.
-## القيد 63: معيار ترحيل وتطهير أدوات المحرر وحماية نقاء سياق المشاريع البرمجية (Workspace Sanitization & Central Tooling Standard - Hook 28)
-
-**القرار/الدرس:**
-1) **المزامنة والتحديث للسيستم العالمي:** أدوات الذكاء الاصطناعي النشطة للمحرر تُحدث وتُزامن أولاً في `~/.gemini/config/tools/` لضمان عدم ضياع أي تحسينات برمجية أو أدوات مراقبة السياق ومكتبة الأوامر.
-2) **الأرشفة والترحيل المركزي الحصري:** المستودع المركزي `F:\AI PROJECTS\Claude+Antigravity` هو المقر الحصري والوحيد لتطوير أدوات المحرر، أدلة إدارة السياق، والمخططات؛ وتُنقل كافة الأدلة (`docs/`) والسكربتات (`tools/`) والأصول (`assets/`) إليه وتُعزل تماماً عن مستودعات تطبيقات المشاريع الفردية.
-3) **التدقيق التشفيري الصارم قبل الحذف (SHA-256 Verified Transfer):** يُحظر تماماً حذف أي ملف محلي من مسار المشروع إلا بعد حساب بصمة SHA-256 للمصدر والوجهة والتأكد من التطابق التام 100%. وفي حال وجود نسخة أحدث في المركز، تُحفظ كنسخة أرشيفية بلاحقة زمنية لتفادي الكتابة فوق التحديثات.
-
-## القيد 64: معيار ضبط دلالات TalkBack والنصوص متعددة الأسطر والنطق العربي للمضاف (Arabic TTS Compose Multi-Line & Semantics Standard)
-
-**القرار/الدرس:** في تطبيقات الأندرويد التي تدعم قارئ الشاشة (TalkBack) واللغة العربية:
-1) **عزل نصوص الأسطر المتعددة:** عند استخدام فواصل أسطر (`\n`) في نصوص الأزرار البصرية (مثل `Text("اختيار\nالسورة")`)، يُحظر تماماً تركها لتلتقطها شجرة دلالات الوصول (Semantics)؛ لأن محرك الـ TTS يعتبر الكلمة المنتهية بـ `\n` اسماً مفرداً منعزلاً وينطقها بتنوين ضم افتراضي (`اختيارٌ`). الحل الإلزامي هو إفراغ دلالات النص الداخلي بـ `Modifier.clearAndSetSemantics {}` وربط نص أحادي السطر على الحاوية بـ `Modifier.semantics(mergeDescendants = true) { this.contentDescription = ... }`.
-2) **الضبط الإعرابي الصريح للمضاف:** لتفادي اجتهاد محركات النطق، يجب دائماً وضع ضمة صريحة واحدة على المضاف (`اختيارُ السورة` / `اختيارُ القارئ`) أو كسرة للمجرور (`لاختيارِ الآية`) في كافة نصوص `contentDescription`، وعناوين الـ Sheets، والإعلانات الصوتية (`announce`).
-3) **معالجة تعارض تواقيع التثبيت عبر ADB:** عند التبديل بين حزم Debug و Release الموقعة وحدوث خطأ `INSTALL_FAILED_UPDATE_INCOMPATIBLE`، يجب على سكربتات الأتمتة إلغاء تثبيت الحزمة القديمة أولاً (`adb uninstall <package_name>`) قبل تثبيت الإصدار الجديد وتشغيله عبر الـ Launcher.
-
-## القيد 65: معيار تحسين حزم أندرويد لـ Google Play (Android Play Store 95%+ Optimization Standard)
-
-**القرار/الدرس:** لتفادي ظهور نسبة التحسين في Google Play Console بمستوى متدنٍ (Low 27%) وتضخم حجم ملفات الـ DEX:
-1) **تفعيل تقليص الموارد صراحة:** يُلزم دائماً إضافة `isShrinkResources = true` داخل `buildTypes.release` في `build.gradle.kts` بجانب `isMinifyEnabled = true` لتمكين R8 من حذف كافة ملفات الصور والأصول غير المستخدمة في المكتبات.
-2) **حظر قواعد الحظر الشاملة (No Blanket Keeps):** يُحظر تماماً وضع قواعد حظر شاملة `-keep class X.** { *; }` على المكتبات الرسمية الكبرى (مثل Media3 ExoPlayer، و Coroutines، و Compose، و Room المتقاعدة)؛ لأن هذه المكتبات تمتلك قواعد ProGuard/R8 مدمجة تلقائياً في حزم الـ AAR، والحظر الشامل يجمد نسبة التحسين ويمنع حذف الكود الميت. يجب حصر الـ keep على الخدمات المعلنة في المانيفست (مثل QuranAudioService) والـ Data Models فقط عند وجود Reflection صريح.
-3) **الأثر والتحقق:** تطبيق هذا المعيار رفع نسبة التحسين في كونسول جوجل بلاي من 27% إلى **97% High**، وخفّض حجم كود الـ DEX بنسبة 60.5% وحجم التثبيت الفعلي للمستخدمين إلى 3.06 MB مع اجتياز 100% من اختبارات الوحدة.
-
-## القيد 66: بروتوكول التشغيل الطرفي غير التفاعلي لـ OpenCode على ويندوز (OpenCode Headless Execution Standard)
-
-**القرار/الدرس:** عند تشغيل أوامر `OpenCode CLI` المؤتمتة في الخلفية على بيئة ويندوز:
-1) **الموافقة التلقائية على الصلاحيات:** يجب دائماً تمرير راية `--auto` للموافقة التلقائية على أذونات قراءة وكتابة الملفات وتجنب تعليق الأمر في انتظار مدخلات المستخدم.
-2) **تجاوز قفل الإدخال (TUI Stdin Bypass):** لمنع تعليق واجهة TUI (Ink) في انتظار مدخلات stdin على موجه ويندوز، يتم استدعاء الأوامر غير التفاعلية دائماً عبر إعادة توجيه الإدخال الصامت: `cmd /c "opencode run --auto -m <model> \"...\" < nul"`.
-
-## القيد 67: حوكمة الوكلاء الفرعيين وترشيد استهلاك التوكنز بنمط القراءة المتدرجة (Subagent Governance & Progressive Disclosure Standard)
-
-**القرار/الدرس:**
-1) **الاستدعاء النقطي المركز وحظر أسراب الوكلاء (Targeted Dispatch vs Swarm Anti-Pattern):** يُحظر إطلاق عدة وكلاء فرعيين (Subagents) في الخلفية بالتزامن يقرؤون نفس الملفات؛ لأن كل وكيل يحصل على سياق مستقل يحرق الكوتا بشكل مضاعف. يجب استدعاء وكيل متخصص واحد لغرض مغلق (Single-Responsibility) وإنهائه فور اكتمال مهمته، مع حصر التوازي للوكلاء التحليليين في وضع القراءة الصامتة فقط (`Read-Only`).
-2) **القراءة المتدرجة وحظر القراءة الكاملة (Progressive Disclosure & Signatures Only):** يُحظر قراءة الملفات البرمجية بالكامل أثناء الاستكشاف الأولي (`mode='full'`)؛ يجب الاعتماد حصراً على قراءة التوقيعات والعناوين ورؤوس الدوال (`mode=signatures` عبر أدوات `lean-ctx`)، وفي حال الحاجة لفحص دالة معينة يُقتصر على قراءة نطاق أسطر ضيق (Slice <= 50 سطراً) وتمرير مقتطفات الخطأ فقط.
-3) **التوجيه حسب التكلفة (Model Cost Routing):** توجيه المهام الروتينية (الطرفية، البويلربليت، أوامر Git) للنماذج السريعة والاقتصادية (`Gemini 3.8 Flash High` / `OpenCode Muse Spark`)، وحصر النماذج العليا (`Claude Opus` / `Thinking Models`) للتخطيط المعماري الحرج والتدقيق الصارم.
-4) **تطهير المهارات الفائضة (Agent & Skill Pruning):** حصر المهارات المحلية داخل `.agents/skills` على تخصص المشروع فقط (Android/Compose/Testing) وتطهير المهارات الفائضة لتقليص حجم الترويسة (System Prompt) بنسبة 60%+.
-5) **التسليم عبر المستندات لا عبر المحادثة (Artifact-Driven Handoff):** عند تبادل العمل بين الوكلاء، يتم الاعتماد حصرياً على مستندات وسيطة خفيفة (`implementation_plan.md` أو `CURRENT_STATE.md`) ليقرأها الوكيل التالي مباشرة، بدلاً من تناقل وسرد النصوص الطويلة في نافذة المحادثة.
-
-## القيد 68: ثنائية معمارية الكود والتصميم (AGENTS.md vs DESIGN.md) ومكافحة ركاكة الذكاء الاصطناعي (Anti-AI-Slop Standard)
-
-**القرار/الدرس:**
-1) **ثنائية جذر المشروع (Project Root Duality):** يجب أن يمتلك كل مشروع برمجي يضم واجهات ملفين متلازمين في جذره: `AGENTS.md` (لتحديد معمارية المنطق وقواعد البيانات واحتكار الاختبارات الحصري لـ Claude Code CLI)، و `DESIGN.md` (يقرؤه وكيل `design-md-architect` لتحديد معايير المظهر البصري لـ Google Stitch & Refero Styles، الرموز الدلالية، توأمات الخطوط، شبكة المسافات، والخصائص المنطقية للـ RTL).
-2) **درع التطهير البصري ومكافحة AI Slop (`impeccable-design-guard`):** يُحظر تسليم أي كود واجهة يعاني من الركاكة البصرية الشائعة للذكاء الاصطناعي (الرماديات الباهتة، تسطيح الأزرار، والبطاقات المكدسة). يُلزم بوجود زر أساسي وحيد (Single Primary CTA)، فحص تباين WCAG AA (>= 4.5:1)، وتقييد طول أسطر القراءة (50 إلى 75 حرفاً).
-3) **فيزياء الزنبرك الطبيعية وأتمتة الفيديو بالكود (`hyperframes-motion-engine`):** حظر التباطؤ الخطي الجامد (`linear / ease-in-out`) واعتماد بروفايلات الزنبرك الطبيعي (`Kinetics Spring Physics: Snappy, Smooth, Gentle`). وتمكين أتمتة إنتاج فيديوهات المنتجات برمجياً عبر الكود (`HyperFrames: HTML/CSS/GSAP -> MP4`) وفق الإيقاع الرباعي لإعلانات وادي السيليكون (`WhatShips 4-Beat: The Hook, The Shift, The Crux, The Payoff`).
-
-</div>
-
-
-
-
-
+### [C-65] Digital Concierge & Upfront Payment Standard (التيسير الرقمي والتأشيرات)
+- Agency acts as technical facilitator for government portals (Nusuk / 96h Transit). Enforce 100% upfront payment via isolated digital card (STC Pay). B2B partnerships only.\n

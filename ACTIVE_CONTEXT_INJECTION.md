@@ -1,6 +1,6 @@
 # 🛡️ GLOBAL ACTIVE CONTEXT INJECTION (MANDATORY TECHNICAL INVARIANTS)
 > **STEP ZERO PROTOCOL:** Every agent MUST read this file at Step Zero before writing any code or plans.
-> All 77 architectural decisions, past incident post-mortems, and engineering constraints are organized by functional domain.
+> All 82 architectural decisions, past incident post-mortems, and engineering constraints are organized by functional domain.
 
 ---
 
@@ -9,7 +9,7 @@
 ### [C-11] Model Tiering Matrix (استراتيجية النماذج)
 - **Flash (`Gemini 3.8 Flash High` / `OpenCode Muse Spark`):** Routine scripting, terminals, boilerplate, content, data layers, Git commands.
 - **Pro (`Claude Sonnet 5.5`):** General programming, feature development, component refactoring.
-- **Thinking (`Claude Opus 5.5 / Opus Max`):** Architecture planning, Devil's Advocate audits, invariant verification.
+- **Thinking (`Claude Opus 5.5` - High Effort):** Architecture planning, Devil's Advocate audits, invariant verification (strictly capped to High reasoning effort to prevent excessive token burn).
 
 ### [C-12] System Autonomy (استقلالية النظام)
 - Systems and skills must remain 100% model-agnostic and neutral, free from hardcoded vendor-specific lock-in.
@@ -20,15 +20,16 @@
 
 ### [C-21] Collaborative Multi-CLI Fleet Architecture (معمارية أسطول الـ CLIs)
 - **Roles:**
-  - `Claude Code CLI (Opus 5.5 Max)`: Master Orchestrator, architectural auditing, and **EXCLUSIVE TESTING MONOPOLY**.
+  - `Claude Code CLI (Opus 5.5 - High Effort)`: Master Orchestrator, architectural auditing, and **EXCLUSIVE TESTING MONOPOLY** (Effort strictly capped to High).
   - `OpenCode CLI`: Headless terminal executor, database migrations, DAOs, and data plumbing. Models: **GLM 5.3 Flash** (`-m opencode-go/glm-5.3-flash`) and **Meta Muse Spark 1.3** (`-m opencode/muse-spark-1.3-contributor`).
   - `Antigravity CLI (agcli)`: Headless terminal executor for UI/domain contracts (`agcli run`).
   - `Codex CLI`: Algorithmic translations, complex data transforms, and deep refactoring.
   - `Antigravity IDE`: Visual Cockpit & Workbench for the developer. **NEVER delegate automated background tasks to the IDE.**
 - **Standards:** Central `fleet_config.json`; all CLI communications in English; Phase Code Review Gate before transitioning phases.
 
-### [C-25] Autonomous Direct Dispatch (بروتوكول التفويض المباشر)
+### [C-25] Autonomous Direct Dispatch & Consult-and-Execute Loop (بروتوكول التفويض المباشر والاستشارة التلقائية)
 - **NEVER** ask the user to manually copy/paste prompts between CLIs. Dispatch commands directly via headless flags (`claude -p "..."`, `opencode run "..."`, `agcli run "..."`).
+- **Autonomous Consult-and-Execute Pipeline (الاستشارة التلقائية):** يتولى `Antigravity IDE` القيادة التنفيذية الميدانية للواجهات والمتصفح والتعديلات المباشرة، ويستشير `Claude Code CLI` برمجياً في الخلفية (`claude -p "..."`) للقرارات المعمارية واعتماد الاختبارات الحصري، مما يوفر أكثر من 80% من استهلاك التوكنز ويقضي على تجمد المتصفح.
 
 ### [C-31] Active OpenCode Token Conservation (تفعيل أوبن كود لترشيد التوكنز)
 - Offload routine CLI tasks, boilerplate, and database migrations to OpenCode CLI (`GLM 5.3 Flash` / `Muse Spark 1.3`) to preserve Opus Max quota.
@@ -270,6 +271,13 @@
 - عند بناء أو تسليم تطبيقات الويب ولوحات البيانات المستقلة (Single-File SPAs) للعملاء، يُحظر الاعتماد الحصري على مسارات السكربتات النسبية دون حماية.
 - يجب دائماً تضمين معالج الخطأ التلقائي `onerror` في وسوم `<script>` للتبديل الهجين إلى شبكات CDN موثوقة (jsDelivr / cdnjs) فور غياب الملف المحلي، مع ضبط مسارات الـ Web Workers ديناميكياً لضمان عدم تعطل ميزات الاستيراد أو القراءة عند فتح ملف HTML منفرداً.
 
+### [C-88] Elementor Pro Form Tracking, CRO Double-Tagging & Google Ads API v22 FastMCP Standard (معيار تتبع نماذج ووردبريس وخادم FastMCP لإعلانات جوجل)
+- **Elementor AJAX Invariant:** Listen to `submit_success` via jQuery to push `lead_form_submit` into `window.dataLayer`:
+  `<script>jQuery(document).on('submit_success',function(){window.dataLayer=window.dataLayer||[];dataLayer.push({event:'lead_form_submit'});});</script>`. Always map to a GTM `Custom Event` trigger named `lead_form_submit` to avoid "Needs attention" conversion status.
+- **WhatsApp RegEx Link Invariant:** Live website buttons often use `https://wa.me/966...` rather than legacy `api.whatsapp.com/send?phone=`. Always use GTM Click URL `matches RegEx (ignore case)`: `wa\.me|send\?phone=` to eliminate lead loss.
+- **Redundant gtag Purge & Cache-Busting Audit:** Once Google Tag is active inside published GTM, purge hardcoded `gtag.js` snippets from WordPress (YYDevelopment/theme) to prevent double counting conversions. Purge server cache (LiteSpeed/Nginx) and append `?nocache=1` when verifying live GTM/gtag injections.
+- **FastMCP stdio Isolation:** Route all logging to `sys.stderr`; target Google Ads API v22; expose atomic tools (`list_customers`, `get_campaigns`, `run_gaql`).
+
 ---
 
 ## 🎨 DOMAIN 5: UI/UX, RTL/BIDI, TYPOGRAPHY & DOCUMENT ENGINES
@@ -322,10 +330,38 @@
 - يُعتمد محرك `Microsoft Edge Headless` (`msedge.exe --headless --disable-gpu --no-pdf-header-footer --run-all-compositor-stages-before-draw --print-to-pdf=...`) كمعيار أساسي سريع وموثوق في بيئة ويندوز لتوليد أدلة التشغيل وعروض الأسعار والتقارير التنفيذية من قوالب HTML الطباعية.
 - يجب فرض فواصل الصفحات الصريحة (`page-break-before: always;`) وموازنة توزيع المحتوى لضمان استقرار الصفحات وخلو الوثيقة من أي صفحات بيضاء أو اقتطاعات بصرية، مع الالتزام بالخطوط القياسية (Cairo / Tajawal / JetBrains Mono) والقاعدة 50 للأرقام (0-9).
 
-### [C-81] Universal Windows File Explorer Discovery & Desktop Output Hub Standard (المعيار العالمي لإظهار وتصدير الملفات المولدة)
-- **حظر المسارات المنعزلة (No Raw /mnt/ Paths):** يُحظر تماماً على أي وكيل في Antigravity أو الأسطول تقديم روابط أو مسارات ملفات مولدة تبدأ بـ `/mnt/...` دون ترجمتها الصريحة لمسار ويندوز المقابل (`D:\...` أو `C:\...`).
-- **التصدير التلقائي لسطح المكتب (Mandatory Desktop Output Hub):** فور توليد أي ملف مخرج نهائي (PDF, DOCX, XLSX, HTML, Zip), يجب نسخه تلقائياً إلى مجلد مخرجات سطح المكتب الموحد: `C:\Users\Kt\Desktop\المستندات_المولدة\`.
-- **الإظهار الفوري التلقائي (Automatic Explorer Reveal):** يجب على كل سكربت أو أداة توليد استدعاء `file_explorer_bridge.process_generated_file(path)` أو أمر `reveal "<file>"` مباشرة وبشكل غير تزامني (Detached `explorer.exe /select,"<win_path>"` بـ `start_new_session=True`) لفتح مستكشف ملفات ويندوز وتحديد الملف فورياً أمام المستخدم دون انتظار.
+### [C-84] Campaign Performance Report Mathematical & Commercial Integrity Standard (معيار النزاهة الرياضية والتجارية لتقارير الحملات الإعلانية)
+- **Mathematical Pre-Flight Invariant:**
+  - يُحظر تماماً وجود أي تباين رقمي بين بطاقات الأداء العلوية (KPI Tiles) وأعمدة وصفوف جداول التقرير التفصيلية.
+  - جميع الإجماليات والمؤشرات المشتقة (CTR, Conv. Rate, CPA, CPC) يجب أن تُحسب بدقة متناهية من واقع حاصل قسمة الخلايا الفعلية، دون تقريب مضلل أو خلط بين فترات زمنية متباينة.
+- **Conversion Definition Precision:**
+  - عند تغيير أو ترقية أهداف التحويل خلال الشهر (مثل التحول من زيارات الصفحات إلى المكالمات الفعلية أو نقرات واتساب)، يُمنع تعميم الرقم كـ "عملاء فعليين"، ويجب الإفصاح الدقيق عن عدد التحويلات قبل وبعد تاريخ الترقية بحواشٍ تفسيرية واضحة لحماية مصداقية الوكالة أمام سجلات مبيعات العميل.
+- **Accountable Executive Ownership & Zero-Deflection Standard:**
+  - في حال حدوث أي تجاوز لسقف الميزانية أو تطبيق توصية غير معتمدة، يُحظر إلقاء اللوم على "ضغط الخوارزمية" أو تغليف الخطأ كـ "تجربة مدروسة" لأن سجل Change History في Google Ads يكشف الحقيقة.
+  - يجب الإفصاح المباشر بأسلوب استشاري مسؤول بصيغة المتكلم، وتحديد عدد أيام التجاوز، والمبلغ الصافي للصرف الزائد، والتأكيد على حسمه واستيعابه لصالح العميل، وتوثيق ذلك في سجل التغييرات (Change Log).
+- **Template De-Slop & Human Voice Standard:**
+  - إزالة كافة وسوم القوالب الآلية (مثل: "قرار حاسم"، "درس استراتيجي"، "دقة الخوارزمية") والأقواس الإدارية الداخلية لحفظ وقار المستند الاستشاري.
+
+### [C-85] Dual-Basis Accounting Standard in Logistics & Rental Systems (معيار المطابقة المزدوجة للتأجير والخدمات)
+- في لوحات تحكم وتطبيقات إدارة التأجير والخدمات اللوجستية (مثل الحاويات، تأجير المعدات، وسيارات الخدمة)، غالباً ما يحدث تباين تقويمي بين **تاريخ الفاتورة (Invoice Date)** و**تاريخ بدء الإيجار/التسليم الميداني (Rental Start Date)** للعمليات الصادرة في نهايات وبدايات الشهور.
+- **القيد المعماري الإلزامي:** يُحظر تماماً فرض معيار فلترة أحادي يجبر المستخدم على التناقض مع كشوفاته الرسمية. يجب بناء **محرك مطابقة مزدوج (Dual-Reconciliation Toggle)** يتيح التبديل بنقرة واحدة بين المعيارين، مع عرض شارة توضيحية صريحة توضح رقم الفاتورة وفارق الرد والمبلغ المحاسبي بدقة تامة.
+
+### [C-86] Theme Cascade Specificity & WCAG AAA Contrast Standard (معيار السيادة الطبقية والتباين البصري)
+- **سيادة الحالات النشطة (State Specificity Invariant):** عند تعريف أنماط الوضع النهاري/الليلي، يُحظر إعطاء الفئة الأساسية (مثل `.chip` أو `.btn`) وسم `!important` للون والخلفية دون تمرير `!important` متطابقة أو ذات سيادة أعلى للفئات النشطة (`.active`, `:focus`)؛ لمنع طمس الحالة النشطة وظهورها بمظهر العناصر غير المحددة.
+- **اعتماد التباين العنبري الفائق (Logistics Amber Contrast):** لتفادي فشل التباين مع النصوص البيضاء (حيث يعطي `#d97706` نسبة 3.19:1 فقط)، يُعتمد اللون العنبري اللوجستي العميق `#92400e` الذي يحقق نسبة تباين **7.09:1** متوافقاً مع معيار **WCAG AAA**.
+- **إلزامية التحقق عبر Computed Styles الحقيقية:** في كافة بوابات تدقيق الواجهات، يجب قياس الألوان عبر استخراج `window.getComputedStyle()` من المتصفح الحقيقي دون الاعتماد على القراءة النصية للـ CSS المجرد، مع تعطيل الـ CSS Transitions أثناء الفحص لضمان استقرار القراءات.
+
+### [C-87] Pure Client-Delivery Web App Bundles & Neutral Filter Standard (معيار حزم تسليم تطبيقات الويب للعملاء وحيادية الفلترة)
+- **نقاء حزمة التسليم (Pure Web App Bundle):** عند تجهيز حزم التسليم المضغوطة (`.zip`) الخاصة بتطبيقات الويب المستقلة (SPAs) ولوحات التحليلات للعملاء:
+  1. يجب حصر محتويات الحزمة حصرياً في الملفات التشغيلية اللازمة لعمل التطبيق (ملفات HTML التطبيقية، القالب الفارغ الجديد، مكتبات التشغيل الأوفلاين المحلية `xlsx`, `pdf`, `worker`، والأصول البصرية كالشعارات).
+  2. يُحظر حشو الحزمة بتقارير PDF إدارية أو وثائق Word أو كشوفات إكسيل مرجعية غير لازمة للتشغيل، لمنع تشتيت العميل ولتقليص حجم الحزمة إلى الحد الأدنى (< 1 MB).
+- **حيادية الفلاتر الزمنية السريعة (Neutral Filter Default):**
+  1. يجب أن تفتح لوحات البيانات الافتراضية على كامل النطاق الزمني للبيانات المعتمدة (Full Period) دون أي انحياز مسبق لشهر أو فترة منقضية.
+  2. يُحظر تثبيت أزرار فلاتر سريعة بنصوص وأرقام ثابتة (Hardcoded) لشهور محددة قديمة، ويجب أن تُحسب عدادات الفلاتر السريعة ديناميكياً من مصفوفة البيانات الحية.
+
+### [C-89] Windows Headless Chrome/Edge PDF Isolated User-Data-Dir Invariant (منع تصادم أقفال ProcessSingleton عند توليد PDF)
+- عند توليد مستندات PDF من قوالب HTML عبر `chrome.exe` أو `msedge.exe` في الوضع غير المرئي (`--headless`) على بيئة ويندوز أثناء فتح المتصفح من قِبل المستخدم، يفشل الأمر فوراً بالرمز 13 نتيجة قفل `ProcessSingleton`.
+- **القيد المعماري الإلزامي:** يجب دائماً تمرير مجلد بيانات مستخدم مؤقت ومعزول عبر `--user-data-dir="C:\Users\<User>\AppData\Local\Temp\chrome_temp_pdf"` مع `--no-sandbox` و `--disable-gpu` و `--no-pdf-header-footer` لضمان إتمام الطباعة فورياً دون أي تصادم مع متصفح المستخدم المفتوح.
 
 ---
 
