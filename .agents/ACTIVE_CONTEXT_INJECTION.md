@@ -141,6 +141,33 @@
   1. يُحظر تماماً توجيه المستخدم لتنفيذ أوامر طرفية يدوية (`git push`, `git commit`, `restart`, `adb`).
   2. يتولى وكيل محرر Antigravity المحلي في الخلفية فوراً وبشكل ذاتي تنفيذ كافة عمليات الـ Git، تشغيل الاختبارات المؤتمتة، والتحقق الميداني بمجرد جاهزية المخرجات، مع إخطار المستخدم بالنتيجة النهائية بأسلوب مقتضب ومباشر.
 
+### [C-96] Hybrid Autonomous E2E Browser Testing & Claude Sign-Off Pipeline (منظومة الفحص التفاعلي المزدوج والاعتماد المعماري)
+- **فصل مسار التنفيذ الميداني عن مسار الاعتماد (Separation of Test Execution from Architectural Sign-Off):**
+  1. **مسار التنفيذ التفاعلي الشاق (Execution Lane):** يتولى الثنائي `Antigravity CLI (agcli / Gemini 3.8 Flash High)` مع مهارة `webapp-qa-tester` (المدعومة بـ Playwright و Chrome DevTools) كافة عمليات الفحص التفاعلي للأزرار والحقول في المتصفح الحقيقي (نقر، تعبئة، محاكاة أحداث، لقطات شاشة، وفحص DOM و CSS LTR)، بتكلفة $0.00 وبلا أي استنزاف لكوتا كلود.
+  2. **توليد مصفوفة الأدلة (Execution Evidence & Matrix Generation):** يقوم الثنائي بتجميع كافة الأدلة وسجلات النجاح الخضراء 100% في تقرير مصفوفة مدمج ومنظم.
+  3. **بوابة الاعتماد المعماري الصارم (Claude Code Architectural Sign-Off Gate):** يُرفع تقرير الأدلة المنجزة إلى `Claude Code CLI (Opus Max)` في استدعاء خفيف وموجز (< 5,000 توكنز) لإجراء التدقيق المعماري النهائي (Devil's Advocate Audit) وإصدار الختم الرسمي `[APPROVED]`، مما يوفر أكثر من 90% من كوتا كلود للمهام المعمارية والقرارات التصميمية الكبرى.
+
+### [C-98] WSL Stdin / TTY Decoupling for Windows CLI Harnesses (عزل قنوات الدخل لأدوات ويندوز من WSL)
+- **عزل طرفية الدخل (Stdin Isolation):** عند تشغيل أوامر وأدوات أسطول الـ CLIs المثبتة في بيئة ويندوز (مثل `opencode`, `claude`, `codex`) من داخل حاويات أو طرفيات Linux / WSL بنمط غير تفاعلي (headless):
+  1. **إلزامية إعادة توجيه الدخل:** يجب دائماً وبشكل إلزامي عزل طرفية الدخل عبر `< /dev/null` أو تمرير المحتوى الموجه عبر الملفات والأنابيب (`cat prompt.txt | ...`).
+  2. **حظر الاستدعاء المباشر دون توجيه:** يُمنع استدعاء الأوامر دون إعادة توجيه الدخل لتفادي تجمد العمليات في انتظار موجه تفاعلي (Interactive TTY Hang).
+
+### [C-100] Multi-CLI Fleet Teamwork Preview Standard (معيار العمل الجماعي لأسطول الـ CLIs - الخطاف 31)
+- **فلسفة التوزيع بدلاً من الاستنزاف الأحادي:**
+  - تحويل وتوزيع نمط `teamwork-preview` الأحادي في محرر Antigravity (المقيد بالقيد [C-77]) إلى أسطول الـ CLIs الموزع لحماية نافذة السياق وترشيد الكوتا بنسبة 85%+.
+  - **توزيع الأدوار:**
+    1. **Master Orchestrator:** `Claude Code CLI (Opus Max)` بالتعاون مع `Antigravity IDE` (Cockpit).
+    2. **Parallel Explorers:** `Antigravity CLI (agcli)` للواجهات والأصول، `OpenCode GLM 5.3 Flash` لقواعد البيانات والخلفية، `OpenCode Spark` لمنطق النطاق والتوافق.
+    3. **Implementation Workers:** `OpenCode GLM 5.3 Flash` (Worker A - ماكس 4 ملفات بالدفعة [C-78])، `Cline CLI` و `agcli` (Worker B - واجهات وسقالات).
+    4. **Adversarial Reviewers & Challengers:** `OpenCode DeepSeek V4` (مراجعة معمارية وتحدي البيانات)، `agcli` مع `webapp-qa-tester` (فحص المتصفح التفاعلي المجاني [C-96]).
+    5. **Exclusive Testing Monopoly & Forensic Auditor:** `Claude Code CLI (Opus Max)` حصرياً لتشغيل الاختبارات وإصدار الاعتماد `[APPROVED]`.
+- **قاعدة نقاء مساحة العمل (Metadata-Only Rule):**
+  - يُحظر تماماً وضع أي أكواد مصدرية أو ملفات بيانات أو نسخ ثنائية داخل `.agents/fleet_teamwork/`؛ تقتصر هذه المجلدات حصرياً على سجلات المتابعة والأدلة الوصفية (`DISPATCH.md`, `BRIEFING.md`, `handoff.md`, `GATE_STATUS.md`).
+
+### [C-102] Teamwork Physical Artifact Evidence Standard (معيار أدلة التسليم الفيزيائية لخطاف 31)
+- **إلزامية ملفات الأدلة الحقيقية:** في خطاف 31 (`fleet_teamwork_orchestrator.py`)، يُحظر تماماً الاكتفاء بالإشارة التلقائية إلى `handoff.md` كقيمة شكلية في سجل البوابات دون وجود أصل فيزيائي.
+- **التوثيق الإلزامي لكل دور:** يجب على كل وكيل مشغل لدور في المراحل M1 (المسح والاستكشاف)، M2 (التنفيذ والتطوير)، و M3 (المراجعة والتحدي) كتابة ملف `handoff.md` فعلي وموثق داخل مجلد دوره المخصص (مثل `.agents/fleet_teamwork/<role>/handoff.md`) يوضح بدقة ما تم إنجازه أو مراجعته قبل تسجيل أحكام `DONE` أو `CLEAN`.
+
 ---
 
 ## 📦 DOMAIN 2: REPOSITORY, GIT INVARIANTS & CENTRAL WORKSPACE
@@ -338,6 +365,12 @@
   1. **إلزامية مضاعفة الرمز (`%%`):** يُحظر استخدام رمز النسبة المئوية المنفرد `%` داخل المعاملات النصية الثابتة في نصوص الاستعلامات (مثل شروط `LIKE '/api/v1/students/%'`)؛ لأن محرك psycopg3 يعتبره محرف استبدال ناقص ويفشل بخطأ خادم `500 ProgrammingError`.
   2. **الصيغة الإلزامية:** يجب كتابة الاستعلام دائماً بصيغة `LIKE '/api/v1/students/%%'` لضمان هروبه وتحويله لرمز `%` واحد أثناء التنفيذ بأمان تام.
 
+### [C-97] WhatsApp Web Binary Attachment Sandbox & Public Capability URL Standard (معيار مشاركة الوثائق وتجاوز عزل واتساب ويب)
+- **عزل متصفح الويب عن المرفقات الثنائية (WhatsApp Web Sandbox):**
+  1. يُحظر الاعتماد على بروتوكولات روابط واتساب (`wa.me` أو `web.whatsapp.com/send`) أو افتراض قدرتها على إرفاق ملفات ثنائية (PDF / Documents) مباشرة، كما يُحظر الاعتماد على تمرير `text` مع `files` في `navigator.share` (يتجاهل تطبيق واتساب الملف ويرسل النص فقط).
+  2. **نمط روابط القدرة العامة (Capability URL Endpoint):** عند مشاركة أي مستند رسمي (سند، فاتورة، تقرير) عبر واتساب من تطبيقات الويب، يجب إنشاء نقطة نهاية عامة ومؤمّنة برمز قدرة أو معرف فريد غير قابل للتخمين (مثل `/api/v1/public/.../pdf`) لخدمة ملف الـ PDF مباشرة للمستلم وتضمين الرابط داخل نص الرسالة.
+  3. **التنزيل المتوازي والتحذير المرئي:** تفعيل التنزيل المتوازي للملف محلياً على جهاز المستخدم المرسل مع تنبيه مرئي (Toast) لإرشاده.
+
 ---
 
 ## 🎨 DOMAIN 5: UI/UX, RTL/BIDI, TYPOGRAPHY & DOCUMENT ENGINES
@@ -396,6 +429,11 @@
 - **حصر العمل على أقراص البيانات:** تقتصر كافة عمليات الإنشاء، التوليد، التصدير، وتحديث مكتبة الأوامر حصرياً على أقراص المشاريع والبيانات (`D:\` و `F:\`) أو داخل نظام ملفات لينكس المحلي (`/home/t/`).
 - **تحديث مكتبة الأوامر:** تُحدّث النسخة الرسمية حصراً في `F:\AI PROJECTS\Claude+Antigravity\مكتبة الأوامر.xlsx`، ويُمنع المساس بأي نسخة على القرص `C:`.
 
+### [C-99] Executive Non-Technical Client Reporting & Direct Public URL Standard (معيار التقارير التنفيذية للعملاء غير التقنيين)
+- **حظر المصطلحات البرمجية تماماً:** عند إعداد أي وثيقة أو تقرير موجه لعميل إداري غير تقني، يُمنع ذكر أسماء الخوادم، أو قواعد البيانات، أو التقنيات الداخلية (Docker, Playwright, API, CRUD, JSON).
+- **الهيكلة بالقيمة والأثر:** التركيز حصرياً على الأثر اليومي (توفير الوقت، راحة أولياء الأمور، الأمان المالي)، مع شرح كل ميزة في بطاقة بصرية تتضمن خطوات الاستخدام البسيطة (خطوتان فقط).
+- **الاستضافة والنشر الفوري:** توليد التقرير بصيغة PDF ونشره فوراً في المسار العام لخادم الوكالة مع توفير رابط HTTPS مباشر يمكن فتحه فوراً من الجوال.
+
 ---
 
 ## 📚 DOMAIN 6: PROMPT LIBRARY & SUSTAINED MEMORY ECOSYSTEM
@@ -425,5 +463,9 @@
 - Capture engineered prompts in three-part format: (1) Emoji + Descriptive Name, (2) Prompt Command, (3) Usage Notes.
 - Auto-route to `مكتبة الأوامر.xlsx` using `prompt_library_curator.py` with Segoe UI and Consolas typography, falling back to Excel COM if locked.
 
+### [C-101] Master Workbook Git-Diff Integrity Standard (معيار فحص تكامل الإكسيل ضد Git HEAD)
+- **حظر التحقق السطحي عند إضافة الأوامر:** عند إضافة أو تعديل أي موجهات في `مكتبة الأوامر.xlsx` (الخطاف 26)، يُمنع منعاً باتاً على مراجعي الجودة والمهندسين الحكم بسلامة المصنف (`sheet integrity intact`) بمجرد فحص الأسطر المضافة حديثاً فقط.
+- **إلزامية الفحص الجنائي المقارن:** يجب برمجياً إجراء مقارنة تفريعية شاملة لكافة أوراق المصنف مقابل آخر التزام معتمد في Git عبر `git show HEAD:مكتبة الأوامر.xlsx` للتحقق من عدم حدوث أي انحراف (Drift) أو فقدان لأي صفوف أو أوامر تاريخية سابقة (`TOTAL MISSING ROWS: 0`)، واستعادة أي صفوف مفقودة برمجياً عبر `tools/restore_missing_prompts.py` قبل طلب الاعتماد المعماري M4.
+
 ### [C-65] Digital Concierge & Upfront Payment Standard (التيسير الرقمي والتأشيرات)
-- Agency acts as technical facilitator for government portals (Nusuk / 96h Transit). Enforce 100% upfront payment via isolated digital card (STC Pay). B2B partnerships only.\n
+- Agency acts as technical facilitator for government portals (Nusuk / 96h Transit). Enforce 100% upfront payment via isolated digital card (STC Pay). B2B partnerships only.
