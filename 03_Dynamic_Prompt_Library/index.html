@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مكتبة الأوامر الذكية | Smart Prompt Library</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts (Cairo for Headings, Tajawal for Body, Fira Code for Monospace, Outfit for Numbers) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Fira+Code:wght@400;500;600&family=Outfit:wght@400;600;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- SheetJS for parsing XLSX directly in browser -->
@@ -14,31 +14,64 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <style>
-        /* ===== DESIGN TOKENS — GEN Z NEON CANDY PALETTE ===== */
+        /* ===== DESIGN TOKENS — GOOGLE STITCH & REFERO VERCEL / LINEAR DARK ===== */
         :root {
-            --bg: #0a0a12;
-            --surface: rgba(18, 16, 35, 0.7);
-            --surface-hover: rgba(28, 24, 52, 0.85);
-            --border: rgba(255, 255, 255, 0.07);
-            --border-glow: rgba(168, 85, 247, 0.3);
+            /* Surfaces & Canvas (Linear Obsidian Developer Theme) */
+            --bg: #08090e;
+            --bg-canvas: #08090e;
+            --bg-surface: #0f111a;
+            --surface: rgba(15, 17, 26, 0.78);
+            --surface-hover: rgba(22, 25, 38, 0.90);
+            --bg-elevated: #161926;
+            --bg-glass: rgba(15, 17, 26, 0.75);
 
-            /* Neon Candy Colors */
+            /* Hairline Borders & Inner Highlights (Vercel Refero Standards) */
+            --border: rgba(255, 255, 255, 0.08);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-medium: rgba(255, 255, 255, 0.14);
+            --border-active: rgba(99, 102, 241, 0.45);
+            --border-glow: rgba(99, 102, 241, 0.25);
+            --shadow-inner-glow: inset 0 1px 0 0 rgba(255, 255, 255, 0.09);
+
+            /* Brand & Accents (Linear Indigo & Vercel Cyan) */
+            --accent-primary: #6366f1;
+            --accent-primary-hover: #4f46e5;
+            --accent-glow: rgba(99, 102, 241, 0.35);
+
             --neon-purple: #a855f7;
             --neon-pink: #ec4899;
             --neon-orange: #f97316;
             --neon-cyan: #06b6d4;
-            --neon-green: #22c55e;
-            --neon-yellow: #eab308;
+            --neon-green: #10b981;
+            --neon-yellow: #f59e0b;
 
-            --text-primary: #f1f0f9;
-            --text-secondary: #a09ab8;
-            --text-muted: #6b6484;
+            /* Typography & Contrast (WCAG AA Compliant) */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
 
-            --radius-card: 20px;
-            --radius-pill: 100px;
-            --shadow-card: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
-            --shadow-glow-purple: 0 0 30px rgba(168,85,247,0.25);
-            --shadow-glow-pink: 0 0 30px rgba(236,72,153,0.25);
+            /* Typography Families */
+            --font-heading: 'Cairo', 'Outfit', sans-serif;
+            --font-body: 'Tajawal', sans-serif;
+            --font-mono: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+
+            /* Spacing & Radii (4px/8px Refero Baseline) */
+            --radius-xs: 6px;
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-card: 18px;
+            --radius-pill: 9999px;
+
+            /* Shadows & Depth */
+            --shadow-card: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+            --shadow-glow-purple: 0 0 32px rgba(168,85,247,0.22);
+            --shadow-glow-pink: 0 0 32px rgba(236,72,153,0.22);
+            --shadow-glow-primary: 0 0 32px rgba(99, 102, 241, 0.28);
+
+            /* Kinetics & Spring Physics (Paul Bakaus Impeccable) */
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-fast: 160ms;
+            --duration-normal: 240ms;
         }
 
         /* ===== RESET ===== */
@@ -46,7 +79,7 @@
 
         /* ===== ANIMATED MESH BACKGROUND ===== */
         body {
-            font-family: 'Tajawal', 'Outfit', sans-serif;
+            font-family: var(--font-body);
             background-color: var(--bg);
             color: var(--text-primary);
             min-height: 100vh;
@@ -59,10 +92,10 @@
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(ellipse 80% 50% at 20% -10%, rgba(168,85,247,0.18) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(236,72,153,0.14) 0%, transparent 55%),
-                radial-gradient(ellipse 50% 60% at 90% 70%, rgba(249,115,22,0.10) 0%, transparent 50%),
-                radial-gradient(ellipse 40% 50% at 5% 80%, rgba(6,182,212,0.10) 0%, transparent 50%);
+                radial-gradient(ellipse 80% 50% at 20% -10%, rgba(99,102,241,0.16) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 10%, rgba(168,85,247,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 60% at 90% 70%, rgba(6,182,212,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 50% at 5% 80%, rgba(99,102,241,0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
             animation: bgPulse 12s ease-in-out infinite alternate;
@@ -83,9 +116,9 @@
             z-index: 0;
             animation: orbFloat 20s ease-in-out infinite;
         }
-        .orb-1 { width: 350px; height: 350px; background: rgba(168,85,247,0.15); top: -80px; right: -80px; animation-duration: 22s; }
-        .orb-2 { width: 280px; height: 280px; background: rgba(236,72,153,0.12); bottom: 10%; left: -60px; animation-duration: 18s; animation-delay: -6s; }
-        .orb-3 { width: 200px; height: 200px; background: rgba(249,115,22,0.10); top: 50%; right: 5%; animation-duration: 25s; animation-delay: -12s; }
+        .orb-1 { width: 350px; height: 350px; background: rgba(99,102,241,0.14); top: -80px; right: -80px; animation-duration: 22s; }
+        .orb-2 { width: 280px; height: 280px; background: rgba(168,85,247,0.10); bottom: 10%; left: -60px; animation-duration: 18s; animation-delay: -6s; }
+        .orb-3 { width: 200px; height: 200px; background: rgba(6,182,212,0.08); top: 50%; right: 5%; animation-duration: 25s; animation-delay: -12s; }
 
         @keyframes orbFloat {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -98,7 +131,7 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1240px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
@@ -107,7 +140,7 @@
         .hero {
             text-align: center;
             padding: 4rem 1rem 2.5rem;
-            animation: fadeDown 0.8s ease forwards;
+            animation: fadeDown 0.8s var(--ease-spring) forwards;
         }
 
         @keyframes fadeDown {
@@ -119,9 +152,9 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            background: rgba(168,85,247,0.15);
-            border: 1px solid rgba(168,85,247,0.35);
-            color: var(--neon-purple);
+            background: rgba(99,102,241,0.12);
+            border: 1px solid rgba(99,102,241,0.3);
+            color: #818cf8;
             font-size: 0.8rem;
             font-weight: 600;
             padding: 0.35rem 1rem;
@@ -132,11 +165,12 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-family: var(--font-heading);
+            font-size: clamp(2.3rem, 5vw, 3.9rem);
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.15;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, var(--neon-purple) 40%, var(--neon-pink) 70%, var(--neon-orange) 100%);
+            background: linear-gradient(135deg, #ffffff 10%, #c7d2fe 45%, var(--accent-primary) 75%, var(--neon-pink) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -146,9 +180,9 @@
         .hero p {
             color: var(--text-secondary);
             font-size: 1.1rem;
-            max-width: 520px;
+            max-width: 560px;
             margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
         /* ===== STICKY CONTROL PANEL ===== */
@@ -161,23 +195,23 @@
         }
 
         .control-panel {
-            background: rgba(14, 12, 26, 0.75);
+            background: var(--bg-glass);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border);
-            border-radius: 18px;
+            border-radius: var(--radius-card);
             padding: 1rem 1.25rem;
             display: flex;
             flex-wrap: wrap;
             gap: 0.75rem;
             align-items: center;
-            box-shadow: 0 4px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+            box-shadow: 0 4px 40px rgba(0,0,0,0.55), var(--shadow-inner-glow);
         }
 
         /* Search Box */
         .search-box {
             flex: 1;
-            min-width: 200px;
+            min-width: 220px;
             position: relative;
         }
 
@@ -186,20 +220,20 @@
             padding: 0.8rem 1.2rem 0.8rem 2.8rem;
             background: rgba(255,255,255,0.04);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: var(--radius-sm);
             color: var(--text-primary);
-            font-family: 'Tajawal', sans-serif;
+            font-family: var(--font-body);
             font-size: 1rem;
             outline: none;
             text-align: right;
-            transition: border-color 0.25s, box-shadow 0.25s;
+            transition: border-color var(--duration-fast) var(--ease-spring), box-shadow var(--duration-fast) var(--ease-spring);
         }
 
         .search-box input::placeholder { color: var(--text-muted); }
 
         .search-box input:focus {
-            border-color: var(--neon-purple);
-            box-shadow: 0 0 0 3px rgba(168,85,247,0.15);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
         .search-box .search-icon {
@@ -210,12 +244,12 @@
             color: var(--text-muted);
             font-size: 1rem;
             pointer-events: none;
-            transition: color 0.25s;
+            transition: color var(--duration-fast);
         }
 
-        .search-box input:focus ~ .search-icon { color: var(--neon-purple); }
+        .search-box input:focus ~ .search-icon { color: var(--accent-primary); }
 
-        /* Upload Button */
+        /* Upload Button — Single Primary CTA */
         .upload-btn-wrapper {
             position: relative;
             overflow: hidden;
@@ -227,25 +261,25 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.8rem 1.4rem;
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-            border: none;
-            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #4f46e5 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
             color: #fff;
-            font-family: 'Tajawal', sans-serif;
+            font-family: var(--font-heading);
             font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             white-space: nowrap;
-            box-shadow: 0 4px 20px rgba(168,85,247,0.35);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px var(--shadow-glow-primary), var(--shadow-inner-glow);
+            transition: transform var(--duration-fast) var(--ease-spring), box-shadow var(--duration-fast) var(--ease-spring);
         }
 
         .btn-upload:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 28px rgba(168,85,247,0.5);
+            box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5), var(--shadow-inner-glow);
         }
 
-        .btn-upload:active { transform: translateY(0); }
+        .btn-upload:active { transform: translateY(1px) scale(0.99); }
 
         .upload-btn-wrapper input[type=file] {
             position: absolute; inset: 0;
@@ -265,31 +299,31 @@
         }
 
         .tab {
-            padding: 0.5rem 1.1rem;
+            padding: 0.5rem 1.15rem;
             border-radius: var(--radius-pill);
             border: 1px solid var(--border);
             background: rgba(255,255,255,0.03);
             color: var(--text-secondary);
-            font-family: 'Tajawal', sans-serif;
+            font-family: var(--font-body);
             font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
             white-space: nowrap;
-            transition: all 0.2s ease;
+            transition: all var(--duration-fast) var(--ease-spring);
             user-select: none;
         }
 
         .tab:hover {
-            border-color: rgba(168,85,247,0.4);
+            border-color: rgba(99,102,241,0.4);
             color: var(--text-primary);
-            background: rgba(168,85,247,0.08);
+            background: rgba(99,102,241,0.08);
         }
 
         .tab.active {
-            background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(236,72,153,0.2));
-            border-color: rgba(168,85,247,0.5);
+            background: linear-gradient(135deg, rgba(99,102,241,0.28), rgba(168,85,247,0.22));
+            border-color: rgba(99,102,241,0.6);
             color: #fff;
-            box-shadow: 0 0 16px rgba(168,85,247,0.2);
+            box-shadow: 0 0 18px rgba(99,102,241,0.25), var(--shadow-inner-glow);
         }
 
         /* ===== STATS BAR ===== */
@@ -302,7 +336,7 @@
             color: var(--text-muted);
         }
         .stats-bar span { display: flex; align-items: center; gap: 0.35rem; }
-        .stats-bar strong { color: var(--neon-purple); font-weight: 700; }
+        .stats-bar strong { color: var(--accent-primary); font-weight: 700; font-family: 'Outfit', sans-serif; }
 
         /* ===== CARDS GRID ===== */
         .prompts-grid {
@@ -312,7 +346,7 @@
             padding-top: 0.5rem;
         }
 
-        /* ===== PROMPT CARD ===== */
+        /* ===== PROMPT CARD (Linear Obsidian Surface) ===== */
         .prompt-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -325,8 +359,8 @@
             overflow: hidden;
             text-align: right;
             box-shadow: var(--shadow-card);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-            animation: cardIn 0.45s ease both;
+            transition: transform var(--duration-normal) var(--ease-spring), box-shadow var(--duration-normal) var(--ease-spring), border-color var(--duration-normal) var(--ease-spring);
+            animation: cardIn 0.45s var(--ease-spring) both;
         }
 
         @keyframes cardIn {
@@ -336,8 +370,8 @@
 
         .prompt-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(168,85,247,0.35);
-            box-shadow: var(--shadow-card), var(--shadow-glow-purple);
+            border-color: rgba(99,102,241,0.38);
+            box-shadow: var(--shadow-card), 0 0 28px rgba(99,102,241,0.2);
         }
 
         /* Top accent gradient bar */
@@ -346,10 +380,10 @@
             position: absolute;
             top: 0; right: 0; left: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink), var(--neon-orange));
+            background: linear-gradient(90deg, var(--accent-primary), var(--neon-cyan), var(--neon-pink));
             border-radius: var(--radius-card) var(--radius-card) 0 0;
             opacity: 0;
-            transition: opacity 0.25s;
+            transition: opacity var(--duration-fast);
         }
         .prompt-card:hover::before { opacity: 1; }
 
@@ -359,7 +393,7 @@
             position: absolute;
             bottom: -30px; left: -30px;
             width: 120px; height: 120px;
-            background: radial-gradient(circle, rgba(236,72,153,0.07) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
             pointer-events: none;
         }
         .prompt-card:nth-child(5n)::after {
@@ -367,7 +401,7 @@
             position: absolute;
             bottom: -30px; left: -30px;
             width: 120px; height: 120px;
-            background: radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
             pointer-events: none;
         }
 
@@ -390,9 +424,9 @@
             font-size: 0.75rem;
             font-weight: 800;
             font-family: 'Outfit', sans-serif;
-            color: var(--neon-purple);
-            background: rgba(168,85,247,0.12);
-            border: 1px solid rgba(168,85,247,0.25);
+            color: #818cf8;
+            background: rgba(99,102,241,0.12);
+            border: 1px solid rgba(99,102,241,0.28);
             padding: 0.2rem 0.6rem;
             border-radius: var(--radius-pill);
             letter-spacing: 0.03em;
@@ -406,7 +440,7 @@
             color: var(--neon-cyan);
             padding: 0.2rem 0.6rem;
             border-radius: var(--radius-pill);
-            max-width: 120px;
+            max-width: 130px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -416,48 +450,51 @@
         .btn-copy {
             background: rgba(255,255,255,0.05);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: var(--radius-sm);
             color: var(--text-muted);
             cursor: pointer;
             font-size: 0.9rem;
             padding: 0.45rem 0.65rem;
-            transition: all 0.2s ease;
+            transition: all var(--duration-fast) var(--ease-spring);
             flex-shrink: 0;
         }
 
         .btn-copy:hover {
-            background: rgba(168,85,247,0.15);
-            border-color: rgba(168,85,247,0.4);
-            color: var(--neon-purple);
+            background: rgba(99,102,241,0.15);
+            border-color: rgba(99,102,241,0.4);
+            color: var(--accent-primary);
             transform: scale(1.08);
         }
 
         .btn-copy.copied {
-            background: rgba(34,197,94,0.15);
-            border-color: rgba(34,197,94,0.4);
+            background: rgba(16,185,129,0.15);
+            border-color: rgba(16,185,129,0.4);
             color: var(--neon-green);
         }
 
-        /* ===== CARD TITLE ===== */
+        /* ===== CARD TITLE (Cairo Typography) ===== */
         .card-title {
-            font-size: 1.05rem;
-            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 800;
             color: var(--text-primary);
             line-height: 1.45;
         }
 
-        /* ===== TRIGGER PROMPT BOX ===== */
+        /* ===== TRIGGER PROMPT BOX (Fira Code Monospace) ===== */
         .card-prompt {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            background: rgba(0,0,0,0.22);
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            background: rgba(0,0,0,0.32);
             padding: 0.85rem 1rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            line-height: 1.55;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            line-height: 1.6;
             white-space: pre-wrap;
             overflow-y: auto;
             max-height: 160px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
         }
 
         .card-prompt.rtl-text { text-align: right; }
@@ -510,10 +547,11 @@
         .details-section { display: flex; flex-direction: column; gap: 0.4rem; }
 
         .details-title {
-            font-size: 0.78rem;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.07em;
+            letter-spacing: 0.05em;
             color: var(--neon-cyan);
             display: flex;
             align-items: center;
@@ -534,11 +572,13 @@
         .details-body p { margin-bottom: 0.4rem; }
         .details-body strong { color: var(--text-primary); font-weight: 600; }
         .details-body code {
-            background: rgba(168,85,247,0.12);
+            font-family: var(--font-mono);
+            background: rgba(99,102,241,0.12);
             color: #c4b5fd;
-            padding: 0.1em 0.4em;
+            padding: 0.12em 0.45em;
             border-radius: 5px;
             font-size: 0.85em;
+            border: 1px solid rgba(99,102,241,0.2);
         }
 
         /* ===== NOTES / MODEL ROW ===== */
@@ -898,7 +938,25 @@
             "Notes": "الأساسي: `Claude Opus 5.5 / Opus Max (Thinking)` \n البديل: `Gemini 3.8 Flash (High)`",
             "Agents": "[fleet-orchestrator], [agent-optimizer], [code-architect], [prompt-engineer], [persistent-memory-engine]",
             "Goal": "ترقية ومعايرة مصفوفة نماذج أسطول الوكلاء المتعدد لاعتماد أحدث أجيال الذكاء الاصطناعي (Claude Opus 5.5 Max و Sonnet 5.5 و Gemini 3.8 Flash High و GLM 5.3 Flash و Codex GPT-5.6 Soul)، وتحديث قيود [C-11] و [C-21] و [C-38]، وتحديث ملفات fleet_config.json وقوالب التفويض، وتطبيق الويب التفاعلي ومكتبة الأوامر.",
-            "Details": "* **طريقة العمل والإجراءات:**\n  1. **المعايرة والترقية الشاملة لمصفوفة النماذج (Model Matrix Calibration):**\n     - ترقية نموذج القيادة المعمارية والفحص الحصري للاختبارات إلى: `Claude Opus 5.5 / Opus Max (Thinking)`.\n     - ترقية نموذج التطوير البرمجي اليومي وصناعة الميزات إلى: `Claude Sonnet 5.5`.\n     - تثبيت وتأكيد نماذج الطرفية وترشيد الكوتا: `OpenCode CLI` بنموذجي `GLM 5.3 Flash` و `Meta Muse Spark 1.3`.\n     - تثبيت منفذ واجهات Antigravity CLI / IDE: `Gemini 3.8 Flash (High Reasoning)`.\n     - تثبيت متخصص الخوارزميات والمعالجة العميقة: `Codex CLI (GPT-5.6 Soul)`.\n  2. **تحديث القيود التقنية الإلزامية (Invariants Update):**\n     - تحديث بنود [C-11] و [C-21] و [C-38] في ملف سياق الحقن الإلزامي `ACTIVE_CONTEXT_INJECTION.md`.\n  3. **المزامنة البرمجية لملفات تهيئة الأسطول (`fleet_config.json`):**\n     - فحص وتحديث حقول `active_model` في كافة ملفات `fleet_config.json` عبر المشاريع لاعتماد الجيل 5.5.\n  4. **تحديث تطبيق الويب التفاعلي والإكسيل ومكتبة الأوامر:**\n     - استدعاء `update_html.py` لتحديث مصفوفة بيانات `03_Dynamic_Prompt_Library/index.html` (29 خطافاً).\n     - استدعاء `convert_hooks_to_sheets.py` لتحديث مصنف `HOOKS_GUIDE.xlsx`.\n     - إدراج الأمر الموجه في مصنف `مكتبة الأوامر.xlsx` تحت تبويب `CLI_Core.Claude`.\n  5. **توثيق الذاكرة المستدامة (Memory Invariant):**\n     - تسجيل قرار ترقية المعمارية (ADR) في `MEMORY_STORE.md` محلياً وعالمياً.\n\n</div>"
+            "Details": "* **طريقة العمل والإجراءات:**\n  1. **المعايرة والترقية الشاملة لمصفوفة النماذج (Model Matrix Calibration):**\n     - ترقية نموذج القيادة المعمارية والفحص الحصري للاختبارات إلى: `Claude Opus 5.5 / Opus Max (Thinking)`.\n     - ترقية نموذج التطوير البرمجي اليومي وصناعة الميزات إلى: `Claude Sonnet 5.5`.\n     - تثبيت وتأكيد نماذج الطرفية وترشيد الكوتا: `OpenCode CLI` بنموذجي `GLM 5.3 Flash` و `Meta Muse Spark 1.3`.\n     - تثبيت منفذ واجهات Antigravity CLI / IDE: `Gemini 3.8 Flash (High Reasoning)`.\n     - تثبيت متخصص الخوارزميات والمعالجة العميقة: `Codex CLI (GPT-5.6 Soul)`.\n  2. **تحديث القيود التقنية الإلزامية (Invariants Update):**\n     - تحديث بنود [C-11] و [C-21] و [C-38] في ملف سياق الحقن الإلزامي `ACTIVE_CONTEXT_INJECTION.md`.\n  3. **المزامنة البرمجية لملفات تهيئة الأسطول (`fleet_config.json`):**\n     - فحص وتحديث حقول `active_model` في كافة ملفات `fleet_config.json` عبر المشاريع لاعتماد الجيل 5.5.\n  4. **تحديث تطبيق الويب التفاعلي والإكسيل ومكتبة الأوامر:**\n     - استدعاء `update_html.py` لتحديث مصفوفة بيانات `03_Dynamic_Prompt_Library/index.html` (29 خطافاً).\n     - استدعاء `convert_hooks_to_sheets.py` لتحديث مصنف `HOOKS_GUIDE.xlsx`.\n     - إدراج الأمر الموجه في مصنف `مكتبة الأوامر.xlsx` تحت تبويب `CLI_Core.Claude`.\n  5. **توثيق الذاكرة المستدامة (Memory Invariant):**\n     - تسجيل قرار ترقية المعمارية (ADR) في `MEMORY_STORE.md` محلياً وعالمياً."
+        },
+        {
+            "No": 30,
+            "Name": "30. خطاف توجيه وتفعيل الأسطول لأي مساحة عمل",
+            "Prompt": "وجه الأسطول, اربط الأسطول بالتطبيق, توجيه الأسطول للمشروع, استهدف هذا المشروع, target workspace fleet, fleet target app, ربط اللابتوب الثاني بالمشروع, الخطاف 30",
+            "Notes": "الأساسي: `Claude Opus 5.5 / Opus Max (Thinking)` \n البديل: `Gemini 3.8 Flash (High)`",
+            "Agents": "[fleet-orchestrator], [devops-deployer], [code-architect], [prompt-engineer]",
+            "Goal": "الكشف التلقائي عن مستودع مساحة العمل الحالية ونوع التقنية، وتوجيه ومزامنة عمال اللابتوب الثاني (G1, G2, G3, G4) لخدمة تطوير هذا التطبيق فورياً عبر GitHub و Tailscale مع سحب الفروع واعتمادها في قمرة القيادة.",
+            "Details": "* **طريقة العمل والإجراءات الآلية بمجرد إطلاق الخطاف:**\n  1. **الكشف الذكي التلقائي عن مساحة العمل الحالية (Workspace Context Discovery):**\n     - استخراج عنوان المستودع المركزي عبر `git remote get-url origin`.\n     - استخراج الفرع النشط عبر `git rev-parse --abbrev-ref HEAD` (افتراضياً `main`).\n     - اكتشاف نوع وبيئة التطبيق تلقائياً (Tech Stack): أندرويد (Compose/Kotlin)، فلاتر (Flutter)، ويب (React/Next)، أو خادم (FastAPI/Node).\n  2. **تهيئة بنية أوامر الأسطول في المشروع الحالي (Fleet Orders Scaffolding):**\n     - إنشاء مجلدات العمل التنظيمية للمشروع إن لم تكن موجودة:\n       `fleet_orders/incoming/` و `fleet_orders/in_progress/` و `fleet_orders/completed/`.\n     - إنشاء وتحديث ملف استهداف الأسطول المحلي `fleet_target.json` لتوثيق معلمات الربط للمشروع الحالي.\n  3. **بوابة الاعتماد المعماري الإلزامية لـ Claude Code قبل التوجيه (Mandatory Claude Code Pre-Dispatch Gate) [حظر صارم]:**\n     - يُحظر منعاً باتاً إرسال أو مزامنة أي توجيه أو أمر عمل إلى اللابتوب الثاني (Machine 2) إلا بعد قيام **Claude Code CLI (Opus Max)** بمراجعة وتدقيق معلمات التوجيه ومطابقة المستودع وخطة التوزيع، وإصدار وسم الاعتماد الصريح: `[APPROVED FOR REMOTE DISPATCH]`.\n     - في حال غياب الاعتماد، يظل التوجيه في حالة مسودة معلقة (`DRAFT_PENDING_CLAUDE_APPROVAL`) وتُقفل قنوات الإرسال للابتوب الثاني لحماية بيئة الإنتاج من أي استهداف خاطئ أو تسريب للملفات المحجورة.\n  4. **التوجيه والمزامنة الآلية للعقدة البعيدة (Remote Node Synchronization):**\n     - فور صدور اعتماد Claude Code، يتم فحص جاهزية اللابتوب الثاني (`python tools/remote_fleet_dispatch.py --ping`).\n     - إرسال توجيه فوري للابتوب الثاني لربط وتحديث المستودع المستهدف وسحب الفرع النشط:\n       `ssh autovem-worker-01 \"cd ~/projects && git remote set-url origin <target_repo> && git fetch origin\"`.\n  5. **ربط وتنشيط لوحة التحكم المركزية (Fleet Cockpit Binding :8088):**\n     - ربط خادم لوحة التحكم ([http://localhost:8088](http://localhost:8088)) بمجلد أوامر مساحة العمل الحالية.\n     - تخصيص العمال الأربعة وفقاً لطبيعة التطبيق:\n       - `Worker G1` (UI / Frontend - Jetpack Compose / Web).\n       - `Worker G2` (Backend / APIs / Domain Logic).\n       - `Worker G3` (Database / Schemas / Migrations - OpenCode Zen).\n       - `Worker G4` (Large Context / Docs / Batch).\n  6. **تأكيد سريان الضوابط المعمارية واحتكار الاختبارات [C-21]:**\n     - إلزام عمال اللابتوب الثاني بإنتاج الكود في فروع الميزات (`fleet/<feature>`) ودفعها لـ GitHub، مع احتكار تشغيل الاختبارات والاعتماد النهائي `[APPROVED]` لـ Claude Code CLI على جهاز المطور الرئيسي."
+        },
+        {
+            "No": 31,
+            "Name": "31. خطاف معاينة وتنسيق العمل الجماعي لأسطول الـ CLIs",
+            "Prompt": "معاينة العمل الجماعي للأسطول, تشغيل فريق الأسطول, fleet teamwork, fleet teamwork preview, فريق عمل الأسطول, تنسيق فريق الأسطول, الخطاف 31",
+            "Notes": "الأساسي: `Claude Opus 5.5 / Opus Max (Thinking)` \n البديل: `Gemini 3.8 Flash (High)` + مهارات pstack",
+            "Agents": "[fleet-orchestrator], [code-architect], [agent-optimizer], [test-guard], [webapp-qa-tester]",
+            "Goal": "تفعيل وإدارة فريق عمل الأسطول الموزع (Parallel Multi-CLI Teamwork) المستوحى من هندسة teamwork-preview، لتوزيع مهام الاستكشاف، البناء، المراجعة والفحص التنافسي واحتكار الاختبارات لـ Claude Code.",
+            "Details": "* **الفلسفة المستخلصة من الهندسة العكسية لـ Al Mustafa REA:**\n  - تحويل وتوزيع نمط العمل المتسلسل في أمر `teamwork-preview` الخاص بـ Antigravity (والذي يستهلك 7 أضعاف التوكنز داخل بيئة واحدة) إلى **فريق عمل أسطول متكامل ومتعدد الـ CLIs (Distributed Multi-CLI Teamwork)** يوزع الأدوار بذكاء واحترافية:\n    1. **قائد الأسطول والمنسق الأعلى (Master Orchestrator):** `Claude Code CLI (Opus 5.5 Max)` بالتعاون مع `Antigravity IDE` كقمرة قيادة تفاعلية وبصرية للمطور.\n    2. **مسار الاستكشاف والتفكيك المتوازي (Parallel Survey Explorers):**\n       - **المستكشف الأول (Frontend & Assets):** `Antigravity CLI (agcli)` أو عامل جيميناي 1 (`Worker 1`).\n       - **المستكشف الثاني (Database & Persistence):** `OpenCode CLI (GLM 5.3 Flash)` أو عامل جيميناي 2 (`Worker 2`).\n       - **المستكشف الثالث (Domain & Compliance):** `OpenCode Meta Muse Spark 1.3` أو عامل جيميناي 3 (`Worker 3`).\n    3. **مسار التنفيذ الإنشائي بالدفعات (Milestone Implementation Workers):**\n       - **منفذ الواجهات:** `Antigravity CLI (agcli)` و `Cline CLI` لبناء المكونات وواجهات Compose/Web.\n       - **منفذ قواعد البيانات والخلفية:** `OpenCode CLI (GLM 5.3 Flash)` وفق قاعدة الدفعات الرباعية (Max 4 Files Per Batch) [C-78].\n       - **منفذ السقالات والسكربتات:** `OpenCode Meta Muse Spark 1.3`.\n    4. **مسار الفحص والمراجعة التنافسية (Adversarial Review & Stress Testing Track):**\n       - **المراجع المعماري (Reviewer 1):** `OpenCode DeepSeek V4` لفحص الحدود المعمارية، عقود الواجهات، ومنع التكرار (DRY).\n       - **مراجع المعايير والـ RTL (Reviewer 2):** `Antigravity CLI (agcli)` لفحص التوافق اللغوي وتنسيق BiDi/RTL وسلامة معرفات DOM.\n       - **المتحدي الأول (Challenger 1):** `OpenCode CLI` لتوليد واختبار سيناريوهات الضغط والحدود القصوى للبيانات.\n       - **المتحدي الثاني (Challenger 2 - Browser QA):** `Antigravity CLI (agcli)` مع مهارة `webapp-qa-tester` (Playwright / Chrome DevTools) لفحص المتصفح الحقيقي بتكلفة $0.00 وفق القيد [C-96].\n    5. **المحقق الجنائي والاحتكار الحصري للاختبارات (Forensic Auditor & Exclusive Test Monopoly):**\n       - `Claude Code CLI (Opus Max)` ينفذ الاختبارات التلقائية حصرياً (`unit`, `integration`, `e2e`) ويتحقق من انعدام التزييف (Zero Facades / Genuine Byte Sizes) ويصدر ختم الاعتماد الرسمي `[APPROVED]` في `GATE_STATUS.md`.\n* **طريقة العمل والإجراءات الآلية (Execution Flow):**\n  1. **التهيئة وسقالة مساحة العمل (`init`):**\n     - تشغيل `python tools/fleet_teamwork_orchestrator.py init --name \"<Project>\" --objective \"<Goal>\"`.\n     - إنشاء مجلد `.agents/fleet_teamwork/` وضمان اقتصاره الصارم على البيانات الوصفية (Metadata-Only) دون أي ملفات كود أو نسخ ثنائية.\n  2. **توليد أوامر التفويض المعيارية (`delegate`):**\n     - توليد موجهات التفويض للمنفذين باللغة الإنجليزية طبقاً لـ `Template 02: Task Delegation Protocol`.\n     - ضخ الموجهات عبر قنوات التدفق `stdin` بترميز UTF-8 طبقاً للقيد [C-91].\n  3. **إدارة البوابات وتوثيق القرارات (`verdict` & `status`):**\n     - تحديث حالات البوابات في `GATE_STATUS.md` بعد كل جولة فحص (PASS / FAIL / FIX_REQUIRED).\n     - توثيق الدروس المستفادة والقرارات المعمارية في `MEMORY_STORE.md` محلياً وعالمياً.\n\n</div>"
         }
     ],
     "1. خطاف البدء والافتتاح": [
@@ -1217,11 +1275,54 @@
             "Notes": "الأساسي: `Claude Opus 5.5 / Opus Max (Thinking)` \n البديل: `Gemini 3.8 Flash (High)`",
             "Agents": "[fleet-orchestrator], [agent-optimizer], [code-architect], [prompt-engineer], [persistent-memory-engine]",
             "Goal": "ترقية ومعايرة مصفوفة نماذج أسطول الوكلاء المتعدد لاعتماد أحدث أجيال الذكاء الاصطناعي (Claude Opus 5.5 Max و Sonnet 5.5 و Gemini 3.8 Flash High و GLM 5.3 Flash و Codex GPT-5.6 Soul)، وتحديث قيود [C-11] و [C-21] و [C-38]، وتحديث ملفات fleet_config.json وقوالب التفويض، وتطبيق الويب التفاعلي ومكتبة الأوامر.",
-            "Details": "* **طريقة العمل والإجراءات:**\n  1. **المعايرة والترقية الشاملة لمصفوفة النماذج (Model Matrix Calibration):**\n     - ترقية نموذج القيادة المعمارية والفحص الحصري للاختبارات إلى: `Claude Opus 5.5 / Opus Max (Thinking)`.\n     - ترقية نموذج التطوير البرمجي اليومي وصناعة الميزات إلى: `Claude Sonnet 5.5`.\n     - تثبيت وتأكيد نماذج الطرفية وترشيد الكوتا: `OpenCode CLI` بنموذجي `GLM 5.3 Flash` و `Meta Muse Spark 1.3`.\n     - تثبيت منفذ واجهات Antigravity CLI / IDE: `Gemini 3.8 Flash (High Reasoning)`.\n     - تثبيت متخصص الخوارزميات والمعالجة العميقة: `Codex CLI (GPT-5.6 Soul)`.\n  2. **تحديث القيود التقنية الإلزامية (Invariants Update):**\n     - تحديث بنود [C-11] و [C-21] و [C-38] في ملف سياق الحقن الإلزامي `ACTIVE_CONTEXT_INJECTION.md`.\n  3. **المزامنة البرمجية لملفات تهيئة الأسطول (`fleet_config.json`):**\n     - فحص وتحديث حقول `active_model` في كافة ملفات `fleet_config.json` عبر المشاريع لاعتماد الجيل 5.5.\n  4. **تحديث تطبيق الويب التفاعلي والإكسيل ومكتبة الأوامر:**\n     - استدعاء `update_html.py` لتحديث مصفوفة بيانات `03_Dynamic_Prompt_Library/index.html` (29 خطافاً).\n     - استدعاء `convert_hooks_to_sheets.py` لتحديث مصنف `HOOKS_GUIDE.xlsx`.\n     - إدراج الأمر الموجه في مصنف `مكتبة الأوامر.xlsx` تحت تبويب `CLI_Core.Claude`.\n  5. **توثيق الذاكرة المستدامة (Memory Invariant):**\n     - تسجيل قرار ترقية المعمارية (ADR) في `MEMORY_STORE.md` محلياً وعالمياً.\n\n</div>"
+            "Details": "* **طريقة العمل والإجراءات:**\n  1. **المعايرة والترقية الشاملة لمصفوفة النماذج (Model Matrix Calibration):**\n     - ترقية نموذج القيادة المعمارية والفحص الحصري للاختبارات إلى: `Claude Opus 5.5 / Opus Max (Thinking)`.\n     - ترقية نموذج التطوير البرمجي اليومي وصناعة الميزات إلى: `Claude Sonnet 5.5`.\n     - تثبيت وتأكيد نماذج الطرفية وترشيد الكوتا: `OpenCode CLI` بنموذجي `GLM 5.3 Flash` و `Meta Muse Spark 1.3`.\n     - تثبيت منفذ واجهات Antigravity CLI / IDE: `Gemini 3.8 Flash (High Reasoning)`.\n     - تثبيت متخصص الخوارزميات والمعالجة العميقة: `Codex CLI (GPT-5.6 Soul)`.\n  2. **تحديث القيود التقنية الإلزامية (Invariants Update):**\n     - تحديث بنود [C-11] و [C-21] و [C-38] في ملف سياق الحقن الإلزامي `ACTIVE_CONTEXT_INJECTION.md`.\n  3. **المزامنة البرمجية لملفات تهيئة الأسطول (`fleet_config.json`):**\n     - فحص وتحديث حقول `active_model` في كافة ملفات `fleet_config.json` عبر المشاريع لاعتماد الجيل 5.5.\n  4. **تحديث تطبيق الويب التفاعلي والإكسيل ومكتبة الأوامر:**\n     - استدعاء `update_html.py` لتحديث مصفوفة بيانات `03_Dynamic_Prompt_Library/index.html` (29 خطافاً).\n     - استدعاء `convert_hooks_to_sheets.py` لتحديث مصنف `HOOKS_GUIDE.xlsx`.\n     - إدراج الأمر الموجه في مصنف `مكتبة الأوامر.xlsx` تحت تبويب `CLI_Core.Claude`.\n  5. **توثيق الذاكرة المستدامة (Memory Invariant):**\n     - تسجيل قرار ترقية المعمارية (ADR) في `MEMORY_STORE.md` محلياً وعالمياً."
+        }
+    ],
+    "30. خطاف توجيه وتفعيل الأسطول": [
+        {
+            "No": 30,
+            "Name": "30. خطاف توجيه وتفعيل الأسطول لأي مساحة عمل",
+            "Prompt": "وجه الأسطول, اربط الأسطول بالتطبيق, توجيه الأسطول للمشروع, استهدف هذا المشروع, target workspace fleet, fleet target app, ربط اللابتوب الثاني بالمشروع, الخطاف 30",
+            "Notes": "الأساسي: `Claude Opus 5.5 / Opus Max (Thinking)` \n البديل: `Gemini 3.8 Flash (High)`",
+            "Agents": "[fleet-orchestrator], [devops-deployer], [code-architect], [prompt-engineer]",
+            "Goal": "الكشف التلقائي عن مستودع مساحة العمل الحالية ونوع التقنية، وتوجيه ومزامنة عمال اللابتوب الثاني (G1, G2, G3, G4) لخدمة تطوير هذا التطبيق فورياً عبر GitHub و Tailscale مع سحب الفروع واعتمادها في قمرة القيادة.",
+            "Details": "* **طريقة العمل والإجراءات الآلية بمجرد إطلاق الخطاف:**\n  1. **الكشف الذكي التلقائي عن مساحة العمل الحالية (Workspace Context Discovery):**\n     - استخراج عنوان المستودع المركزي عبر `git remote get-url origin`.\n     - استخراج الفرع النشط عبر `git rev-parse --abbrev-ref HEAD` (افتراضياً `main`).\n     - اكتشاف نوع وبيئة التطبيق تلقائياً (Tech Stack): أندرويد (Compose/Kotlin)، فلاتر (Flutter)، ويب (React/Next)، أو خادم (FastAPI/Node).\n  2. **تهيئة بنية أوامر الأسطول في المشروع الحالي (Fleet Orders Scaffolding):**\n     - إنشاء مجلدات العمل التنظيمية للمشروع إن لم تكن موجودة:\n       `fleet_orders/incoming/` و `fleet_orders/in_progress/` و `fleet_orders/completed/`.\n     - إنشاء وتحديث ملف استهداف الأسطول المحلي `fleet_target.json` لتوثيق معلمات الربط للمشروع الحالي.\n  3. **بوابة الاعتماد المعماري الإلزامية لـ Claude Code قبل التوجيه (Mandatory Claude Code Pre-Dispatch Gate) [حظر صارم]:**\n     - يُحظر منعاً باتاً إرسال أو مزامنة أي توجيه أو أمر عمل إلى اللابتوب الثاني (Machine 2) إلا بعد قيام **Claude Code CLI (Opus Max)** بمراجعة وتدقيق معلمات التوجيه ومطابقة المستودع وخطة التوزيع، وإصدار وسم الاعتماد الصريح: `[APPROVED FOR REMOTE DISPATCH]`.\n     - في حال غياب الاعتماد، يظل التوجيه في حالة مسودة معلقة (`DRAFT_PENDING_CLAUDE_APPROVAL`) وتُقفل قنوات الإرسال للابتوب الثاني لحماية بيئة الإنتاج من أي استهداف خاطئ أو تسريب للملفات المحجورة.\n  4. **التوجيه والمزامنة الآلية للعقدة البعيدة (Remote Node Synchronization):**\n     - فور صدور اعتماد Claude Code، يتم فحص جاهزية اللابتوب الثاني (`python tools/remote_fleet_dispatch.py --ping`).\n     - إرسال توجيه فوري للابتوب الثاني لربط وتحديث المستودع المستهدف وسحب الفرع النشط:\n       `ssh autovem-worker-01 \"cd ~/projects && git remote set-url origin <target_repo> && git fetch origin\"`.\n  5. **ربط وتنشيط لوحة التحكم المركزية (Fleet Cockpit Binding :8088):**\n     - ربط خادم لوحة التحكم ([http://localhost:8088](http://localhost:8088)) بمجلد أوامر مساحة العمل الحالية.\n     - تخصيص العمال الأربعة وفقاً لطبيعة التطبيق:\n       - `Worker G1` (UI / Frontend - Jetpack Compose / Web).\n       - `Worker G2` (Backend / APIs / Domain Logic).\n       - `Worker G3` (Database / Schemas / Migrations - OpenCode Zen).\n       - `Worker G4` (Large Context / Docs / Batch).\n  6. **تأكيد سريان الضوابط المعمارية واحتكار الاختبارات [C-21]:**\n     - إلزام عمال اللابتوب الثاني بإنتاج الكود في فروع الميزات (`fleet/<feature>`) ودفعها لـ GitHub، مع احتكار تشغيل الاختبارات والاعتماد النهائي `[APPROVED]` لـ Claude Code CLI على جهاز المطور الرئيسي."
+        }
+    ],
+    "31. خطاف معاينة وتنسيق العمل ": [
+        {
+            "No": 31,
+            "Name": "31. خطاف معاينة وتنسيق العمل الجماعي لأسطول الـ CLIs",
+            "Prompt": "معاينة العمل الجماعي للأسطول, تشغيل فريق الأسطول, fleet teamwork, fleet teamwork preview, فريق عمل الأسطول, تنسيق فريق الأسطول, الخطاف 31",
+            "Notes": "الأساسي: `Claude Opus 5.5 / Opus Max (Thinking)` \n البديل: `Gemini 3.8 Flash (High)`",
+            "Agents": "[fleet-orchestrator], [code-architect], [agent-optimizer], [test-guard], [webapp-qa-tester]",
+            "Goal": "تفعيل وإدارة فريق عمل الأسطول الموزع (Parallel Multi-CLI Teamwork) المستوحى من هندسة teamwork-preview، لتوزيع مهام الاستكشاف، البناء، المراجعة والفحص التنافسي واحتكار الاختبارات لـ Claude Code.",
+            "Details": "* **الفلسفة المستخلصة من الهندسة العكسية لـ Al Mustafa REA:**\n  - تحويل وتوزيع نمط العمل المتسلسل في أمر `teamwork-preview` الخاص بـ Antigravity (والذي يستهلك 7 أضعاف التوكنز داخل بيئة واحدة) إلى **فريق عمل أسطول متكامل ومتعدد الـ CLIs (Distributed Multi-CLI Teamwork)** يوزع الأدوار بذكاء واحترافية:\n    1. **قائد الأسطول والمنسق الأعلى (Master Orchestrator):** `Claude Code CLI (Opus 5.5 Max)` بالتعاون مع `Antigravity IDE` كقمرة قيادة تفاعلية وبصرية للمطور.\n    2. **مسار الاستكشاف والتفكيك المتوازي (Parallel Survey Explorers):**\n       - **المستكشف الأول (Frontend & Assets):** `Antigravity CLI (agcli)` أو عامل جيميناي 1 (`Worker 1`).\n       - **المستكشف الثاني (Database & Persistence):** `OpenCode CLI (GLM 5.3 Flash)` أو عامل جيميناي 2 (`Worker 2`).\n       - **المستكشف الثالث (Domain & Compliance):** `OpenCode Meta Muse Spark 1.3` أو عامل جيميناي 3 (`Worker 3`).\n    3. **مسار التنفيذ الإنشائي بالدفعات (Milestone Implementation Workers):**\n       - **منفذ الواجهات:** `Antigravity CLI (agcli)` و `Cline CLI` لبناء المكونات وواجهات Compose/Web.\n       - **منفذ قواعد البيانات والخلفية:** `OpenCode CLI (GLM 5.3 Flash)` وفق قاعدة الدفعات الرباعية (Max 4 Files Per Batch) [C-78].\n       - **منفذ السقالات والسكربتات:** `OpenCode Meta Muse Spark 1.3`.\n    4. **مسار الفحص والمراجعة التنافسية (Adversarial Review & Stress Testing Track):**\n       - **المراجع المعماري (Reviewer 1):** `OpenCode DeepSeek V4` لفحص الحدود المعمارية، عقود الواجهات، ومنع التكرار (DRY).\n       - **مراجع المعايير والـ RTL (Reviewer 2):** `Antigravity CLI (agcli)` لفحص التوافق اللغوي وتنسيق BiDi/RTL وسلامة معرفات DOM.\n       - **المتحدي الأول (Challenger 1):** `OpenCode CLI` لتوليد واختبار سيناريوهات الضغط والحدود القصوى للبيانات.\n       - **المتحدي الثاني (Challenger 2 - Browser QA):** `Antigravity CLI (agcli)` مع مهارة `webapp-qa-tester` (Playwright / Chrome DevTools) لفحص المتصفح الحقيقي بتكلفة $0.00 وفق القيد [C-96].\n    5. **المحقق الجنائي والاحتكار الحصري للاختبارات (Forensic Auditor & Exclusive Test Monopoly):**\n       - `Claude Code CLI (Opus Max)` ينفذ الاختبارات التلقائية حصرياً (`unit`, `integration`, `e2e`) ويتحقق من انعدام التزييف (Zero Facades / Genuine Byte Sizes) ويصدر ختم الاعتماد الرسمي `[APPROVED]` في `GATE_STATUS.md`.\n* **طريقة العمل والإجراءات الآلية (Execution Flow):**\n  1. **التهيئة وسقالة مساحة العمل (`init`):**\n     - تشغيل `python tools/fleet_teamwork_orchestrator.py init --name \"<Project>\" --objective \"<Goal>\"`.\n     - إنشاء مجلد `.agents/fleet_teamwork/` وضمان اقتصاره الصارم على البيانات الوصفية (Metadata-Only) دون أي ملفات كود أو نسخ ثنائية.\n  2. **توليد أوامر التفويض المعيارية (`delegate`):**\n     - توليد موجهات التفويض للمنفذين باللغة الإنجليزية طبقاً لـ `Template 02: Task Delegation Protocol`.\n     - ضخ الموجهات عبر قنوات التدفق `stdin` بترميز UTF-8 طبقاً للقيد [C-91].\n  3. **إدارة البوابات وتوثيق القرارات (`verdict` & `status`):**\n     - تحديث حالات البوابات في `GATE_STATUS.md` بعد كل جولة فحص (PASS / FAIL / FIX_REQUIRED).\n     - توثيق الدروس المستفادة والقرارات المعمارية في `MEMORY_STORE.md` محلياً وعالمياً.\n\n</div>\n\n* **حزمة مهارات pstack المعتمدة (Lauren Tan - React Core):**\n  - `unslop`: تنقية الأكواد والنصوص الإنجليزية من الحشو والتعليقات المبتذلة.\n  - `blast-radius`: تحليل نصف قطر الانفجار وتتبع التبعيات العميقة عبر Git قبل الدمج.\n  - `arena`: إطلاق حلبة التنافس المعماري وتطعيم الحلول بين النماذج بتحكيم Claude Opus.\n  - `correct`: تثبيت الأخطاء البرمجية نهائياً في اختبارات CI ومنع الانتكاسات.\n  - الدليل الكامل موثق في `docs/PSTACK_FLEET_GUIDE.md` ومعتمد رسمياً."
         }
     ]
 };
-        let activeTab = "الكل (All)";
+        let activeTab = "Gates_Hooks.Antigravity";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         let currentlyRendered = []; // Global array to prevent quote/backtick escaping issues in HTML attributes
 
         // Initialize UI
