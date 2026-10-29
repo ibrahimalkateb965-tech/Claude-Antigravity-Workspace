@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentfleet"
+version = "1.0.0"
+description = "The Open Source Multi-CLI Agent Fleet Orchestrator & Context Governance Framework"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Ibrahim Alkateb", email = "ibrahimalkateb965@gmail.com" }
+]
+keywords = [
+  "ai-agents",
+  "multi-agent",
+  "claude-code",
+  "antigravity",
+  "opencode",
+  "codex",
+  "fleet-orchestrator",
+  "context-governance",
+  "llm",
+  "developer-tools"
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Build Tools",
+  "Topic :: Software Development :: Code Generators",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+dependencies = [
+  "openpyxl>=3.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0.0",
+  "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace"
+Repository = "https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace.git"
+Issues = "https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace/issues"
+
+[project.scripts]
+agentfleet = "tools.cli:main"
+fleet = "tools.cli:main"
+
+[tool.setuptools]
+packages = ["tools"]

@@ -33,17 +33,22 @@ class ACITools:
             return {"error": str(e)}
 
     @staticmethod
-    def check_disk_space(drive_letter):
+    def check_disk_space(target="."):
         """
-        Check and report free and total space on a given drive.
+        Check and report free and total space on a given drive or path.
+        Cross-platform compatible across Windows, Linux, and macOS.
         """
-        path = f"{drive_letter}:\\"
+        if os.name == 'nt' and len(target) == 1 and target.isalpha():
+            path = target + ":\\"
+        else:
+            path = target if os.path.exists(target) else "."
+
         if not os.path.exists(path):
-            return {"error": f"Drive '{drive_letter}' is not accessible."}
+            return {"error": f"Target path '{target}' is not accessible."}
         try:
             total, used, free = shutil.disk_usage(path)
             return {
-                "drive": drive_letter,
+                "drive": target,
                 "total_gb": round(total / (1024**3), 2),
                 "used_gb": round(used / (1024**3), 2),
                 "free_gb": round(free / (1024**3), 2)

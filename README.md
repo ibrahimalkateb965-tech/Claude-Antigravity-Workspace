@@ -1,170 +1,161 @@
-<div dir="rtl">
+<p align="center">
+  <h1 align="center">⚡ AgentFleet</h1>
+  <p align="center"><strong>The Open Source Multi-CLI Agent Fleet Orchestrator & Context Governance Framework</strong></p>
+</p>
 
-# 🚀 منظومة Claude & Antigravity - بيئة التطوير متعددة الوكلاء (Multi-Agent Operating System)
+<p align="center">
+  <a href="https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg" alt="Python 3.10+"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Fleet-Multi--CLI%20Federation-purple.svg" alt="Multi-CLI Fleet"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Hooks-32%20Automated%20Triggers-cyan.svg" alt="32 Hooks"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Context%20Budget-30k--300k%20Sweet%20Spot-gold.svg" alt="Context Governance"></a>
+  <a href="#"><img src="https://img.shields.io/badge/PRs-Welcome-emerald.svg" alt="PRs Welcome"></a>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Architecture: Dual-Agent Pipeline](https://img.shields.io/badge/Architecture-Dual--Agent%20Pipeline-emerald.svg)]()
-[![Sub-Agents: 25+](https://img.shields.io/badge/Sub--Agents-25%2B-purple.svg)]()
-[![Global Skills: 95+](https://img.shields.io/badge/Global%20Skills-95%2B-gold.svg)]()
-[![Hooks: 22 Triggers](https://img.shields.io/badge/Hooks-22%20Triggers-cyan.svg)]()
-
-مرحباً بك في المستودع المرجعي الشامل لمنظومة التطوير المتقدمة **Claude & Antigravity Multi-Agent Ecosystem**.  
-تم تصميم هذه المنظومة لتمكين المطورين من تشغيل طاقم هندسي متكامل من وكلاء الذكاء الاصطناعي (AI Crew) بأعلى درجات الانضباط المعماري، والجودة البرمجية، وترشيد استهلاك التوكنز.
+<p align="center">
+  <strong>[English] | <a href="README.ar.md">🌐 اقرأ باللغة العربية (README.ar.md)</a></strong>
+</p>
 
 ---
 
-## 🌟 المعمارية الهندسية ونموذج العمل (Dual-Agent Pipeline)
+## 📖 Overview
 
-تعتمد المنظومة على مبدأ **فصل المسؤوليات والتكامل المزدوج**:
-* **المهندس المخطط والمشرف (Claude / Thinking Tier):** يتولى التخطيط المعماري، تحليل المسارات، التدقيق الصارم، وهندسة السياق والذاكرة.
-* **المهندس المنفذ والمراجع (Antigravity / Execution Tier):** يتولى العمليات البرمجية الدقيقة، بناء الواجهات (Compose / Web)، كتابة الاختبارات، ومراقبة الكود النظيف.
+**AgentFleet** (developed inside the *Claude & Antigravity Ecosystem*) is a production-grade, open-source orchestration framework that federates frontier AI coding CLI harnesses (**Claude Code CLI**, **Antigravity CLI / Gemini**, **OpenCode CLI**, and **Codex CLI**) into a cooperative, autonomous engineering team.
+
+Rather than relying on a single agent that hallucinates, suffers context rot, or explodes token costs, AgentFleet implements **Separation of Concerns**, **Progressive Disclosure**, and **Adversarial Quality Gates** to deliver production-grade software with zero token waste.
 
 ```mermaid
 flowchart TD
-    User["المطور / المستخدم"] -->|إرسال محفز الخطاف مثل 'ابدأ ميزة'| HookSystem["نظام الخطافات التلقائي (Auto-Hooks Engine - 21 خطافاً)"]
-    HookSystem -->|تفعيل الدور| Architect["Code Architect (التصميم الهيكلي)"]
-    Architect -->|إعداد الخطة| Devil["محامي الشيطان (Devil's Advocate Audit)"]
-    Devil -->|اعتماد الخطة بنجاح| Coders["فريق البرمجة (Kotlin / Compose / Backend)"]
-    Coders -->|فحص الكود النظيف| CleanGuard["Clean Code Guard (مكافحة أخطاء AI)"]
-    CleanGuard -->|فحص واختبار السلوك| TestGuard["Test Guard (منع الـ Mock المفرط)"]
-    TestGuard -->|مطابقة التوثيق| DocsGuard["Docs Guard (منع تباين التوثيق)"]
-    DocsGuard -->|تخزين الدروس والمزامنة| Memory["Persistent Memory & Git Sync"]
+    User["Developer Brief / Task"] --> Master["Master Orchestrator\n(Claude Code CLI / Opus Max & Antigravity IDE)"]
+    
+    subgraph Fleet ["Distributed Multi-CLI Execution Fleet"]
+        direction TB
+        Master -->|M1: Parallel Survey| Survey["Parallel Explorers\n(agcli • OpenCode GLM • Spark)"]
+        Master -->|M2: Phased Implementation| Build["Batch Workers (Max 4 Files/Batch)\n(OpenCode GLM • Cline CLI • agcli)"]
+        Master -->|M3: Adversarial Review| Review["Reviewers & Stress Testing\n(DeepSeek V4 • agcli Browser QA)"]
+    end
+
+    Review --> Gate{"Milestone Gate Verification"}
+    Gate -->|Pass| ClaudeSignOff["M4: Forensic Audit & Sole Testing Authority\n(Claude Code CLI exclusively runs tests & grants [APPROVED])"]
+    Gate -->|Fail / Regressions| Build
+    ClaudeSignOff --> Verified["Production Release & Git Sync"]
 ```
 
 ---
 
-## ⚡ التشغيل السريع على أي جهاز (Quickstart Guide)
+## 🚀 Key Architectural Pillars
 
-لتثبيت وتفعيل هذه المنظومة على جهازك الخاص في ثوانٍ معدودة:
+### 1. Collaborative Multi-CLI Division of Labor
+Different models possess distinct superpowers and cost structures. AgentFleet orchestrates them cooperatively:
+* **Claude Code CLI (`Opus 5.5 Max / Sonnet 5.5`)**: High-level architectural planning, Devil's Advocate audits, and **Exclusive Testing Monopoly** (`[C-21]`). Only Claude Code is authorized to run automated tests and grant final sign-off.
+* **Antigravity CLI (`agcli` - Gemini 3.8 Flash High)**: Headless terminal executor for responsive UI architectures, Jetpack Compose, Web views, and DOM manipulation.
+* **OpenCode CLI (`GLM 5.3 Flash` & `Meta Muse Spark 1.3`)**: Fast, high-throughput terminal executor for shell commands, database migrations, DAOs, repositories, and backend endpoints (`[C-31]`).
+* **Codex CLI (`GPT-6.1 Soul`)**: Complex mathematical parsers, deep algorithmic refactoring, and data transforms.
+* **Antigravity IDE**: Visual interactive developer workbench and cockpit for real-time human-in-the-loop inspection.
 
-### 1. استنساخ المستودع (أو تنزيله كملف ZIP)
+### 2. Context Window Governance (The 30k – 300k Sweet Spot)
+Standard coding assistants degrade rapidly as conversational context expands. AgentFleet actively enforces a **Golden Productivity Zone**:
+* 🟢 **Green Zone (< 180k tokens)**: 100% attention fidelity. Standard progressive disclosure (`mode=signatures`).
+* 🟡 **Yellow Zone (180k – 240k tokens)**: Full file reads banned; slice inspections restricted to $\le 50$ lines.
+* 🟠 **Orange Zone (240k – 300k tokens)**: Finalize micro-task, commit clean Git state, snapshot lessons.
+* 🔴 **Red Zone (> 300k tokens)**: Attention degradation barrier. Enforces Hook 25 (`/strategic-clear`) and generates structured resumption prompts.
+
+### 3. Continuous Automation via 32 System Hooks
+AgentFleet contains 32 automated triggers that fire deterministically:
+* **Hook 01**: Session Start & RTL / Linguistic Guard.
+* **Hook 03**: Smart Agent Tailoring & Dynamic Pruning (`project_agent_tailor.py`).
+* **Hook 19**: Post-Edit Quality & Clean Code Guard.
+* **Hook 22**: Multi-CLI Fleet Session Mode & Autonomous Delegation.
+* **Hook 26**: Prompt Library Curator & Excel Automation.
+* **Hook 27**: SQLite WAL Context Window Telemetry Advisor.
+* **Hook 31**: Multi-CLI Fleet Teamwork Orchestrator (`fleet_teamwork_orchestrator.py`).
+* **Hook 32**: Loka Context Orchestrator & Minimal Blast Radius Build OS.
+
+### 4. Zero-Cost Hybrid Web QA Testing (`[C-96]`)
+To eliminate token burn on routine browser validation, **`Antigravity CLI (agcli)`** coupled with **`webapp-qa-tester`** (Playwright + Chrome DevTools MCP) runs granular UI assertions, button clicks, and screenshot diffs locally ($0.00 cost). It compiles a 100% green execution matrix submitted to Claude Code for final sign-off.
+
+---
+
+## ⚡ 60-Second Quickstart
+
+### Prerequisites
+* Python 3.10 or higher.
+* Git.
+
+### 1. Installation
+Clone the repository and install `agentfleet` in editable mode:
 ```bash
 git clone https://github.com/ibrahimalkateb965-tech/Claude-Antigravity-Workspace.git
 cd Claude-Antigravity-Workspace
+pip install -e .
 ```
 
-### 2. التفعيل الشامل بنقرة واحدة (One-Click Setup)
-* **لمستخدمي Windows:**
-  ما عليك سوى النقر المزدوج على ملف:
-  👉 **`setup_one_click.bat`** (أو تشغيل `setup_one_click.ps1` في PowerShell).
-  
-  *يقوم هذا السكربت آلياً بـ:*
-  1. تجهيز مسار الإعدادات العالمي للمحرر (`~/.gemini/config/`).
-  2. تعميم وتفعيل كافة المهارات الـ 80+ والوكلاء الـ 25+ والإضافات عالمياً لكافة مشاريعك.
-  3. ربط الدساتير المعمارية وقواعد الـ 21 خطافاً ومحركات التخصيص والمزامنة.
-  4. فتح تطبيق مكتبة الأوامر التفاعلية مباشرة في متصفحك.
+### 2. Verify Installation
+```bash
+agentfleet status
+```
+
+### 3. Initialize a Teamwork Task (Hook 31)
+```bash
+# Initialize a distributed fleet milestone preview
+agentfleet teamwork init --name "Feature_X" --objective "Implement offline sync caching"
+
+# Inspect active milestone gates
+agentfleet teamwork status
+```
+
+### 4. Launch Interactive Web Explorers
+AgentFleet bundles built-in interactive HTML5 web applications:
+```bash
+# Launch Dynamic Hooks Library visualizer
+agentfleet hooks --open
+
+# Open prompt library curator
+agentfleet curate --help
+```
 
 ---
 
-## 🧭 جدول الخطافات التلقائية الـ 21 (Master Hooks Summary)
+## 📁 Repository Structure
 
-بمجرد كتابة أي من هذه الكلمات المحفزة في بداية رسالتك، يستجيب النظام فورياً بتفعيل الوكلاء والإجراءات المحددة:
-
-| م | اسم الخطاف | المحفزات (Triggers للنسخ المباشر) | الوكلاء المسؤولون | الهدف الأساسي |
-| :-: | :--- | :--- | :--- | :--- |
-| **1** | **خطاف البدء والافتتاح** | `"بسم الله"`, `"بسم الله الرحمن الرحيم"` | `[prompt-engineer]`, `[agent-optimizer]` | تهيئة الجلسة، التحقق من القواعد الفنية واللغوية، وترشيد الاستهلاك. |
-| **2** | **خطاف هندسة السياق** | `"سياق المشروع"`, `"هندسة السياق"` | `[prompt-engineer]`, `[agent-optimizer]` | إنشاء وتحديث ملف `PROJECT_CONTEXT.md` لضمان التوجيه وتفادي الانحراف. |
-| **3** | **خطاف التخصيص والتصدير الذكي لطاقم المشروع** | `"اعتمد سياق المشروع"`, `"تخصيص وكلاء المشروع"`, `"تصدير بيئة المشروع"`, `"تخصيص الوكلاء"` | `[code-architect]`, `[agent-optimizer]`, `[prompt-engineer]` | تحليل سياق المشروع وتصدير حزم الوكلاء محلياً مع التنظيف التلقائي (Pruning) وتوليد سكربت المزامنة. |
-| **4** | **خطاف الإشراف العام وتصحيح المسار** | `"تصحيح مسار"`, `"تعديل البرومبت"`, `"خطأ بالخطاف"` | `[prompt-engineer]`, `[agent-optimizer]` | تشريح سبب الانحراف وإعادة توجيه الوكيل للمسار الصحيح. |
-| **5** | **خطاف خط الإنتاج البرمجي** | `"ابدأ ميزة"`, `"تطوير ميزة"`, `"اصنع ميزة"` | `[code-architect]`, `[clean-code-guard]`, `[test-guard]` | دورة التطوير الكاملة (معمارية ← تدقيق ← برمجة ← حراسة الكود ← اختبار). |
-| **6** | **خطاف التكامل الفني** | `"ربط API"`, `"تكامل خارجي"` | `[devops-deployer]`, `[backend-architect]` | ربط الخدمات الخارجية بعد تحصين انقطاع الشبكة وتأمين المفاتيح. |
-| **7** | **خطاف تدقيق الصيانة** | `"تدقيق صيانة"`, `"مراجعة DRY"`, `"كود نظيف"` | `[code-reviewer-quality]`, `[clean-code-guard]` | مراجعة الكود ومنع التكرار وتطبيق معايير الكود النظيف. |
-| **8** | **خطاف الفحص الأمني** | `"فحص أمني"`, `"مراجعة أمان"` | `[security-auditor]`, `[code-reviewer-quality]` | مسح الثغرات وفحص تشفير البيانات وصلاحيات الوصول. |
-| **9** | **خطاف تحديث المكتبات والنماذج** | `"تحديث الاعتماديات"`, `"تحديث المكتبات"`, `"تحديث النماذج"`, `"معايرة النماذج"` | `[github-talent-scout]`, `[code-architect]`, `[agent-optimizer]` | فحص Gradle واستكشاف ومعايرة النماذج الذكية عبر الإنترنت. |
-| **10** | **خطاف الفحص والاختبار التلقائي** | `"قم بالاختبار"`, `"جاهز للتجربة"` | `[android-testing]`, `[test-guard]` | تشغيل اختبارات السلوك الفعلي بدون Mock مفرط وضمان التغطية. |
-| **11** | **خطاف معالجة الأخطاء والأعطال** | `"حدث خطأ"`, `"التطبيق توقف"`, `"Crash"` | `[debugger]` | تحليل الـ Stack Trace وعزل المشكلة وتطبيق الحل الأدنى الآمن. |
-| **12** | **خطاف إدارة النسخ والمستودعات** | `"نظم جيت"`, `"ارفع لجيتهاب"`, `"git commit"` | `[git-github-manager]` | تنظيم الفروع، صياغة رسائل الالتزام الاحترافية، والرفع لـ GitHub. |
-| **13** | **خطاف تحديث الإنجازات** | `"حدث الإنجازات"`, `"تحديث README"` | `[git-github-manager]`, `[docs-guard]` | مطابقة التوثيق برمجياً وصياغة الإنجازات في README ورفعها. |
-| **14** | **خطاف الذاكرة المستدامة** | `"حفظ ذاكرة"`, `"تحديث السياق"`, `"سجّل هذا"` | `[persistent-memory-engine]` | التقاط وتخزين الدروس والقرارات المعمارية في `MEMORY_STORE.md`. |
-| **15** | **خطاف النجاح والتحليل البعدي** | `"تم بنجاح"`, `"انتهى المشروع بنجاح"` | `[agent-optimizer]` | إجراء تحليل بعدي وتحديث سجل التعلم وسد الثغرات البرمجية. |
-| **16** | **خطاف تنظيم وترتيب الأجهزة الشامل** | `"رتب جهازى"`, `"فرز الملفات"`, `"ترتيب ملفات"` | `[windows-c-drive-optimizer]`, `[windows-file-organizer]` | فرز ملفات الأقراص وتنظيف قرص C وتحديث الفهارس. |
-| **17** | **خطاف ترتيب الملفات لمسار محدد** | `"رتب المسار"`, `"نظم المجلد"`, `"ترتيب مسار"` | `[windows-file-organizer]` | تصنيف وترتيب الملفات داخل مجلد محدد بذكاء ودقة. |
-| **18** | **خطاف إدارة تليجرام** | `"شغل البوت"`, `"تفعيل تليجرام"`, `"Telegram Bot"` | `[devops-deployer]`, `[persistent-memory-engine]` | تشغيل بوت تليجرام بنمط الاستماع للطلبات عن بعد. |
-| **19** | **خطاف التدقيق البرمجي الشامل وحراسة الجودة** | `"تدقيق الجودة"`, `"فحص الكود النظيف"`, `"clean code audit"` | `[code-reviewer-quality]`, `[clean-code-guard]`, `[test-guard]` | فحص شامل للكود النظيف، سلامة الاختبارات، ومطابقة التوثيق. |
-| **20** | **خطاف استكشاف وتكامل الموارد العالمية** | `"استكشف المورد"`, `"حلل المستودع"`, `"integrate repo"` | `[resource-scout-integrator]`, `[github-talent-scout]`, `[skill-forge-builder]` | استيراد المهارات من المستودعات الخارجية وتعميمها وتحديث المنظومة تلقائياً. |
-| **21** | **خطاف المزامنة السحابية والمساهمة المجتمعية** | `"مزامنة المنظومة"`, `"sync ecosystem"`, `"ارسل pull request"`, `"مساهمة في المستودع"`, `"create PR"`, `"contribute repo"` | `[git-github-manager]`, `[persistent-memory-engine]` | للمالك: مزامنة ومطابقة كامل المنظومة ورفعها لـ GitHub. للمساهمين: تجهيز فرع الميزة وإرسال Pull Request للمستودع المركزي للمشاركة. |
-| **22** | **خطاف قيادة وإدارة الأسطول التشاركي** | `"أسطول الـ CLIs"`, `"تشغيل الأسطول"`, `"تنسيق الأسطول"`, `"fleet orchestrator"`, `"multi cli fleet"` | `[fleet-orchestrator]`, `[code-architect]`, `[agent-optimizer]` | تفعيل وضبط أسطول الوكلاء المتعدد (Claude Code Opus Max, OpenCode, Antigravity) وحوكمة بوابات الجودة وترشيد التوكنز. |
-
----
-
-## 👥 فهرس الوكلاء المتخصصين (Sub-Agents Directory)
-
-تمتلك المنظومة أكثر من 25 وكيلاً متخصصاً موزعين عبر تخصصات دقيقة:
-
-* 🏛️ **طبقة المعمارية والتخطيط:**
-  - `[code-architect]`: تخطيط المعمارية النظيفة (Clean Architecture) ونمط MVVM/MVI.
-  - `[monorepo-architect]`: إدارة وحدات وحزم الـ Monorepo.
-  - `[prompt-engineer]`: صياغة وهندسة قوالب التوجيه وأنظمة الخطافات.
-  - `[agent-optimizer]`: قياس كفاءة الوكلاء والحد من تكلفة التوكنز.
-  - `[persistent-memory-engine]`: إدارة الذاكرة المعرفية وتصدير السياق.
-
-* 💻 **طبقة البرمجة والتنفيذ:**
-  - `[android-kotlin-pro]`: خبير Kotlin، Coroutines، Flow، وإدارة دورة الحياة.
-  - `[jetpack-compose-ui]`: خبير واجهات Jetpack Compose ودعم RTL وإعادة الرسم.
-  - `[frontend-design-builder]`: خبير واجهات الويب التفاعلية (HTML/CSS/JS/PWA).
-  - `[offline-sync-db]`: خبير قواعد البيانات المحلية (Room DB) والمزامنة دون اتصال.
-  - `[backend-architect]`: خبير الـ APIs وقواعد البيانات السحابية.
-
-* 🛡️ **طبقة الحراسة وضمان الجودة:**
-  - `[clean-code-guard]`: حارس الكود النظيف ومكافحة الأخطاء الـ 14 الشائعة لـ AI.
-  - `[test-guard]`: حارس الاختبارات الهادفة ومنع Mocks الوهمية.
-  - `[docs-guard]`: حارس دقة التوثيق ومطابقة الرموز البرمجية.
-  - `[security-auditor]`: مراجع الثغرات الأمنية وتشفير البيانات.
-  - `[debugger]`: محلل السجلات والـ Crash ومعالج المشكلات المنهجي.
-
-* 🌐 **طبقة الاستكشاف والتكامل:**
-  - `[resource-scout-integrator]`: فحص وتكامل المستودعات والموارد الخارجية وتعميمها.
-  - `[github-talent-scout]`: البحث عن المكتبات المفتوحة لسد الفجوات البرمجية.
-  - `[skill-forge-builder]`: بناء وهيكلة المهارات البرمجية آلياً.
-  - `[git-github-manager]`: إدارة الإصدارات والـ Commits والتوثيق الآلي.
-
----
-
-## 🏆 نماذج من مشاريعنا المنجزة بواسطة هذا المحرك (Autovem Portfolio)
-
-1. 📱 **تطبيق تيجان النور:** منظومة متكاملة لإدارة الحلقات القرآنية ومتابعة خطط الطلاب والتسميع والتقييمات الذاتية بنمط (Offline-First).
-2. 🎙️ **تطبيق القرآن الكريم للمكفوفين:** معمارية ثنائية الوضع (Dual-Mode) وتوافق قياسي بنسبة 100% مع قارئ الشاشة TalkBack وإيماءات السحب الصامتة.
-3. 🏗️ **مشاريع التخطيط وحصر الكميات الهندسية:** محركات أتمتة حصر الخرسانات وحديد التسليح وتوليد جداول Primavera P6 (Sp Engine) آلياً من المخططات.
-
----
-
-## 📂 هيكلية مجلدات المنظومة (Ecosystem Structure)
-
-```text
+```
 Claude-Antigravity-Workspace/
-├── 🚀 setup_one_click.bat        # سكربت التثبيت السحري بنقرة واحدة
-├── 📜 setup_one_click.ps1        # المحرك البرمجي لتجهيز المسار العالمي
-├── 📄 The_Zero_To_Hero_Journey_Autovem.pdf # دليل رحلة من الصفر لملف PDF تفاعلي
-├── 🧠 project_agent_tailor.py    # محرك التخصيص والتنظيف التلقائي للمشاريع (الخطاف 3)
-├── 🔄 sync_local_agents_template.py # قالب المزامنة الذاتية للمشاريع الفرعية
-├── 🌐 sync_global_ecosystem.py   # محرك المزامنة الشاملة ومطابقة المنظومة مع GitHub
-├── 📱 03_Dynamic_Prompt_Library/ # تطبيق ويب تفاعلي لنسخ الخطافات بنقرة واحدة
-├── 🛡️ .agents/                    # النواة المعمارية (25+ وكيل و 80+ مهارة ودستور AGENTS.md)
-└── 📘 USER_GUIDE.md & README.md  # الدليل الإرشادي والتوجيهي الشامل
+├── pyproject.toml              # Modern Python packaging configuration
+├── LICENSE                     # Official MIT License
+├── README.md                   # Primary English documentation
+├── README.ar.md                # Comprehensive Arabic guide & architecture
+├── fleet_config.json           # Multi-model tiering matrix & configuration
+├── HOOKS_GUIDE.md              # Canonical specification for all 32 hooks
+├── ACTIVE_CONTEXT_INJECTION.md # Mandatory technical invariants & constraints
+├── tools/                      # Core automation and orchestration tools
+│   ├── cli.py                  # Unified 'agentfleet' CLI entrypoint
+│   ├── fleet_teamwork_orchestrator.py # Hook 31 multi-CLI teamwork engine
+│   ├── prompt_library_curator.py      # Hook 26 prompt knowledge base
+│   └── ag_context_monitor.py          # Hook 27 context telemetry monitor
+├── .agents/                    # Specialized agent cards, skills, and templates
+│   ├── skills/                 # 90+ modular skills (MCP, A11y, Compose, Web)
+│   └── fleet_teamwork/         # Ephemeral metadata ledgers for active milestones
+├── 03_Dynamic_Hooks_Library/   # Interactive browser-based hooks explorer
+├── 03_Dynamic_Prompt_Library/  # Interactive prompt management application
+└── .github/workflows/          # GitHub Actions CI/CD pipelines
 ```
 
 ---
 
-## 🤝 المشاركة والمساهمة (Contributing)
+## 🤝 Contributing
 
-نرحب بكافة المساهمات لتطوير وتوسيع مكتبة المهارات والوكلاء عبر **الخطاف 21 (`ارسل pull request`)**:
-1. قم بعمل **Fork** للمستودع.
-2. أضف مهاراتك أو وكيلك الجديد تحت مجلد `.agents/skills/` أو `.agents/Sub_Agent/`.
-3. اكتب في المحادثة `"ارسل pull request"` أو أرسل **Pull Request** عبر GitHub مباشرة.
+We welcome contributions from the global open-source community!
+Please review [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting new agent skills, CLI adapters, or hook specifications.
 
 ---
 
-## ⭐ تواصل معنا وادعم المنظومة (Connect & Support)
+## 🛡️ Security
 
-يسعدنا ويشرفنا دعمكم بوضع **نجمة (Star ⭐)** على المستودع، والتواصل معنا عبر القنوات الرسمية:
-* 🐙 **GitHub:** [ibrahimalkateb965-tech](https://github.com/ibrahimalkateb965-tech)
-* 💼 **LinkedIn:** [Ibrahim Alkateb (PMP®)](https://www.linkedin.com/in/ibrahim-alkateb-pmp%C2%AE-7b07b1229?utm_source=share_via&utm_content=profile&utm_medium=member_android)
-* 💬 **WhatsApp:** `+966 56 409 2468` ([راسلنا واتساب](https://wa.me/966564092468))
+For reporting security vulnerabilities or privacy inquiries, please refer to our [SECURITY.md](SECURITY.md).
 
 ---
 
-<div align="center">
-  <b>تم البناء والتطوير بحمد الله بواسطة إبراهيم الكاتب وطاقم الوكلاء المساعدين</b> 🚀
-</div>
+## 📄 License
 
-</div>
+This project is open-source software licensed under the [MIT License](LICENSE).
+Copyright (c) 2026 Ibrahim Ahmed Ibrahim Alkateb.

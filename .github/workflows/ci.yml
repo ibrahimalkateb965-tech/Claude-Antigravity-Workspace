@@ -1,0 +1,42 @@
+name: AgentFleet CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev]"
+
+    - name: Validate JSON & Config Schemas
+      run: |
+        python -c "import json; json.load(open('fleet_config.json', 'r', encoding='utf-8'))"
+        python -c "import json; json.load(open('mcp_config.example.json', 'r', encoding='utf-8'))"
+
+    - name: Verify CLI Entrypoint
+      run: |
+        agentfleet --version
+        agentfleet status
+        agentfleet teamwork --help
+
+    - name: Run Test Harness
+      run: |
+        python run_all_tests.py

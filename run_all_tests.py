@@ -19,9 +19,9 @@ def run_tests():
     
     # 1. Test ACI Tools
     print("\n[TEST 1/4] Testing ACI Tools...")
-    space = ACITools.check_disk_space("G")
+    space = ACITools.check_disk_space(".")
     if "error" not in space:
-        print(f"-> SUCCESS: Checked disk space on G: (Free: {space['free_gb']} GB)")
+        print(f"-> SUCCESS: Checked disk space: (Free: {space['free_gb']} GB)")
     else:
         print(f"-> FAILED: {space['error']}")
         
@@ -37,7 +37,7 @@ def run_tests():
     # 3. Test Dynamic Prompt Library
     print("\n[TEST 3/4] Testing Dynamic Prompt Library...")
     # Point to the Yonis Excel file
-    loader = DynamicPromptLibrary(r"G:\أرشيف_ونسخ_احتياطية\ملفات_مكررة_وعامة\AI\مكتبة الأوامر.xlsx")
+    loader = DynamicPromptLibrary(os.path.join(os.path.dirname(__file__), "مكتبة الأوامر.xlsx"))
     search_res = loader.search_prompt("growth business")
     if "error" not in search_res and "best_match" in search_res:
         print(f"-> SUCCESS: Found best matching prompt: '{search_res['best_match']['name']}'")
