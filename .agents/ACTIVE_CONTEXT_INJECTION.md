@@ -6,10 +6,17 @@
 
 ## 🏛️ DOMAIN 1: MULTI-CLI FLEET, SUBAGENTS & CONTEXT GOVERNANCE
 
-### [C-11] Model Tiering Matrix (استراتيجية النماذج)
-- **Flash (`Gemini 3.8 Flash High` / `OpenCode Muse Spark`):** Routine scripting, terminals, boilerplate, content, data layers, Git commands.
-- **Pro (`Claude Sonnet 5.5`):** General programming, feature development, component refactoring.
-- **Thinking (`Claude Opus 5.5 / Opus Max`):** Architecture planning, Devil's Advocate audits, invariant verification.
+### [C-11] Model Tiering Matrix (استراتيجية النماذج والترقية التلقائية للنماذج الأحدث)
+- **Flash (`Gemini 3.8 Flash High` / `OpenCode Muse Spark` / `GLM 5.3 Flash`):** Routine scripting, terminals, boilerplate, content, data layers, Git commands.
+- **Pro (`Claude Sonnet 5.5` / `OpenCode DeepSeek V4`):** General programming, feature development, component refactoring.
+- **Thinking & Deep Algorithmic (`Claude Opus 5.5 / Opus Max` & `Codex GPT-6.1 Soul`):** Architecture planning, Devil's Advocate audits, invariant verification, deep algorithmic optimization, and heavy mathematical parsers.
+- **معيار الترقية التلقائية لنماذج البرمجة الأحدث (Frontier Coding Model Auto-Binding):**
+  - عند صدور أجيال ونماذج ذكاء اصطناعي أحدث متخصصة في البرمجة من أي من المطورين (OpenAI / Codex, Anthropic / Claude Code, Google / Antigravity, OpenCode Go):
+    1. يرتبط وكيل Codex CLI تلقائياً بالجيل الأحدث لنموذج **GPT-6.1 Soul** ونماذج الكود الرائدة من OpenAI.
+    2. يرتبط Claude Code CLI بالجيل الأحدث لـ Claude Opus/Sonnet (مع احتكار الفحص والاختبارات الحصري [C-21]).
+    3. يرتبط Antigravity CLI بالجيل الأحدث لـ Gemini Flash High / Gemini Pro للكود والواجهات.
+    4. يرتبط OpenCode CLI بأحدث نماذج الأكواد السريعة (GLM / DeepSeek / Muse Spark).
+    5. تنفذ الترقية تلقائياً دون الإخلال بحدود الأدوار المعمارية أو احتكار الاختبارات.
 
 ### [C-12] System Autonomy (استقلالية النظام)
 - Systems and skills must remain 100% model-agnostic and neutral, free from hardcoded vendor-specific lock-in.
@@ -23,7 +30,7 @@
   - `Claude Code CLI (Opus 5.5 Max)`: Master Orchestrator, architectural auditing, and **EXCLUSIVE TESTING MONOPOLY**.
   - `OpenCode CLI`: Headless terminal executor, database migrations, DAOs, and data plumbing. Models: **GLM 5.3 Flash** (`-m opencode-go/glm-5.3-flash`) and **Meta Muse Spark 1.3** (`-m opencode/muse-spark-1.3-contributor`).
   - `Antigravity CLI (agcli)`: Headless terminal executor for UI/domain contracts (`agcli run`).
-  - `Codex CLI`: Algorithmic translations, complex data transforms, and deep refactoring.
+  - `Codex CLI`: Algorithmic translations, complex data transforms, heavy refactoring, and math engines. Model: **GPT-6.1 Soul** (`gpt-6.1-soul` / `gpt-6-astra`) with continuous auto-binding to newest frontier coding releases.
   - `Antigravity IDE`: Visual Cockpit & Workbench for the developer. **NEVER delegate automated background tasks to the IDE.**
 - **Standards:** Central `fleet_config.json`; all CLI communications in English; Phase Code Review Gate before transitioning phases.
 
@@ -202,6 +209,60 @@
   2. **مساحات لمس الهواتف:** أشرطة الـ CTA العائمة وأزرار التنقل يجب ألا تقل مساحة اللمس فيها عن `48x48dp` لمنع النقرات العشوائية الخاطئة.
   3. **ميزانية حركة الـ 60fps:** حظر تحريك خصائص الحجم والتخطيط (`width/height/margin`)؛ وتقتصر الحركات حصرياً على معالج الرسوميات (`transform: translate3d/scale` و `opacity`) مع احترام خيار تقليل الحركة (`prefers-reduced-motion`).
   4. **الامتثال الصارم للقاعدتين 50 و 51:** اعتماد الأرقام الإنجليزية (`0-9`) حصرياً، وتجريد القوالب البرمجية من أي بيانات عملاء خاصة.
+
+### [C-106] Google Business Profile & Authenticated Browser Automation Standard (معيار أتمتة وإدارة ملفات النشاط التجاري)
+- **اختراق الأطر المضمنة عبر CDP (Cross-Origin Iframe Penetration):**
+  1. تعمل واجهات إدارة الأنشطة التجارية لجوجل (Google NMX) داخل أطر مضمنة (Iframes) تابعة لنطاقات فرعية؛ يُحظر محاولة قراءتها أو التفاعل معها عبر JavaScript DOM المباشر لتفادي أخطاء `SecurityError: Blocked cross-origin frame`.
+  2. يُلزم الاعتماد حصرياً على أدوات `Chrome DevTools MCP` أو `webapp-qa-tester` المرتبطة بمنفذ تصحيح كروم (`9222`)، حيث تخترق أدوات `take_snapshot`, `fill`, `click` شجرة الوصولية (a11y tree) لكافة الأطر دون قيود أمنية.
+- **تثبيت حقول Material Design:**
+  - تتطلب الحقول النصية والقوائم إطلاق حدث `Enter` أو `blur` ومطابقة حالة التركيز قبل النقر على زر "حفظ" لضمان تثبيت الإرسال الشبكي.
+- **بروتوكول التهدئة الإلزامي بعد التعديل (Post-Edit Cooling Window):**
+  - عند حفظ تعديلات حيوية (الهواتف، ساعات العمل، الفئات)، تدخل البيانات في مراجعة آلية لدى جوجل (10 إلى 90 دقيقة).
+  - يُحظر تماماً إجراء أي نقرات أو تعديلات إضافية متلاحقة خلال هذه النافذة لتفادي تعليق الحساب (Suspension) أو إثارة شرط إعادة التحقق بالفيديو (Video Re-verification). يتم الفحص عبر إعادة قراءة لوحة المعرفة العامة فقط.
+
+### [C-107] Autovem Brain Vault Pilot Governance & Arabic Note Sizing Standard (معيار حوكمة ذاكرة Brain وقياس المحتوى العربي)
+- **معيار تقييم الملاحظات الكبيرة (Line Count vs KB Rule):**
+  - في مستودع المعرفة والذاكرة (`Brain/` و `Autovem_brain`)، يتم تقييم تضخم الملاحظات (`Oversize Notes`) **حصرياً بعدد الأسطر ($\le 300$ سطر)** وليس بالحجم بالكيلوبايت.
+  - تعليل: ترميز UTF-8 للمحارف العربية يستهلك بايتين لكل حرف، مما يضخم الحجم بالبايت رغم قصر الملاحظة وسهولة استيعابها في نافذة الانتباه.
+  - عند تجاوز أي ملف حاجز 300 سطر، يُلزم تفكيكه فوراً إلى ملف فهرس رئيسي ($\le 100$ سطر) ومذكرات موضوعية فرعية ($\le 250$ سطر لكل مذكرة) مع ترويسة معيارية كاملة (`type`, `owner`, `updated`, `summary`).
+- **إلزامية تسجيل جلسات الـ PILOT لكافة المنسقين (PILOT Session Logging):**
+  - يُلزم كافة منسقي الأسطول (`Claude Code CLI`, `Antigravity IDE`, `agcli`, `OpenCode CLI`) بتسجيل سطر واحد بصيغة الـ PILOT تحت ترويسة `## Pilot` في ملف اليومية النشط (`Brain/06_Daily/YYYY-MM-DD.md`) عند اختتام كل جلسة عمل:
+    `- PILOT HH:MM [Agent] job=<job-or-none> boot_files=<n> boot_kb=<n> hit=<1|0> misses=<n> note=<short text>`
+  - حظر إنهاء الجلسات دون توثيق هذا السطر لضمان احتساب مقاييس `boot_kb <= 25` و `Hit rate >= 80%` لبوابة اليوم 30 (2026-11-12).
+- **تحصين محارف الألوان وروابط الويكي (Wiki-Link Sanitization):**
+  - يُحظر كتابة محارف ألوان الطرفية ANSI بصيغة `^[[` داخل نصوص ومقتطفات Markdown لتفادي إثارة إنذارات الروابط المكسورة الخاطئة؛ وتُكتب دائماً بصيغة `\x1b[` أو `ESC[`.
+
+### [C-108] Antigravity CLI Quad-Fleet Global Shim & Worker Routing Standard (معيار موجهات الأوامر وتوجيه عمال أسطول Antigravity الأربعة)
+- **موجهات الأوامر الموحدة (Global Shim Invariant):**
+  - يتم استدعاء أداة Antigravity CLI حصرياً عبر الموجهات الموحدة في مسار NPM العام (`C:\Users\Kt\AppData\Roaming\npm` المشترك بين Windows و WSL):
+    1. `agcli` و `agy` لبيئة Linux/WSL مع تطبيق عزل طرفية الدخل الإلزامي (`< /dev/null`) لمنع تجمد الطرفية [C-98].
+    2. `agcli.cmd` و `agy.cmd` لبيئة Windows CMD / PowerShell.
+  - ترتبط الموجهات مباشرة بالملف الثنائي `D:\FleetProfiles\bin\agy.exe` (v1.4.0) وعزل البروفايلات في `D:\FleetProfiles\Agy_{1..4}`.
+- **التوجيه التخصصي للحسابات الأربعة (Role-Based Worker Routing):**
+  - في كافة مهام الأسطول والخطاف 31، يتم توجيه المهام إلى الحساب المناسب عبر وسيط `--worker <1..4>` أو `FLEET_WORKER`:
+    * **Worker 1 (`ja7563110275@gmail.com`):** واجهات المستخدم والـ UI (Compose & Web).
+    * **Worker 2 (`ibrahimalkateb224@gmail.com`):** منطق الأعمال والـ Backend وقواعد البيانات.
+    * **Worker 3 (`ibrahimalkateb9220@gmail.com`):** السياق الضخم (2M Tokens)، الوصولية، والتوثيق الشامل.
+    * **Worker 4 (`ayahowiedy123@gmail.com`):** المهام المتوازية والتحويل الاحتياطي للكوتا.
+- **حظر الاختبارات:** يُحظر تماماً تشغيل أي اختبارات آلية على عمال agy؛ احتكار الفحص والاختبار لـ Claude Code CLI حصراً [C-21].
+
+### [C-109] Loka Context Orchestrator & Surgical Build OS Standard (معيار حوكمة وهندسة سياق البرمجة الجراحية - Hook 32)
+- **حوكمة السياق داخل مساحة العمل النشطة (In-Workspace Context Governance):**
+  - في كافة مهام البرمجة الجراحية وإصلاح الأعطال والمهام المستقلة الموجهة لمشاريع العملاء (مثل EduTrack Pro في `Clients/03_GHERAS_Center/`):
+    1. **حظر فتح مستودع Loka كمشروع مستقل:** يُحظر تماماً فتح مستودع المهارات والقوالب (`loka-context-harness`) كمساحة عمل مستقلة في المحرر لتعديل مشاريع أخرى؛ لتفادي عمى السياق (Context Blindness) وتلف مسارات Git النسبية.
+    2. **الاستدعاء كوسيط حوكمة (Middleware Invariant):** يُستدعى وكيل `[loka-orchestrator]` وإطار Loka كطبقة وسيطة داخل مساحة عمل المشروع النشط (`Autovemtech`)، مع استدعاء المهارات المنشورة في `.agents/skills/`.
+- **التوجيه الذاتي الإلزامي للمسار المناسب (Autonomous Routing Engine):**
+  - يقوم الوكيل تلقائياً بربط طبيعة المهمة بالمسار المطابق:
+    * **Loka ACE / ACE Lite:** لصياغة الأفكار العامة، أبحاث التقصي المعمق (Deep Research)، ومواصفات المنتجات.
+    * **Loka V10 / V10 Lite:** للتخطيط المعماري، تدقيق مساحات التهديد، وفحص الأنظمة دون لمس الكود.
+    * **Loka V11 Lite (Build OS):** لتطوير الميزات وإصلاح العيوب بنمط التعديل الجراحي الأدنى (Surgical Fix Mode / Minimal Blast Radius).
+    * **Loka V12 Supervised:** لجلسات البرمجة التفاعلية التي تتطلب بوابات مراجعة بشرية مرحلية (Checkpoints).
+    * **Loka V12 Autonomous Edition:** للمهام المفوّضة ذات الصلاحيات المستقلة وشروط التوقف الإجبارية (Stop Conditions).
+- **بروتوكول ملفات الحالة الثلاثية والقواعد الـ 15:**
+  - إلزامية إنشاء وقفل مواصفات `SPEC.md` في مجلد الميزة قبل كتابة أي كود، وتتبع الحالة اللحظية في `STATE.md`، وتسجيل القرارات في `MEMORY.md`.
+  - تطبيق القواعد الـ 15 (منع اختلاق الأدوات R1، عزل الأسرار R2، قراءة الملفات العامة قبل التعديل R4، أصغر تعديل آمن R7، وحظر خفض المعايير R8).
+- **التكامل مع أسطول الـ CLIs واحتكار الاختبارات [C-21]:**
+  - توجيه المنفذين (OpenCode CLI للبناء وقواعد البيانات، و agcli للواجهات)، مع حظر إعلان الاكتمال دون توليد أدلة مادية مثبتة، وتفويض الفحص والاعتماد المعماري النهائي حصرياً لـ `Claude Code CLI (Opus Max)`.
 
 ---
 
@@ -405,6 +466,63 @@
   1. يُحظر الاعتماد على بروتوكولات روابط واتساب (`wa.me` أو `web.whatsapp.com/send`) أو افتراض قدرتها على إرفاق ملفات ثنائية (PDF / Documents) مباشرة، كما يُحظر الاعتماد على تمرير `text` مع `files` في `navigator.share` (يتجاهل تطبيق واتساب الملف ويرسل النص فقط).
   2. **نمط روابط القدرة العامة (Capability URL Endpoint):** عند مشاركة أي مستند رسمي (سند، فاتورة، تقرير) عبر واتساب من تطبيقات الويب، يجب إنشاء نقطة نهاية عامة ومؤمّنة برمز قدرة أو معرف فريد غير قابل للتخمين (مثل `/api/v1/public/.../pdf`) لخدمة ملف الـ PDF مباشرة للمستلم وتضمين الرابط داخل نص الرسالة.
   3. **التنزيل المتوازي والتحذير المرئي:** تفعيل التنزيل المتوازي للملف محلياً على جهاز المستخدم المرسل مع تنبيه مرئي (Toast) لإرشاده.
+
+### [C-107] EduTrack Pro Production Deployment, Auth Token Key & Role Route Governance Standard (معيار النشر والتحقق ومفاتيح المصادقة لنظام EduTrack Pro)
+- **قاعدة استخراج توكن المصادقة (Auth Token Key Invariant):**
+  - استجابة تسجيل الدخول في `/api/v1/auth/login` تعيد حمولة JSON تحتوي على `token` وليس `access_token`:
+    `{"token": "...", "user": {"id": "...", "role": "..."}}`.
+  - في كافة سكربتات الاختبار المؤتمت والفحص الميداني، يُحظر استخراج `access_token`؛ بل يجب دائماً قراءة `token = res["token"]` لمنع إرسال `Bearer None` وانهيار الطلبات بخطأ `401 Unauthorized`.
+- **كلمة مرور الحسابات التجريبية (Seeded Demo Accounts Password):**
+  - الحسابات التجريبية الثلاثة المزروعة في `013_demo_accounts_seed.sql`:
+    1. المعلم: `teacher.demo` (هاتف: `0550000001`)
+    2. ولي الأمر: `guardian.demo` (هاتف: `0550000002`)
+    3. الطالب: `student.demo` (هوية: `1100000001`)
+  - تشترك جميعها بكلمة المرور الموحدة المشفرة بـ Argon2id: `Password123!` (يُمنع تخمين كلمات مرور مشتقة من اسم الدور).
+- **حوكمة مسارات الميزات وصلاحيات الأدوار (Route & Scope Governance):**
+  1. **المراسلة الفورية:** بادئة المسار هي `/threads` حصراً (وليس `/messaging/threads`).
+  2. **أعذار الحضور:** استدعاء `GET /attendance/excuses` محصور حصراً بالإدارة والمشرفين (`manager`, `supervisor`)؛ وتجربة استدعائه بأدوار المعلمين أو أولياء الأمور تُرجع `403 Forbidden`. يقدم أولياء الأمور الأعذار حصراً عبر `POST /attendance/excuses`.
+  3. **استلام الطلاب:** مسار جلب النداءات النشطة هو `GET /pickup/requests/active` (طلب `GET /pickup/requests` العاري يرجع `405 Method Not Allowed`).
+- **بروتوكول النشر السحابي لهوستنجر (VPS Production Deploy Protocol):**
+  - النشر الرسمي على خادم VPS (`187.55.226.225`) يتم حصراً عبر تشغيل:
+    `bash deploy/push.sh root@187.55.226.225 gheras.autovem.tech -i <SSH_KEY>`
+  - يضمن السكربت عدم استبدال ملف الأسرار `/opt/edutrack/deploy/.env`، ويطبق الهجرات الجديدة من `003` حتى `021` تلقائياً عبر `psql -f /docker-entrypoint-initdb.d/$m` بنمط Idempotent، ويعيد بناء حاوية `edutrack-api:2` ويحقق 65 جدولاً عاماً مع تفعيل فحص النسخ الاحتياطي اليومي.
+
+### [C-110] Digital Storefront Zero-Trust & Atomic Fulfillment Standard (معيار المتاجر الرقمية الآمنة والتسليم الذري الفوري)
+- **حدود الوصول الصفرية للعملاء (Zero-Trust Customer Boundary):**
+  1. **حظر قراءة المتصفح لقاعدة البيانات:** يُحظر تماماً منح المتصفح صلاحية القراءة المباشرة لمجموعات الطلبات (`orders`) أو المخزون (`accounts_inventory`) في قواعد أمان Firestore (`allow read, write: if false;`).
+  2. **كوكيز الجلسات المشفرة الإلزامية:** ترتبط كل عملية شراء بكوكي جلسة مشفر (`HttpOnly`, `SameSite=Strict`, `Secure`, `__Host-`) يحمل رمز وصول عشوائي (32 بايت)، وتتم المصادقة في الخادم حصراً بمقارنة تجزئة SHA-256 باستخدام `timingSafeEqual` لمنع هجمات التوقيت الجانبية.
+  3. **استطلاع البيانات عبر مسارات الخادم المحمية:** يتم جلب حالة الطلب حصراً عبر `GET /api/orders/[id]` مع رأس `Cache-Control: private, no-store`، مع التوقف التلقائي عن الاستطلاع عند الحالات النهائية (`completed`, `rejected`, `expired`).
+- **حماية إيصالات الحوالات البنكية وبث الذاكرة (Direct Buffer Receipt Streaming):**
+  1. يُحظر حفظ إيصالات الحوالات البنكية في حاويات تخزين عامة أو روابط مكشوفة؛ وتُبث الصورة مباشرة من ذاكرة الخادم (`Buffer`) كطلب `multipart/form-data` إلى بوت تيليجرام الإداري.
+  2. فحص البايتات السحرية للصور في الذاكرة (PNG `89 50 4E 47...` و JPEG `FF D8 FF`) وحظر أي ملفات تتجاوز 4 ميجابايت أو تحمل توقيعاً مجهولاً.
+  3. التحقق الإلزامي من ترويسة أمان تيليجرام `x-telegram-bot-api-secret-token` عبر `timingSafeEqual`.
+- **التوريد الحتمي ومنع البيع المزدوج (Deterministic Ingestion & Atomic FSM):**
+  1. **معرّف التجزئة الحتمي:** يُخزن كل رابط أو مفتاح رقمي في Firestore بمعرّف مستند يساوي `SHA256(cleanUrl)` لمنع تكرار إدراجه عند إعادة توجيه الفواتير.
+  2. **التسليم الذري المحصن:** يتم تخصيص المنتجات الرقمية واعتماد الطلبات حصراً داخل معاملة ذرية متزامنة (`adminDb.runTransaction`)؛ تُحظر إعادة تشغيل الاعتماد لمنع استهلاك حسابات إضافية، ويُحظر إلغاء أو استرجاع الطلبات المسلمة مسبقاً.
+- **درع التوعية الأمنية للعميل (Account Login Shield):**
+  - إلزامية عرض تنبيه أمني بارز في واجهة التسليم يوجه العميل بضرورة التأكد من تسجيل الدخول بحسابه الشخصي في المتصفح قبل النقر على رابط التفعيل لمنع استهلاك الرابط على حسابات العمل أو الحسابات المؤقتة.
+- **المحاسبة الدقيقة ومطابقة الأرباح (Exact Decimal Precision):**
+  - حساب التكاليف وهوامش الأرباح حصراً بمكتبة Python `Decimal` مع التقريب `ROUND_HALF_UP`، وتجنب حسابات الفاصلة العائمة (Float)، مع خروج سكربتات المزامنة برمز خطأ غير صفري عند حدوث أي إخفاق لمنع إعطاء نتائج مضللة.
+- **انسيابية واجهة المستخدم وتفادي المسدودات (Hook 32 Navigation):**
+  - توفير أزرار تراجع وإلغاء واضحة في كافة النوافذ المشروطة وشاشات الطلب لتجنب احتجاز المستخدم في شاشات مغلقة.
+
+### [C-111] Local Web Tools Dynamic Port Allocation & Launcher Resilience Standard (معيار حوكمة تخصيص المنافذ الديناميكية والمشغلات المرنة لأدوات الويب المحلية)
+- **حظر المنافذ الصلبة الشائعة (Strict Prohibition of Hardcoded Common Ports):**
+  - في كافة أدوات الويب المحلية ولوحات التحكم الطرفية (FastAPI, Flask, Streamlit, Vite):
+    1. يُحظر تماماً حجز المنفذ `8000` أو `8080` كمنفذ صلب وحيد بدون بدائل، لتفادي التعارض مع خدمات النظام أو الحاويات.
+    2. يُلزم بدء التخصيص الافتراضي من نطاق المنافذ الآمنة غير الشائعة (`8555+` أو `8888+`).
+- **إلزامية الكشف التلقائي عن المنافذ الشاغرة (Dynamic Auto-Port Probing):**
+  - يجب دائماً تضمين دالة فحص اتصال في سكربت التشغيل الوسيط (`run.py` عبر `is_port_in_use()` و `find_available_port()`):
+    - إذا كان المنفذ المطلوب محجوزاً أو معترضاً، ينتقل النظام تلقائياً وبشكل صامت للمنفذ المتاح التالي ويفتح المتصفح على الرابط المحدّث.
+- **حظر الإقلاع الأعمى في الخلفية (Ban on Silent Background Launches):**
+  - في ملفات الدُفعات (`start.bat` و `start.ps1`):
+    - يُمنع إطلاق الخادم عبر `start /b` الصامت الذي يخفي انهيارات الإقلاع واستثناءات الاستيراد.
+    - يُطلق الخادم في واجهة الطرفية المرئية عبر `python run.py` لعرض السجلات وتسهيل التشخيص السريع.
+- **تحصين مسارات الأصول الثابتة (StaticFiles Guard):**
+  - عند ربط مجلدات الأصول الثابتة في خوادم Starlette / FastAPI (`app.mount("/assets", ...)`):
+    - يجب دائماً التحقق المسبق من وجود المجلد فيزيائياً على القرص (`if assets_dir.exists():`) قبل الربط لمنع إطلاق استثناء `RuntimeError` فجائي عند بدء التشغيل.
+- **التطبيع الشامل لـ CORS للمنافذ الديناميكية:**
+  - يجب ضبط إعدادات CORS باستخدام التعبير النمطي `allow_origin_regex=r"^http://(127\.0\.0\.1|localhost)(:\d+)?$"` لضمان قبول الاتصال من أي منفذ شاغر يتم تخصيصه تلقائياً دون إثارة أخطاء CORS.
 
 ---
 
