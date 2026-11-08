@@ -131,32 +131,47 @@
 * **قاعدة الاحترام المطلق:** يُمنع منعاً باتاً إعادة إضافة أي مكون واجهة مستخدم (UI Component) أو ميزة (Feature) تم حذفها في الـ Commits السابقة (مثل شريط التشغيل PlayerControlPanel أو الأوامر الصوتية) إلا بطلب صريح ومباشر من المستخدم.
 * **الاعتماد على آخر Commit:** يجب دائماً احترام حالة الكود كما هو موجود في آخر نسخة، وعدم افتراض أن اختفاء المكون هو خطأ برمجي يحتاج للاسترجاع (أو بسبب اقتطاع سياق المحادثة).
 
-## 16. بروتوكول حوكمة الوكلاء الفرعيين وترشيد استهلاك التوكنز (Subagent Governance & Token Conservation)
-* **1. الاستدعاء النقطي المركز (Targeted Dispatch vs Swarm Anti-Pattern):**
-  * يُحظر تماماً إطلاق عدة وكلاء فرعيين (Subagents) في الخلفية لقراءة وتعديل نفس الملفات بالتزامن.
-  * يجب استدعاء وكيل فرعي واحد لغرض مغلق ومحدد (Single-Responsibility)، وإنهاء المهمة فور إنجازها (Ephemeral Lifecycle).
-  * يُسمح بالتوازي فقط للوكلاء التحليليين في وضع القراءة الصامتة (`Read-Only`) وعبر النماذج الاقتصادية (`Flash`).
-* **2. استراتيجية القراءة المتدرجة وحظر القراءة الكاملة (Progressive Disclosure):**
-  * يُحظر قراءة الملفات البرمجية الكبيرة بالكامل (`mode='full'`) أثناء الاستكشاف الأولي.
-  * الالتزام الصارم بقراءة التوقيعات والعناوين ورؤوس الدوال فقط (`mode=signatures` عبر أدوات `lean-ctx`).
-  * في حال تطلب الإصلاح فحص خوارزمية داخلية، يُقتصر على قراءة نطاق أسطر ضيق ومحدد (Line Range Slice لا يتجاوز 50 سطراً) وتمرير مقتطفات الأخطاء حصراً للوكيل الفرعي.
-* **3. التوجيه الذكي للتكلفة حسب النماذج (Model Cost Routing):**
-  * المهام الروتينية (الطرفية، كتابة الـ Boilerplate، أوامر Git، توليد التوثيق): تفويضها لنماذج سريعة ورخيصة (`Gemini 3.8 Flash High` / `OpenCode Muse Spark`).
-  * المهام المعمارية والتدقيق الصارم (Architecture, Quality Gates, Security): حصرها في نماذج التفكير العليا (`Thinking Models` / `Claude Opus`).
-* **4. تطهير المهارات الفائضة محلياً (Agent & Skill Pruning):**
-  * حصر المهارات والبطاقات داخل مجلد `.agents/skills` على ما يحتاجه المشروع الفعلي (Android/Compose/Testing) وعزل المهارات غير المتصلة (مثل المقاولات أو الحسابات المالية) لمنع تضخم الـ System Prompt واستهلاك الكوتا في كل استدعاء.
-  * إبقاء آلية استرجاع سريعة بالربط الوصلي (`Junction-Backed`) دون حذف المهارات من المستودع المركزي.
-* **5. التسليم عبر المستندات لا عبر نصوص المحادثة (Artifact-Driven Handoff):**
-  * عند نقل المهام بين الوكلاء، يتم الاعتماد حصرياً على كتابة المخرجات في مستندات وسيطة خفيفة (`implementation_plan.md` أو `CURRENT_STATE.md`) ليقرأها الوكيل التالي مباشرة، بدلاً من إعادة طباعة السياق وسرد النصوص الطويلة في نافذة المحادثة.
+<div dir="ltr">
 
-## 17. المعيار العالمي لإظهار وتصدير الملفات المولدة لمستكشف ويندوز (Universal File Discovery & Desktop Hub - C-81 / Hook 30)
+## 16. Operating Rules (Scope Guard, Verification & Delegation)
 
-* **1. حظر المسارات المنعزلة (No Raw /mnt/ Paths in User Output):**  
-  يُحظر تماماً على أي وكيل في Antigravity أو الأسطول تقديم روابط أو مسارات ملفات مولدة تبدأ بـ `/mnt/...` دون ترجمتها الصريحة لمسار ويندوز المقابل (`D:\...` أو `C:\...`) لضمان قدرة المستخدم على النقر عليها أو نسخها ولصقها في مستكشف ويندوز.
-* **2. التصدير التلقائي لسطح المكتب (Mandatory Desktop Output Hub):**  
-  فور توليد أي ملف مخرج نهائي (PDF, DOCX, XLSX, HTML, Zip), يجب نسخه تلقائياً إلى مجلد مخرجات سطح المكتب الموحد:  
-  `C:\Users\Kt\Desktop\المستندات_المولدة\`
-* **3. الإظهار الفوري التلقائي (Automatic Explorer Reveal):**  
-  يجب على كل سكربت أو أداة توليد استدعاء محرك الربط `file_explorer_bridge.process_generated_file(path)` أو أمر الطرفية `reveal "<file>"` مباشرة وبشكل غير تزامني (Detached `explorer.exe /select,"<win_path>"` بـ `start_new_session=True`) لفتح مستكشف ملفات ويندوز وتحديد الملف فورياً أمام المستخدم دون انتظار.
+Applies to every agent and CLI harness. Explicit user instructions for a given task override these defaults.
+
+### 16.1. Diagnose-Then-Fix Gate
+For broad requests with no single named defect ("audit this", "fix the app", "what is wrong with X"):
+1. List every issue with its file and severity, changing nothing.
+2. Wait for the user to strike out what should stay, including deliberate style choices.
+3. Fix only the approved items.
+
+A single named defect goes straight to a root-cause fix. Confirm first before material scope expansion, new recurring costs, production permission changes, or destructive actions.
+
+### 16.2. Self-Check Loop Before Delivery
+Before delivering, compare the work against one concrete yardstick, fix the gaps, and name the yardstick in the Definition of Done summary. Stop after 2 revision rounds and report what remains.
+- **Web and landing pages:** Lighthouse plus a mobile screenshot.
+- **Reports, PDFs, contracts:** rendered pages against the template, Western numerals (0-9), and A4 print settings.
+- **Code:** static checks, then tests in the lane allowed by the testing monopoly.
+- **Ad copy and campaigns:** the client's standing rules and platform limits.
+
+### 16.3. Delegation Contract & Parallel Dispatch
+- **Five fields in every dispatch to a worker or subagent:** Goal, Context (files or notes), Scope fence (owned paths), Definition of Done (checkable conditions), Escalate when. State the outcome and leave the method to the executor; state the security boundaries and escalation gates explicitly.
+- **Parallelism:** Dispatch in parallel only when owned paths do not overlap and no task needs another's result. Finish with one merge step reviewed by the orchestrator. Fleet concurrency limits stay in force.
+- **Completion evidence:** Treat a worker's exit code 0 as unproven. Confirm the expected diff or report exists before accepting the run (headless workers have exited 0 with no edits while waiting on their own subagent).
+
+### 16.4. Prompt Evals for Reusable Prompts
+Applies to prompts entering `fleet_templates/`, job or SOP notes, or a skill. One-off prompts are exempt.
+1. Write pass/fail criteria before the first run.
+2. Run the current prompt 10 times on the lowest-cost capable model and record the score.
+3. Change one thing and run 10 more.
+4. Adopt the change at a lead of 3+ out of 10. Treat a lead of 1-2 as a tie unless it holds across a second 10-run batch. On a tie, keep the shorter prompt.
+5. Record both scores and the model in the job note.
+
+Run evals on sample inputs only: read-only access, no client sends, no live-spend accounts.
+
+### 16.5. Rule Hygiene
+- **Positive form:** Write new rules as a trigger plus the action to take (e.g. "Batch file reads"). Keep `NEVER` for security, financial, and legal boundaries.
+- **Placement:** This file holds what applies across most sessions. Task-specific lessons go to job or SOP notes, or the client note.
+- **Freshness:** When a change makes a stored fact stale (metric, price, version, tool path), update or remove that fact in the same change.
+
+</div>
 
 </div>
