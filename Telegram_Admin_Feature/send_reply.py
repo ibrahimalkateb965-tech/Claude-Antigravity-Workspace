@@ -39,8 +39,16 @@ def main():
     parser.add_argument("--file", type=str, help="Path to a text file to read the message from.")
     parser.add_argument("--sync", action="store_true", help="Sync artifacts to GitHub Pages and append link.")
     parser.add_argument("--copy-text", type=str, help="Text to attach as a one-tap copy button.")
+    parser.add_argument("--copy-text-file", type=str, help="Path to a text file to read copy-text from.")
     parser.add_argument("--button-label", type=str, default="📋 اضغط هنا لنسخ البرومبت فوراً", help="Label for copy button.")
     args = parser.parse_args()
+
+    copy_text = args.copy_text
+    if args.copy_text_file:
+        ct_path = Path(args.copy_text_file)
+        if ct_path.exists():
+            with open(ct_path, "r", encoding="utf-8") as f:
+                copy_text = f.read()
 
     message_text = args.message
 
@@ -83,17 +91,21 @@ def main():
         "chat_id": ALLOWED_CHAT_ID,
         "text": message_text,
     }
-    if args.copy_text:
-        payload["reply_markup"] = {
-            "inline_keyboard": [[
-                {
-                    "text": args.button_label,
-                    "copy_text": {
-                        "text": args.copy_text
+    if copy_text:
+        # Telegram Bot API enforces 1-256 characters for CopyTextButton
+        if len(copy_text) <= 256:
+            payload["reply_markup"] = {
+                "inline_keyboard": [[
+                    {
+                        "text": args.button_label,
+                        "copy_text": {
+                            "text": copy_text
+                        }
                     }
-                }
-            ]]
-        }
+                ]]
+            }
+        else:
+            print(f"⚠️ تنبيه: طول نص زر النسخ ({len(copy_text)} حرف) يتجاوز حد تيليجرام (256 حرف). سيتم إرسال النص كاملاً داخل الكود في نص الرسالة.")
 
     # Attempt Markdown first, fall back to plain text
     payload["parse_mode"] = "Markdown"

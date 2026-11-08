@@ -13,7 +13,7 @@
     {
       "id": "orchestrator",
       "cli_tool": "Claude Code CLI",
-      "active_model": "Claude 5.5 Opus (Opus Max) / Sonnet 5.5",
+      "active_model": "Claude 5 Opus (Opus Max) / Sonnet 5",
       "effort_level": "Max Reasoning",
       "assigned_role": "Master Orchestrator, Staff Architect, Sole Test Authority & Senior Code Reviewer",
       "status": "Active",
@@ -33,19 +33,20 @@
       ]
     },
     {
-      "id": "algorithmic_engineer",
-      "cli_tool": "OpenCode CLI (DeepSeek V4 / MiniMax M3)",
-      "active_model": "opencode-go/deepseek-v4-flash",
-      "fallback_model": "opencode-go/minimax-m3",
-      "invocation_command": "cmd /c \"echo [prompt] | opencode run --pure -m opencode-go/deepseek-v4-flash\"",
-      "effort_level": "Deep Algorithmic & Reasoning Engineering (Replacing Expired Codex)",
-      "assigned_role": "Complex Algorithms, Heavy Refactoring, Data Extraction & Math/Logic Engines (REPLACING EXPIRED CODEX AT $0 EXTRA COST)",
-      "status": "Active (Successor to Codex)",
-      "codex_status_notice": "Codex subscription expired on 2026-09-27. Algorithmic lane seamlessly failovered to OpenCode DeepSeek V4.",
+      "id": "codex_algorithmic_engineer",
+      "cli_tool": "Codex CLI / ChatGPT Desktop",
+      "active_model": "GPT-6.1 Soul (gpt-6.1-soul / gpt-6-astra)",
+      "frontier_upgrade_policy": "Auto-bind newest programming-specialized models upon release across OpenAI/Codex, Anthropic/Claude, Google/Gemini, and OpenCode",
+      "invocation_command": "\"C:\\Users\\Kt\\.codex\\.sandbox-bin\\codex.exe\" exec --disable code_mode_host -s workspace-write --dangerously-bypass-approvals-and-sandbox \"[prompt]\" < /dev/null",
+      "invocation_command_wsl": "\"/mnt/c/Users/Kt/.codex/.sandbox-bin/codex.exe\" exec --disable code_mode_host -s workspace-write --dangerously-bypass-approvals-and-sandbox \"[prompt]\" < /dev/null",
+      "effort_level": "Deep Algorithmic & Heavy Refactoring Engine",
+      "assigned_role": "Complex Algorithms, Heavy Refactoring, Data Parsers, Mathematical Engines & Specialized Scripts (NO TESTING)",
+      "status": "Active (Connected via ChatGPT Tokens)",
       "exclusive_ownership_tree": [
         "scripts/core/",
         "engines/",
-        "converters/"
+        "converters/",
+        "parsers/"
       ],
       "assigned_skills": [
         "backend-architect",
@@ -134,8 +135,8 @@
       "id": "terminal_ui_engineer",
       "cli_tool": "Antigravity CLI (agcli)",
       "active_model": "Gemini 3.8 Flash (High Reasoning)",
-      "effort_level": "Autonomous Code Generation & Terminal Execution",
-      "assigned_role": "Autonomous Terminal Executor: UI Architecture, Jetpack Compose, Web Views & Domain Logic (NO TESTING)",
+      "effort_level": "Autonomous Code Generation, Terminal Execution & E2E Browser Testing",
+      "assigned_role": "Autonomous Terminal Executor & UI Testing Runner: UI Architecture, Jetpack Compose, Web Views, Domain Logic & Granular Browser E2E Testing via webapp-qa-tester (Packages execution evidence and test matrices for Claude Code final architectural sign-off)",
       "status": "Active",
       "exclusive_ownership_tree": [
         "Clients/",
@@ -146,7 +147,8 @@
       "assigned_skills": [
         "frontend-design-builder",
         "jetpack-compose-ui",
-        "ui-ux-design-lead"
+        "ui-ux-design-lead",
+        "webapp-qa-tester"
       ]
     },
     {
@@ -163,6 +165,41 @@
       "assigned_skills": [
         "persistent-memory-engine",
         "prompt-engineer"
+      ]
+    },
+    {
+      "id": "local_gemini_quad_fleet",
+      "cli_tool": "Antigravity CLI (agy / agcli)",
+      "active_model": "Gemini 3.8 Flash High (Google AI Pro Subscriptions - 4x Accounts)",
+      "invocation_command": "powershell.exe -NoProfile -File \"D:\\FleetProfiles\\agy-fleet.ps1\" -Prompt \"[prompt]\"",
+      "effort_level": "Massive 2M Context & Flat-Rate Subscription Worker Pool ($0 Token Cost)",
+      "assigned_role": "Autonomous 4-Account Local Gemini Fleet (D:\\FleetProfiles): Worker 1 (ja7563110275@gmail.com - UI/Compose/Web), Worker 2 (ibrahimalkateb224@gmail.com - Backend/Domain), Worker 3 (ibrahimalkateb9220@gmail.com - 2M Docs/A11y), Worker 4 (ayahowiedy123@gmail.com - Failover/Parallel). NO TESTING.",
+      "status": "Active (Local Workstation D:\\FleetProfiles - 4x Workers Operational)",
+      "multi_account_architecture": {
+        "enabled": true,
+        "accounts_count": 4,
+        "quota_multiplier": "4x Total Available Google AI Pro Quota ($0 Extra Cost)",
+        "concurrency_policy": "Local Profile Isolation (D:\\FleetProfiles\\Worker_{1..4}) with Round-Robin Failover & Direct Dispatch",
+        "runners": {
+          "worker_1": {"windows": "& 'D:\\FleetProfiles\\agy1.bat' \"[prompt]\"", "linux": "/mnt/d/FleetProfiles/agy1.sh \"[prompt]\"", "account": "ja7563110275@gmail.com", "role": "UI & Frontend (Compose / Web)"},
+          "worker_2": {"windows": "& 'D:\\FleetProfiles\\agy2.bat' \"[prompt]\"", "linux": "/mnt/d/FleetProfiles/agy2.sh \"[prompt]\"", "account": "ibrahimalkateb224@gmail.com", "role": "Backend Domain & APIs"},
+          "worker_3": {"windows": "& 'D:\\FleetProfiles\\agy3.bat' \"[prompt]\"", "linux": "/mnt/d/FleetProfiles/agy3.sh \"[prompt]\"", "account": "ibrahimalkateb9220@gmail.com", "role": "Large Context (2M) & Accessibility/Docs"},
+          "worker_4": {"windows": "& 'D:\\FleetProfiles\\agy4.bat' \"[prompt]\"", "linux": "/mnt/d/FleetProfiles/agy4.sh \"[prompt]\"", "account": "ayahowiedy123@gmail.com", "role": "Secondary Parallelism & Failover Pool"},
+          "auto_failover": {"windows": "& 'D:\\FleetProfiles\\agy-fleet.ps1' -Prompt \"[prompt]\"", "linux": "/mnt/d/FleetProfiles/agy-fleet.sh \"[prompt]\""}
+        }
+      },
+      "exclusive_ownership_tree": [
+        "Clients/",
+        "web/",
+        "app/ui/",
+        "scripts/scaffold/",
+        "migrations/"
+      ],
+      "assigned_skills": [
+        "frontend-design-builder",
+        "backend-architect",
+        "offline-sync-db",
+        "docs-fetcher-context"
       ]
     }
   ],
@@ -219,6 +256,63 @@
       "Ollama Local Fallback (qwen2.5-coder:1.5b - 100% Offline)"
     ],
     "memory_authority": ".agents/MEMORY_STORE.md"
+  },
+  "fleet_teamwork_preview_workflow": {
+    "hook": "Hook 31",
+    "reverse_engineered_archetype": "Antigravity /teamwork-preview (Al Mustafa REA)",
+    "workspace_directory": ".agents/fleet_teamwork/",
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Discovery & Parallel Survey",
+        "description": "Deconstruct project into architecture contracts, features (F01..Fxx), and milestones (M1..M5)",
+        "dispatched_workers": [
+          {"id": "terminal_ui_engineer", "role": "Explorer Frontend & Assets", "cli": "Antigravity CLI (agcli)", "output": "survey_frontend.md"},
+          {"id": "opencode_flash_executor", "role": "Explorer Backend & DB", "cli": "OpenCode CLI (GLM 5.3 Flash)", "output": "survey_persistence.md"},
+          {"id": "opencode_spark_worker", "role": "Explorer Domain & Compliance", "cli": "OpenCode Spark", "output": "survey_offline_domain.md"}
+        ],
+        "deliverables": ["ORIGINAL_REQUEST.md", "PROJECT.md"]
+      },
+      {
+        "phase": 2,
+        "name": "Test Infrastructure Specification",
+        "description": "Architect opaque-box test suites and assertion harnesses",
+        "lead": "Claude Code CLI (Opus Max)",
+        "scaffolder": "OpenCode CLI (DeepSeek V4)",
+        "deliverables": ["TEST_INFRA.md", "test_harnesses/"]
+      },
+      {
+        "phase": 3,
+        "name": "Batched Milestone Implementation",
+        "description": "Construct features iteratively adhering to Max 4 files per batch rule [C-78]",
+        "dispatched_workers": [
+          {"id": "opencode_flash_executor", "role": "Worker Backend & Migrations", "cli": "OpenCode CLI (GLM Flash)", "batch_limit": 4},
+          {"id": "cline_flash_executor", "role": "Worker UI & Presentation", "cli": "Cline CLI (Act Mode)", "batch_limit": 4},
+          {"id": "terminal_ui_engineer", "role": "Worker Terminal Logic", "cli": "Antigravity CLI (agcli)", "batch_limit": 4}
+        ],
+        "deliverable": "handoff.md with 5-section verification"
+      },
+      {
+        "phase": 4,
+        "name": "Adversarial Review & Empirical Stress Gate",
+        "description": "Multi-angle evaluation before Claude Code final audit",
+        "reviewers": [
+          {"id": "algorithmic_engineer", "role": "Reviewer 1 (Architecture & System Boundaries)", "cli": "OpenCode DeepSeek V4"},
+          {"id": "terminal_ui_engineer", "role": "Reviewer 2 (BiDi, RTL, Standards & DOM IDs)", "cli": "Antigravity CLI (agcli)"}
+        ],
+        "challengers": [
+          {"id": "algorithmic_engineer", "role": "Challenger 1 (Data & Boundary Stress Test)", "cli": "OpenCode DeepSeek V4"},
+          {"id": "terminal_ui_engineer", "role": "Challenger 2 (Browser E2E QA Test - $0)", "cli": "agcli + webapp-qa-tester"}
+        ]
+      },
+      {
+        "phase": 5,
+        "name": "Forensic Integrity Audit & Testing Monopoly Sign-Off",
+        "description": "Run official unit/integration test suites, verify real byte sizes, and grant formal [APPROVED] verdict",
+        "sole_authority": "Claude Code CLI (Opus Max)",
+        "deliverables": ["GATE_STATUS.md", "MEMORY_STORE.md ADR Entry"]
+      }
+    ]
   },
   "governing_constraints": [
     "Zero-Cost / Subscribed-Only Invariant: Strictly restrict all OpenCode operations exclusively to models included in the user's active OpenCode Go subscription (opencode-go/glm-5.3-flash, opencode-go/deepseek-v4-flash, opencode-go/muse-spark-1.3-contributor), completely free models (opencode/muse-spark-1.3-contributor-free), or Google free tier. Absolutely NEVER trigger pay-per-token API charges or drain external balance.",

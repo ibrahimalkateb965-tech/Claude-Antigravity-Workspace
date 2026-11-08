@@ -50,10 +50,22 @@ Provide advanced commands to safely purge cached operating system components:
 ### 2. User Data & Cache Redirects
 Relocate large non-critical cache folders using **Directory Junctions (Symbolic Links)**:
 * **Directory Junctioning (`mklink /J`)**:
-  - *Action*: Move a large directory (e.g., `.gradle`, `.m2`, NuGet caches, or Android SDK) to another drive (e.g., `D:\`) and link it back to C:
+  - *Action*: Move a large directory (e.g., `.gradle`, `.m2`, NuGet caches, Android SDK, or Claude VM bundles) to another drive (e.g., `D:\DevCache`) and link it back to C:
     ```cmd
-    robocopy "C:\Users\<Username>\.gradle" "D:\.gradle" /E /MOVE /COPYALL
-    mklink /J "C:\Users\<Username>\.gradle" "D:\.gradle"
+    robocopy "C:\Users\<Username>\.gradle" "D:\DevCache\.gradle" /E /MOVE /COPYALL
+    mklink /J "C:\Users\<Username>\.gradle" "D:\DevCache\.gradle"
+    ```
+  - *Claude Desktop VM Bundles (`vm_bundles`)*:
+    `C:\Users\Kt\AppData\Roaming\Claude\vm_bundles` (often consuming 10+ GB). Relocate safely to `D:\DevCache\Claude_vm_bundles` via:
+    ```powershell
+    & "C:\Users\Kt\.gemini\config\tools\Relocate_Claude_VM_Bundles.ps1"
+    ```
+  - *Python UV Cache Purge*:
+    Run `uv cache clean` to immediately recover 7+ GB of package wheel caches.
+  - *Centralized Deep Clean Suite*:
+    Execute the automated PowerShell suite:
+    ```powershell
+    & "C:\Users\Kt\.gemini\config\tools\Deep_Clean_C_Drive.ps1"
     ```
   - *Purpose*: Keeps the application pointing to `C:` while the physical data occupies space on another drive (D:, E:, F:, G:).
   - *Safety*: Highly effective for developers. Make sure the application is closed before moving.

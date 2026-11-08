@@ -46,3 +46,13 @@ When in **Orange** or **Red** zones:
 3. Update `fleet_orders/CURRENT_STATE.md` or `PROJECT_CONTEXT.md`.
 4. Generate the exact one-line resume prompt for the user.
 5. Give the explicit green light for `/clear`.
+
+## Subagent Token Conservation & Governance Protocol
+To prevent catastrophic token burning from subagent invocations:
+1. **Targeted Dispatch (Anti-Swarm):** NEVER launch parallel background subagents reading the same context. Invoke a single, specialized, ephemeral agent per specific goal.
+2. **Progressive Disclosure:** Subagents MUST read signatures only (`mode=signatures` via `lean-ctx`). Full-file reads are strictly prohibited. For surgical edits, slice <= 50 lines max.
+3. **Model Cost Routing:**
+   - Fast/Economic (`Gemini 3.8 Flash High` / `OpenCode Muse Spark`): CLI tasks, DAOs, boilerplate, Git, logging.
+   - High Thinking (`Claude Opus` / `Thinking Models`): Strict architecture, quality gates, and Devil's Advocate audits.
+4. **Artifact-Driven Handoff:** Communicate between agents via lightweight markdown artifacts (`implementation_plan.md`, `CURRENT_STATE.md`) instead of repeating chat context.
+5. **Instant Skill Recovery:** If a pruned skill is needed, restore it instantly using `python restore_skill.py <skill_name>`.

@@ -6,7 +6,7 @@
 # 🚀 FLEET ORCHESTRATION KICKOFF: [Project Name]
 
 **Active Role:** Master Orchestrator, Staff Architect & Senior Code Reviewer  
-**Assigned Engine:** Claude 5 Opus (Opus Max) / Sonnet 5  
+**Assigned Engine:** Claude Opus 5.5 (Opus Max) / Claude Sonnet 5.5  
 **Configuration Source:** `fleet_config.json`, `CLAUDE.md`, and project blueprints  
 **Language Directive:** 100% English only in all terminal outputs, plans, and prompts.
 

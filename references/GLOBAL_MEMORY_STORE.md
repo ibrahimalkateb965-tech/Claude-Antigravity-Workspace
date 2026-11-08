@@ -7,6 +7,54 @@
 
 ---
 
+- id: LESSON-BRAIN-GIT-PULL-PYCACHE-HYGIENE-069
+  type: lesson
+  timestamp: "2026-10-14"
+  agents: [git-github-manager, security-auditor, persistent-memory-engine, agent-optimizer]
+  context: "تحديث ومزامنة مستودع Brain وتطهير ملفات الكاش __pycache__ وفحص الأسرار"
+  content: "1) بروتوكول السحب الآمن: فحص نظافة شجرة العمل مسبقاً والتحديث السريع Fast-forward عبر PR #5 و PR #6. 2) تطهير ملفات بايت كود بايثون: إزالة ملفات .pyc المتتبعة بالخطأ في _scripts/ وتأكيد حظرها في .gitignore لضمان بقاء المستودع نظيفاً بعد كل تشغيل برمجي. 3) الفحص الأمني والأدلة التشغيلية: تشغيل secret_scan بنتيجة صفرية، وتأكيد وجود أدلة وظائف Phase 3 (9 SOPs) وتقارير التجربة pilot_report وملاحظات الخزينة بالكامل."
+  tags: [git-hygiene, pycache-removal, secret-scan, brain-vault, fast-forward, memory-store, global]
+
+- id: LESSON-WSL-UBUNTU-RELOCATION-D-DRIVE-9GB-LIBERATED-068
+  type: lesson
+  timestamp: "2026-10-13"
+  agents: [devops-deployer, performance-optimizer, persistent-memory-engine, agent-optimizer]
+  context: "نقل توزيعة WSL Ubuntu إلى القرص D وتحرير 9.29 GB من القرص C مع الفحص الشامل E2E"
+  content: "1) النقل الرسمي المباشر: نقل توزيعة WSL 2.7 Ubuntu بالكامل من C إلى D:\\WSL\\Ubuntu، وإنشاء نسخة احتياطية VHD متكاملة في D:\\WSL_backup\\ وتصدير مفاتيح الريجستري lxss.reg. 2) تحرير مساحة C الحرج: قفزت المساحة الحرة على القرص C من 0.40 GB (مستوى الخطر) إلى 9.69 GB محررة أكثر من 9.29 GB. 3) حزمة اختبارات E2E الـ 14: اجتازت التوزيعة كافة اختبارات الإقلاع الفوري، مطابقة المستخدم الافتراضي t (uid=1000)، سلامة نظام الملفات ext4، القراءة والكتابة والشبكة، وتشغيل خادم لغة Antigravity بنجاح تام."
+  tags: [wsl-relocation, d-drive-migration, c-drive-cleanup, e2e-verification, antigravity-language-server, memory-store, global]
+
+- id: LESSON-WSL-STARTUP-0x8000000d-PAGEREPORTING-FIX-067
+  type: lesson
+  timestamp: "2026-10-13"
+  agents: [debugger, devops-deployer, persistent-memory-engine, agent-optimizer]
+  context: "إصلاح انهيار تطبيق Antigravity وخطأ Wsl/Service/CreateInstance/0x8000000d و warnings startup"
+  content: "1) استكشاف تحذيرات الإقلاع: إزالة المفتاح غير المدعوم pageReporting=true من .wslconfig لمنع طباعة رسائل التحذير إلى stderr عند الإقلاع. 2) معالجة تعارض الأقفال: حل خطأ 0x8000000d بإغلاق العمليات العالقة وعمل wsl --shutdown لتحرير قفل التوزيعة المؤقت، وتأكيد عمل خادم اللغة Antigravity بنجاح على المنفذ المحلي."
+  tags: [antigravity, wslconfig, pagereporting-removal, error-0x8000000d, language-server-repair, memory-store, global]
+
+- id: LESSON-E2E-TESTING-FRAMEWORK-HOOK20-066
+  type: lesson
+  timestamp: "2026-10-11"
+  agents: [resource-scout-integrator, e2e, create-verification-skill, duckai-research-bridge, agent-optimizer, prompt-engineer, persistent-memory-engine]
+  context: "تفعيل الخطاف رقم 20 واستكشاف وتكامل إطار عمل الاختبارات الوكيلية الشاملة e2e ومولد مهارات التحقق create-verification-skill من مستودع tester-army/e2e"
+  content: "1) استكشاف وتعميم المهارات العالمية (e2e & create-verification-skill): استخلاص ونشر إطار عمل e2e لاختبارات الويب (@e2e-dev/web على Playwright) والموبايل (@e2e-dev/mobile على iOS/Android) بأهداف وكيلية (agent.act, agent.assert) وتأكيدات قطعية دقيقة. 2) ميزة الـ Replay Cache وترشيد التوكنز 100%: إعادة تشغيل الاختبارات المؤكدة دون أي استدعاء للنماذج أو استهلاك توكنز ما لم تتغير الواجهة، مع خادم MCP المدمج (e2e mcp). 3) النشر المتعدد والمزامنة: نشر المهارات عالمياً ومحلياً في .agents/skills و ~/.gemini/config/skills/ و Claude+Antigravity. 4) أتمتة الويب والإكسيل: تحديث HOOKS_GUIDE.md و HOOKS_GUIDE.xlsx (30 خطافاً)، وتشغيل update_html.py وتحديث 4 واجهات تفاعلية لتطبيق Dynamic Prompt Library بنجاح، وإدراج الأمر المهندس آلياً في مصنف مكتبة الأوامر.xlsx (تبويب Custom_Skills.Claude، صف #10، رقم 9)."
+  tags: [hook-20-resource-scout, e2e-testing, replay-cache, agentic-testing, mcp-server, update-html-sync, prompt-library-curation, custom-skills-claude, memory-store]
+
+- id: LESSON-FLEET-MODEL-UPGRADE-5.5-HOOK29-065
+  type: lesson
+  timestamp: "2026-10-02"
+  agents: [fleet-orchestrator, agent-optimizer, code-architect, prompt-engineer, persistent-memory-engine]
+  context: "بناء وتفعيل الخطاف رقم 29 لترقية ومعايرة مصفوفة نماذج أسطول الـ CLIs للجيل 5.5 (Claude Opus 5.5 Max و Claude Sonnet 5.5)"
+  content: "1) بناء الخطاف 29 والمهارة المخصصة (fleet-model-upgrader): تأسيس خطاف ترقية ومعايرة مصفوفة النماذج لتحديث المنظومة تلقائياً بمجرد إطلاق أجيال جديدة من النماذج. 2) ترقية خط الأساس المعماري للجيل 5.5: تحديث القيود التقنية [C-11] و [C-21] و [C-38] في ACTIVE_CONTEXT_INJECTION.md لاعتماد Claude Opus 5.5 (Opus Max) للاختبارات الحصرية والمراجعات المعمارية، و Claude Sonnet 5.5 للتطوير اليومي، مع تثبيت Gemini 3.8 Flash High و GLM 5.3 Flash و Meta Muse Spark و Codex GPT-5.6 Soul. 3) مزامنة ملفات fleet_config.json: تحديث حقول active_model للأوركستريتور عبر كافة مشاريع ومستودعات المنظومة. 4) أتمتة الويب والإكسيل: تحديث HOOKS_GUIDE.md و HOOKS_GUIDE.xlsx (29 خطافاً)، وتشغيل update_html.py وتحديث 5 واجهات تفاعلية كاملة، وإدراج الموجه في مكتبة الأوامر.xlsx (تبويب Gates_Hooks.Claude، صف #17، رقم 16)."
+  tags: [hook-29-fleet-model-upgrader, claude-opus-5.5, claude-sonnet-5.5, fleet-model-matrix, active-context-injection, update-html-sync, memory-store]
+
+- id: LESSON-DUCKAI-RESEARCH-BRIDGE-HOOK20-INTEGRATION-064
+  type: lesson
+  timestamp: "2026-10-02"
+  agents: [resource-scout-integrator, duckai-research-bridge, agent-optimizer, prompt-engineer, persistent-memory-engine]
+  context: "تفعيل الخطاف رقم 20 واستخلاص وتكامل مهارة جسر أبحاث Duck.ai وتحديث الخطافات وتطبيق الويب التفاعلي ومكتبة الأوامر"
+  content: "1) استخلاص المهارة العالمية (duckai-research-bridge): بناء بطاقة المهارة المعيارية مع Frontmatter متكامل، وتوفير وصفات استدعاء بلغة بايثون و FastMCP، وربط نماذج GPT-4o-mini و Claude 3 Haiku و Llama 3.3 للاستعلام البحثي المجاني دون استهلاك كوتا النماذج التجارية المدفوعة لوكالة Autovem. 2) حوكمة بيئات العمل وفرض قيود الأمان: عزل Duck.ai لبيئات التطوير والـ Prototyping والـ Staging ومنع استخدامها في الخدمات الإنتاجية الحساسة (Non-Production Invariant) نظراً لاعتمادها على واجهات غير رسمية، مع فرض معايير الأرقام الإنجليزية (0-9) ومعالجة الانقطاع الذاتي. 3) النشر الرباعي والمزامنة: نشر المهارة محلياً في .agents/skills وعالمياً في ~/.gemini/config/skills/ و C:\\Users\\Kt\\.gemini\\config\\skills والمستودع المركزي Claude+Antigravity. 4) أتمتة الويب والإكسيل: تحديث HOOKS_GUIDE.md و HOOKS_GUIDE.xlsx، وتشغيل محرك update_html.py وتحديث 5 واجهات تفاعلية لتطبيق Dynamic Prompt Library بنجاح، وإدراج الأمر المهندس آلياً في مصنف مكتبة الأوامر.xlsx (تبويب Custom_Skills.Claude، صف #14، رقم 13)."
+  tags: [hook-20-resource-scout, duckai-research-bridge, autovem-agency, zero-cost-llm, update-html-sync, prompt-library-curation, custom-skills-claude, memory-store]
+
 ## سجل الدروس المستفادة (Lessons Learned)
 
 ```yaml
@@ -1541,4 +1589,120 @@
   context: "اعتماد الحوكمة الخماسية للوكلاء الفرعيين وترشيد استهلاك التوكنز"
   content: "1. تعميم استراتيجية حوكمة الوكلاء الفرعيين عالمياً ومحلياً (Anti-Swarm, Progressive Disclosure, Model Cost Routing, Pruning, Artifact Handoff).\n2. تحديث المهارة المركزية context-governance وإلزام قراءة التوقيعات بدلاً من الملفات الكاملة وحظر قراءة الملفات الكاملة (حصر الفحص العميق في نطاق أسطر <= 50 سطراً).\n3. بناء أداة الاسترجاع اللحظي restore_skill.py لحماية نافذة السياق دون كسر سير العمل.\n4. توثيق المعيار في AGENTS.md (البند 19) و ACTIVE_CONTEXT_INJECTION.md (القيد 76)."
   tags: [subagents, token-conservation, progressive-disclosure, context-governance, global-standard, global]
+  status: active
+
+- id: MEM-ANTIGRAVITY-TEAMWORK-LIBRARY-SEPARATION-2026-09-27-012
+  type: lesson
+  timestamp: "2026-09-27T09:34:00+03:00"
+  agents: [antigravity-ide, prompt-engineer, persistent-memory-engine, agent-optimizer]
+  context: "حوكمة استهلاك teamwork-preview والفصل المعماري لأقسام Antigravity في مكتبة الأوامر"
+  content: "1) تحليل استهلاك أمر teamwork-preview: الكوماند يطلق خط إنتاج إجباري متسلسل من 7 وكلاء مستقلين (Orchestrator -> Implementer -> 3 جولات مراجعة تعارضية R1/R2/R3 -> Sentinel -> Victory Auditor). الحوكمة تمنع الهدر الداخلي لكل وكيل، لكن ضرب السياق في 7 وكلاء يضاعف التكلفة؛ لذا يُحظر استخدامه في التطوير اليومي ويُعتمد الاستدعاء النقطي المركز (Targeted Dispatch)، ويُحصر teamwork-preview في التدقيق الشامل النهائي قبل التسليم للمتجر فقط. 2) الفصل المعماري لبيئتي Claude و Antigravity في مكتبة الأوامر: تم إنشاء التبويبات المتوازية (Gates_Hooks.Antigravity، CLI_Core.Antigravity، Workflows_Pipelines.Antigravity) وتنسيقها بنفس هوية Segoe UI و Consolas وخلفيات 1E293B، مع ترقية محرك التوجيه الآلي prompt_library_curator.py لتوجيه أوامر Antigravity و agcli تلقائياً لأقسامها المخصصة."
+  tags: [antigravity-ide, teamwork-preview, swarm-governance, prompt-library, sheet-routing, memory-store, victory-audit]
+  status: active
+
+- id: MEM-PLAYSTORE-OPTIMIZATION-HIGH-97-2026-09-26-011
+  type: lesson
+  timestamp: "2026-09-26T23:36:00+03:00"
+  agents: [claude-code-cli, opencode-cli, antigravity-ide, persistent-memory-engine]
+  context: "قفزة تحسين Google Play Console من 27% Low إلى 97% High وتنظيف قواعد ProGuard وإدارة أسطول الـ CLIs"
+  content: "1) أسباب هبوط نسبة التحسين في كونسول جوجل بلاي إلى 27% Low: وجود قواعد حظر شاملة -keep class X.** { *; } لمكتبات ضخمة (Media3 ExoPlayer، و Coroutines، و Compose، و Room المتقاعدة) في proguard-rules.pro، مع غياب سطر isShrinkResources = true في build.gradle.kts. 2) الحل الهندسي الجذري: حذف الـ blanket keeps والاعتماد على قواعد الـ AAR consumer rules المدمجة للمكتبات الرسمية، والإبقاء فقط على QuranAudioService، وتفعيل isShrinkResources = true. النتيجة قفزة تاريخية: DEX optimisation ارتفع من 27% إلى 97% High، ونسبة التشويش والتقليص إلى 98%، وانخفض حجم classes.dex بنسبة 60.5% (من 8.05MB إلى 3.17MB) وحجم الحزمة AAB إلى 5.99MB وحجم التنزيل للمستخدم إلى 3.06MB. 3) بروتوكول الأسطول: توجيه GLM 5.3 Flash عبر OpenCode لتنفيذ تعديلات ملفات البناء غير التفاعلية مع تمرير < nul لمنع تعليق TUI على ويندوز، واحتكار Claude Code CLI (Opus Max) للمراجعة المعمارية وتشغيل الاختبارات (94/94 passed) وبوابة الجودة. 4) تجاوز أخطاء مسار Production في كونسول جوجل بلاي: حذف الحزمة القديمة المكررة لمنع خطأ Shadowed APK، وتفعيل الـ 177 دولة من تبويب Countries/regions، واعتبار رسالة Native Debug Symbols تحذيراً غير حاجب للنشر."
+  tags: [play-store, r8, proguard, shrink-resources, optimization-97, fleet-orchestration, glm-5-3-flash, claude-opus-max, production-release]
+  status: active
+
+- id: MEM-FLEET-MEMORY-CONCURRENT-WRITE-2026-09-23-010
+  type: lesson
+  timestamp: "2026-09-23T19:30:00+03:00"
+  agents: [fleet-orchestrator, persistent-memory-engine, claude-code-cli]
+  context: "الكتابة المتزامنة على MEMORY_STORE.md من أكثر من وكيل خلال الجلسة الواحدة"
+  content: "1) أثناء تنفيذ Hook 25 (strategic-clear) في جلسة 15، وجد Claude Code CLI أن درس الـ TalkBack nunation مسجّل بالفعل تحت MEM-A11Y-TALKBACK-ARABIC-TTS-2026-09-23-009 قبل دقائق من وصوله للخطوة 2، مع أنه لم يكتبه: الـ mtime كان Sep 13 16:49 عند بدء الأمر، ثم ظهر إدخال بتوقيت 19:20. أي أن وكيلاً آخر (Antigravity IDE أو خطّاف) يكتب على نفس الملف بالتوازي. 2) القاعدة المعتمدة: قبل أي append على MEMORY_STORE.md يجب إعادة قراءة ذيل الملف لحظياً (tail / grep على الـ id) وعدم الاعتماد على نسخة مقروءة سابقاً في السياق، وإلا تنشأ إدخالات مكررة أو تضارب في ترقيم MEM-ids. 3) هناك نسختان من الملف: .agents/MEMORY_STORE.md (81 KB، هو النشط) و MEMORY_STORE.md في الجذر (57 KB) — الكتابة تتم في .agents/ حصراً مثلما تم مع MEM-2026-09-13-001..004."
+  tags: [memory-store, concurrency, fleet-coordination, hook-25, strategic-clear, duplicate-prevention]
+  status: active
+
+- id: MEM-A11Y-TALKBACK-ARABIC-TTS-2026-09-23-009
+  type: lesson
+  timestamp: "2026-09-23T19:20:00+03:00"
+  agents: [android-kotlin-pro, jetpack-compose-ui, code-reviewer-quality, test-automator, persistent-memory-engine]
+  context: "منع تنوين الضم في تسميات وإعلانات TalkBack للمكفوفين وعزل نصوص Compose متعددة الأسطر"
+  content: "1) في Jetpack Compose، عند استخدام نصوص بصرية متعددة الأسطر (\\n) داخل أزرار الواجهة المخصصة للمكفوفين (مثل HeaderAccessibleButton)، إذا لم يُربط contentDescription في الـ Semantics، تسقط إمكانية الوصول على الـ child Text فيعامل محرك الـ TTS العربي الكلمة المنتهية بسطر جديد كاسم مفرد منعزل ويولد تنوين ضم افتراضي ('اختيارٌ السورة'). 2) الحل الجذري: ربط contentDescription صراحة على حاوية الزر بـ Modifier.semantics(mergeDescendants = true) { this.contentDescription = ... } مع تفريغ دلالات النص البصري بـ Modifier.clearAndSetSemantics {} لمنع وصول \\n لمحرك النطق. 3) الضبط الإعرابي الصريح: وضع ضمة صريحة ('اختيارُ') وكسرة للمجرور ('لاختيارِ') في كافة نصوص contentDescription والإعلانات الصوتية يحسم دقة النطق الصوتي 100% ويمنع اجتهادات الـ TTS الخاطئة. تم التطبيق على 5 ملفات تحت :app واعتمادها بالكوميت 14df900 بعد اجتياز 40 اختبار وحدة."
+  tags: [talkback, accessibility, arabic-tts, nunation-fix, jetpack-compose, semantics, player-header-bar, dual-mode-architecture]
+  status: active
+
+- id: MEM-HOSTINGER-REMOTE-FUTRX-005
+  type: adr
+  timestamp: "2026-09-08T23:25:00+03:00"
+  agents: [fleet-orchestrator, backend-architect, devops-deployer, persistent-memory-engine]
+  context: "أتمتة نشر منصة remote.futrx على خادم Hostinger VPS بواسطة أدوات Hostinger MCP وتنسيق الأسطول"
+  content: "بناءً على توجيه المستخدم واستدعاء أسطول الـ CLIs: 1) تفعيل بروتوكول الخطوة صفر والالتزام بالقيد 53 (عزل منصات الحاويات السحابية). 2) استخدام أدوات Hostinger MCP للتحقق من السيرفر (ID: 1810150, IP: 187.55.226.225). 3) أتمتة إضافة سجلات DNS الأربعة لنطاق autovem.tech عبر DNS_validateDNSRecordsV1 و DNS_updateDNSRecordsV1 بنجاح كامل. 4) ربط المفتاح العام SSH بالسيرفر عبر VPS_attachPublicKeyV1. 5) اكتشاف عمل caddy على الحاوية وحل تعارض المنافذ 80 و 443 مع التثبيت المباشر."
+  tags: [hostinger-mcp, remote-futrx, vps-deployment, dns-automation, multi-cli-fleet, global]
+  status: active
+
+- id: MEM-2026-09-08-003
+  type: resource-integration
+  timestamp: "2026-09-08T22:40:00+03:00"
+  agents: [resource-scout-integrator, devops-deployer, code-architect, persistent-memory-engine]
+  context: "استكشاف وتكامل منصة remote.futrx للوكلاء السحابيين وبوابة حظر SSH"
+  content: "1. تم استكشاف واستنساخ وتكامل مستودع remote.futrx كمنصة خادومية متكاملة لاستضافة الوكلاء المتعددين (Claude Code, Antigravity agy, Codex, MiniMax, Kimi) داخل حاويات LXD مستقلة لكل مشروع على خادم Hostinger VPS (Ubuntu 24.04).\n2. [تحذير أمني حرج - SSH Hardening]: سكربت التثبيت (06-ssh-hardening.sh) يعطل تسجيل الدخول بكلمة المرور فوراً (PasswordAuthentication no)؛ لذا تم إلزام التحقق من وجود مفتاح SSH العام المسجل في authorized_keys قبل تشغيل مثبت المنصة لتفادي إغلاق السيرفر.\n3. [إدارة الذاكرة في VPS KVM 1]: بناء صورة الحاوية الأساسية (futrx-remote-dev-base) يتطلب تفعيل ملف تبادل (4GB Swap File) كشرط مسبق لتجنب انهيار الذاكرة (OOM Killer).\n4. تم بناء مهارة remote-futrx ونشرها وتوزيعها بكامل أدلتها وسكربت الفحص المساعد في الجذور الأربعة للمنظومة وتحديث HOOKS_GUIDE و HOOKS_GUIDE.xlsx ومزامنة المنظومة بنجاح."
+  tags: [remote-futrx, cloud-vps, hostinger, lxd-containers, ssh-hardening, swap-4gb, hook-20, global]
+  status: active
+
+- id: MEM-2026-09-08-004
+  type: model-calibration
+  timestamp: "2026-09-08T23:07:00+03:00"
+  agents: [prompt-engineer, fleet-orchestrator, code-architect, persistent-memory-engine]
+  context: "تحديث مصفوفة نماذج الأسطول واعتماد deepseek-v4-flash لـ OpenCode وترقية Gemini 3.8 Flash لـ Antigravity"
+  content: "1) اعتماد وتثبيت نموذج deepseek/deepseek-v4-flash كنموذج حصري وافتراضي لـ OpenCode CLI لتنفيذ الأوامر الطرفية والسكربتات وترحيل قواعد البيانات بأعلى سرعة ومجانية، بعد التحقق من خلو قائمة مزودي OpenCode الحالية من اسم Ox Alpha الصريح. 2) ترقية محرك Antigravity CLI / IDE رسمياً إلى Gemini 3.8 Flash (High Reasoning) في ملفات الأسطول والقواعد العامة، للاستفادة من قدراته الفائقة في المنطق المعماري وإدارة السياق. 3) تحديث القاعدة رقم 13 وملفات fleet_config.json بالتزامن."
+  tags: [fleet-models, deepseek-v4-flash, gemini-3.8-flash, opencode, antigravity, hook-22, rule-13, global]
+  status: active
+
+- id: MEM-2026-09-30-076
+  type: milestone
+  timestamp: "2026-09-30T21:10:00+03:00"
+  agents: [resource-scout-integrator, design-md-architect, impeccable-design-guard, hyperframes-motion-engine, master-orchestrator, persistent-memory-engine]
+  context: "استكشاف وتكامل حزمة الموارد العالمية الثمانية للتصميم والحركة الذكية والفيديو بالكود (Hook 20 & Fleet Integration)"
+  content: "اكتمال استكشاف وتفكيك وتحليل الموارد العالمية الرائدة الثمانية (Refero Styles, Awesome DESIGN.md, 21st.dev, Component Gallery, Kinetics, WhatShips, HyperFrames, Impeccable): 1) بناء ونشر 3 مهارات تخصصية محلياً وعالمياً: design-md-architect (لتوليد وتوحيد مواصفات DESIGN.md المرجعية بحسب معايير Google Stitch)، impeccable-design-guard (لتطهير الواجهات من ركاكة الذكاء الاصطناعي ومكافحة AI Slop وتدقيق التباين WCAG AA)، و hyperframes-motion-engine (للحركة الطبيعية بفيزياء الزنبرك وتوليد الفيديوهات برمجياً بالكود HTML/CSS/GSAP). 2) تحديث وتوسيع الخطاف 20 في HOOKS_GUIDE.md محلياً وعالمياً وإعادة تصدير مصنف HOOKS_GUIDE.xlsx. 3) التحديث الآلي لـ 3 واجهات تفاعلية لمكتبة الأوامر (03_Dynamic_Prompt_Library/index.html) عبر تشغيل update_html.py وحقن البيانات المحدثة. 4) توثيق وأرشفة 3 موجهات مهندسة في مصنف 'مكتبة الأوامر.xlsx' تحت تبويب Custom_Skills.Claude (الصفوف #10، #11، #12)."
+  tags: [hook-20, design-motion-suite, design-md, refero-styles, impeccable, hyperframes, kinetics, 21st-dev, component-gallery, update-html, autovem, global]
+  status: active
+
+- id: MEM-AYAH-SEARCH-PAGE-TRANSITION-2026-10-11-003
+  type: lesson
+  timestamp: "2026-10-11T08:16:00+03:00"
+  agents: [prompt-engineer, jetpack-compose-ui, android-kotlin-pro, persistent-memory-engine]
+  context: "البحث برقم الآية في صفحة المصحف والانتقال الديناميكي العابر للصفحات"
+  content: "1) إضافة حقل بحث رقمي مخصص في تبويب نص الآيات بـ QuranPageViewSheet يتيح التصفية الفورية للآيات برقم الآية مع لوحة مفاتيح رقمية وزر مسح سريع وتوافق كامل مع قارئ الشاشة TalkBack. 2) حل مشكلة عدم انتقال الشاشة عند اختيار آية في صفحة أخرى: تم تعديل selectAyahFromPage في QuranViewModel ليقوم بإغلاق نافذة العرض المنبثقة تلقائياً فور اختيار الآية، مما ينقل تركيز المستخدم مباشرة إلى الشاشة الرئيسية التي تتزامن فورياً على الآية والصفحة الجديدة مع تحديث شارة زر العين وبدء التلاوة دون أي تعليق في الواجهة."
+  tags: [ayah-search, page-transition, dynamic-navigation, talkback, viewmodel, compose, hook-22, hook-26]
+  status: active
+
+- id: MEM-MUSHAF-PAGE-IMAGES-OPTION-B-2026-10-11-002
+  type: adr
+  timestamp: "2026-10-11T00:40:00+03:00"
+  agents: [prompt-engineer, code-architect, jetpack-compose-ui, persistent-memory-engine]
+  context: "اعتماد صور مصحف المدينة المنورة (الخيار ب) وتكامل Coil و BunnyCDN مع المعمارية ثنائية الوضع"
+  content: "1) بناءً على تصحيح المسار الصريح من المستخدم، تم اعتماد الخيار (ب): عرض صور صفحات مصحف المدينة المنورة الرسمية (مجمع الملك فهد) بدقة 1260px عبر خادم Quran.app الرسمي (https://files.quran.app/hafs/madani/width_1260/page%03d.png) مع خادم GitHub الاحتياطي. 2) تفعيل Coil Compose في build.gradle.kts مع فرض Disk Cache دائم وموفر للبيانات. 3) الالتزام الصارم بالمعمارية ثنائية الوضع (Dual-Mode Architecture): تم بناء شريط تبديل علوي ثنائي النمط في QuranPageViewSheet يتيح التبديل السلس بين صورة المصحف والنص العثماني، مع تضمين كافة نصوص آيات الصفحة دلالياً في الحاوية البصرية لتوفير تجربة صوتية كاملة 100% لمستخدمي TalkBack من المكفوفين، وشريط سفلي للتنقل الفوري بين آيات الصفحة."
+  tags: [mushaf-page-images, option-b, coil-compose, bunny-cdn, dual-mode-architecture, talkback, accessibility, hook-04, hook-22]
+  status: active
+
+- id: LESSON-REMOTE-FUTRX-ANTIGRAVITY-AUTH-FLEET-052
+  type: lesson
+  timestamp: "2026-09-09"
+  agents: [antigravity-ide, persistent-memory-engine, fleet-orchestrator, devops-deployer]
+  context: "تفعيل ومصادقة Antigravity CLI (agy) في منصة Remote Futrx السحابية وتهيئة أسطول الوكلاء لمستودع تاج الوقار"
+  content: "1) اسم أمر التشغيل لـ Antigravity CLI في حاويات وبيئة Remote Workspace هو 'agy' وليس بالاسم الكامل. 2) إتمام تدفق المصادقة (Google OAuth): تشغيل agy داخل Project Terminal واختيار Google OAuth، ثم إدخال رمز المصادقة في سطر 'Enter authorization code' بعد النزول بالأسهم لأسفل. 3) في واجهات TUI لشروط الاستخدام: مفتاح Enter يعمل كـ toggle لعلامة [x]، ومفتاح السهم لأسفل أو Tab هو المسؤول عن الانتقال لزر المتابعة Continue. 4) فور اعتماد الحساب (Google AI Pro)، ينشط نموذج Gemini 3.8 Flash (High) ويتكامل فوراً مع شاشة المحادثة الرسومية (Web Chat) ومهارات المتصفح والجدولة. 5) تجهيز معمارية الأسطول السحابي لتطبيق فلاتر 'تاج الوقار' عبر استنساخ المستودع الخاص taj_al_waqar_global بواسطة توكن الوصول الكلاسيكي (GitHub PAT repo scope) لتمكين العمل المتزامن للوكلاء (Antigravity للبرمجة و Claude Code للمراجعة والاعتماد) على نفس مسار /workspace على مدار الساعة."
+  tags: [remote-futrx, antigravity-cli, agy, google-oauth, taj-al-waqar, flutter, github-pat, fleet-orchestration, zero-indic-digits, global]
+
+- id: MEM-2026-10-13-002
+  type: lesson
+  timestamp: "2026-10-13T22:57:00+03:00"
+  agents: [devops-deployer, performance-optimizer, persistent-memory-engine]
+  context: "نقل WSL Ubuntu إلى القرص D وتحرير 9.3 GB من القرص C مع الفحص الشامل E2E"
+  content: "تم بنجاح استشارة Claude Code CLI ونقل توزيعة WSL Ubuntu بالكامل من C إلى D:\\WSL\\Ubuntu، مع إنشاء نسخة احتياطية VHD في D:\\WSL_backup\\ وتحديث مسار BasePath في سجل ويندوز. أدى ذلك إلى تحرير ما يقارب 9.3 GB من القرص C (ارتفعت المساحة الحرة من 0.40 GB إلى 9.69 GB)، واجتازت التوزيعة كافة اختبارات E2E الـ 14 (سلامة الإقلاع، صلاحيات المستخدم t، اختبارات القراءة والكتابة والشبكة، وتشغيل خادم لغة Antigravity بنجاح تام)."
+  tags: [wsl, ubuntu-relocation, disk-space, c-drive-cleanup, e2e-testing, antigravity, global]
+  status: active
+
+- id: MEM-2026-10-13-001
+  type: lesson
+  timestamp: "2026-10-13T21:58:00+03:00"
+  agents: [debugger, devops-deployer, persistent-memory-engine]
+  context: "إصلاح انهيار تطبيق Antigravity وخطأ Wsl/Service/CreateInstance/0x8000000d و warnings startup"
+  content: "عند حدوث خطأ 'errors occurred during WSL startup' مع '0x8000000d' وتوقف خادم اللغة لـ Antigravity (ERR_CONNECTION_REFUSED): السبب الأول وجود مفتاح غير صالح في C:\\Users\\<User>\\.wslconfig وهو wsl2.pageReporting=true يطبع تحذيراً لمخرجات stderr عند كل إقلاع، والسبب الثاني قفل مؤقت (stale instance lock) بين خدمات الإقلاع. تم استشارة Claude Code CLI وتنفيذ الحل الجذري بحذف المفتاح المعطوب من .wslconfig، ثم إعادة تشغيل WSL بـ wsl --shutdown، وإعادة إطلاق التطبيق بنجاح تام وعودة خادم اللغة للعمل."
+  tags: [antigravity, wsl, wslconfig, pageReporting, error-0x8000000d, bug-fix, global]
   status: active

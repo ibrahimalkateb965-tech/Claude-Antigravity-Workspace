@@ -18,7 +18,7 @@ Each JSON object represents a UI element in the Android app. The following prope
 Use `layout` as a primary means of examining an Android app. Use `layout --diff` to focus on changes and to keep your context small.
 Example: When entering digits into a calculator, use `layout --diff` to output only the digit readout element.
 
-`layout` may fail due to the app displaying a WebView or animation; in these cases, use `android screen --annotate` to inspect the app.
+`layout` may fail due to the app displaying a WebView or animation; in these cases, use `android screen capture --annotate` to inspect the app.
 This failure will likely resolve after navigating away from the current screen.
 
 ## Screenshot
@@ -34,7 +34,7 @@ Examples:
 
 ## Annotated Screenshot
 `android screen capture --annotate -o <file path>`
-`android screen resolve --screen <path> --string <string>`
+`android screen resolve --screenshot <path> --string <string>`
 
 The `--annotate` command adds numerical labels and bounding boxes around UI elements. Use this command to locate UI elements that cannot
 be located in the `layout` output.
@@ -43,11 +43,11 @@ be located in the `layout` output.
 
 To refer to these labels in input commands, use `screen resolve` to convert labels into coordinates:
 
-`android screen resolve --screen <file path> --string "#3"` returns `<x coord of region 3> <y coord of region 3>`
+`android screen resolve --screenshot <file path> --string "#3"` returns `<x coord of region 3> <y coord of region 3>`
 
 To save turns, you can combine shell commands:
 
-`adb shell input $(android screen resolve --screen screen.png --string "tap #34")`
+`adb shell input $(android screen resolve --screenshot screen.png --string "tap #34")`
 
 This command taps on region #34 from `screen.png`
 
@@ -74,10 +74,17 @@ To tap on this button, you would execute `adb shell input tap 152 23`. This taps
   "center": "[250,400]"
 }
 ```
-To scroll down on this list, you would execute `adb shell input swipe 250 400 600 500`. This swipes from the center to the bottom over 500ms.
+To scroll down on this list, you would execute `adb shell input swipe 250 400 250 200 500`. This swipes from the center to the top over 500ms.
+
+### Text Input
+To enter text, ensure the field is focused and execute `adb shell input text "<text>"`.
+
+- **Spaces (`%s`):** Replace spaces with `%s` (Android ignores text after raw spaces): `adb shell input text "Hello%sworld"` (enters `"Hello world"`).
+- **Special characters:** Escape shell metacharacters (`&`, `$`, `(`, `)`, `!`): `adb shell input text "AT\&T"` or `adb shell input text 'Price:\$10'`.
+- **Submit / Enter:** `adb shell input keyevent 66`
 
 # Android Interaction Rules
-1. Always ensure text input fields have `"focused"` in their `"state"` list before entering text
-2. If an element has `"scrollable"` in its `"interactions"` list, try scrolling it when looking for missing UI elements
-2. Always scroll slowly when executing scroll inputs. The 5th argument to `adb shell input swipe` controls scroll duration.
-3. Content may take time to load; if a `layout` is missing information after you take an action, wait a few seconds, then perform `layout --diff` to see if anything changes.
+1. Always ensure text input fields have `"focused"` in their `"state"` list before entering text.
+2. If an element has `"scrollable"` in its `"interactions"` list, try scrolling it when looking for missing UI elements.
+3. Always scroll slowly when executing scroll inputs. The 5th argument to `adb shell input swipe` controls scroll duration.
+4. Content may take time to load; if a `layout` is missing information after you take an action, wait a few seconds, then perform `layout --diff` to see if anything changes.

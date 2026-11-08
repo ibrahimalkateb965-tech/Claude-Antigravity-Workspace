@@ -10,7 +10,7 @@
 ## 🎛️ 1. ملف الضبط المركزي (`fleet_config.json` / `fleet_config_seed.json`)
 
 يمكن نسخ قالب `fleet_config_seed.json` إلى جذر أي مشروع جديد وتعديل:
-* **النماذج النشطة (active_model):** (`Claude 5 Opus`, `DeepSeek V4`, `Gemini 3.7 Flash`... إلخ).
+* **النماذج النشطة (active_model):** (`Claude Opus 5.5 (Opus Max)`, `DeepSeek V4`, `Gemini 3.7 Flash`... إلخ).
 * **مستوى الجهد (effort_level):** (`Max Reasoning`, `High Speed`, `High Reasoning`).
 * **خط الإنتاج الإلزامي (fleet_pipeline_workflow):** لفرض مراجعة الكود بنهاية كل مرحلة.
 

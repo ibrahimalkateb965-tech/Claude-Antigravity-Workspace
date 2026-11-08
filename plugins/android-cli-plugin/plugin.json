@@ -1,9 +1,16 @@
 {
   "name": "android-cli-plugin",
-  "version": "1.0.0",
-  "description": "Core tools and knowledge required to develop for Android",
+  "displayName": "Android CLI",
+  "version": "1.0.16625370",
+  "description": "Core tools and knowledge required to develop for Android.",
+  "logo": "assets/logo.png",
+  "suggestedPrompts": [
+    "Create a new Android project called MyFirstApp using the empty-activity template",
+    "Run my app on a Samsung Galaxy Ultra device.",
+    "Test my app and make sure that it's ready to publish to Google Play."
+  ],
   "author": {
-    "name": "Android developer tools team"
+    "name": "Android Developer Tools Team"
   },
   "license": "Apache-2.0",
   "keywords": [
@@ -11,7 +18,9 @@
     "mobile",
     "device",
     "sdk",
-    "journeys",
-    "device"
+    "emulator",
+    "studio",
+    "cli",
+    "journeys"
   ]
 }

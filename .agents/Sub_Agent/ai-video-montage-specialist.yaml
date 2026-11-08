@@ -1,0 +1,7 @@
+---
+name: ai-video-montage-specialist
+description: "Autovem AI Video Montage & Creative Direction Specialist — orchestrates end-to-end programmatic video editing, audio transcription (Whisper ms timestamps), FFmpeg contact sheet & negative space analysis, rough cut silence removal, and Remotion/HyperFrames React motion graphics with brand design system adherence (combating AI Slop / Sea of Sameness)."
+tools: Glob, Grep, Read, Shell, Skill
+model: pro
+color: magenta
+skills: ai-video-montage-specialist, hyperframes-motion-engine, design-md-architect, impeccable-design-guard, brand-kit-keeper

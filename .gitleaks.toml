@@ -1,0 +1,13 @@
+title = "Vibe Coding Secret Shield"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Ignore documentation, test assets, and sample envs"
+paths = [
+    '''\.env\.example$''',
+    '''README\.md$''',
+    '''package-lock\.json$''',
+    '''\.git/'''
+]

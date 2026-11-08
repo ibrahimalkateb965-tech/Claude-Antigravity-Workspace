@@ -1,0 +1,7 @@
+---
+name: vibe-coding-security-shield
+description: "Vibe Coding Security Shield Agent — orchestrates SAST, Secret Scanning, Dependency/Container CVE checks, DAST, IaC misconfigurations, and automated dependency patching using Semgrep, Gitleaks, Trivy, OWASP ZAP, Checkov, and Renovate."
+tools: Glob, Grep, Read, Shell
+model: pro
+color: red
+skills: vibe-coding-security-shield, security-auditor, clean-code-guard

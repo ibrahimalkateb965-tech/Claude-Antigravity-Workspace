@@ -1,6 +1,6 @@
 {
     "mcpServers":  {
-                       "arabic-docx-builder":  {
+                       "builder":  {
                                                    "args":  [
                                                                 "C:/Users/Kt/.gemini/config/plugins/arabic-docx-builder/mcp/server.py"
                                                             ],
