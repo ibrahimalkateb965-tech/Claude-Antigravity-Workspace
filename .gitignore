@@ -37,3 +37,5 @@ telegram_request.json
 **/downloads/
 __pycache__/
 *.pyc
+
+*.egg-info/

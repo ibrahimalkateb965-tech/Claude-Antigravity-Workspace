@@ -7,9 +7,9 @@
       ]
     },
     "construction-engineering-suite": {
-      "command": "C:/Users/Kt/.gemini/config/plugins/arabic-docx-builder/mcp/venv/Scripts/python.exe",
+      "command": "python",
       "args": [
-        "C:/Users/Kt/.gemini/config/plugins/construction-engineering-suite/mcp/server.py"
+        "plugins/construction-engineering-suite/mcp/server.py"
       ],
       "disabledTools": []
     },
@@ -21,6 +21,23 @@
       ],
       "env": {
         "HOSTINGER_API_TOKEN": "YOUR_HOSTINGER_API_TOKEN_HERE"
+      }
+    },
+    "google-ads": {
+      "command": "python",
+      "args": [
+        "tools/google_ads_mcp/server.py"
+      ],
+      "disabledTools": []
+    },
+    "github-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_GITHUB_PERSONAL_ACCESS_TOKEN_HERE"
       }
     }
   }
