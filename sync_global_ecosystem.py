@@ -115,7 +115,9 @@ for f in core_files:
 
 # Root-level docs & configs in TARGET_WORKSPACE
 for root_doc in ["AGENTS.md", "HOOKS_GUIDE.xlsx", "sync_global_ecosystem.py"]:
-    shutil.copy2(os.path.join(SOURCE_BLIND_AGENTS, root_doc), os.path.join(TARGET_WORKSPACE, root_doc))
+    src = os.path.join(SOURCE_BLIND_AGENTS, root_doc)
+    if os.path.exists(src):
+        shutil.copy2(src, os.path.join(TARGET_WORKSPACE, root_doc))
 
 if os.path.exists(os.path.join(SOURCE_BLIND_ROOT, "hooks_user_guide.md")):
     shutil.copy2(os.path.join(SOURCE_BLIND_ROOT, "hooks_user_guide.md"), os.path.join(TARGET_WORKSPACE, "hooks_user_guide.md"))
