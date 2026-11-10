@@ -389,6 +389,21 @@
   1. **التثبيت الصريح لمسار JDK:** يجب تحديد مسار Adoptium JDK 17 المعتمد صراحة عبر `$env:JAVA_HOME` داخل سكربت البناء غير التفاعلي لمنع التداخل مع إصدارات JVM الأخرى.
   2. **السلاسل النصية الخام (Raw Strings):** يجب تمرير أوامر PowerShell من بايثون باستخدام السلاسل الخام `r'''...'''` لضمان عدم تلف المحارف الخاصة أو تلف محارف الخطوط المائلة العكسية.
 
+### [C-115] Android Semantic VersionCode Formula & Google Play Release Lifecycle Standard (معيار الترقيم الدلالي لـ versionCode وإدارة مسودات جوجل بلاي)
+- **حظر الترقيم التخميني العشوائي (Strict Ban on Manual Integer Guessing):**
+  - يُحظر تماماً في كافة مشاريع Android و KMP كتابة `versionCode` كرقم صحيح يدوي اعتباطي (مثل 1, 2, 3...) عند تجهيز حزم الإنتاج لمتجر Google Play لتفادي خطأ الرفض الأبدي: `Version code X has already been used`.
+- **اعتماد معادلة الترقيم الدلالي المعمارية (Mandatory Semantic VersionCode Formula):**
+  - يتم اشتقاق `versionCode` حسابياً في `app/build.gradle.kts` من أرقام الإصدار المعيارية (SemVer) وفق المعادلة الإنتاجية:
+    $$\text{versionCode} = (\text{Major} \times 1,000,000) + (\text{Minor} \times 10,000) + (\text{Patch} \times 100) + \text{Build}$$
+  - **مثال للإصدار 1.1.0 Build 0:** ينتج تلقائياً `1010000`، وهو رقم يتجاوز حتماً أي أرقام قديمة محجوزة، ويوفر 100 خانة بناء فرعية (`verBuild: 0..99`) لنفس الإصدار عند الحاجة دون المساس بـ `versionName` المرئي للمستخدمين.
+- **حوكمة مسودات كونسول جوجل بلاي (Play Console Draft Governance):**
+  - عند ظهور زر `Create new release` باللون الرمادي (معطل)، فإن السبب الحتمي هو وجود مسودة نشطة سابقة (`Draft Release`).
+  - يتم فك القفل بالدخول إلى تبويب `Releases` واختيار:
+    1. `Edit release`: لاستبدال الحزمة المرفوضة بالحزمة الجديدة ومتابعة النشر.
+    2. `Discard release`: لحذف المسودة العالقة وإعادة تفعيل زر `Create new release` فوراً.
+- **طبيعة تحذير Debug Symbols:**
+  - تحذير `This App Bundle contains native code, and you've not uploaded debug symbols` في مشاريع KMP يعتبر تحذيراً إرشادياً بحتاً (Advisory Warning) ولا يشكل خطأ مانعاً للنشر؛ يتم المتابعة مباشرة عبر `Save ➔ Start rollout to Production`.
+
 ---
 
 ## ⚡ DOMAIN 4: BACKEND, CLOUD, FASTMCP & SCRIPTING
