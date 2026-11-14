@@ -29,6 +29,16 @@ Subscription logins and local models:
 [setup](setup.md#subscriptions-and-api-keys). Keep `ai@^7` installed with
 any provider.
 
+Decision models pick actions from choices the executor builds: install
+`@e2e-dev/decision` and put `decisionExecutor({ model:
+typeSafeAi.decisionModel('jev-latest'), textModel: openrouter('inception/mercury-2.5') })`
+under `executor`. `openai.decisionModel('gpt-6-luna')` from `@ai-sdk/openai`
+4.0.90 or later works too and takes the `vision: true` screenshot.
+Tests stay plain language with no params. The text model writes field values
+and upload paths. See the shipped `docs/decision-models.mdx` or
+[the online guide](https://e2e.tester.army/docs/decision-models) for setup,
+gates, and limits.
+
 - Pass a model instance, not a string (`INVALID_CONFIG`).
 - An agents entry is one plain object of `model`, `judge`, `system`,
   `context`, `tools`, `maxSteps`, `maxModelCalls`, `judgmentTimeout`,
@@ -162,6 +172,9 @@ expect(data.titles).toContain('Buy milk');
 - Judgments see the assertion and the current screen only, never prior
   steps or the act loop's summaries; malformed output gets one repair
   round, then `MODEL_OUTPUT_INVALID`.
+- A value shown in more than one place (a total in the summary and on the
+  pay button) must agree everywhere, or the judgment fails. Name the one
+  you mean (`'the order summary total is $42.00'`) when only it matters.
 - `waitFor` observes every `interval` (default 3 s), judges only when the
   screen changed, and is `STEP_TIMEOUT` after `timeout` (default 30 s).
 - `extract` takes any Standard Schema validator (zod works); the model sees
@@ -266,8 +279,9 @@ matches. Misses and hand-offs use the model; `agent.assert`,
   and evict nothing.
 - With committed recordings, `--strict-cache` in CI fails a recording that
   no longer replays with `REPLAY_STALE` instead of quietly spending model
-  calls every run; re-record locally and commit. Unrecorded steps still run
-  live.
+  calls every run; re-record with a `read-write` run without the flag and
+  with `cache.strict` off, then commit. Unrecorded steps still run live;
+  retries replay too, and a strict run never writes the cache.
 
 ## Inspect what the model did
 

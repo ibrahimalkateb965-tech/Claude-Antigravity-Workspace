@@ -61,14 +61,17 @@ one; the installed CLI prints the same text with `npx e2e guide <topic>`
 (`e2e guide` alone prints this page). For anything the topics do not cover,
 the full documentation ships in the `docs/` directory of the installed `e2e`
 package (`node_modules/e2e/docs` in a single-package project); a link such as
-`/reference/cli` is `docs/reference/cli.mdx`.
+`/reference/cli` is `docs/reference/cli.mdx`. Complete projects for Vite,
+Next.js, Astro, Expo, SwiftUI, Jetpack Compose, Kotlin Multiplatform, and
+Flutter, each with its config, scripts, and a passing suite, are in
+https://github.com/tester-army/e2e/tree/main/examples.
 
 | Topic | File | Read it when |
 | --- | --- | --- |
 | `setup` | [references/setup.md](references/setup.md) | Adding e2e to a project, writing `e2e.config.ts`, starting the app from the config, mobile targets |
 | `writing-tests` | [references/writing-tests.md](references/writing-tests.md) | Writing or fixing tests: fixtures, locators, actions, matchers, sign-in sessions, the `browser` fixture |
 | `agent` | [references/agent.md](references/agent.md) | Adding `agent.*` steps, picking a model, cost and budgets, the replay cache |
-| `running` | [references/running.md](references/running.md) | CLI flags, reporters, `.e2e/report.json`, exit codes, CI |
+| `running` | [references/running.md](references/running.md) | CLI flags, reporters, trace pages, `report.json` for scripts, exit codes, CI |
 | `explore` | [references/explore.md](references/explore.md) | Exploring an app toward a goal without a test file: `e2e explore`, its budgets, verdict, and `run.explore` |
 | `debugging` | [references/debugging.md](references/debugging.md) | A run failed: error codes and their fixes, `--headed`, `--debug`, `--ai-trace` |
 | `mcp` | [references/mcp.md](references/mcp.md) | Driving the live app from a coding agent over MCP: `e2e mcp`, its tools, and the explore-then-write loop |
@@ -92,9 +95,10 @@ package (`node_modules/e2e/docs` in a single-package project); a link such as
    model in the config and that provider's authentication (a saved
    subscription login, an API key); a local endpoint may need none. Tests
    without agent steps need no model.
-5. Read the failure: the reporter prints the error code, message, and a code
-   frame; `.e2e/report.json` has every step and artifact path. Fix the
-   locator, the expectation, or the app. Never add a sleep.
+5. Read the trace page the terminal names under each failed test
+   (`.e2e/results/<test>/trace.md`): every step with what it did, the cache's
+   decision, what the app logged, the agent's turns, and the screen at
+   failure. Fix the locator, the expectation, or the app. Never add a sleep.
 
 ## Rules
 
@@ -128,7 +132,7 @@ package (`node_modules/e2e/docs` in a single-package project); a link such as
   `system` for how it works, tools for a test API, named personas under
   `agents`. When a step fails, tighten the goal first, then the context, then
   the agent.
-- `.e2e/` is output (`report.json`, `artifacts/`, `cache/`, `logs/`; the
+- `.e2e/` is output (`report.json`, `results/`, `cache/`, `logs/`; the
   config's `output` moves the report and artifacts, never `cache/` or the
   app's log). Read it, never edit it.
 

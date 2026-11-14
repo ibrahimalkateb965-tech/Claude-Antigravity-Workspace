@@ -24,3 +24,9 @@ You are a senior Android engineer specializing in Kotlin, Coroutines, Flow, and 
 - Follow official Kotlin coding style guidelines.
 - Use clean, descriptive names for functions and classes.
 - Keep classes and functions single-purpose (SOLID principles).
+
+### 4. Windows Environment & Gradle Invariants
+- In `local.properties`, always use forward slashes (`/`) or double backslashes (`\\`) for Android SDK paths (e.g., `sdk.dir=C:/Users/Kt/AppData/Local/Android/Sdk`). Raw single backslashes trigger Java Properties `Malformed \uxxxx encoding` build errors.
+- When using Jetpack Compose, always bind dependencies through `platform(libs.androidx.compose.bom)` to guarantee binary compatibility across UI modules.
+- Strictly enforce Western Arabic numerals (`0-9`) in all UI formatters and currency displays (Rule 50) using centralized string formatters.
+

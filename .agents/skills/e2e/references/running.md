@@ -37,11 +37,12 @@ npx e2e telemetry [disable|enable] # anonymous usage telemetry: status or switch
 | `--reporter <ids>` | `list`, `json`, `junit`, `markdown`, comma-separated; `json` cannot combine with `list`. |
 | `--output <dir>` | Results directory, over the config's `output` (default `.e2e`). |
 | `--no-cache` | Replay cache off for this run. |
-| `--strict-cache` | Fail a step whose committed recording no longer replays (`REPLAY_STALE`, exit 2) instead of handing it to the agent. |
+| `--strict-cache` | Fail a step whose committed recording no longer replays (`REPLAY_STALE`, exit 2) instead of handing it to the agent; retries replay too, and the run never writes the cache. |
+| `-u`, `--update-snapshots` | Write the stored screenshots `toHaveScreenshot` finds missing or different, and pass. |
 | `--pass-with-no-tests` | Exit 0, not `NO_TESTS`, when nothing matches. |
 | `--debug` | Phase timings and an agent step table on stderr; transcripts as artifacts. |
 | `--ai-trace` | Every model call, to `<output>/ai-trace.json`. |
-| `--trace [mode]`, `--video [mode]` | Which attempts record a trace, or a video (WebM on browsers, MP4 on devices), over the config and every target: bare is `on`; `--trace off` skips the cost; `retain-on-failure` (video) keeps only failed attempts; `on-first-retry` records first retries, `on-all-retries` every retry. A test's own `trace` or `video` still wins; targets whose engine cannot record are skipped with a notice. Both are greedy: write `--video=<mode>` or put test files first. The failure recap names the video. |
+| `--trace [mode]`, `--video [mode]` | Which tests keep a trace page (`<output>/results/<test>/trace.md`), or which attempts record a video (WebM on browsers, MP4 on devices), over the config and every target: bare is `on` (`--trace` then pages every test, passing ones too); `--trace off` writes none; `retain-on-failure` keeps only failures; `on-first-retry` keeps first retries, `on-all-retries` every retry. A test's own `trace` or `video` still wins; targets whose engine cannot record video are skipped with a notice. Both are greedy: write `--video=<mode>` or put test files first. The failure recap names the trace page and the video. |
 
 ```bash
 npx e2e run tests/signup.e2e.ts
@@ -58,7 +59,11 @@ CI=1 npx e2e run            # the CI defaults, locally
 `--last-failed`, `--shard`, `--pass-with-no-tests`), prints one line per
 test-target pair, `file › title [target] #tag`, skipped pairs ending in
 ` (skipped: <reason>)`, and starts no app, engine, or worker.
-`--reporter json` prints `{ "pairs": [...] }`.
+`--reporter json` prints `{ "pairs": [...] }` and names a skip reason `reason`.
+
+`import { list } from 'e2e/runner'` returns that selection plus the pairs a
+filter removed, positional arguments that matched no file, and the selected
+target names.
 
 ```bash
 npx e2e list tests/signup.e2e.ts --tag smoke --reporter json
@@ -67,6 +72,7 @@ npx e2e list tests/signup.e2e.ts --tag smoke --reporter json
 With a `package.json` script `"test:e2e": "e2e run"`, pnpm forwards `--`
 literally: `pnpm test:e2e -- --headed` reaches e2e as `run -- --headed` and
 exits 2. Write `pnpm test:e2e --headed` or `pnpm exec e2e run --headed`.
+With npm, use `npm exec -- e2e run --headed` to pass flags to e2e.
 
 ## The replay cache
 
@@ -84,21 +90,24 @@ its own tools.
 ## Output
 
 `<output>` (`.e2e` by default) holds `report.json`, `junit.xml`,
-`summary.md`, `failures/`, `ai-trace.json`, `sessions/`, and `artifacts/`
-(screenshots, Playwright traces, videos, `--debug` transcripts, downloads).
-`artifacts/` is cleared once a run's tests start; a run stopping before
+`summary.md`, `ai-trace.json`, `sessions/`, and `results/`, one directory
+per test with its `trace.md` and an `attempt-<n>/` per attempt
+(screenshots, videos, `--debug` transcripts, downloads).
+`results/` is cleared once a run's tests start; a run stopping before
 leaves the last run's files, and a `--last-failed` rerun keeps the files
-the report it reruns names and writes its own under `artifacts/rerun-<n>/`. The report records every artifact path, a
+the report it reruns names and writes its own under each test's `rerun-<n>/`. The report records every artifact path, a
 hosted service's video by URL.
 
 - `list` (default): setup steps, one line per file and target, a `Failed
   Tests` section (error, code, failing line, code frame), then the
   summary rows `Test Files`, `Tests`, `AI`, `Cache` (when the replay cache
   ran), `Repeats` (with `--repeat-each`), `Errors`, `Start at`, `Duration`,
-  `Report`, `AI trace` (with `--ai-trace`). Past a minute `Duration`
+  `Traces` (when a page was written), `AI trace` (with `--ai-trace`). Past a minute `Duration`
   repeats as minutes and seconds, setup time split out as `startup` in the
   same parenthetical (`682.97s (11m 23s, startup 43.00s)`).
-- `report.json`, written whatever the reporters, holds `run.status`,
+- `report.json`, for scripts rather than reading (`jq`, CI tools; a reader
+  takes the terminal and the trace pages), the one record of every result,
+  passing ones included, written whatever the reporters, holds `run.status`,
   `run.exitCode`, `run.errors[]` (run-level, such as `APP_UNREACHABLE`),
   and `run.results[]`, one per test and target: `titlePath`, `file`,
   `source`, `tags` (`[]` when none), `agent`, `repeat` (0 unless
@@ -109,15 +118,16 @@ hosted service's video by URL.
   to `selected`; `discovered - selected` were left out.
 - `junit`: `junit.xml` for CI summaries; `--reporter list,junit` keeps the
   terminal output.
-- `markdown` (`--reporter list,markdown`): `summary.md` plus one page per
-  failed or flaky test under `failures/` (an interrupted test gets none). The summary holds counts and
-  spend, a block per failed test (error, facts, failing step, whether every
-  attempt failed alike, last model turns, screen location and closest
-  nodes, the line to look at, evidence paths), the flaky tests folded
-  alike, and every test as one folded table, a row per file (or an
-  exploration's findings and assessment); a failure page adds every step,
-  every kept turn, and the screen at failure inline. Read the page first;
-  paste the summary into a pull request or handoff.
+- Every run that reaches its tests also writes a trace page per failed,
+  timed-out, interrupted, or flaky test, `results/<test>/trace.md` (the
+  `trace` mode, default `retain-on-failure`): every step with what
+  it did, the cache's decisions, what the app logged, the last model turns,
+  and the screen at failure. The `list` output names it under each failure
+  (`❯ trace <path>`). Read it first.
+- `markdown` (`--reporter list,markdown`): `summary.md` with counts and
+  spend, a block per failed test linked to its page, the flaky tests folded
+  alike, and every test as one folded table (or an exploration's findings
+  and assessment). Paste it into a pull request or handoff.
 - `json`: the report on stdout.
 - Custom reporters get step progress with `identity` (`attemptId`,
   `attemptIndex`, `stepId`, `stepIndex`: report IDs, zero-based indexes;
@@ -153,7 +163,7 @@ third kills the app process groups and exits 130 at once.
 ## Continuous integration
 
 CI mode is on when `CI` is set (not `0` or `false`): `retries` 1,
-`workers` 1, `trace` `on-first-retry`, `test.only` rejected with
+`workers` 1, `test.only` rejected with
 `ONLY_IN_CI`, the replay cache `read-only` unless the config sets a mode explicitly
 (`cache: 'read-write'` or `cache.mode`), `reuseExisting` ignored.
 
@@ -176,7 +186,7 @@ jobs:
       - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1 # v4.2.0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 26 # any Node >= 22.12
+          node-version: 26 # Node >= 24.8, or >= 22.22.3 on 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec e2e-web install chromium --with-deps
@@ -197,7 +207,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: e2e-artifacts
-          path: .e2e/artifacts
+          path: .e2e/results
           if-no-files-found: warn
           retention-days: 7
 ```

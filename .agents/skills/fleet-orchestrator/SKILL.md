@@ -55,11 +55,3 @@ Every feature phase follows a 4-step quality cycle:
      *Failure to provide `--auto` causes OpenCode to block waiting for interactive TTY stdin input.*
    - **4-File Batch Sizing:** GLM task assignments must be partitioned into batches of <= 4 files per run to avoid context exhaustion or truncation.
    - **Intervention & Self-Correction:** Claude Code reviews worker diffs, corrects compile errors or broken imports before tests, executes all automated unit/integration tests exclusively, builds packages (`& .\gradlew.bat assembleDebug`), and deploys directly to connected mobile devices via ADB.
-9. **Antigravity CLI Quad-Fleet Global Shim & Worker Routing Standard ([C-108]):**
-   - **Global Shims:** `agcli` / `agy` (Linux WSL) and `agcli.cmd` / `agy.cmd` (Windows) deployed in npm path (`C:\Users\Kt\AppData\Roaming\npm`), calling `D:\FleetProfiles\bin\agy.exe` (v1.4.0) with `< /dev/null` stdin decoupling [C-98].
-   - **Role Routing (`--worker 1..4`):**
-     * **Worker 1 (`ja7563110275@gmail.com`):** UI & Jetpack Compose / Web (`agcli --worker 1 -p "..."`).
-     * **Worker 2 (`ibrahimalkateb224@gmail.com`):** Backend Domain, APIs & DB (`agcli --worker 2 -p "..."`).
-     * **Worker 3 (`ibrahimalkateb9220@gmail.com`):** Large Context (2M Tokens) & Accessibility/Docs (`agcli --worker 3 -p "..."`).
-     * **Worker 4 (`ayahowiedy123@gmail.com`):** Parallel Execution & Failover Pool (`agcli --worker 4 -p "..."`).
-   - **Strict Testing Monopoly [C-21]:** agy workers are strictly forbidden from executing tests or issuing sign-offs; testing remains exclusive to Claude Code CLI.

@@ -1,45 +1,39 @@
 ---
 name: persistent-memory-engine
-description: "Autovem Memory Core — manages persistent memory, learned lessons, architecture decisions, and context export for all sub-agents."
+description: "Autovem Memory Core — manages persistent memory, cross-project inheritance, architecture decisions, and context export."
 ---
 # Persistent Memory Engine (Autovem Core)
 
-You are the Memory Core of the Autovem system. Your responsibility is to capture, store, index, and export contextual knowledge across all agents and sessions to ensure continuity, avoid repeated mistakes, and accelerate decision-making.
+You are the Memory Core of the Autovem system. Your responsibility is to capture, store, index, and export contextual knowledge. You also manage Cross-Project Memory Inheritance and Global Pattern Distribution.
+
+> [!IMPORTANT]
+> **CRITICAL**: You MUST read and enforce the rules defined in `references/MEMORY_EXPORT_PROTOCOL.md` to ensure selective memory filtering before exporting any context.
 
 ## Core Responsibilities
 
 ### 1. Capture (التقاط السياق)
-- Automatically detect and extract key events from the current session:
-  - **Lessons Learned**: Problems encountered and their proven solutions.
-  - **Architecture Decisions**: Technology choices, pattern selections, and their rationale.
-  - **User Preferences**: Formatting, naming, tool, and workflow preferences.
-  - **Bug Fixes**: Root causes, symptoms, and verified solutions.
-  - **Tool Discoveries**: New libraries, MCP tools, or techniques found by `github-talent-scout`.
+- Detect and extract key events: **Lessons Learned**, **Architecture Decisions**, **User Preferences**, **Bug Fixes**, and **Tool Discoveries**.
 
 ### 2. Store (التخزين الهيكلي)
-- Write captured knowledge to structured files:
-  - `MEMORY_STORE.md` — Central memory file (append-only log with categories).
-  - `AGENTS.md` Section 8 — Learning & Optimization Log (curated highlights).
-  - `PROJECT_CONTEXT.md` — Updated project state and architectural context.
+- Write knowledge exclusively to the local `.agents/MEMORY_STORE.md` (append-only log).
+- *(Never save logs in AGENTS.md to prevent global rule bloat)*
 
-### 3. Index (الفهرسة)
-- Categorize each memory entry by type:
-  - `lesson` | `decision` | `preference` | `pattern` | `bug-fix` | `tool-discovery`
-- Tag entries with relevant agent names and timestamps.
+### 3. Cross-Project Operations (الوراثة والاستيراد) 🌟
+When triggered by the user, execute these advanced memory functions:
+- **A. Memory Import (استيراد من مشروع):**
+  - **Trigger:** `"استورد النماذج والقرارات من: <Path_To_Project>"`
+  - **Action:** Read the older project's `.agents/MEMORY_STORE.md`. Extract ONLY `type: pattern` and `type: decision`. Re-index them with new IDs and append to the current project's local store. Ignore bugs and tasks.
+- **B. Seed Templates (التأسيس من قالب):**
+  - **Trigger:** `"بادر الذاكرة من قالب: <Template_Name>"`
+  - **Action:** Read the template from `C:\Users\Kt\.gemini\config\references\<Template_Name>.md` and inject its core patterns into the current project.
+- **C. Global Promotion (ترقية لنمط عالمي):**
+  - **Trigger:** `"قم بترقية هذه الذاكرة إلى نمط عالمي"`
+  - **Action:** Add the tag `global-pattern` to the memory. Instruct the user to save it in `GLOBAL_PATTERNS.md` if access is denied.
 
 ### 4. Export (تصدير الحزمة)
-- When any sub-agent is activated, prepare a **Context Injection Package** containing:
-  - Relevant lessons and decisions for that agent's domain.
-  - Active project constraints and coding rules.
-  - Recent bug fixes in related areas.
-- Export is filtered by agent specialization (e.g., `android-testing` only gets test-related memories).
-- **Global Memory Sync (الميزة العالمية):** When Hook 13 is activated, ALWAYS execute the global memory export tool (`sync_global_memory` MCP tool or `export_global_memory.py`). If any memory is exported globally, you MUST display the export report (the output of the tool/script) directly to the user in the chat as confirmation.
-
-### 5. Prune (التنقيح)
-- Periodically review stored memories for:
-  - Outdated entries (superseded by newer decisions).
-  - Contradictory entries (resolve conflicts).
-  - Redundant entries (merge duplicates).
+- Prepare a **Context Injection Package** for activated sub-agents.
+- **Global Awareness:** ALWAYS include memories tagged with `global-pattern` from `C:\Users\Kt\.gemini\config\references\GLOBAL_PATTERNS.md` (if the file exists) to ensure global standards are enforced.
+- Export is strictly filtered by agent specialization.
 
 ## Memory Entry Format
 
@@ -48,25 +42,7 @@ You are the Memory Core of the Autovem system. Your responsibility is to capture
   type: lesson | decision | preference | pattern | bug-fix | tool-discovery
   timestamp: ISO-8601
   agents: [agent-name-1, agent-name-2]
-  context: "Brief description of the situation"
+  context: "Brief description"
   content: "The actual knowledge captured"
-  tags: [tag1, tag2]
+  tags: [tag1, tag2, global-pattern]
   status: active | superseded | archived
-```
-
-## Activation Triggers
-- Activated automatically by the **Memory Sync Hook** (`"حفظ ذاكرة"`, `"تحديث السياق"`, `"سجّل هذا"`).
-- Activated automatically after every **Success Hook** (`"تم بنجاح"`).
-- Can be invoked manually by the Main Agent during any workflow.
-
-## Integration with Autovem Hooks
-- **Post-Success Hook**: Captures lessons and updates learning log.
-- **Context Engineering Hook**: Updates PROJECT_CONTEXT.md.
-- **Session Start Hook**: Exports relevant context to active agents.
-
-## Best Used For
-- Persisting knowledge across sessions
-- Preventing repeated mistakes
-- Accelerating onboarding of new agents
-- Maintaining architectural consistency
-- Providing contextual grounding for all Autovem agents

@@ -2,10 +2,13 @@
 
 ## Requirements
 
-- Node.js 22.12 or newer.
+- Node.js 24.8 or newer, or 22.22.3 or newer on Node.js 22.
 - ES modules: `.ts` config, tests, helpers, and workspace packages exporting
   `.ts` source load as ESM regardless of the nearest `package.json` `type`
   (CommonJS packages need no change); never `require` or `module.exports`.
+  Imports follow TypeScript: `./x.js` or `./x` loads `x.ts`, and the nearest
+  `tsconfig.json` `paths` and `baseUrl` apply. Decorators need
+  `experimentalDecorators`; CommonJS TypeScript goes in `.cts`.
 - Browser tests: `@e2e-dev/web`, pinning `playwright-core` exactly; do not
   add `playwright` for it. Missing browsers download on first boot; in CI run
   `npx @e2e-dev/web install chromium --with-deps` (pnpm: `pnpm exec e2e-web
@@ -53,6 +56,7 @@ key, or a local endpoint. Authenticate:
 | GitHub Copilot | `npx e2e login github-copilot` (GitHub CLI signed in, or your own `--client-id`) |
 | OpenCode Console (OpenCode Zen and OpenCode Go) | `npx e2e login opencode-console` (approve the device code, pick the workspace) |
 | SuperGrok or X Premium+ | `npx e2e login spacexai` |
+| Claude Max or Team | No `e2e login`: link a Claude Console organization in claude.ai for the plan's monthly API credits (Max: Settings > Billing; Team: an Owner under Organization settings > Billing), create an API key in it, set `ANTHROPIC_API_KEY`, use `anthropic('<id>')` from `@ai-sdk/anthropic` |
 | Vercel AI Gateway | Set `AI_GATEWAY_API_KEY`, or sign in to the Vercel CLI and `npx vercel link`; without the key `gateway()` uses a Vercel OIDC token |
 | OpenRouter | Set `OPENROUTER_API_KEY` |
 | Local or self-hosted endpoint | Set the endpoint URL and a model it serves, plus a key if required |
@@ -128,21 +132,21 @@ or `E2E_USER_ADMIN_PASSWORD` first, or defer to fill time with
 | `retries` | `0`, `1` in CI | 0 to 10. |
 | `workers` | half the cores, `1` in CI | Parallel test files, capped by the `workers` the engine declares per target. |
 | `reporters` | `['list']` | `list`, `json`, `junit`, `markdown`, or `{ name, onEvent?, onRunFinished? }` objects; `json` excludes `list`, `--reporter` keeps the objects. |
-| `cache` | `'read-write'` | `'read-write'`, `'read-only'`, `'off'`, or `{ mode, store, dir, strict }`; CI demotes only a defaulted mode to `'read-only'`. `strict` (`--strict-cache`) fails a step whose recording no longer replays (`REPLAY_STALE`) instead of handing it to the agent. |
+| `cache` | `'read-write'` | `'read-write'`, `'read-only'`, `'off'`, or `{ mode, store, dir, strict }`; CI demotes only a defaulted mode to `'read-only'`. `strict` (`--strict-cache`) fails a step whose recording no longer replays (`REPLAY_STALE`) instead of handing it to the agent; retries replay too, and the run never writes the cache. |
 | `agents` | `{ default: built-in }` | Tests run with `default`, `e2e run --agent <name>` picks another, entries never inherit from `default`. Options: topic `agent`. |
 | `credentials` | `{}` | Named `{ username, password }`; `password` is a 6+ code point string or a function returning it. |
 | `secrets` | `{}` | Named values the model never sees (API keys, tokens), same value rule. A separate namespace: a credential's password is `credentials.user(name).password` (named `<name>.password`), never `secrets.get()`, so a name may be both. |
 | `output` | `'.e2e'` | Results directory; `--output <dir>` for one run. Inside the project root, not the root, not a tests glob's directory, never the cache dir (`cache.dir` stays `.e2e/cache`). |
 | `artifacts` | none | `{ store }`: artifacts go to the host `ArtifactStore` (`{ put(artifact), putLink?(link) }`); `putLink` gets provider-hosted video links (never a passed `retain-on-failure` attempt's). Failure screenshots are always captured when the engine can. |
-| `trace` | `'on'`, `'on-first-retry'` in CI | Attempts that record a Playwright trace: `'off'`, `'on'`, `'retain-on-failure'`, `'on-first-retry'`, `'on-all-retries'`; precedence and capability rule as `video`. |
-| `video` | `'off'` | Same modes; `'retain-on-failure'` records all, keeps those that did not pass. Precedence: the test's `video`, `--video [mode]`, the target's (`{ engine, video }`), the config's. |
+| `trace` | `'retain-on-failure'` | Tests that keep a trace page (`<output>/results/<test>/trace.md`): `'off'`, `'on'` (every test), `'retain-on-failure'` (failed, timed-out, flaky), `'on-first-retry'`, `'on-all-retries'`; precedence as `video`. Works on every engine. |
+| `video` | `'off'` | Attempts that record, same modes; `'retain-on-failure'` records all, keeps those that did not pass. Precedence: the test's `video`, `--video [mode]`, the target's (`{ engine, video }`), the config's. |
 | `projectId` | the package name | Report and cache identity. |
 
 - `tests` discovery enters only directories a glob can match; symlinks are
   not followed.
-- `trace` and `video`: a config or flag mode skips targets whose engine
-  cannot record (one notice), a target or test mode requires it
-  (`UNSUPPORTED_ARTIFACT`); a retry mode with `retries: 0` prints a notice;
+- `video`: a config or flag mode skips targets whose engine cannot record
+  (one notice), a target or test mode requires it (`UNSUPPORTED_ARTIFACT`).
+- `trace` and `video`: a retry mode with `retries: 0` prints a notice;
   neither invalidates the replay cache.
 
 ## The app under test
@@ -177,7 +181,7 @@ start a script that brings them up and serves the app.
 
 | Option | Meaning |
 | --- | --- |
-| `browser` | `'chromium'` (default), `'firefox'`, `'webkit'`, or a `BrowserProvider` leasing hosted browsers over CDP (`kernel()` from `@e2e-dev/kernel`, or your own), which implies chromium and excludes `connect`. Scope `'worker'` (default): one browser per worker slot from `prepare` to `finish`; `'attempt'`: one per attempt, with `reconnectEndpoint`'s limits. |
+| `browser` | `'chromium'` (default), `'firefox'`, `'webkit'`, or a `BrowserProvider` leasing hosted browsers over CDP (`kernel()` from `@e2e-dev/kernel`, `smol()` from `@e2e-dev/smol`, or your own), which implies chromium and excludes `connect`. Scope `'worker'` (default): one browser per worker slot from `prepare` to `finish`; `'attempt'`: one per attempt, with `reconnectEndpoint`'s limits. |
 | `viewport` | `{ width, height }`, default 1280x720; `null` follows the browser window (hosted live view, headed run). On a headed hosted browser (Kernel) use `null` and size the service's screen; a fixed size gives a smaller, unmaximized window. |
 | `connect` | `{ cdpEndpoint }` attaches to a remote Chromium over CDP; both it and `reconnectEndpoint` are resolvers `(signal) => url`, not strings. With `reconnectEndpoint` it rides one persistent default context and reconnects only to the original browser and page. |
 | `headers` | Sent to the app's site only (Vercel's `x-vercel-protection-bypass`, ngrok's `ngrok-skip-browser-warning`), `agent.act` included; disables the browser HTTP cache and service workers. |
@@ -232,7 +236,9 @@ app: {
 - The runner spawns `command`, polls `readyUrl` (default `url`) for a 200 to
   499 status within `startupTimeout` (default 60 s), and stops it when the run
   ends, fails, or is interrupted (`shutdownTimeout`, default 10 s). Never
-  ready is `APP_UNREACHABLE`; `.e2e/report.json` is still written.
+  ready is `APP_UNREACHABLE`; the run stops before its tests and leaves the
+  last run's report and results as they were (`command.log` still gets this
+  boot's output).
 - The child gets only `PATH`, `HOME`, the temp-directory variables,
   `SystemRoot` and `COMSPEC` on Windows, and `command.env`; pass the rest
   through `env`. Model keys and `E2E_USER_*` values are never inherited.
@@ -354,3 +360,8 @@ export default {
 - `.gitignore` lists the `.e2e/` outputs (init adds them); drop the
   `.e2e/cache/` line to commit replays.
 - CI runs the whole suite, agent steps included, on PRs; see `running`.
+
+### Existing MCP registration
+
+Re-running `init` preserves the e2e MCP server's environment and client settings
+while repairing its launch command. A current registration is left unchanged.
