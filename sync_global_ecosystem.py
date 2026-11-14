@@ -161,8 +161,15 @@ for g_root in gdrive_roots:
             hub_dst = os.path.join(g_root, "index.html")
             if os.path.exists(hub_src):
                 shutil.copy2(hub_src, hub_dst)
+
+            # 5. Sync Excel Workbooks
+            for wb_name in ["مكتبة الأوامر.xlsx", "HOOKS_GUIDE.xlsx"]:
+                wb_src = os.path.join(TARGET_WORKSPACE, wb_name)
+                if os.path.exists(wb_src):
+                    shutil.copy2(wb_src, os.path.join(g_root, wb_name))
+                    shutil.copy2(wb_src, os.path.join(p_dst, wb_name))
                 
-            print(f"   ✓ Synchronized web apps to Google Drive: {g_root}")
+            print(f"   ✓ Synchronized web apps & Excel workbooks to Google Drive: {g_root}")
         except Exception as e:
             print(f"   ⚠️ Warning syncing to Google Drive {g_root}: {e}")
 
