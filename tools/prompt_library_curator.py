@@ -244,6 +244,17 @@ def sync_to_web_apps(excel_path=DEFAULT_EXCEL_PATH, target_sheet=None):
         r"F:\AI PROJECTS\Claude+Antigravity -production\03_Dynamic_Prompt_Library\index.html"
     ]
 
+    # Google Drive (Autovem Cloud Suite) Dynamic Integration
+    gdrive_candidates = [
+        r"H:\My Drive\Autovem\03_Dynamic_Prompt_Library\index.html",
+        r"I:\My Drive\Autovem\03_Dynamic_Prompt_Library\index.html",
+        os.path.expandvars(r"%USERPROFILE%\Google Drive\Autovem\03_Dynamic_Prompt_Library\index.html")
+    ]
+    for g_cand in gdrive_candidates:
+        g_drive_root = os.path.dirname(os.path.dirname(g_cand))
+        if os.path.exists(g_drive_root) and g_cand not in html_targets:
+            html_targets.append(g_cand)
+
     master_template = r"F:\AI PROJECTS\Claude+Antigravity\03_Dynamic_Prompt_Library\index.html"
     synced_targets = []
     for html_path in html_targets:

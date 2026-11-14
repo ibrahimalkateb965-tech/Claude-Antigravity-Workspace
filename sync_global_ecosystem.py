@@ -127,4 +127,48 @@ for global_cfg in ["mcp_config.json", "config.json", "ACTIVE_CONTEXT_INJECTION.m
     if os.path.exists(src):
         shutil.copy2(src, os.path.join(TARGET_WORKSPACE, global_cfg))
 
-print(">>> 7. Global Ecosystem Full Parity Sync Completed Successfully!")
+print(">>> 8. Syncing Interactive Web Apps to Google Drive (Autovem)...")
+gdrive_roots = [
+    r"H:\My Drive\Autovem",
+    r"I:\My Drive\Autovem",
+    os.path.expandvars(r"%USERPROFILE%\Google Drive\Autovem"),
+    os.path.expandvars(r"%USERPROFILE%\Google Drive\My Drive\Autovem")
+]
+for g_root in gdrive_roots:
+    parent = os.path.dirname(g_root)
+    if os.path.exists(parent):
+        try:
+            # 1. Sync Prompt Library
+            p_src = os.path.join(TARGET_WORKSPACE, "03_Dynamic_Prompt_Library")
+            p_dst = os.path.join(g_root, "03_Dynamic_Prompt_Library")
+            if os.path.exists(p_src):
+                shutil.copytree(p_src, p_dst, dirs_exist_ok=True)
+            
+            # 2. Sync Hooks Library
+            h_src = os.path.join(TARGET_WORKSPACE, "03_Dynamic_Hooks_Library")
+            h_dst = os.path.join(g_root, "03_Dynamic_Hooks_Library")
+            if os.path.exists(h_src):
+                shutil.copytree(h_src, h_dst, dirs_exist_ok=True)
+                
+            # 3. Sync Flowchart Studio
+            f_src = os.path.join(TARGET_WORKSPACE, "tools", "flowchart_studio")
+            f_dst = os.path.join(g_root, "flowchart_studio")
+            if os.path.exists(f_src):
+                shutil.copytree(f_src, f_dst, dirs_exist_ok=True)
+                
+            # 4. Sync Hub Portal
+            hub_src = os.path.join(TARGET_WORKSPACE, "hub_portal.html")
+            hub_dst = os.path.join(g_root, "index.html")
+            if os.path.exists(hub_src):
+                shutil.copy2(hub_src, hub_dst)
+                
+            print(f"   ✓ Synchronized web apps to Google Drive: {g_root}")
+        except Exception as e:
+            print(f"   ⚠️ Warning syncing to Google Drive {g_root}: {e}")
+
+# Run update_html to inject latest data
+html_script = os.path.join(TARGET_WORKSPACE, "update_html.py")
+if os.path.exists(html_script):
+    subprocess.run(["python", html_script], cwd=TARGET_WORKSPACE, check=False)
+
+print(">>> 9. Global Ecosystem Full Parity Sync Completed Successfully!")

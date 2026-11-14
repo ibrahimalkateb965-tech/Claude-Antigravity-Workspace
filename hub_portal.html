@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة تطبيقات أوتوفيم التفاعلية | Autovem Cloud Web Apps Hub</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Outfit:wght@400;600;800;900&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #08090e;
+            --bg-canvas: #08090e;
+            --surface: rgba(15, 17, 26, 0.78);
+            --surface-hover: rgba(22, 25, 38, 0.90);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(99, 102, 241, 0.45);
+            --border-glow: rgba(99, 102, 241, 0.25);
+            --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --neon-cyan: #06b6d4;
+            --neon-purple: #a855f7;
+            --neon-pink: #ec4899;
+            --neon-green: #10b981;
+            --neon-amber: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            background-image: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent 70%),
+                radial-gradient(ellipse 60% 40% at 50% 120%, rgba(6, 182, 212, 0.12), transparent 70%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #c7d2fe;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-badge i {
+            color: var(--neon-cyan);
+        }
+
+        .title {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(26px, 5vw, 40px);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: clamp(14px, 2.5vw, 17px);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .app-card {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            min-height: 220px;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.12), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            background: var(--surface-hover);
+            border-color: var(--border-hover);
+            box-shadow: 0 16px 36px -12px rgba(99, 102, 241, 0.25);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .icon-prompts {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .icon-hooks {
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .icon-flowchart {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .status-pill {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        .card-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            transition: gap 0.2s;
+        }
+
+        .app-card:hover .card-action {
+            gap: 12px;
+            color: #818cf8;
+        }
+
+        /* Footer info */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-highlight {
+            color: var(--neon-cyan);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="brand-badge">
+                <i class="fa-solid fa-cloud"></i>
+                <span>AUTOVEM CLOUD SUITE • GOOGLE DRIVE</span>
+            </div>
+            <h1 class="title">بوابة تطبيقات أوتوفيم التفاعلية</h1>
+            <p class="subtitle">نسخة السحابة المستقلة للتشغيل والتصفح الفوري من أي مكان وعبر كافة الأجهزة (الهاتف، الجهاز اللوحي، أو المتصفح عن بُعد).</p>
+        </header>
+
+        <!-- Apps Grid -->
+        <div class="apps-grid">
+            <!-- App 1: Prompt Library -->
+            <a href="./03_Dynamic_Prompt_Library/index.html" class="app-card">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon icon-prompts">
+                            <i class="fa-solid fa-terminal"></i>
+                        </div>
+                        <span class="status-pill">
+                            <span class="status-dot"></span>
+                            <span>33 تبويب مفعّل</span>
+                        </span>
+                    </div>
+                    <h2 class="card-title">مكتبة الأوامر الذكية</h2>
+                    <p class="card-desc">تصفح ونسخ كافة البرومبتات المهندسة لأسطول الـ CLIs (Claude, agcli, OpenCode, Codex) ومحركات الذكاء الاصطناعي مع البحث الفوري والفرز الذكي.</p>
+                </div>
+                <div class="card-action">
+                    <span>فتح التطبيق التفاعلي</span>
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+            </a>
+
+            <!-- App 2: Hooks Library -->
+            <a href="./03_Dynamic_Hooks_Library/index.html" class="app-card">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon icon-hooks">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <span class="status-pill">
+                            <span class="status-dot"></span>
+                            <span>33 خطاف نشط</span>
+                        </span>
+                    </div>
+                    <h2 class="card-title">مكتبة الخطافات والأسطول</h2>
+                    <p class="card-desc">دليل ومحرك تشغيل خطافات الأسطول المؤتمتة (من Hook 1 إلى Hook 33) مع أزرار النسخ المباشرة للمحفزات ونماذج التوجيه وتفاصيل الوكلاء.</p>
+                </div>
+                <div class="card-action">
+                    <span>فتح التطبيق التفاعلي</span>
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+            </a>
+
+            <!-- App 3: Flowchart Studio -->
+            <a href="./flowchart_studio/index.html" class="app-card">
+                <div>
+                    <div class="card-top">
+                        <div class="card-icon icon-flowchart">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <span class="status-pill">
+                            <span class="status-dot"></span>
+                            <span>دقة 4K</span>
+                        </span>
+                    </div>
+                    <h2 class="card-title">استوديو المخططات المعمارية</h2>
+                    <p class="card-desc">أداة رسم وتوليد المخططات الهندسية بدقة 4K (Autovem Flowchart Studio) مع باليتات Dark Neon Candy وتصدير SVG و PNG المتطابق مع معايير الوصولية.</p>
+                </div>
+                <div class="card-action">
+                    <span>فتح استوديو المخططات</span>
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🔄 هذه النسخة السحابية ترتبط تلقائياً بمحرك المزامنة المستمر <span class="footer-highlight">HTML Sync Engine & Google Drive Syncer</span>، ويتم تحديثها فورياً مع كل تعديل على مكتبة الأوامر أو الخطافات.</p>
+        </footer>
+    </div>
+
+</body>
+</html>

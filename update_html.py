@@ -29,6 +29,41 @@ def update_prompt_library():
         r"F:\AI PROJECTS\Quran_Records\with antigravity\New Crew\03_Dynamic_Prompt_Library\index.html"
     ]
 
+    # Google Drive (Autovem Cloud Suite) Dynamic Integration
+    gdrive_roots = [
+        r"H:\My Drive\Autovem",
+        r"I:\My Drive\Autovem",
+        os.path.expandvars(r"%USERPROFILE%\Google Drive\Autovem"),
+        os.path.expandvars(r"%USERPROFILE%\Google Drive\My Drive\Autovem")
+    ]
+    for g_root in gdrive_roots:
+        parent = os.path.dirname(g_root)
+        if os.path.exists(parent):
+            g_prompt = os.path.join(g_root, "03_Dynamic_Prompt_Library", "index.html")
+            g_hooks = os.path.join(g_root, "03_Dynamic_Hooks_Library", "index.html")
+            hub_target = os.path.join(g_root, "index.html")
+            master_prompt = r"F:\AI PROJECTS\Claude+Antigravity\03_Dynamic_Prompt_Library\index.html"
+            master_hooks = r"F:\AI PROJECTS\Claude+Antigravity\03_Dynamic_Hooks_Library\index.html"
+            master_hub = r"F:\AI PROJECTS\Claude+Antigravity\hub_portal.html"
+
+            import shutil
+            try:
+                os.makedirs(os.path.dirname(g_prompt), exist_ok=True)
+                os.makedirs(os.path.dirname(g_hooks), exist_ok=True)
+                if not os.path.exists(g_prompt) and os.path.exists(master_prompt):
+                    shutil.copy2(master_prompt, g_prompt)
+                if not os.path.exists(g_hooks) and os.path.exists(master_hooks):
+                    shutil.copy2(master_hooks, g_hooks)
+                if os.path.exists(master_hub):
+                    shutil.copy2(master_hub, hub_target)
+            except Exception as e:
+                print(f"Warning initializing Google Drive Autovem folder: {e}")
+
+            if g_prompt not in html_targets:
+                html_targets.append(g_prompt)
+            if g_hooks not in html_targets:
+                html_targets.append(g_hooks)
+
     with open(md_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
